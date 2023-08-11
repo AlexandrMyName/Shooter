@@ -1,25 +1,25 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public int EnemyHP = 5;
+    [SerializeField] private int _enemyHP = 5;
 
-    private void FixedUpdate()
+    public int EnemyHP
     {
-        if (EnemyHP <= 0)
+        get => _enemyHP;
+        set
         {
-            Destroy(gameObject);
+            _enemyHP = value;
+            if (value <= 0)
+            {
+                Destroy(gameObject);
+                Debug.Log($"{gameObject.name} killed");
+            }
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    public void TakeDamage()
     {
-        if (collision.gameObject.CompareTag("Bullet"))
-        {
-            EnemyHP--;
-        }
+        EnemyHP--;
     }
 }
