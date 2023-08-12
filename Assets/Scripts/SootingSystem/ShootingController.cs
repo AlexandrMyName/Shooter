@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Numerics;
 using Extentions;
 using UnityEditor;
 using UnityEngine;
@@ -10,27 +9,34 @@ public class ShootingController : MonoBehaviour
 {
     public KeyCode keyCode = KeyCode.Mouse0;
     public int Damage;
-    public int Delay;
+    public float ShootDelay;
     public float ProjectileSpeed;
     public float RecoilHorizontal;
     public float RecoilVertical;
     public float RecoilModifierDelta;
-    public Transform WeaponTransform;
+    public Transform ProjectileSpawnTransform;
     public GameObject PointOfHitObject;
     public GameObject PointOfWeaponHitObject;
-    public GameObject MarkObject;
-    public GameObject MarksRootObject;
+    public RectTransform CrosshairTransform;
+    [SerializeField]
+    private TrailRenderer _bulletTrail;
+    [SerializeField]
+    private ParticleSystem _impactParticleSystem;
+    [SerializeField]
+    private ParticleSystem _shootingParticleSystem;
+    [SerializeField]
+    private Animator Animator;
+    
     private bool _isShooting = false;
-    private int _timeUntillShoot;
+    private float _lastShootTime;
     private Transform _cameraTransform;
-    private float _distance;
     private float _recoilModifier;
+    private RaycastHit _hitTarget;
 
 
     private void Start()
     {
         _cameraTransform = Camera.main.transform;
-        _timeUntillShoot = 0;
         PointOfHitObject.SetActive(false);
         if (ProjectileSpeed <= 0)
         {
@@ -48,7 +54,6 @@ public class ShootingController : MonoBehaviour
         else
         {
             _isShooting = false;
-            _recoilModifier = 0;
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -58,6 +63,8 @@ public class ShootingController : MonoBehaviour
             {
                 UnityEditor.EditorApplication.isPaused = true;
             }
+#else
+            Application.Quit();
 #endif
         }
     }
@@ -65,14 +72,21 @@ public class ShootingController : MonoBehaviour
     private void FixedUpdate()
     {
         GameObject hittedObject = GetShootHitObject();
-        if (_isShooting && _timeUntillShoot <= 0)
+
+        if (_isShooting && (_lastShootTime + ShootDelay < Time.time))
         {
+            _shootingParticleSystem.Play();
             Shoot(hittedObject);
-            _timeUntillShoot = Delay;
+            _lastShootTime = Time.time;
         }
-        else if (_timeUntillShoot > 0)
+        
+        if (!_isShooting && _recoilModifier > 0)
         {
-            _timeUntillShoot--;
+            _recoilModifier -= 0.1f;
+            Vector3 corsshairRecoiledScale = CrosshairTransform.localScale;
+            corsshairRecoiledScale = new Vector3(1 + _recoilModifier,
+                1 + _recoilModifier, corsshairRecoiledScale.z);
+            CrosshairTransform.localScale = corsshairRecoiledScale;
         }
     }
 
@@ -90,7 +104,7 @@ public class ShootingController : MonoBehaviour
                 _cameraTransform.TransformDirection(Vector3.forward) * cameraHit.distance,
                 Color.yellow);
             MoveHitMarkObject(PointOfHitObject, cameraHit);
-            WeaponTransform.LookAt(PointOfHitObject.transform);
+            ProjectileSpawnTransform.LookAt(PointOfHitObject.transform);
         }
         else
         {
@@ -101,27 +115,24 @@ public class ShootingController : MonoBehaviour
         
         Vector3 direction = GetRecoilVector();
         
-        bool isWeaponRayHitTarget = Physics.Raycast(WeaponTransform.position,
-            WeaponTransform.TransformDirection(direction), out weaponHit,
+        bool isWeaponRayHitTarget = Physics.Raycast(ProjectileSpawnTransform.position,
+            ProjectileSpawnTransform.TransformDirection(direction), out weaponHit,
             Mathf.Infinity);
         GameObject hitedObject = null;
         
         if (isWeaponRayHitTarget)
         {
-            Debug.DrawRay(WeaponTransform.position,
-                WeaponTransform.TransformDirection(direction) * weaponHit.distance,
+            Debug.DrawRay(ProjectileSpawnTransform.position,
+                ProjectileSpawnTransform.TransformDirection(direction) * weaponHit.distance,
                 Color.yellow);
             Debug.Log("Did Hit");
-            if (_isShooting)
-            {
-                _distance = weaponHit.distance;
-            }
             MoveHitMarkObject(PointOfWeaponHitObject, weaponHit);
             hitedObject = weaponHit.collider.gameObject;
+            _hitTarget = weaponHit;
         }
         else
         {
-            Debug.DrawRay(WeaponTransform.position, WeaponTransform.TransformDirection(Vector3.forward) * 1000,
+            Debug.DrawRay(ProjectileSpawnTransform.position, ProjectileSpawnTransform.TransformDirection(Vector3.forward) * 1000,
                 Color.red);
             Debug.Log("Did not Hit");
             PointOfWeaponHitObject.SetActive(false);
@@ -139,34 +150,25 @@ public class ShootingController : MonoBehaviour
 
     private void Shoot(GameObject hitedObject)
     {
+        //Animator.SetBool("IsShooting", true);
         if (_recoilModifier < 1)
         {
             _recoilModifier += RecoilModifierDelta;
+            Vector3 corsshairRecoiledScale = CrosshairTransform.localScale;
+            corsshairRecoiledScale = new Vector3(1 + _recoilModifier,
+                1 + _recoilModifier, corsshairRecoiledScale.z);
+            CrosshairTransform.localScale = corsshairRecoiledScale;
         }
-
-        float hitDelay = _distance / ProjectileSpeed;
-        Transform hitTransform = PointOfWeaponHitObject.transform;
-        StartCoroutine(Shooting(hitDelay, hitTransform, hitedObject));
-    }
-
-    private IEnumerator Shooting(float delay, Transform hitTransform, GameObject hitedObject)
-    {
-        yield return new WaitForSeconds(delay);
+        TrailRenderer trail = Instantiate(_bulletTrail, ProjectileSpawnTransform.position, Quaternion.identity);
         if (hitedObject != null)
         {
-            if (hitedObject.TryGetComponent<EnemyView>(out EnemyView enemyView))
-            {
-                enemyView.TakeDamage(Damage);
-            }
-            else
-            {
-                Vector3 hitPosition = hitTransform.position;
-                GameObject hitMark = Instantiate(MarkObject, hitPosition, hitTransform.rotation,
-                    MarksRootObject.transform);
-            }
+            StartCoroutine(SpawnTrail(trail, _hitTarget.point, _hitTarget.normal, true, hitedObject));
         }
-        //Debug.Log($"{delay} Hit");
-        yield return null;
+        else
+        {
+            StartCoroutine(SpawnTrail(trail, ProjectileSpawnTransform.position + GetRecoilVector() * 100,
+                Vector3.zero, false, hitedObject));
+        }
     }
 
     private Vector3 GetRecoilVector()
@@ -176,5 +178,36 @@ public class ShootingController : MonoBehaviour
         float y = Extention.GetRandomFloat(-RecoilVertical, RecoilVertical) * _recoilModifier;
         recoiledDirection = new Vector3(x, y, 1);
         return recoiledDirection;
+    }
+    
+    private IEnumerator SpawnTrail(TrailRenderer Trail, Vector3 HitPoint, Vector3 HitNormal,
+        bool MadeImpact, GameObject hitedObject)
+    {
+        Vector3 startPosition = Trail.transform.position;
+        float distance = Vector3.Distance(Trail.transform.position, HitPoint);
+        float remainingDistance = distance;
+
+        while (remainingDistance > 0)
+        {
+            Trail.transform.position = Vector3.Lerp(startPosition, HitPoint, 1 - (remainingDistance / distance));
+
+            remainingDistance -= ProjectileSpeed * Time.deltaTime;
+
+            yield return null;
+        }
+        //Animator.SetBool("IsShooting", false);
+        Trail.transform.position = HitPoint;
+        if (hitedObject != null)
+        {
+            if (hitedObject.TryGetComponent<EnemyView>(out EnemyView enemyView))
+            {
+                enemyView.TakeDamage(Damage);
+            }
+            else if (MadeImpact)
+            {
+                Instantiate(_impactParticleSystem, HitPoint, Quaternion.LookRotation(HitNormal));
+            }
+        }
+        Destroy(Trail.gameObject, Trail.time);
     }
 }
