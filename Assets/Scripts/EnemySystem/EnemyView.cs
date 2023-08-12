@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class EnemyView : MonoBehaviour
 {
-    [SerializeField] private int _enemyHP = 5;
+    [SerializeField] private int _enemyHP = 50;
 
     public int EnemyHP
     {
@@ -18,8 +18,9 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void TakeDamage()
+    public void TakeDamage(int damage)
     {
-        EnemyHP--;
+        EnemyHP -= damage;
+        Debug.Log(EnemyHP);
     }
 }

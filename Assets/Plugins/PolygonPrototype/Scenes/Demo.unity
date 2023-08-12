@@ -52689,6 +52689,10 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
+      propertyPath: Damage
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
       propertyPath: force.z
       value: 100
       objectReference: {fileID: 0}
@@ -52697,9 +52701,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7283873589133495454, guid: 5fc68211f665cad488cfc53d32894717, type: 3}
     - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
+      propertyPath: RecoilVertical
+      value: 0.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
       propertyPath: MarksRootObject
       value: 
       objectReference: {fileID: 1112437612}
+    - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
+      propertyPath: ProjectileSpeed
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
       propertyPath: WeaponTransform
       value: 
@@ -52708,6 +52720,18 @@ PrefabInstance:
       propertyPath: PointOfHitObject
       value: 
       objectReference: {fileID: 222707854}
+    - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
+      propertyPath: RecoilHorizontal
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
+      propertyPath: RecoilModifierDelta
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
+      propertyPath: DistanceRecoilModifier
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
       propertyPath: PointOfWeaponHitObject
       value: 
@@ -63620,6 +63644,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7070723313306712710, guid: 5755ba3523252df43866490522cf4d2f, type: 3}
+      propertyPath: _enemyHP
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 7104024417701876723, guid: 5755ba3523252df43866490522cf4d2f, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -66868,6 +66896,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7070723313306712710, guid: 5755ba3523252df43866490522cf4d2f, type: 3}
+      propertyPath: _enemyHP
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 7104024417701876723, guid: 5755ba3523252df43866490522cf4d2f, type: 3}
       propertyPath: m_RootOrder
       value: 8

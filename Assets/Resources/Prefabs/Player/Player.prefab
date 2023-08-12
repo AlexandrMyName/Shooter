@@ -5492,10 +5492,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyCode: 323
-  Delay: 0
+  Damage: 5
+  Delay: 10
+  ProjectileSpeed: 10
+  RecoilHorizontal: 0.05
+  RecoilVertical: 0.05
+  RecoilModifierDelta: 0.05
   WeaponTransform: {fileID: 0}
   PointOfHitObject: {fileID: 0}
   PointOfWeaponHitObject: {fileID: 0}
+  MarkObject: {fileID: 0}
+  MarksRootObject: {fileID: 0}
 --- !u!1001 &3623052758291021256
 PrefabInstance:
   m_ObjectHideFlags: 0
