@@ -2,21 +2,20 @@ using System.Collections;
 using Extentions;
 using UnityEditor;
 using UnityEngine;
-using Quaternion = UnityEngine.Quaternion;
-using Vector3 = UnityEngine.Vector3;
 
 public class ShootingController : MonoBehaviour
 {
     [SerializeField] private KeyCode _shootKeyCode = KeyCode.Mouse0;
     [SerializeField] private int _damage;
+    [SerializeField] float _maxDistance;
     [SerializeField] private float _shootDelay;
     [SerializeField] private float _projectileSpeed;
     [SerializeField] private float _recoilHorizontal;
     [SerializeField] private float _recoilVertical;
     [SerializeField] private float _recoilModifierDelta;
     [SerializeField] private Transform _projectileSpawnTransform;
+    [SerializeField] private Transform _hitEffectsRoot;
     [SerializeField] private GameObject _pointOfHitObject;
-    [SerializeField] private GameObject _pointOfWeaponHitObject;
     [SerializeField] private RectTransform _crosshairTransform;
     [SerializeField] private TrailRenderer _bulletTrail;
     [SerializeField] private ParticleSystem _impactParticleSystem;
@@ -117,7 +116,6 @@ public class ShootingController : MonoBehaviour
         {
             DebugHitInfo(true, _projectileSpawnTransform.position,
                 _projectileSpawnTransform.TransformDirection(direction) * weaponHit.distance);
-            //MoveHitMarkObject(_pointOfWeaponHitObject, weaponHit.point, weaponHit.normal);
             hitedObject = weaponHit.collider.gameObject;
             _hitTarget = weaponHit;
         }
@@ -125,7 +123,6 @@ public class ShootingController : MonoBehaviour
         {
             DebugHitInfo(false, _projectileSpawnTransform.position,
                 _projectileSpawnTransform.TransformDirection(Vector3.forward) * 1000);
-            _pointOfWeaponHitObject.SetActive(false);
         }
 
         return hitedObject;
@@ -159,16 +156,17 @@ public class ShootingController : MonoBehaviour
         {
             ChangeCrosshairScale(_recoilModifierDelta);
         }
-        TrailRenderer trail = Instantiate(_bulletTrail, _projectileSpawnTransform.position, Quaternion.identity);
+        TrailRenderer trail = Instantiate(_bulletTrail, _projectileSpawnTransform.position, Quaternion.identity,
+            _hitEffectsRoot);
         if (hitedObject != null)
         {
-            StartCoroutine(SpawnTrail(trail, _hitTarget.point, _hitTarget.normal, true, hitedObject));
+            StartCoroutine(SpawnTrail(trail, _hitTarget.point, _hitTarget.normal, true));
         }
         else
         {
             StartCoroutine(SpawnTrail(trail, 
                 _projectileSpawnTransform.TransformDirection(GetRecoilVector()) * 100,
-                Vector3.zero, false, hitedObject));
+                Vector3.zero, true));
         }
     }
 
@@ -182,38 +180,69 @@ public class ShootingController : MonoBehaviour
     }
     
     private IEnumerator SpawnTrail(TrailRenderer trail, Vector3 hitPoint, Vector3 hitNormal,
-        bool isMadeImpact, GameObject hitedObject)
+        bool isMadeImpact)
     {
+        GameObject hitedObject;
+        float currentMaxDistance = _maxDistance;
         Vector3 startPosition = trail.transform.position;
         float distance = Vector3.Distance(trail.transform.position, hitPoint);
-        if (!isMadeImpact)
-        {
-            distance = 20f;
-        }
         float remainingDistance = distance;
 
         while (remainingDistance > 0)
         {
             trail.transform.position = Vector3.Lerp(startPosition, hitPoint, 1 - (remainingDistance / distance));
-
             remainingDistance -= _projectileSpeed * Time.deltaTime;
-
+            currentMaxDistance -= _projectileSpeed * Time.deltaTime;
+            if (currentMaxDistance <= 0)
+            {
+                Debug.Log("DistanceEnd");
+                break;
+            }
+            RaycastHit weaponHit;
+            bool isWeaponRayHitTarget = Physics.Raycast(trail.transform.position,
+                trail.transform.TransformDirection(-hitNormal), out weaponHit,
+                0.1f);
+            if (isWeaponRayHitTarget)
+            {
+                hitedObject = weaponHit.collider.gameObject;
+                if (hitedObject != null)
+                {
+                    if (hitedObject.TryGetComponent<EnemyView>(out EnemyView enemyView))
+                    {
+                        enemyView.TakeDamage(_damage);
+                    }
+                    else if (isMadeImpact)
+                    {
+                        Instantiate(_impactParticleSystem, hitPoint, Quaternion.LookRotation(hitNormal),
+                            _hitEffectsRoot);
+                    }
+                }
+                break;
+            }
+            if (remainingDistance < 0)
+            {
+                if (currentMaxDistance - distance <= 0)
+                {
+                    break;
+                }
+                bool isParticleRayHitTarget = Physics.Raycast(hitPoint,
+                    hitPoint - startPosition, out weaponHit,
+                    currentMaxDistance);
+                if (isParticleRayHitTarget)
+                {
+                    Debug.Log(currentMaxDistance);
+                    startPosition = hitPoint;
+                    hitPoint = weaponHit.point;
+                    hitNormal = weaponHit.normal;
+                    distance = Vector3.Distance(startPosition, hitPoint);
+                    remainingDistance = distance;
+                }
+            }
             yield return null;
         }
-        //Animator.SetBool("IsShooting", false);
-        trail.transform.position = hitPoint;
-        if (hitedObject != null)
-        {
-            if (hitedObject.TryGetComponent<EnemyView>(out EnemyView enemyView))
-            {
-                enemyView.TakeDamage(_damage);
-            }
-            else if (isMadeImpact)
-            {
-                Instantiate(_impactParticleSystem, hitPoint, Quaternion.LookRotation(hitNormal));
-            }
-        }
         Destroy(trail.gameObject, trail.time);
+        //Debug.Log("EndShoot");
+        //Animator.SetBool("IsShooting", false);
     }
 
     private void ChangeCrosshairScale(float scaleDelta)
