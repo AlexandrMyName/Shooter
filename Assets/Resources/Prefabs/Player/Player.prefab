@@ -5492,21 +5492,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 487e3b6da3c58374e81cf329d7e4cae6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  keyCode: 323
-  Damage: 5
-  ShootDelay: 0.3
-  ProjectileSpeed: 10
-  RecoilHorizontal: 0.05
-  RecoilVertical: 0.05
-  RecoilModifierDelta: 0.05
-  ProjectileSpawnTransform: {fileID: 0}
-  PointOfHitObject: {fileID: 0}
-  PointOfWeaponHitObject: {fileID: 0}
-  CrosshairTransform: {fileID: 0}
+  _shootKeyCode: 323
+  _damage: 5
+  _shootDelay: 0.3
+  _projectileSpeed: 10
+  _recoilHorizontal: 0.05
+  _recoilVertical: 0.05
+  _recoilModifierDelta: 0.05
+  _projectileSpawnTransform: {fileID: 8066911110132427951}
+  _pointOfHitObject: {fileID: 0}
+  _pointOfWeaponHitObject: {fileID: 0}
+  _crosshairTransform: {fileID: 0}
   _bulletTrail: {fileID: 0}
   _impactParticleSystem: {fileID: 0}
   _shootingParticleSystem: {fileID: 0}
-  Animator: {fileID: 0}
+  _animator: {fileID: 0}
 --- !u!1001 &562826337261432427
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -7,25 +7,21 @@ using Vector3 = UnityEngine.Vector3;
 
 public class ShootingController : MonoBehaviour
 {
-    public KeyCode keyCode = KeyCode.Mouse0;
-    public int Damage;
-    public float ShootDelay;
-    public float ProjectileSpeed;
-    public float RecoilHorizontal;
-    public float RecoilVertical;
-    public float RecoilModifierDelta;
-    public Transform ProjectileSpawnTransform;
-    public GameObject PointOfHitObject;
-    public GameObject PointOfWeaponHitObject;
-    public RectTransform CrosshairTransform;
-    [SerializeField]
-    private TrailRenderer _bulletTrail;
-    [SerializeField]
-    private ParticleSystem _impactParticleSystem;
-    [SerializeField]
-    private ParticleSystem _shootingParticleSystem;
-    [SerializeField]
-    private Animator Animator;
+    [SerializeField] private KeyCode _shootKeyCode = KeyCode.Mouse0;
+    [SerializeField] private int _damage;
+    [SerializeField] private float _shootDelay;
+    [SerializeField] private float _projectileSpeed;
+    [SerializeField] private float _recoilHorizontal;
+    [SerializeField] private float _recoilVertical;
+    [SerializeField] private float _recoilModifierDelta;
+    [SerializeField] private Transform _projectileSpawnTransform;
+    [SerializeField] private GameObject _pointOfHitObject;
+    [SerializeField] private GameObject _pointOfWeaponHitObject;
+    [SerializeField] private RectTransform _crosshairTransform;
+    [SerializeField] private TrailRenderer _bulletTrail;
+    [SerializeField] private ParticleSystem _impactParticleSystem;
+    [SerializeField] private ParticleSystem _shootingParticleSystem;
+    [SerializeField] private Animator _animator;
     
     private bool _isShooting = false;
     private float _lastShootTime;
@@ -37,17 +33,17 @@ public class ShootingController : MonoBehaviour
     private void Start()
     {
         _cameraTransform = Camera.main.transform;
-        PointOfHitObject.SetActive(false);
-        if (ProjectileSpeed <= 0)
+        _pointOfHitObject.SetActive(false);
+        if (_projectileSpeed <= 0)
         {
-            ProjectileSpeed = 0.1f;
+            _projectileSpeed = 0.1f;
             Debug.Log("Wrong projectile speed");
         }
     }
 
     private void Update () 
     {
-        if (Input.GetKey(keyCode))
+        if (Input.GetKey(_shootKeyCode))
         {
             _isShooting = true;
         }
@@ -73,7 +69,7 @@ public class ShootingController : MonoBehaviour
     {
         GameObject hittedObject = GetShootHitObject();
 
-        if (_isShooting && (_lastShootTime + ShootDelay < Time.time))
+        if (_isShooting && (_lastShootTime + _shootDelay < Time.time))
         {
             _shootingParticleSystem.Play();
             Shoot(hittedObject);
@@ -82,11 +78,7 @@ public class ShootingController : MonoBehaviour
         
         if (!_isShooting && _recoilModifier > 0)
         {
-            _recoilModifier -= 0.1f;
-            Vector3 corsshairRecoiledScale = CrosshairTransform.localScale;
-            corsshairRecoiledScale = new Vector3(1 + _recoilModifier,
-                1 + _recoilModifier, corsshairRecoiledScale.z);
-            CrosshairTransform.localScale = corsshairRecoiledScale;
+            ChangeCrosshairScale(-0.1f);
         }
     }
 
@@ -100,52 +92,64 @@ public class ShootingController : MonoBehaviour
 
         if (isCameraRayHitTarget)
         {
-            Debug.DrawRay(_cameraTransform.position,
-                _cameraTransform.TransformDirection(Vector3.forward) * cameraHit.distance,
-                Color.yellow);
-            MoveHitMarkObject(PointOfHitObject, cameraHit);
-            ProjectileSpawnTransform.LookAt(PointOfHitObject.transform);
+            DebugHitInfo(true, _cameraTransform.position,
+                _cameraTransform.TransformDirection(Vector3.forward) * cameraHit.distance);
+            MoveHitMarkObject(_pointOfHitObject, cameraHit.point, cameraHit.normal);
+            _projectileSpawnTransform.LookAt(_pointOfHitObject.transform);
         }
         else
         {
-            Debug.DrawRay(_cameraTransform.position, _cameraTransform.TransformDirection(Vector3.forward) * 1000,
-                Color.red);
-            PointOfHitObject.SetActive(false);
+            DebugHitInfo(false, _cameraTransform.position,
+                _cameraTransform.TransformDirection(Vector3.forward) * 1000);
+            Vector3 dir = _cameraTransform.position + (_cameraTransform.TransformDirection(Vector3.forward) * 1000);
+            MoveHitMarkObject(_pointOfHitObject, dir, Vector3.forward);
+            _projectileSpawnTransform.LookAt(_pointOfHitObject.transform);
         }
         
         Vector3 direction = GetRecoilVector();
         
-        bool isWeaponRayHitTarget = Physics.Raycast(ProjectileSpawnTransform.position,
-            ProjectileSpawnTransform.TransformDirection(direction), out weaponHit,
+        bool isWeaponRayHitTarget = Physics.Raycast(_projectileSpawnTransform.position,
+            _projectileSpawnTransform.TransformDirection(direction), out weaponHit,
             Mathf.Infinity);
         GameObject hitedObject = null;
         
         if (isWeaponRayHitTarget)
         {
-            Debug.DrawRay(ProjectileSpawnTransform.position,
-                ProjectileSpawnTransform.TransformDirection(direction) * weaponHit.distance,
-                Color.yellow);
-            Debug.Log("Did Hit");
-            MoveHitMarkObject(PointOfWeaponHitObject, weaponHit);
+            DebugHitInfo(true, _projectileSpawnTransform.position,
+                _projectileSpawnTransform.TransformDirection(direction) * weaponHit.distance);
+            //MoveHitMarkObject(_pointOfWeaponHitObject, weaponHit.point, weaponHit.normal);
             hitedObject = weaponHit.collider.gameObject;
             _hitTarget = weaponHit;
         }
         else
         {
-            Debug.DrawRay(ProjectileSpawnTransform.position, ProjectileSpawnTransform.TransformDirection(Vector3.forward) * 1000,
-                Color.red);
-            Debug.Log("Did not Hit");
-            PointOfWeaponHitObject.SetActive(false);
+            DebugHitInfo(false, _projectileSpawnTransform.position,
+                _projectileSpawnTransform.TransformDirection(Vector3.forward) * 1000);
+            _pointOfWeaponHitObject.SetActive(false);
         }
 
         return hitedObject;
     }
 
-    private void MoveHitMarkObject(GameObject markObject, RaycastHit rayHit)
+    private void MoveHitMarkObject(GameObject markObject, Vector3 rayHitPoint, Vector3 rayHitNormal)
     {
-        markObject.transform.position = new Vector3(rayHit.point.x, rayHit.point.y, rayHit.point.z);
-        markObject.transform.rotation = Quaternion.LookRotation(rayHit.normal);
+        markObject.transform.position = rayHitPoint;
+        markObject.transform.rotation = Quaternion.LookRotation(rayHitNormal);
         markObject.SetActive(true);
+    }
+
+    private void DebugHitInfo(bool isHit, Vector3 startPos, Vector3 endPos)
+    {
+
+        if (isHit)
+        {
+            Debug.DrawRay(startPos, endPos, Color.yellow);
+        }
+        else
+        {
+            Debug.DrawRay(startPos, endPos, Color.red);
+        }
+        
     }
 
     private void Shoot(GameObject hitedObject)
@@ -153,20 +157,17 @@ public class ShootingController : MonoBehaviour
         //Animator.SetBool("IsShooting", true);
         if (_recoilModifier < 1)
         {
-            _recoilModifier += RecoilModifierDelta;
-            Vector3 corsshairRecoiledScale = CrosshairTransform.localScale;
-            corsshairRecoiledScale = new Vector3(1 + _recoilModifier,
-                1 + _recoilModifier, corsshairRecoiledScale.z);
-            CrosshairTransform.localScale = corsshairRecoiledScale;
+            ChangeCrosshairScale(_recoilModifierDelta);
         }
-        TrailRenderer trail = Instantiate(_bulletTrail, ProjectileSpawnTransform.position, Quaternion.identity);
+        TrailRenderer trail = Instantiate(_bulletTrail, _projectileSpawnTransform.position, Quaternion.identity);
         if (hitedObject != null)
         {
             StartCoroutine(SpawnTrail(trail, _hitTarget.point, _hitTarget.normal, true, hitedObject));
         }
         else
         {
-            StartCoroutine(SpawnTrail(trail, ProjectileSpawnTransform.position + GetRecoilVector() * 100,
+            StartCoroutine(SpawnTrail(trail, 
+                _projectileSpawnTransform.TransformDirection(GetRecoilVector()) * 100,
                 Vector3.zero, false, hitedObject));
         }
     }
@@ -174,40 +175,53 @@ public class ShootingController : MonoBehaviour
     private Vector3 GetRecoilVector()
     {
         Vector3 recoiledDirection = Vector3.forward;
-        float x = Extention.GetRandomFloat(-RecoilHorizontal, RecoilHorizontal) * _recoilModifier;
-        float y = Extention.GetRandomFloat(-RecoilVertical, RecoilVertical) * _recoilModifier;
+        float x = Extention.GetRandomFloat(-_recoilHorizontal, _recoilHorizontal) * _recoilModifier;
+        float y = Extention.GetRandomFloat(-_recoilVertical, _recoilVertical) * _recoilModifier;
         recoiledDirection = new Vector3(x, y, 1);
         return recoiledDirection;
     }
     
-    private IEnumerator SpawnTrail(TrailRenderer Trail, Vector3 HitPoint, Vector3 HitNormal,
-        bool MadeImpact, GameObject hitedObject)
+    private IEnumerator SpawnTrail(TrailRenderer trail, Vector3 hitPoint, Vector3 hitNormal,
+        bool isMadeImpact, GameObject hitedObject)
     {
-        Vector3 startPosition = Trail.transform.position;
-        float distance = Vector3.Distance(Trail.transform.position, HitPoint);
+        Vector3 startPosition = trail.transform.position;
+        float distance = Vector3.Distance(trail.transform.position, hitPoint);
+        if (!isMadeImpact)
+        {
+            distance = 20f;
+        }
         float remainingDistance = distance;
 
         while (remainingDistance > 0)
         {
-            Trail.transform.position = Vector3.Lerp(startPosition, HitPoint, 1 - (remainingDistance / distance));
+            trail.transform.position = Vector3.Lerp(startPosition, hitPoint, 1 - (remainingDistance / distance));
 
-            remainingDistance -= ProjectileSpeed * Time.deltaTime;
+            remainingDistance -= _projectileSpeed * Time.deltaTime;
 
             yield return null;
         }
         //Animator.SetBool("IsShooting", false);
-        Trail.transform.position = HitPoint;
+        trail.transform.position = hitPoint;
         if (hitedObject != null)
         {
             if (hitedObject.TryGetComponent<EnemyView>(out EnemyView enemyView))
             {
-                enemyView.TakeDamage(Damage);
+                enemyView.TakeDamage(_damage);
             }
-            else if (MadeImpact)
+            else if (isMadeImpact)
             {
-                Instantiate(_impactParticleSystem, HitPoint, Quaternion.LookRotation(HitNormal));
+                Instantiate(_impactParticleSystem, hitPoint, Quaternion.LookRotation(hitNormal));
             }
         }
-        Destroy(Trail.gameObject, Trail.time);
+        Destroy(trail.gameObject, trail.time);
+    }
+
+    private void ChangeCrosshairScale(float scaleDelta)
+    {
+        _recoilModifier += scaleDelta;
+        Vector3 corsshairRecoiledScale = _crosshairTransform.localScale;
+        corsshairRecoiledScale = new Vector3(1 + _recoilModifier,
+            1 + _recoilModifier, corsshairRecoiledScale.z);
+        _crosshairTransform.localScale = corsshairRecoiledScale;
     }
 }

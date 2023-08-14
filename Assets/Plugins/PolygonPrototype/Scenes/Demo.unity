@@ -52738,6 +52738,10 @@ PrefabInstance:
       value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
+      propertyPath: _pointOfHitObject
+      value: 
+      objectReference: {fileID: 222707854}
+    - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
       propertyPath: CrosshairTransform
       value: 
       objectReference: {fileID: 1128393625}
@@ -52745,6 +52749,10 @@ PrefabInstance:
       propertyPath: RecoilModifierDelta
       value: 0.05
       objectReference: {fileID: 0}
+    - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
+      propertyPath: _crosshairTransform
+      value: 
+      objectReference: {fileID: 1128393625}
     - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
       propertyPath: BulletSpawnTransform
       value: 
@@ -52770,11 +52778,19 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 198234346748616026, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
     - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
+      propertyPath: _pointOfWeaponHitObject
+      value: 
+      objectReference: {fileID: 6033666407308516607}
+    - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
       propertyPath: _shootingParticleSystem
       value: 
       objectReference: {fileID: 2120744209}
     - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
       propertyPath: ProjectileSpawnTransform
+      value: 
+      objectReference: {fileID: 810681792}
+    - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
+      propertyPath: _projectileSpawnTransform
       value: 
       objectReference: {fileID: 810681792}
     m_RemovedComponents:
