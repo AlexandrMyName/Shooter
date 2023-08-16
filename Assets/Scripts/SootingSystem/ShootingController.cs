@@ -10,9 +10,13 @@ public class ShootingController : MonoBehaviour
     [SerializeField] float _maxDistance;
     [SerializeField] private float _shootDelay;
     [SerializeField] private float _projectileSpeed;
+    [SerializeField] private float _spreadingHorizontal;
+    [SerializeField] private float _spreadingVertical;
+    [SerializeField] private float _spreadingModifierDelta;
     [SerializeField] private float _recoilHorizontal;
     [SerializeField] private float _recoilVertical;
-    [SerializeField] private float _recoilModifierDelta;
+    [SerializeField] private float _recoilModifierDeltaHorizontal;
+    [SerializeField] private float _recoilModifierDeltaVertical;
     [SerializeField] private Transform _projectileSpawnTransform;
     [SerializeField] private Transform _hitEffectsRoot;
     [SerializeField] private GameObject _pointOfHitObject;
@@ -25,7 +29,9 @@ public class ShootingController : MonoBehaviour
     private bool _isShooting = false;
     private float _lastShootTime;
     private Transform _cameraTransform;
-    private float _recoilModifier;
+    private float _spreadingModifier;
+    private float _recoilModifierHorizontal;
+    private float _recoilModifierVertical;
     private RaycastHit _hitTarget;
 
 
@@ -75,9 +81,11 @@ public class ShootingController : MonoBehaviour
             _lastShootTime = Time.time;
         }
         
-        if (!_isShooting && _recoilModifier > 0)
+        if (!_isShooting)
         {
-            ChangeCrosshairScale(-0.1f);
+            ChangeSpread(-0.1f);
+            ChangeCrosshairScale();
+            ChangeRecoilVector(-_recoilModifierDeltaHorizontal, -_recoilModifierDeltaVertical);
         }
     }
 
@@ -152,10 +160,11 @@ public class ShootingController : MonoBehaviour
     private void Shoot(GameObject hitedObject)
     {
         //Animator.SetBool("IsShooting", true);
-        if (_recoilModifier < 1)
-        {
-            ChangeCrosshairScale(_recoilModifierDelta);
-        }
+        ChangeSpread(_spreadingModifierDelta);
+        ChangeCrosshairScale();
+        ChangeRecoilVector(_recoilModifierDeltaHorizontal, _recoilModifierDeltaVertical);
+        
+        
         TrailRenderer trail = Instantiate(_bulletTrail, _projectileSpawnTransform.position, Quaternion.identity,
             _hitEffectsRoot);
         if (hitedObject != null)
@@ -173,9 +182,13 @@ public class ShootingController : MonoBehaviour
     private Vector3 GetRecoilVector()
     {
         Vector3 recoiledDirection = Vector3.forward;
-        float x = Extention.GetRandomFloat(-_recoilHorizontal, _recoilHorizontal) * _recoilModifier;
-        float y = Extention.GetRandomFloat(-_recoilVertical, _recoilVertical) * _recoilModifier;
-        recoiledDirection = new Vector3(x, y, 1);
+
+        float x = _recoilModifierHorizontal;
+        float y = _recoilModifierVertical;
+        
+        float spreadX = Extention.GetRandomFloat(-_spreadingHorizontal, _spreadingHorizontal) * _spreadingModifier;
+        float spreadY = Extention.GetRandomFloat(-_spreadingVertical, _spreadingVertical) * _spreadingModifier;
+        recoiledDirection = new Vector3(x + spreadX, y + spreadY, 1);
         return recoiledDirection;
     }
     
@@ -195,7 +208,6 @@ public class ShootingController : MonoBehaviour
             currentMaxDistance -= _projectileSpeed * Time.deltaTime;
             if (currentMaxDistance <= 0)
             {
-                Debug.Log("DistanceEnd");
                 break;
             }
             RaycastHit weaponHit;
@@ -245,12 +257,43 @@ public class ShootingController : MonoBehaviour
         //Animator.SetBool("IsShooting", false);
     }
 
-    private void ChangeCrosshairScale(float scaleDelta)
+
+    private void ChangeRecoilVector(float recoilHorizontalDelta,float recoilVerticalDelta)
     {
-        _recoilModifier += scaleDelta;
-        Vector3 corsshairRecoiledScale = _crosshairTransform.localScale;
-        corsshairRecoiledScale = new Vector3(1 + _recoilModifier,
-            1 + _recoilModifier, corsshairRecoiledScale.z);
-        _crosshairTransform.localScale = corsshairRecoiledScale;
+        bool isRecoilHorizontalIncreasing = _recoilModifierHorizontal < _recoilHorizontal && recoilHorizontalDelta > 0;
+        bool isRecoilHorizontalDecreasing = _recoilModifierHorizontal > 0 && recoilHorizontalDelta < 0;
+        if (isRecoilHorizontalIncreasing || isRecoilHorizontalDecreasing)
+        {
+            _recoilModifierHorizontal += recoilHorizontalDelta;
+        }
+
+        bool isRecoilVerticalIncreasing = _recoilModifierVertical < _recoilVertical && recoilVerticalDelta > 0;
+        bool isRecoilVerticalDecreasing = _recoilModifierVertical > 0 && recoilVerticalDelta < 0;
+        if (isRecoilVerticalIncreasing || isRecoilVerticalDecreasing)
+        {
+            _recoilModifierVertical += recoilVerticalDelta;
+        }
+    }
+
+    private void ChangeSpread(float spreadDelta)
+    {
+        bool isSpreadIncreasing = spreadDelta > 0 && _spreadingModifier < 1;
+        bool isSpreadDecreasing = spreadDelta < 0 && _spreadingModifier > 0;
+        if (isSpreadIncreasing || isSpreadDecreasing)
+        {
+            _spreadingModifier += spreadDelta;
+        }
+        
+    }
+    
+    private void ChangeCrosshairScale()
+    {
+        if (_spreadingModifier >= 0 && _spreadingModifier <= 1)
+        {
+            Vector3 corsshairRecoiledScale = _crosshairTransform.localScale;
+            corsshairRecoiledScale = new Vector3(1 + _spreadingModifier,
+                1 + _spreadingModifier, corsshairRecoiledScale.z);
+            _crosshairTransform.localScale = corsshairRecoiledScale;
+        }
     }
 }

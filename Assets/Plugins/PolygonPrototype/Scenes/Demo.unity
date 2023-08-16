@@ -3536,13 +3536,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1841375295}
     m_Modifications:
+    - target: {fileID: 1474764006240032, guid: 5af8c7596fa30f04f8fa65a374010693, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 4501066922674088, guid: 5af8c7596fa30f04f8fa65a374010693, type: 3}
       propertyPath: m_RootOrder
       value: 160
       objectReference: {fileID: 0}
     - target: {fileID: 4501066922674088, guid: 5af8c7596fa30f04f8fa65a374010693, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7
+      value: 7.022
       objectReference: {fileID: 0}
     - target: {fileID: 4501066922674088, guid: 5af8c7596fa30f04f8fa65a374010693, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3550,11 +3554,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4501066922674088, guid: 5af8c7596fa30f04f8fa65a374010693, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5.5
+      value: -5.52
       objectReference: {fileID: 0}
     - target: {fileID: 4501066922674088, guid: 5af8c7596fa30f04f8fa65a374010693, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.70710784
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 4501066922674088, guid: 5af8c7596fa30f04f8fa65a374010693, type: 3}
       propertyPath: m_LocalRotation.x
@@ -3562,15 +3566,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4501066922674088, guid: 5af8c7596fa30f04f8fa65a374010693, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.70710576
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 4501066922674088, guid: 5af8c7596fa30f04f8fa65a374010693, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4501066922674088, guid: 5af8c7596fa30f04f8fa65a374010693, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4501066922674088, guid: 5af8c7596fa30f04f8fa65a374010693, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -90.00001
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: 23909255673591164, guid: 5af8c7596fa30f04f8fa65a374010693, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -52648,14 +52656,6 @@ PrefabInstance:
       value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
-      propertyPath: _bulletTrail
-      value: 
-      objectReference: {fileID: 328621789431213768, guid: 43559d27d223bf340b413fde1315c256, type: 3}
-    - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
-      propertyPath: _maxDistance
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
       propertyPath: RecoilVertical
       value: 0.06
       objectReference: {fileID: 0}
@@ -52676,6 +52676,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1112437613}
     - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
+      propertyPath: _recoilVertical
+      value: 0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
       propertyPath: PointOfHitObject
       value: 
       objectReference: {fileID: 0}
@@ -52688,9 +52692,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6033666407308516607}
     - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
+      propertyPath: _recoilHorizontal
+      value: 0.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
       propertyPath: CrosshairTransform
       value: 
       objectReference: {fileID: 1128393625}
+    - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
+      propertyPath: _spreadingVertical
+      value: 0.01
+      objectReference: {fileID: 0}
     - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
       propertyPath: RecoilModifierDelta
       value: 0.05
@@ -52708,9 +52720,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9064919875212695174, guid: a5e1e2c4d2cd81f4abed6272a2b8187a, type: 3}
     - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
-      propertyPath: _impactParticleSystem
-      value: 
-      objectReference: {fileID: 9064919875212695174, guid: a5e1e2c4d2cd81f4abed6272a2b8187a, type: 3}
+      propertyPath: _spreadingHorizontal
+      value: 0.01
+      objectReference: {fileID: 0}
     - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
       propertyPath: DistanceRecoilModifier
       value: 1
@@ -52728,17 +52740,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6033666407308516607}
     - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
-      propertyPath: _shootingParticleSystem
-      value: 
-      objectReference: {fileID: 2120744209}
+      propertyPath: _spreadingModifierDelta
+      value: 0.05
+      objectReference: {fileID: 0}
     - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
       propertyPath: ProjectileSpawnTransform
       value: 
       objectReference: {fileID: 810681792}
     - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
-      propertyPath: _projectileSpawnTransform
-      value: 
-      objectReference: {fileID: 810681792}
+      propertyPath: _recoilModifierDeltaVertical
+      value: 0.006
+      objectReference: {fileID: 0}
+    - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
+      propertyPath: _recoilModifierDeltaHorizontal
+      value: 0.003
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8332188963630308877, guid: fec508ec24666a34a98758442cefb000, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: fec508ec24666a34a98758442cefb000, type: 3}
@@ -66702,11 +66718,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!198 &2120744209 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 364732766656934705, guid: fec508ec24666a34a98758442cefb000, type: 3}
-  m_PrefabInstance: {fileID: 1681084459}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2122627108
 PrefabInstance:
   m_ObjectHideFlags: 0

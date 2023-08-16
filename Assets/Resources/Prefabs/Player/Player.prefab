@@ -5494,18 +5494,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _shootKeyCode: 323
   _damage: 5
+  _maxDistance: 40
   _shootDelay: 0.3
   _projectileSpeed: 10
-  _recoilHorizontal: 0.05
-  _recoilVertical: 0.05
-  _recoilModifierDelta: 0.05
+  _spreadingHorizontal: 0.03
+  _spreadingVertical: 0.03
+  _spreadingModifierDelta: 0.03
+  _recoilHorizontal: 0.06
+  _recoilVertical: 0.08
+  _recoilModifierDeltaHorizontal: 0.003
+  _recoilModifierDeltaVertical: 0.006
   _projectileSpawnTransform: {fileID: 8066911110132427951}
+  _hitEffectsRoot: {fileID: 0}
   _pointOfHitObject: {fileID: 0}
-  _pointOfWeaponHitObject: {fileID: 0}
   _crosshairTransform: {fileID: 0}
-  _bulletTrail: {fileID: 0}
-  _impactParticleSystem: {fileID: 0}
-  _shootingParticleSystem: {fileID: 0}
+  _bulletTrail: {fileID: 328621789431213768, guid: 43559d27d223bf340b413fde1315c256, type: 3}
+  _impactParticleSystem: {fileID: 9064919875212695174, guid: a5e1e2c4d2cd81f4abed6272a2b8187a, type: 3}
+  _shootingParticleSystem: {fileID: 364732766656934705}
   _animator: {fileID: 0}
 --- !u!1001 &562826337261432427
 PrefabInstance:
@@ -5564,6 +5569,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
+--- !u!198 &364732766656934705 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 198234346748616026, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
+  m_PrefabInstance: {fileID: 562826337261432427}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &558667207470776959 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4300533007854612, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
