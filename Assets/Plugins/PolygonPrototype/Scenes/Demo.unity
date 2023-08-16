@@ -52676,10 +52676,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1112437613}
     - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
-      propertyPath: _recoilVertical
-      value: 0.08
-      objectReference: {fileID: 0}
-    - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
       propertyPath: PointOfHitObject
       value: 
       objectReference: {fileID: 0}
@@ -52692,17 +52688,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6033666407308516607}
     - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
-      propertyPath: _recoilHorizontal
-      value: 0.06
-      objectReference: {fileID: 0}
-    - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
       propertyPath: CrosshairTransform
       value: 
       objectReference: {fileID: 1128393625}
-    - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
-      propertyPath: _spreadingVertical
-      value: 0.01
-      objectReference: {fileID: 0}
     - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
       propertyPath: RecoilModifierDelta
       value: 0.05
@@ -52720,10 +52708,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9064919875212695174, guid: a5e1e2c4d2cd81f4abed6272a2b8187a, type: 3}
     - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
-      propertyPath: _spreadingHorizontal
-      value: 0.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
       propertyPath: DistanceRecoilModifier
       value: 1
       objectReference: {fileID: 0}
@@ -52740,21 +52724,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6033666407308516607}
     - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
-      propertyPath: _spreadingModifierDelta
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
       propertyPath: ProjectileSpawnTransform
       value: 
       objectReference: {fileID: 810681792}
-    - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
-      propertyPath: _recoilModifierDeltaVertical
-      value: 0.006
-      objectReference: {fileID: 0}
-    - target: {fileID: 5018555896556125712, guid: fec508ec24666a34a98758442cefb000, type: 3}
-      propertyPath: _recoilModifierDeltaHorizontal
-      value: 0.003
-      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8332188963630308877, guid: fec508ec24666a34a98758442cefb000, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: fec508ec24666a34a98758442cefb000, type: 3}

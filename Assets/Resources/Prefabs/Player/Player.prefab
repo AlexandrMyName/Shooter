@@ -5500,6 +5500,7 @@ MonoBehaviour:
   _spreadingHorizontal: 0.03
   _spreadingVertical: 0.03
   _spreadingModifierDelta: 0.03
+  _spreadingDefaultModifier: 0.5
   _recoilHorizontal: 0.06
   _recoilVertical: 0.08
   _recoilModifierDeltaHorizontal: 0.003

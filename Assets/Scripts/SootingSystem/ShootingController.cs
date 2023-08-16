@@ -13,6 +13,7 @@ public class ShootingController : MonoBehaviour
     [SerializeField] private float _spreadingHorizontal;
     [SerializeField] private float _spreadingVertical;
     [SerializeField] private float _spreadingModifierDelta;
+    [SerializeField] private float _spreadingDefaultModifier;
     [SerializeField] private float _recoilHorizontal;
     [SerializeField] private float _recoilVertical;
     [SerializeField] private float _recoilModifierDeltaHorizontal;
@@ -44,6 +45,8 @@ public class ShootingController : MonoBehaviour
             _projectileSpeed = 0.1f;
             Debug.Log("Wrong projectile speed");
         }
+
+        _spreadingModifier = _spreadingDefaultModifier;
     }
 
     private void Update () 
@@ -160,7 +163,10 @@ public class ShootingController : MonoBehaviour
     private void Shoot(GameObject hitedObject)
     {
         //Animator.SetBool("IsShooting", true);
-        ChangeSpread(_spreadingModifierDelta);
+        if (_recoilModifierHorizontal >= _recoilHorizontal && _recoilModifierVertical >= _recoilVertical)
+        {
+            ChangeSpread(_spreadingModifierDelta);
+        }
         ChangeCrosshairScale();
         ChangeRecoilVector(_recoilModifierDeltaHorizontal, _recoilModifierDeltaVertical);
         
@@ -278,12 +284,11 @@ public class ShootingController : MonoBehaviour
     private void ChangeSpread(float spreadDelta)
     {
         bool isSpreadIncreasing = spreadDelta > 0 && _spreadingModifier < 1;
-        bool isSpreadDecreasing = spreadDelta < 0 && _spreadingModifier > 0;
+        bool isSpreadDecreasing = spreadDelta < 0 && _spreadingModifier > _spreadingDefaultModifier;
         if (isSpreadIncreasing || isSpreadDecreasing)
         {
             _spreadingModifier += spreadDelta;
         }
-        
     }
     
     private void ChangeCrosshairScale()
