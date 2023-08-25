@@ -12,20 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96cdf97f50dc19640b49faa3c26c5646, type: 3}
   m_Name: TestWeaponConfig
   m_EditorClassIdentifier: 
-  _shootingType: 3
+  _shootingType: 2
+  _maxAmmo: 36
+  _maxAmmoInMagazine: 12
+  _maxAmmoInBurst: 6
   _shootDelay: 0.3
   _burstDelay: 0
-  _reloadDelay: 0
+  _reloadDelay: 1.3
   _aimingSpeed: 0
   _zoomMultiplicity: 0
   _spreadingHorizontal: 0.03
   _spreadingVertical: 0.03
   _spreadingModifierDelta: 0.03
   _spreadingDefaultModifier: 0.5
+  _aimingSpreadingModifier: 0
   _recoilHorizontal: 0.06
   _recoilVertical: 0.08
   _recoilModifierDeltaHorizontal: 0.003
   _recoilModifierDeltaVertical: 0.006
+  _aimingRecoilModifier: 0
   _projectilePrefab: {fileID: 8983598808202383336, guid: 0b70c437b81878342812ed0cdc931e28, type: 3}
   _projectileTrail: {fileID: 328621789431213768, guid: 43559d27d223bf340b413fde1315c256, type: 3}
   _impactParticleSystem: {fileID: 9064919875212695174, guid: a5e1e2c4d2cd81f4abed6272a2b8187a, type: 3}

@@ -1,24 +1,69 @@
-﻿using Configs;
+﻿using Assets.Scripts.Enums;
+using Configs;
+using EventBus;
 using Extentions;
-using UnityEditor;
 using UnityEngine;
+using System.Collections;
 
 namespace ShootingSystem
 {
     public class Weapon : MonoBehaviour
     {
-        [SerializeField] private KeyCode _shootKeyCode = KeyCode.Mouse0;
         [SerializeField] private WeaponConfig _weaponConfig;
         [SerializeField] private Transform _projectileSpawnTransform;
         [SerializeField] private Transform _projectilesPool;
+        [SerializeField] private Transform _hitEffectsRoot;
+        [SerializeField] private AmmoPanelView _ammoPanelView;
+        [SerializeField] private CrosshairView _crosshairView;
         
         private Transform _cameraTransform;
         private GameObject _pointOfHitObject;
         private bool _isShooting = false;
+        private bool _canShoot = false;
         private float _lastShootTime;
         private float _spreadingModifier;
         private float _recoilModifierHorizontal;
         private float _recoilModifierVertical;
+        private int _currentAmmo;
+        private int _currentAmmoInMagazine;
+        private int _maxAmmoInBurst;
+        private int _currentAmmonBurst;
+
+        private void OnEnable()
+        {
+            _currentAmmo = _weaponConfig.MaxAmmo;
+            _currentAmmoInMagazine = _weaponConfig.MaxAmmoInMagazine;
+
+            if (_weaponConfig.ShootingType == ShootingType.Auto)
+            {
+                _maxAmmoInBurst = _weaponConfig.MaxAmmoInMagazine;
+            }
+            else if (_weaponConfig.ShootingType == ShootingType.Burst)
+            {
+                _maxAmmoInBurst = _weaponConfig.MaxAmmoInBurst;
+            }
+            else
+            {
+                _maxAmmoInBurst = 1;
+            }
+
+            _currentAmmonBurst = _maxAmmoInBurst;
+
+            if (_currentAmmo > 0)
+            {
+                _ammoPanelView.Show();
+                _ammoPanelView.SetAmmo(_currentAmmo);
+                _ammoPanelView.SetAmmoInMagazine(_currentAmmoInMagazine);
+            }
+            else
+            {
+                _ammoPanelView.Hide();
+            }
+
+            
+            ShootingEvents.OnShoot += ChangeShootingState;
+            ShootingEvents.OnReload += Reload;
+        }
 
         private void Start()
         {
@@ -27,30 +72,18 @@ namespace ShootingSystem
                 GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/Shooting/HitDirection"));
             _pointOfHitObject.SetActive(false);
             _spreadingModifier = _weaponConfig.SpreadingDefaultModifier;
+            _lastShootTime = Time.time;
         }
-        
-        private void Update() 
-        {
-            if (Input.GetKey(_shootKeyCode))
-            {
-                _isShooting = true;
-            }
-            else
-            {
-                _isShooting = false;
-            }
 
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-#if UNITY_EDITOR
-                if(EditorApplication.isPlaying)
-                {
-                    UnityEditor.EditorApplication.isPaused = true;
-                }
-#else
-            Application.Quit();
-#endif
-            }
+        private void OnDisable()
+        {
+            ShootingEvents.OnShoot -= ChangeShootingState;
+            ShootingEvents.OnReload -= Reload;
+        }
+
+        private void ChangeShootingState(bool isShooting)
+        {
+            _isShooting = isShooting;
         }
 
         private void FixedUpdate()
@@ -58,22 +91,81 @@ namespace ShootingSystem
             if (_isShooting)
             {
                 TryShoot();
+                ChangeShootingState(false);
             }
             else
             {
+                _currentAmmonBurst = _maxAmmoInBurst;
                 ChangeSpread(-0.1f);
                 ChangeRecoilVector(-_weaponConfig.RecoilModifierDeltaHorizontal, 
                     -_weaponConfig.RecoilModifierDeltaVertical);
+                _crosshairView.TryChangeScale(false);
             }
             
         }
 
+        private void Reload()
+        {
+            if (_currentAmmo > 0)
+            {
+                StartCoroutine(ReloadingAction(_weaponConfig.ReloadDelay));
+            }
+        }
+
+        private IEnumerator ReloadingAction(float reloadDelay)
+        {
+            yield return new WaitForSeconds(reloadDelay);
+            if (_currentAmmo >= _weaponConfig.MaxAmmoInMagazine)
+            {
+                _currentAmmo -= _weaponConfig.MaxAmmoInMagazine;
+                _currentAmmo += _currentAmmoInMagazine;
+                _currentAmmoInMagazine = _weaponConfig.MaxAmmoInMagazine;
+            }
+            else
+            {
+                _currentAmmoInMagazine += _currentAmmo;
+                _currentAmmo = 0;
+                if (_currentAmmoInMagazine > _weaponConfig.MaxAmmoInMagazine)
+                {
+                    int deltaAmmo = _currentAmmoInMagazine - _weaponConfig.MaxAmmoInMagazine;
+                    _currentAmmoInMagazine -= deltaAmmo;
+                    _currentAmmo = deltaAmmo;
+                }
+            }
+            _ammoPanelView.SetAmmo(_currentAmmo);
+            _ammoPanelView.SetAmmoInMagazine(_currentAmmoInMagazine);
+            yield return null;
+        }
+
         private void TryShoot()
         {
-            if (_lastShootTime + _weaponConfig.ShootDelay < Time.time)
+            bool haveAmmoInMagazine;
+            bool haveAmmoInBurst;
+            if (_weaponConfig.ShootingType != ShootingType.Auto)
             {
-                Shoot();
+                haveAmmoInBurst = _currentAmmonBurst > 0;
+            }
+            else
+            {
+                haveAmmoInBurst = true;
+            }
+            if (_weaponConfig.MaxAmmo > 0)
+            {
+                haveAmmoInMagazine = _currentAmmoInMagazine > 0;
+            }
+            else
+            {
+                haveAmmoInMagazine = true;
+            }
+            _canShoot = (_lastShootTime + _weaponConfig.ShootDelay < Time.time) 
+                        && haveAmmoInBurst && haveAmmoInMagazine;
+            if (_canShoot)
+            {
+                _currentAmmonBurst--;
+                _currentAmmoInMagazine--;
                 _lastShootTime = Time.time;
+                _ammoPanelView.SetAmmoInMagazine(_currentAmmoInMagazine);
+                Shoot();
             }
         }
         
@@ -85,8 +177,18 @@ namespace ShootingSystem
                 ChangeSpread(_weaponConfig.SpreadingModifierDelta);
             }
             ChangeRecoilVector(_weaponConfig.RecoilModifierDeltaHorizontal, _weaponConfig.RecoilModifierDeltaVertical);
-            
-            
+            MovePointOfHit();
+            _crosshairView.TryChangeScale(true);
+
+            GameObject projectile = GameObject.Instantiate(_weaponConfig.ProjectilePrefab,
+                _projectileSpawnTransform.position ,_projectileSpawnTransform.rotation ,_projectilesPool);
+            Projectile projectileView = projectile.GetOrAddComponent<Projectile>();
+            projectileView.StartMoving(_projectileSpawnTransform.position, _pointOfHitObject.transform.position,
+                _hitEffectsRoot);
+        }
+
+        private void MovePointOfHit()
+        {
             RaycastHit cameraHit;
             RaycastHit weaponHit;
             
@@ -110,26 +212,16 @@ namespace ShootingSystem
             bool isWeaponRayHitTarget = Physics.Raycast(_projectileSpawnTransform.position,
                 _projectileSpawnTransform.TransformDirection(direction), out weaponHit,
                 Mathf.Infinity);
-            GameObject hitedObject = null;
-        
             if (isWeaponRayHitTarget)
             {
-                hitedObject = weaponHit.collider.gameObject;
                 MoveHitMarkObject(_pointOfHitObject, weaponHit.point, weaponHit.normal);
             }
             else
             {
-
-                MoveHitMarkObject(_pointOfHitObject, weaponHit.point, weaponHit.normal);
+                Vector3 dir = _projectileSpawnTransform.position + 
+                              (_projectileSpawnTransform.TransformDirection(Vector3.forward) * 1000);
+                MoveHitMarkObject(_pointOfHitObject, dir, Vector3.forward);
             }
-
-            
-            
-
-            GameObject projectile = GameObject.Instantiate(_weaponConfig.ProjectilePrefab,
-                _projectileSpawnTransform.position ,_projectileSpawnTransform.rotation ,_projectilesPool);
-            _pointOfHitObject.SetActive(true);
-            Debug.Log("Shoot");
         }
         
         private void MoveHitMarkObject(GameObject markObject, Vector3 rayHitPoint, Vector3 rayHitNormal)

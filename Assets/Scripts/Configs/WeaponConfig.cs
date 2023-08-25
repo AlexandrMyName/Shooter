@@ -7,7 +7,11 @@ namespace Configs
     public class WeaponConfig : ScriptableObject
     {
         [SerializeField] private ShootingType _shootingType;
-        
+
+        [SerializeField] private int _maxAmmo;
+        [SerializeField] private int _maxAmmoInMagazine;
+        [SerializeField] private int _maxAmmoInBurst;
+
         [SerializeField] private float _shootDelay;
         [SerializeField] private float _burstDelay;
         [SerializeField] private float _reloadDelay;
@@ -34,6 +38,12 @@ namespace Configs
         
         
         public ShootingType ShootingType => _shootingType;
+        
+        public int MaxAmmo => _maxAmmo;
+
+        public int MaxAmmoInMagazine => _maxAmmoInMagazine;
+        
+        public int MaxAmmoInBurst => _maxAmmoInBurst;
 
         public float ShootDelay => _shootDelay;
         

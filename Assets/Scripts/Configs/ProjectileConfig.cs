@@ -6,13 +6,18 @@ namespace Configs
     public class ProjectileConfig : ScriptableObject
     {
         [SerializeField] private int _damage;
-        [SerializeField] float _maxDistance;
+        [SerializeField] float _maxLifetime;
+        [SerializeField] float _damageRadius = 0.05f;
         [SerializeField] private float _projectileSpeed;
+        [SerializeField] private bool _isMadeImpact;
+        [SerializeField] private ParticleSystem _impactParticleSystem;
 
         public int Damage => _damage;
-
-        public float MaxDistance => _maxDistance;
-
+        public float MaxLifetime => _maxLifetime;
+        public float DamageRadius => _damageRadius;
         public float ProjectileSpeed => _projectileSpeed;
+        public bool IsMadeImpact => _isMadeImpact;
+        public ParticleSystem ImpactParticleSystem => _impactParticleSystem;
+        
     }
 }
