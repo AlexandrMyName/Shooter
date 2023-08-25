@@ -13,6 +13,7 @@ public class Projectile : MonoBehaviour
     private Vector3 _direction;
     private Vector3 _startPosition;
     private Vector3 _projectileLastPosition;
+    private float _currentLifetime;
     
     void OnEnable()
     {
@@ -25,12 +26,18 @@ public class Projectile : MonoBehaviour
         _startPosition = startPosition;
         _projectileLastPosition = startPosition;
         _direction = (hitPosition - startPosition).normalized;
+        _currentLifetime = _projectileConfig.MaxLifetime;
     }
 
     void FixedUpdate()
     {
         _projectileRigidbody.velocity = _direction * _projectileConfig.ProjectileSpeed;
         _projectileLastPosition = gameObject.transform.position - _direction;
+        _currentLifetime--;
+        if (_currentLifetime <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
