@@ -2025,6 +2025,7 @@ Transform:
   - {fileID: 113394373032444642}
   - {fileID: 3623052759556171884}
   - {fileID: 3623052759535554117}
+  - {fileID: 7743680829732963872}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5457,7 +5458,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 113394373032444642}
-  - component: {fileID: 5018555896556125712}
+  - component: {fileID: 7638893234728063211}
   m_Layer: 9
   m_Name: Shooter
   m_TagString: Untagged
@@ -5480,7 +5481,7 @@ Transform:
   m_Father: {fileID: 3623052758285718133}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5018555896556125712
+--- !u!114 &7638893234728063211
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5489,30 +5490,58 @@ MonoBehaviour:
   m_GameObject: {fileID: 8540071945485083490}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 487e3b6da3c58374e81cf329d7e4cae6, type: 3}
+  m_Script: {fileID: 11500000, guid: 773df98a29f21604681d5e694e4a249c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _shootKeyCode: 323
-  _damage: 5
-  _maxDistance: 40
-  _shootDelay: 0.3
-  _projectileSpeed: 10
-  _spreadingHorizontal: 0.03
-  _spreadingVertical: 0.03
-  _spreadingModifierDelta: 0.03
-  _spreadingDefaultModifier: 0.5
-  _recoilHorizontal: 0.06
-  _recoilVertical: 0.08
-  _recoilModifierDeltaHorizontal: 0.003
-  _recoilModifierDeltaVertical: 0.006
+  _weaponConfig: {fileID: 11400000, guid: 614f905b5c0aa47418d5c9d958275a8e, type: 2}
   _projectileSpawnTransform: {fileID: 8066911110132427951}
+  _projectilesPool: {fileID: 0}
   _hitEffectsRoot: {fileID: 0}
-  _pointOfHitObject: {fileID: 0}
-  _crosshairTransform: {fileID: 0}
-  _bulletTrail: {fileID: 328621789431213768, guid: 43559d27d223bf340b413fde1315c256, type: 3}
-  _impactParticleSystem: {fileID: 9064919875212695174, guid: a5e1e2c4d2cd81f4abed6272a2b8187a, type: 3}
-  _shootingParticleSystem: {fileID: 364732766656934705}
-  _animator: {fileID: 0}
+--- !u!1 &8551271519825304636
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7743680829732963872}
+  - component: {fileID: 4739521680926844451}
+  m_Layer: 9
+  m_Name: Input
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7743680829732963872
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8551271519825304636}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3623052758285718133}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4739521680926844451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8551271519825304636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1afd21a89ad040f8a88e207be0867977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _inputConfig: {fileID: 11400000, guid: 71a64f00f8bff1d418488f93346948f3, type: 2}
 --- !u!1001 &562826337261432427
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5570,11 +5599,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
---- !u!198 &364732766656934705 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 198234346748616026, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
-  m_PrefabInstance: {fileID: 562826337261432427}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &558667207470776959 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4300533007854612, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
