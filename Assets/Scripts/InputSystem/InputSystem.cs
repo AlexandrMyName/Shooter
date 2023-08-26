@@ -13,11 +13,11 @@ namespace InputSystem
         {
             if (Input.GetKey(_inputConfig.ShootKeyCode))
             {
-                ShootingEvents.Shoot(true);
+                ShootingEvents.TryShoot(true);
             }
             else
             {
-                ShootingEvents.Shoot(false);
+                ShootingEvents.TryShoot(false);
             }
 
             if (Input.GetKey(_inputConfig.AimKeyCode))

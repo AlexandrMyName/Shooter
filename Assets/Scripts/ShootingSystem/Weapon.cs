@@ -18,8 +18,10 @@ namespace ShootingSystem
         
         private Transform _cameraTransform;
         private GameObject _pointOfHitObject;
-        private bool _isShooting = false;
+        private bool _isTryShooting = false;
         private bool _canShoot = false;
+        private bool _isReloading = false;
+        private bool _isShooting = false;
         private float _lastShootTime;
         private float _spreadingModifier;
         private float _recoilModifierHorizontal;
@@ -61,7 +63,7 @@ namespace ShootingSystem
             }
 
             
-            ShootingEvents.OnShoot += ChangeShootingState;
+            ShootingEvents.OnTryShoot += ChangeShootingState;
             ShootingEvents.OnReload += Reload;
         }
 
@@ -77,18 +79,18 @@ namespace ShootingSystem
 
         private void OnDisable()
         {
-            ShootingEvents.OnShoot -= ChangeShootingState;
+            ShootingEvents.OnTryShoot -= ChangeShootingState;
             ShootingEvents.OnReload -= Reload;
         }
 
         private void ChangeShootingState(bool isShooting)
         {
-            _isShooting = isShooting;
+            _isTryShooting = isShooting;
         }
 
         private void FixedUpdate()
         {
-            if (_isShooting)
+            if (_isTryShooting)
             {
                 TryShoot();
                 ChangeShootingState(false);
@@ -100,6 +102,11 @@ namespace ShootingSystem
                 ChangeRecoilVector(-_weaponConfig.RecoilModifierDeltaHorizontal, 
                     -_weaponConfig.RecoilModifierDeltaVertical);
                 _crosshairView.TryChangeScale(false);
+                if (_isShooting)
+                {
+                    _isShooting = false;
+                    ShootingEvents.Shoot(_isShooting, _weaponConfig.ShootingType, 1f);
+                }
             }
             
         }
@@ -108,6 +115,7 @@ namespace ShootingSystem
         {
             if (_currentAmmo > 0)
             {
+                _isReloading = true;
                 StartCoroutine(ReloadingAction(_weaponConfig.ReloadDelay));
             }
         }
@@ -134,6 +142,7 @@ namespace ShootingSystem
             }
             _ammoPanelView.SetAmmo(_currentAmmo);
             _ammoPanelView.SetAmmoInMagazine(_currentAmmoInMagazine);
+            _isReloading = false;
             yield return null;
         }
 
@@ -158,7 +167,7 @@ namespace ShootingSystem
                 haveAmmoInMagazine = true;
             }
             _canShoot = (_lastShootTime + _weaponConfig.ShootDelay < Time.time) 
-                        && haveAmmoInBurst && haveAmmoInMagazine;
+                        && haveAmmoInBurst && haveAmmoInMagazine && !_isReloading;
             if (_canShoot)
             {
                 _currentAmmonBurst--;
@@ -166,6 +175,17 @@ namespace ShootingSystem
                 _lastShootTime = Time.time;
                 _ammoPanelView.SetAmmoInMagazine(_currentAmmoInMagazine);
                 Shoot();
+                if (!_isShooting)
+                {
+                    _isShooting = true;
+                    ShootingEvents.Shoot(_isShooting, _weaponConfig.ShootingType, 1f);
+                }
+                
+            }
+            else if (_isShooting && (!haveAmmoInBurst || !haveAmmoInMagazine || _isReloading))
+            {
+                _isShooting = false;
+                ShootingEvents.Shoot(_isShooting, _weaponConfig.ShootingType, 1f);
             }
         }
         
