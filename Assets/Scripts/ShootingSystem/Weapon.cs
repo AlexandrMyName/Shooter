@@ -92,6 +92,7 @@ namespace ShootingSystem
         {
             if (_isTryShooting)
             {
+                ShootingEvents.RotateToCameraDirection(true);
                 TryShoot();
                 ChangeShootingState(false);
             }
@@ -102,11 +103,11 @@ namespace ShootingSystem
                 ChangeRecoilVector(-_weaponConfig.RecoilModifierDeltaHorizontal, 
                     -_weaponConfig.RecoilModifierDeltaVertical);
                 _crosshairView.TryChangeScale(false);
+                ShootingEvents.RotateToCameraDirection(false);
                 if (_isShooting)
                 {
                     _isShooting = false;
                     ShootingEvents.Shoot(_isShooting, _weaponConfig.ShootingType, 1f);
-                    ShootingEvents.RotateToCameraDirection(_isShooting);
                 }
             }
             
@@ -180,7 +181,6 @@ namespace ShootingSystem
                 {
                     _isShooting = true;
                     ShootingEvents.Shoot(_isShooting, _weaponConfig.ShootingType, 1f);
-                    ShootingEvents.RotateToCameraDirection(_isShooting);
                 }
                 
             }
