@@ -106,6 +106,7 @@ namespace ShootingSystem
                 {
                     _isShooting = false;
                     ShootingEvents.Shoot(_isShooting, _weaponConfig.ShootingType, 1f);
+                    ShootingEvents.RotateToCameraDirection(_isShooting);
                 }
             }
             
@@ -179,6 +180,7 @@ namespace ShootingSystem
                 {
                     _isShooting = true;
                     ShootingEvents.Shoot(_isShooting, _weaponConfig.ShootingType, 1f);
+                    ShootingEvents.RotateToCameraDirection(_isShooting);
                 }
                 
             }
