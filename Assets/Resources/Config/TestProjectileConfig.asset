@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: TestProjectileConfig
   m_EditorClassIdentifier: 
   _damage: 5
-  _maxDistance: 40
+  _maxLifetime: 1000
+  _damageRadius: 0.05
   _projectileSpeed: 10
   _isMadeImpact: 1
   _impactParticleSystem: {fileID: 9064919875212695174, guid: a5e1e2c4d2cd81f4abed6272a2b8187a, type: 3}

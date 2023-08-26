@@ -32,8 +32,6 @@ namespace Configs
         [SerializeField] private float _aimingRecoilModifier;
 
         [SerializeField] private GameObject _projectilePrefab;
-        [SerializeField] private TrailRenderer _projectileTrail;
-        [SerializeField] private ParticleSystem _impactParticleSystem;
         [SerializeField] private ParticleSystem _shootingParticleSystem;
         
         
@@ -76,10 +74,6 @@ namespace Configs
         public float AimingRecoilModifier => _aimingRecoilModifier;
 
         public GameObject ProjectilePrefab => _projectilePrefab;
-
-        public TrailRenderer ProjectileTrail => _projectileTrail;
-
-        public ParticleSystem ImpactParticleSystem => _impactParticleSystem;
 
         public ParticleSystem ShootingParticleSystem => _shootingParticleSystem;
     }
