@@ -8,6 +8,7 @@ namespace EventBus
     {
         public static event Action<bool> OnTryShoot;
         public static event Action<bool, ShootingType, float> OnShoot;
+        public static event Action<bool> OnCameraDirectionRotate; 
         public static event Action<bool> OnAim;
         public static event Action OnReload;
 
@@ -19,6 +20,11 @@ namespace EventBus
         public static void Shoot(bool isShooting, ShootingType shootingType, float animationSpeed)
         {
             OnShoot?.Invoke(isShooting, shootingType, animationSpeed);
+        }
+
+        public static void RotateToCameraDirection(bool isRotating)
+        {
+            OnCameraDirectionRotate?.Invoke(isRotating);
         }
 
         public static void Aim(bool isAiming)
