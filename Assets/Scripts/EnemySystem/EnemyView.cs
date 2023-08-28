@@ -1,17 +1,29 @@
+using Configs;
 using UnityEngine;
 
 public class EnemyView : MonoBehaviour
 {
-    [SerializeField] private int _enemyHP = 50;
+    [SerializeField] private EnemyConfig _enemyConfig;
+    [SerializeField] private EnemyMovement _enemyMovement;
+    [SerializeField] private EnemyAttacking _enemyAttacking;
+    [SerializeField] private PlayerView _playerView;
 
-    private bool _isMovingLeft;
+    private int _currentEnemyHP = 50;
+
+    public EnemyConfig EnemyConfig => _enemyConfig;
+
+    public EnemyMovement EnemyMovement => _enemyMovement;
+
+    public EnemyAttacking EnemyAttacking => _enemyAttacking;
+
+    public PlayerView PlayerView => _playerView;
 
     public int EnemyHP
     {
-        get => _enemyHP;
+        get => _currentEnemyHP;
         set
         {
-            _enemyHP = value;
+            _currentEnemyHP = value;
             if (value <= 0)
             {
                 Destroy(gameObject);
@@ -19,31 +31,16 @@ public class EnemyView : MonoBehaviour
             }
         }
     }
-
+    
+    private void Start()
+    {
+        _currentEnemyHP = _enemyConfig.EnemyHp;
+    }
+    
+    
     public void TakeDamage(int damage)
     {
         EnemyHP -= damage;
         Debug.Log(EnemyHP);
-    }
-
-    private void FixedUpdate()
-    {
-        if (gameObject.transform.position.x >= 0 && !_isMovingLeft)
-        {
-            _isMovingLeft = true;
-        }
-        else if (gameObject.transform.position.x <= -4)
-        {
-            _isMovingLeft = false;
-        }
-
-        if (_isMovingLeft)
-        {
-            gameObject.transform.Translate(-0.05f, 0, 0);
-        }
-        else
-        {
-            gameObject.transform.Translate(0.05f, 0, 0);
-        }
     }
 }

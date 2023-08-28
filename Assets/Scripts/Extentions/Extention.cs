@@ -110,6 +110,12 @@ namespace Extentions
             return (float)(random.NextDouble() * (maximum - minimum) + minimum);
         }
 
+        public static int GetRandomInt(int minimum, int maximum)
+        {
+            var random = new System.Random();
+            return random.Next(minimum, maximum);
+        }
+
         #endregion
         
         #region String
