@@ -5570,6 +5570,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4862186443212658250}
   - component: {fileID: 4042307772243137246}
+  - component: {fileID: 4693148390201266478}
   m_Layer: 9
   m_Name: Extention
   m_TagString: Untagged
@@ -5605,6 +5606,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _characterController: {fileID: 3623052757933400981}
+--- !u!114 &4693148390201266478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8947782710275803695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9e2047cd90866f4982f32ebf4bd924c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 3623052759164357215}
 --- !u!1001 &562826337261432427
 PrefabInstance:
   m_ObjectHideFlags: 0
