@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using Configs;
 using Enums;
 using Extentions;
+using RootMotion.Demos;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -11,6 +10,7 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField] private EnemyView _enemyView;
     [SerializeField] private EnemyMovementBehaviourConfig _movementBehaviour;
     [SerializeField] private NavMeshAgent _agent;
+    [SerializeField] private GameObject _goalObject;
     
     private Transform _playerTransform;
     private MovementBehaviour _currentMovementBehaviour;
@@ -45,16 +45,20 @@ public class EnemyMovement : MonoBehaviour
         _currentGoalIndex = 0;
         if (_currentMovementBehaviour == MovementBehaviour.ToPlayerPosition)
         {
-            _agent.SetDestination(_playerTransform.position);
+            //_agent.SetDestination(_playerTransform.position);
+            _currentGoal = _playerTransform.position;
+            _goalObject.transform.position = _currentGoal;
         }
         else if (_movementBehaviour.MovementBehaviour == MovementBehaviour.ToPoint)
         {
             _currentGoal = _movementBehaviour.GoalPoint;
+            _goalObject.transform.position = _currentGoal;
         }
         else if (!_isStanding)
         {
             ChangeDestinationGoal();
         }
+        
     }
 
     private void FixedUpdate()
@@ -66,12 +70,16 @@ public class EnemyMovement : MonoBehaviour
             if (_agent.remainingDistance > _movementBehaviour.DistanceFromPlayerToStop)
             {
                 _agent.isStopped = false;
-                _agent.SetDestination(_playerTransform.position);
+                _currentGoal = _playerTransform.position;
+                _goalObject.transform.position = _currentGoal;
+                //_agent.SetDestination(_playerTransform.position);
             }
             else
             {
                 _agent.isStopped = true;
-                _agent.SetDestination(_playerTransform.position);
+                _currentGoal = _playerTransform.position;
+                _goalObject.transform.position = _currentGoal;
+                //_agent.SetDestination(_playerTransform.position);
             }
         }
         else if (_agent.remainingDistance < _movementBehaviour.DistanceToChangeGoal && !_isStanding)
@@ -87,7 +95,9 @@ public class EnemyMovement : MonoBehaviour
             RandomDestinationChange();
             _currentGoal = _movementBehaviour.GoalsList[_currentGoalIndex];
         }
-        _agent.SetDestination(_currentGoal);
+
+        _goalObject.transform.position = _currentGoal;
+        //_agent.SetDestination(_currentGoal);
     }
 
 

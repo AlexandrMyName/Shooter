@@ -5523,6 +5523,7 @@ MonoBehaviour:
   _enemyView: {fileID: 0}
   _movementBehaviour: {fileID: 11400000, guid: bdfa385a39c57144391ca8249b326b3f, type: 2}
   _agent: {fileID: 2024106355}
+  _goalObject: {fileID: 0}
 --- !u!195 &2024106355
 NavMeshAgent:
   m_ObjectHideFlags: 0
