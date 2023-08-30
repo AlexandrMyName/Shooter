@@ -56103,6 +56103,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3260677081450107713, guid: fec508ec24666a34a98758442cefb000, type: 3}
+      propertyPath: _healthPanelView
+      value: 
+      objectReference: {fileID: 2712124836258560007}
     - target: {fileID: 3623052757933400981, guid: fec508ec24666a34a98758442cefb000, type: 3}
       propertyPath: moveMode
       value: 0
@@ -72056,6 +72060,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 374fc58a168c97a4ab60f61c9ba772ce, type: 3}
+--- !u!114 &2712124836258560007 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1619130670070447185, guid: 374fc58a168c97a4ab60f61c9ba772ce, type: 3}
+  m_PrefabInstance: {fileID: 2712124836258560006}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ebe479d087ec4b43ade72d13cbd732d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6033666407308516606
 PrefabInstance:
   m_ObjectHideFlags: 0

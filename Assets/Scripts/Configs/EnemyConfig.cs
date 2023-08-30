@@ -9,8 +9,10 @@ namespace Configs
         [SerializeField] private int _enemyHP;
         [SerializeField] private EnemyAttackType _attackType;
         [SerializeField] private int _enemyDamage;
-        [SerializeField] private int _enemyAttackDelay;
+        [SerializeField] private float _enemyAttackDelay;
+        [SerializeField] private float _enemyAttackDuration;
         [SerializeField] private int _shootingProjectileSpeed;
+        [SerializeField] private float _attackDistance;
         [SerializeField] private GameObject _shootingProjectile;
         
         public int EnemyHp => _enemyHP;
@@ -19,9 +21,13 @@ namespace Configs
 
         public int EnemyDamage => _enemyDamage;
 
-        public int EnemyAttackDelay => _enemyAttackDelay;
+        public float EnemyAttackDelay => _enemyAttackDelay;
+
+        public float EnemyAttackDuration => _enemyAttackDuration;
 
         public int ShootingProjectileSpeed => _shootingProjectileSpeed;
+
+        public float AttackDistance => _attackDistance;
 
         public GameObject ShootingProjectile => _shootingProjectile;
     }

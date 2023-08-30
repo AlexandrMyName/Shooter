@@ -6,6 +6,7 @@ public class PlayerView : MonoBehaviour
 {
     [SerializeField] private Transform _playerTransform;
     [SerializeField] private int _playerHP = 50;
+    [SerializeField] private HealthPanelView _healthPanelView;
     
     private int _currentPlayerHP;
 
@@ -16,8 +17,11 @@ public class PlayerView : MonoBehaviour
         set
         {
             _currentPlayerHP = value;
+            _healthPanelView.SetCurrentHP(PlayerHP);
             if (value <= 0)
             {
+                _currentPlayerHP = 0;
+                _healthPanelView.SetCurrentHP(PlayerHP);
                 Destroy(gameObject);
                 Debug.Log($"{gameObject.name} killed");
             }
@@ -26,7 +30,9 @@ public class PlayerView : MonoBehaviour
     
     private void Start()
     {
+        _healthPanelView.SetMaxHP(_playerHP);
         _currentPlayerHP = _playerHP;
+        _healthPanelView.SetCurrentHP(_currentPlayerHP);
     }
     
     

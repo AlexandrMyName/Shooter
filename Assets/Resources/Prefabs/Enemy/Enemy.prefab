@@ -111,6 +111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyView: {fileID: 7070723313306712710}
+  _playerLayerIndex: 8
 --- !u!1 &5464800008871550975
 GameObject:
   m_ObjectHideFlags: 0
