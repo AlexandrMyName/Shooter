@@ -66,11 +66,10 @@ public class EnemyAttacking : MonoBehaviour
         if (_enemyConfig.AttackType == EnemyAttackType.Meele)
         {
             _playerView.TakeDamage(_enemyConfig.EnemyDamage);
-            Debug.Log("Meele attack");
         }
         else if (_enemyConfig.AttackType == EnemyAttackType.Shoot)
         {
-            Debug.Log("Shoot attack");
+            
         }
         
     }

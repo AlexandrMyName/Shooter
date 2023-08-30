@@ -69,6 +69,17 @@ public class EnemyMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        _isStanding = _currentMovementBehaviour == MovementBehaviour.None ||
+                      _currentMovementBehaviour == MovementBehaviour.Standing;
+        if (_isStanding)
+        {
+            _agent.isStopped = true;
+        }
+        else
+        {
+            _agent.isStopped = false;
+        }
+        
         if (_currentMovementBehaviour == MovementBehaviour.ToPlayerPosition)
 
         {

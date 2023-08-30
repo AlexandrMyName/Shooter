@@ -5509,6 +5509,8 @@ MonoBehaviour:
   _enemyMovement: {fileID: 2363058009139048238}
   _enemyAttacking: {fileID: 99025313933309571}
   _playerView: {fileID: 0}
+  _stunPossibility: 0.3
+  _stunTime: 3
 --- !u!114 &2363058009139048238
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -7,6 +7,8 @@ namespace Configs
     public class EnemyConfig : ScriptableObject
     {
         [SerializeField] private int _enemyHP;
+        [SerializeField] private float _stunPossibility;
+        [SerializeField] private float _stunTime;
         [SerializeField] private EnemyAttackType _attackType;
         [SerializeField] private int _enemyDamage;
         [SerializeField] private float _enemyAttackDelay;
@@ -16,6 +18,10 @@ namespace Configs
         [SerializeField] private GameObject _shootingProjectile;
         
         public int EnemyHp => _enemyHP;
+
+        public float StunPossibility => _stunPossibility;
+
+        public float StunTime => _stunTime;
 
         public EnemyAttackType AttackType => _attackType;
 
