@@ -11,6 +11,7 @@ public class SpawnConfig : ScriptableObject
     [SerializeField] private int _totalSpawnCount;
     [SerializeField] private int _waveSpawnCount;
     [SerializeField] private int _waveCooldown;
+    [SerializeField] private int _spawnCooldown;
 
     public List<Vector3> SpawnPointsList => _spawnPointsList;
 
@@ -21,6 +22,8 @@ public class SpawnConfig : ScriptableObject
     public int WaveSpawnCount => _waveSpawnCount;
 
     public int WaveCooldown => _waveCooldown;
+
+    public int SpawnCooldown => _spawnCooldown;
 
     [Button]
     private void AddSelectedAsSpawnPoints()

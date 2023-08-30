@@ -110,7 +110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40392003a3628f24cbe011f0c1bbb4fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyView: {fileID: 0}
+  _enemyView: {fileID: 7070723313306712710}
 --- !u!1 &5464800008871550975
 GameObject:
   m_ObjectHideFlags: 0
@@ -5505,8 +5505,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyConfig: {fileID: 11400000, guid: 4bb966c7dabd5f44d8f2656a17e87e34, type: 2}
-  _enemyMovement: {fileID: 0}
-  _enemyAttacking: {fileID: 0}
+  _enemyMovement: {fileID: 2363058009139048238}
+  _enemyAttacking: {fileID: 99025313933309571}
   _playerView: {fileID: 0}
 --- !u!114 &2363058009139048238
 MonoBehaviour:
@@ -5520,7 +5520,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fb63edc61e84924aaac22458229b25e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyView: {fileID: 0}
+  _enemyView: {fileID: 7070723313306712710}
   _movementBehaviour: {fileID: 11400000, guid: bdfa385a39c57144391ca8249b326b3f, type: 2}
   _agent: {fileID: 2024106355}
   _goalObject: {fileID: 0}

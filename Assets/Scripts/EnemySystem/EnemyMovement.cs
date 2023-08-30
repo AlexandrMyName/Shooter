@@ -18,6 +18,12 @@ public class EnemyMovement : MonoBehaviour
     private Vector3 _currentGoal;
     private bool _isStanding;
 
+    public GameObject GoalObject
+    {
+        get => _goalObject;
+        set => _goalObject = value;
+    }
+
     public void ChangeMovementBehaviourToDefault()
     {
         _currentMovementBehaviour = _movementBehaviour.MovementBehaviour;

@@ -16,7 +16,11 @@ public class EnemyView : MonoBehaviour
 
     public EnemyAttacking EnemyAttacking => _enemyAttacking;
 
-    public PlayerView PlayerView => _playerView;
+    public PlayerView PlayerView
+    {
+        get => _playerView;
+        set => _playerView = value;
+    }
 
     public int EnemyHP
     {
