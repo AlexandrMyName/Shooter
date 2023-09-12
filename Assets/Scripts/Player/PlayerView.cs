@@ -30,9 +30,12 @@ public class PlayerView : MonoBehaviour
     
     private void Start()
     {
-        _healthPanelView.SetMaxHP(_playerHP);
         _currentPlayerHP = _playerHP;
-        _healthPanelView.SetCurrentHP(_currentPlayerHP);
+        if (_healthPanelView != null)
+        {
+            _healthPanelView.SetMaxHP(_playerHP);
+            _healthPanelView.SetCurrentHP(_currentPlayerHP);
+        }
     }
     
     

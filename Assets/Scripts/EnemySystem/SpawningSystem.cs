@@ -71,11 +71,11 @@ public class SpawningSystem : MonoBehaviour
             gameObject.transform.position,
             gameObject.transform.rotation,
             _goalObjectsRoot.transform);
-        enemy.TryGetComponent(out EnemyView enemyView);
-        enemyView.PlayerView = _playerView;
         enemy.TryGetComponent(out EnemyMovement enemyMovement);
+        EnemyView enemyView = enemyMovement.EnemyView;
+        enemyView.PlayerView = _playerView;
         enemyMovement.GoalObject = goal;
-        enemy.TryGetComponent(out NavMeshPuppet navMeshPuppet);
+        NavMeshPuppet navMeshPuppet = enemyMovement.NavPuppet;
         navMeshPuppet.target = goal.transform;
     }
 }

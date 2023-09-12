@@ -1158,7 +1158,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spawnConfig: {fileID: 11400000, guid: 080dd893beb4ec442825c3dfa006faca, type: 2}
-  _spawnableEnemyPrefab: {fileID: 7104024417701876732, guid: 5755ba3523252df43866490522cf4d2f, type: 3}
+  _spawnableEnemyPrefab: {fileID: 914305569981895637, guid: f4756bd0c94733f46b9926cc564f7423, type: 3}
   _goalObjectPrefab: {fileID: 7393731596362625064, guid: a3172ddf0bf77af4e93ddaf5cbe02868, type: 3}
   _playerView: {fileID: 1681084460}
   _spawnedObjectsRoot: {fileID: 1739346997}

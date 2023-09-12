@@ -18,7 +18,7 @@ MonoBehaviour:
   - {x: -4.197, y: 0.459, z: 7.835}
   - {x: 3.473, y: 1.455, z: 2.37}
   _isInfiniteSpawning: 0
-  _totalSpawnCount: 5
+  _totalSpawnCount: 1
   _waveSpawnCount: 3
   _waveCooldown: 25
   _spawnCooldown: 2

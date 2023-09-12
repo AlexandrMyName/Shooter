@@ -10,6 +10,7 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField] private EnemyView _enemyView;
     [SerializeField] private EnemyMovementBehaviourConfig _movementBehaviour;
     [SerializeField] private NavMeshAgent _agent;
+    [SerializeField] private NavMeshPuppet _navPuppet;
     [SerializeField] private GameObject _goalObject;
     
     private Transform _playerTransform;
@@ -17,6 +18,14 @@ public class EnemyMovement : MonoBehaviour
     private int _currentGoalIndex;
     private Vector3 _currentGoal;
     private bool _isStanding;
+
+    public EnemyView EnemyView => _enemyView;
+
+    public NavMeshPuppet NavPuppet
+    {
+        get => _navPuppet;
+        set => _navPuppet = value;
+    }
 
     public GameObject GoalObject
     {
@@ -83,7 +92,6 @@ public class EnemyMovement : MonoBehaviour
         if (_currentMovementBehaviour == MovementBehaviour.ToPlayerPosition)
 
         {
-            gameObject.transform.LookAt(_playerTransform);
             if (_agent.remainingDistance > _movementBehaviour.DistanceFromPlayerToStop)
             {
                 _agent.isStopped = false;

@@ -15,8 +15,8 @@ TagManager:
   - Ground
   - RunableWall
   - Player
-  - 
-  - 
+  - Enemy
+  - Projectile
   - 
   - 
   - 
