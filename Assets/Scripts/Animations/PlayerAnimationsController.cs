@@ -26,7 +26,7 @@ public class PlayerAnimationsController : MonoBehaviour
             if (isShooting && !_isShooted)
             {
                 _animator.SetBool("IsAiming", isShooting);
-                _animator.SetTrigger("Shoot");
+                _animator.SetTrigger("Shoot Single");
                 _isShooted = true;
             }
             else if(!isShooting)

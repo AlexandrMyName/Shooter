@@ -27,12 +27,19 @@ public class Projectile : MonoBehaviour
         _projectileLastPosition = startPosition;
         _direction = (hitPosition - startPosition).normalized;
         _currentLifetime = _projectileConfig.MaxLifetime;
+        if (_projectileConfig.IsGrenade)
+        {
+            _projectileRigidbody.AddForce(_direction * _projectileConfig.ProjectileSpeed);
+        }
     }
 
     void FixedUpdate()
     {
-        _projectileRigidbody.velocity = _direction * _projectileConfig.ProjectileSpeed;
-        _projectileLastPosition = gameObject.transform.position - _direction;
+        if (!_projectileConfig.IsGrenade)
+        {
+            _projectileRigidbody.velocity = _direction * _projectileConfig.ProjectileSpeed;
+            _projectileLastPosition = gameObject.transform.position - _direction;
+        }
         _currentLifetime--;
         if (_currentLifetime <= 0)
         {

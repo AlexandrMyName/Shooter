@@ -1,5 +1,88 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2164564625223868174
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8930300631175934694}
+  - component: {fileID: 3806918110978370145}
+  - component: {fileID: 1177263405351460154}
+  m_Layer: 8
+  m_Name: Focus
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8930300631175934694
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2164564625223868174}
+  m_LocalRotation: {x: -0.49999997, y: 0.49999997, z: 0.50000006, w: 0.50000006}
+  m_LocalPosition: {x: -0.717, y: 0.076, z: -0.533}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3623052757993481211}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &3806918110978370145
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2164564625223868174}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &1177263405351460154
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2164564625223868174}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &2407921003749576190
 GameObject:
   m_ObjectHideFlags: 0
@@ -937,7 +1020,8 @@ Transform:
   m_LocalPosition: {x: 0.0000000035251009, y: 0.94598264, z: 0.014785171}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 8930300631175934694}
   m_Father: {fileID: 3623052759535554117}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2376,8 +2460,7 @@ GameObject:
   - component: {fileID: 3623052758507868189}
   - component: {fileID: 3623052758507868188}
   - component: {fileID: 3623052758507868186}
-  - component: {fileID: 3623052758507868185}
-  - component: {fileID: 3623052758507868190}
+  - component: {fileID: 8082854430336243631}
   m_Layer: 8
   m_Name: Character Camera
   m_TagString: MainCamera
@@ -2459,61 +2542,44 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3623052758507868183}
   m_Enabled: 1
---- !u!114 &3623052758507868185
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 11478186, guid: 03b523bae09d149aba68d858cfc17558, type: 2}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3623052758507868183}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85ef3e8d5c77f405d8ab70a643d6a2f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 3623052757993481211}
-  rotationSpace: {fileID: 0}
-  updateMode: 1
-  lockCursor: 1
-  smoothFollow: 1
-  offset: {x: 0.5, y: 0.3, z: 0.5}
-  followSpeed: 5
-  rotationSensitivity: 3.5
-  yMinLimit: -10
-  yMaxLimit: 80
-  rotateAlways: 1
-  rotateOnLeftButton: 0
-  rotateOnRightButton: 0
-  rotateOnMiddleButton: 0
-  distance: 4
-  minDistance: 1.5
-  maxDistance: 10
-  zoomSpeed: 10
-  zoomSensitivity: 1
-  blockingLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  blockingRadius: 1
-  blockingSmoothTime: 0.1
-  blockingOriginOffset: 0
-  blockedOffset: 0.5
---- !u!114 &3623052758507868190
+--- !u!114 &8082854430336243631
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3623052758507868183}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8af6f870caecf44ab987816d829e41de, type: 3}
+  m_Script: {fileID: 11500000, guid: f91331a33d70db84d833e3401a08fe53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  keyCode: 323
-  ball: {fileID: 187642, guid: 75704024d899843d9a9f8ac921903dd8, type: 3}
-  spawnOffset: {x: 0, y: 0.4, z: 0}
-  force: {x: 0, y: 0, z: 10}
-  mass: 25
+  target: {fileID: 8930300631175934694}
+  rotationSpace: {fileID: 0}
+  updateMode: 1
+  lockCursor: 1
+  smoothFollow: 1
+  offset: {x: 0, y: 0.2, z: 0.8}
+  followSpeed: 5
+  rotationSensitivity: 3.5
+  yMinLimit: -20
+  yMaxLimit: 80
+  rotateAlways: 1
+  rotateOnLeftButton: 0
+  rotateOnRightButton: 0
+  rotateOnMiddleButton: 0
+  distance: 3
+  minDistance: 1
+  maxDistance: 4
+  zoomSpeed: 10
+  zoomSensitivity: 1
+  blockingLayers:
+    serializedVersion: 2
+    m_Bits: 192
+  blockingRadius: 0.8
+  blockingSmoothTime: 0.1
+  blockingOriginOffset: 0.1
+  blockedOffset: 0.5
 --- !u!1 &3623052758513324736
 GameObject:
   m_ObjectHideFlags: 0
@@ -5510,7 +5576,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 773df98a29f21604681d5e694e4a249c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _weaponConfig: {fileID: 11400000, guid: 614f905b5c0aa47418d5c9d958275a8e, type: 2}
+  _weaponConfig: {fileID: 11400000, guid: 5785be1b1aded8742942c57a2387f48d, type: 2}
   _projectileSpawnTransform: {fileID: 8066911110132427951}
   _projectilesPool: {fileID: 0}
   _hitEffectsRoot: {fileID: 0}
