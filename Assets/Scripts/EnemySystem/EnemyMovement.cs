@@ -2,6 +2,7 @@ using Configs;
 using Enums;
 using Extentions;
 using RootMotion.Demos;
+using RootMotion.Dynamics;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -12,6 +13,7 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField] private NavMeshAgent _agent;
     [SerializeField] private NavMeshPuppet _navPuppet;
     [SerializeField] private GameObject _goalObject;
+    [SerializeField] private PuppetMaster _puppetMaster;
     
     private Transform _playerTransform;
     private MovementBehaviour _currentMovementBehaviour;
@@ -43,9 +45,32 @@ public class EnemyMovement : MonoBehaviour
         _currentMovementBehaviour = movementBehaviour;
     }
 
+    public void RagdollStun()
+    {
+        _puppetMaster.state = PuppetMaster.State.Frozen;
+        Debug.Log("Stun");
+    }
+    
+    public void RagdollUnStun()
+    {
+        if (_puppetMaster.state != PuppetMaster.State.Dead)
+        {
+            _puppetMaster.state = PuppetMaster.State.Alive;
+        }
+    }
+
     public void ChangeCurrentGoal(Vector3 goal)
     {
         _currentGoal = goal;
+    }
+
+    public void StopMovement()
+    {
+        if (_puppetMaster.state != PuppetMaster.State.Dead)
+        {
+            _currentMovementBehaviour = MovementBehaviour.Standing;
+            _puppetMaster.state = PuppetMaster.State.Dead;
+        }
     }
     
     private void Start()
@@ -77,6 +102,14 @@ public class EnemyMovement : MonoBehaviour
     }
 
     private void FixedUpdate()
+    {
+        if (_puppetMaster.state != PuppetMaster.State.Dead && _agent.isOnNavMesh)
+        {
+            Move();
+        }
+    }
+
+    private void Move()
     {
         _isStanding = _currentMovementBehaviour == MovementBehaviour.None ||
                       _currentMovementBehaviour == MovementBehaviour.Standing;

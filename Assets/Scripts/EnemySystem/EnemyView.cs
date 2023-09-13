@@ -36,8 +36,7 @@ public class EnemyView : MonoBehaviour
             _currentEnemyHP = value;
             if (value <= 0)
             {
-                Destroy(gameObject);
-                Debug.Log($"{gameObject.name} killed");
+                Death();
             }
         }
     }
@@ -66,6 +65,15 @@ public class EnemyView : MonoBehaviour
             _enemyMovement.ChangeMovementBehaviour(MovementBehaviour.Standing);
         }
         EnemyHP -= damage;
-        Debug.Log(EnemyHP);
+        //Debug.Log(EnemyHP);
+    }
+
+    private void Death()
+    {
+        _enemyMovement.StopMovement();
+        
+        //Destroy(gameObject);
+        
+        Debug.Log($"{gameObject.name} killed");
     }
 }

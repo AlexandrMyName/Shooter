@@ -55,6 +55,9 @@ public class Projectile : MonoBehaviour
         layerMask |= 1 << _wallLayerIndex;
         bool isMadeImpact = _projectileConfig.IsMadeImpact;
         Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, _projectileConfig.DamageRadius);
+
+        bool isHitCanMadeImpact = Physics.Raycast(_projectileLastPosition,
+            _direction, out hitPoint, Mathf.Infinity, layerMask);
         
         foreach (var hitCollider in hitColliders)
         {
@@ -64,10 +67,20 @@ public class Projectile : MonoBehaviour
                 enemyView.TakeDamage(_projectileConfig.Damage);
                 isMadeImpact = false;
             }
+            
+            if (hitCollider.gameObject != gameObject)
+            {
+                Vector3 impactDirection = (hitCollider.gameObject.transform.position - hitPoint.point).normalized;
+                hitCollider.gameObject.TryGetComponent(out Rigidbody objectRb);
+                if (objectRb != null)
+                {
+                    Debug.Log(hitCollider.gameObject);
+                    //objectRb.AddForce(-impactDirection * 100); 
+                }
+            }
         }
         
-        bool isHitCanMadeImpact = Physics.Raycast(_projectileLastPosition,
-            _direction, out hitPoint, Mathf.Infinity, layerMask);
+
         if (isMadeImpact && isHitCanMadeImpact)
         {
             Instantiate(_projectileConfig.ImpactParticleSystem, hitPoint.point, Quaternion.LookRotation(hitPoint.normal),
