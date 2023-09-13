@@ -10,6 +10,7 @@ namespace Configs
         [SerializeField] float _damageRadius = 0.05f;
         [SerializeField] private float _projectileSpeed;
         [SerializeField] private bool _isMadeImpact;
+        [SerializeField] private bool _isGrenade;
         [SerializeField] private ParticleSystem _impactParticleSystem;
 
         public int Damage => _damage;
@@ -17,6 +18,7 @@ namespace Configs
         public float DamageRadius => _damageRadius;
         public float ProjectileSpeed => _projectileSpeed;
         public bool IsMadeImpact => _isMadeImpact;
+        public bool IsGrenade => _isGrenade;
         public ParticleSystem ImpactParticleSystem => _impactParticleSystem;
         
     }
