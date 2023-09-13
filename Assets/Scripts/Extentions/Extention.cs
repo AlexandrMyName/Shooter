@@ -138,5 +138,32 @@ namespace Extentions
             }
 
         #endregion
+        
+        #region Utility
+
+        public static bool CheckChance(float possibility)
+        {
+            bool isLucky;
+            if (possibility < 1f)
+            {
+                float result = GetRandomFloat(0f, 1f);
+                if (result <= possibility)
+                {
+                    isLucky = true;
+                }
+                else
+                {
+                    isLucky = false;
+                }
+            }
+            else
+            {
+                isLucky = true;
+            }
+            return isLucky;
+        }
+        
+        #endregion
+        
     }
 }
