@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Configs;
 using UnityEngine;
 
@@ -14,7 +15,8 @@ public class Projectile : MonoBehaviour
     private Vector3 _startPosition;
     private Vector3 _projectileLastPosition;
     private float _currentLifetime;
-    
+    private List<int> _currentIDs;
+
     void OnEnable()
     {
         _direction = Vector3.zero;
@@ -55,31 +57,31 @@ public class Projectile : MonoBehaviour
         layerMask |= 1 << _wallLayerIndex;
         bool isMadeImpact = _projectileConfig.IsMadeImpact;
         Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, _projectileConfig.DamageRadius);
+        _currentIDs = new List<int>();
 
-        bool isHitCanMadeImpact = Physics.Raycast(_projectileLastPosition,
-            _direction, out hitPoint, Mathf.Infinity, layerMask);
-        
         foreach (var hitCollider in hitColliders)
         {
-            bool isEnemyHited = hitCollider.TryGetComponent<EnemyView>(out EnemyView enemyView);
+            bool isEnemyHited = hitCollider.TryGetComponent<EnemyBoneView>(out EnemyBoneView enemyBoneView);
             if (isEnemyHited)
             {
-                enemyView.TakeDamage(_projectileConfig.Damage);
-                isMadeImpact = false;
-            }
-            
-            if (hitCollider.gameObject != gameObject)
-            {
-                Vector3 impactDirection = (hitCollider.gameObject.transform.position - hitPoint.point).normalized;
-                hitCollider.gameObject.TryGetComponent(out Rigidbody objectRb);
-                if (objectRb != null)
+                foreach (var id in _currentIDs)
                 {
-                    Debug.Log(hitCollider.gameObject);
-                    //objectRb.AddForce(-impactDirection * 100); 
+                    if (id == enemyBoneView.EnemyView.EnemyID)
+                    {
+                        isEnemyHited = false;
+                    }
                 }
+            }
+            if (isEnemyHited)
+            {
+                _currentIDs.Add(enemyBoneView.EnemyView.EnemyID);
+                enemyBoneView.EnemyView.TakeDamage(_projectileConfig.Damage);
+                isMadeImpact = false;
             }
         }
         
+        bool isHitCanMadeImpact = Physics.Raycast(_projectileLastPosition,
+            _direction, out hitPoint, Mathf.Infinity, layerMask);
 
         if (isMadeImpact && isHitCanMadeImpact)
         {
