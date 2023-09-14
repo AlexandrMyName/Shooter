@@ -17,7 +17,7 @@ namespace RootMotion.Demos
             agent.enabled = puppet.state == BehaviourPuppet.State.Puppet;
 
             // Update agent destination and Animator
-            if (agent.enabled)
+            if (agent.enabled && agent.isOnNavMesh)
             {
                 agent.SetDestination(target.position);
 
