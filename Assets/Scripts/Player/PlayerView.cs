@@ -42,6 +42,6 @@ public class PlayerView : MonoBehaviour
     public void TakeDamage(int damage)
     {
         PlayerHP -= damage;
-        Debug.Log(PlayerHP);
+        //Debug.Log(PlayerHP);
     }
 }

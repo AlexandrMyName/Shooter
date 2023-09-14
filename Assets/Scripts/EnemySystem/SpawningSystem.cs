@@ -15,6 +15,7 @@ public class SpawningSystem : MonoBehaviour
     private int _currentSpawnPointIndex;
     private int _spawnedInCurrentWave;
     private int _totalSpawned;
+    private int _currentID;
     private float _lastSpawnTime;
     private float _lastWaveTime;
     private bool _isWaveSpawning;
@@ -73,6 +74,8 @@ public class SpawningSystem : MonoBehaviour
             _goalObjectsRoot.transform);
         enemy.TryGetComponent(out EnemyMovement enemyMovement);
         EnemyView enemyView = enemyMovement.EnemyView;
+        enemyView.EnemyID = _currentID;
+        _currentID++;
         enemyView.PlayerView = _playerView;
         enemyMovement.GoalObject = goal;
         NavMeshPuppet navMeshPuppet = enemyMovement.NavPuppet;

@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 914305568479733518}
   - component: {fileID: 914305568479733512}
   - component: {fileID: 914305568479733519}
-  m_Layer: 0
+  - component: {fileID: 5615254472312196582}
+  m_Layer: 9
   m_Name: Pelvis
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -159,6 +160,19 @@ ConfigurableJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &5615254472312196582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 914305568479733516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55901eb012015044d9103cfee8500a02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyView: {fileID: 5459611604311523536}
 --- !u!1 &914305568490355429
 GameObject:
   m_ObjectHideFlags: 0
@@ -168,7 +182,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305568490355430}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: LArmPinky3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -202,7 +216,8 @@ GameObject:
   - component: {fileID: 914305568492913901}
   - component: {fileID: 914305568492913903}
   - component: {fileID: 914305568492913902}
-  m_Layer: 0
+  - component: {fileID: 6157965881237162413}
+  m_Layer: 9
   m_Name: LArmUpper1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -350,6 +365,19 @@ ConfigurableJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &6157965881237162413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 914305568492913891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55901eb012015044d9103cfee8500a02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyView: {fileID: 5459611604311523536}
 --- !u!1 &914305568514136178
 GameObject:
   m_ObjectHideFlags: 0
@@ -362,7 +390,8 @@ GameObject:
   - component: {fileID: 914305568514136188}
   - component: {fileID: 914305568514136190}
   - component: {fileID: 914305568514136189}
-  m_Layer: 0
+  - component: {fileID: 8926165940197489762}
+  m_Layer: 9
   m_Name: RArmUpper1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -510,6 +539,19 @@ ConfigurableJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &8926165940197489762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 914305568514136178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55901eb012015044d9103cfee8500a02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyView: {fileID: 5459611604311523536}
 --- !u!1 &914305568529568930
 GameObject:
   m_ObjectHideFlags: 0
@@ -519,7 +561,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305568529568931}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: RArmIndex2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -551,7 +593,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305568578295248}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: RLegAnkle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -583,7 +625,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305568620447326}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: RArmForearm2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -615,7 +657,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305568661797071}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: RArmUpper1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -647,7 +689,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305568672734843}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: LArmMid3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -678,7 +720,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305568676743987}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: RArmPinky1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -711,7 +753,7 @@ GameObject:
   m_Component:
   - component: {fileID: 914305568688193607}
   - component: {fileID: 914305568688193600}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -756,7 +798,7 @@ GameObject:
   m_Component:
   - component: {fileID: 914305568698858268}
   - component: {fileID: 914305568698858269}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Fall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -822,7 +864,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305568715372224}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: RArmPinky2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -856,7 +898,7 @@ GameObject:
   - component: {fileID: 914305568733801805}
   - component: {fileID: 914305568733801807}
   - component: {fileID: 914305568733801806}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Blood 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5624,7 +5666,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305568753549374}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: LArmIndex3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5655,7 +5697,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305568832234919}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: RArmCollarbone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5687,7 +5729,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305568889763882}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: RArmRing1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5722,7 +5764,8 @@ GameObject:
   - component: {fileID: 914305568899894464}
   - component: {fileID: 914305568899894465}
   - component: {fileID: 914305568899894471}
-  m_Layer: 0
+  - component: {fileID: 1142082421350523099}
+  m_Layer: 9
   m_Name: RArmForearm1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5870,6 +5913,19 @@ ConfigurableJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &1142082421350523099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 914305568899894469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55901eb012015044d9103cfee8500a02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyView: {fileID: 5459611604311523536}
 --- !u!1 &914305568953819171
 GameObject:
   m_ObjectHideFlags: 0
@@ -5879,7 +5935,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305568953819180}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: RArmUpper2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5914,7 +5970,8 @@ GameObject:
   - component: {fileID: 914305569009957092}
   - component: {fileID: 914305569009957019}
   - component: {fileID: 914305569009957018}
-  m_Layer: 0
+  - component: {fileID: 1862944312829918845}
+  m_Layer: 9
   m_Name: Spine3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6061,6 +6118,19 @@ ConfigurableJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &1862944312829918845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 914305569009957016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55901eb012015044d9103cfee8500a02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyView: {fileID: 5459611604311523536}
 --- !u!1 &914305569015028879
 GameObject:
   m_ObjectHideFlags: 0
@@ -6070,7 +6140,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305569015028872}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: RArmMid2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6105,7 +6175,8 @@ GameObject:
   - component: {fileID: 914305569022166185}
   - component: {fileID: 914305569022166184}
   - component: {fileID: 914305569022166191}
-  m_Layer: 0
+  - component: {fileID: 1779626730863449944}
+  m_Layer: 9
   m_Name: LLegCalf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6253,6 +6324,19 @@ ConfigurableJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &1779626730863449944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 914305569022166189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55901eb012015044d9103cfee8500a02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyView: {fileID: 5459611604311523536}
 --- !u!1 &914305569055195878
 GameObject:
   m_ObjectHideFlags: 0
@@ -6262,7 +6346,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305569055195879}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: LLegToe1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6293,7 +6377,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305569083245314}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: LArmRing2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6326,7 +6410,7 @@ GameObject:
   m_Component:
   - component: {fileID: 914305569105688380}
   - component: {fileID: 914305569105688381}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Puppet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6554,7 +6638,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305569106063460}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: LArmThumb3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6585,7 +6669,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305569133151469}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: Spine1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6621,9 +6705,8 @@ GameObject:
   - component: {fileID: 914305569134279381}
   - component: {fileID: 914305569134279371}
   - component: {fileID: 5459611604311523536}
-  - component: {fileID: 7052977801285606807}
   - component: {fileID: 4601887648258204040}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: NavMeshAgent
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -6721,20 +6804,6 @@ MonoBehaviour:
   _enemyMovement: {fileID: 705482499048038075}
   _enemyAttacking: {fileID: 7351328976323908284}
   _playerView: {fileID: 0}
---- !u!136 &7052977801285606807
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 914305569134279369}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 1.9480993
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.93293995, z: 0}
 --- !u!54 &4601887648258204040
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -6762,7 +6831,8 @@ GameObject:
   - component: {fileID: 914305569190415492}
   - component: {fileID: 914305569190415495}
   - component: {fileID: 914305569190415493}
-  m_Layer: 0
+  - component: {fileID: 3274734967751569817}
+  m_Layer: 9
   m_Name: LLegAnkle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6897,6 +6967,19 @@ ConfigurableJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &3274734967751569817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 914305569190415547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55901eb012015044d9103cfee8500a02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyView: {fileID: 5459611604311523536}
 --- !u!1 &914305569215759369
 GameObject:
   m_ObjectHideFlags: 0
@@ -6906,7 +6989,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305569215759370}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: RArmMid1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6938,7 +7021,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305569264527824}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: RArmHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6974,7 +7057,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305569288620381}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: LArmPinky2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7006,7 +7089,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305569290583219}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: NeckHead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7043,7 +7126,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305569330589398}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: RArmThumb3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7074,7 +7157,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305569352423145}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: Neck1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7108,7 +7191,8 @@ GameObject:
   - component: {fileID: 914305569403220295}
   - component: {fileID: 914305569403220290}
   - component: {fileID: 914305569403220288}
-  m_Layer: 0
+  - component: {fileID: 6169448166309253485}
+  m_Layer: 9
   m_Name: RLegAnkle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7243,6 +7327,19 @@ ConfigurableJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &6169448166309253485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 914305569403220294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55901eb012015044d9103cfee8500a02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyView: {fileID: 5459611604311523536}
 --- !u!1 &914305569416943627
 GameObject:
   m_ObjectHideFlags: 0
@@ -7252,7 +7349,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305569416943636}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: LArmCollarbone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7284,7 +7381,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305569493120340}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: LArmPinky1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7316,7 +7413,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305569497191138}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: Pilot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7349,7 +7446,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305569500497448}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: LArmIndex2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7381,7 +7478,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305569585030415}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: LArmRing3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7412,7 +7509,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305569616003818}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: Lbrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7443,7 +7540,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305569681215993}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: RArmRing3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7474,7 +7571,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305569690824817}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: Pelvis
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7508,7 +7605,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305569764076623}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: RArmForearm1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7540,7 +7637,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305569765046073}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: LArmMid2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7572,7 +7669,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305569788904405}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: LArmThumb2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7604,7 +7701,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305569796821909}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: LLegAnkle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7636,7 +7733,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305569827307005}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: LArmUpper1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7668,7 +7765,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305569835620181}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: RLegToe1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7699,7 +7796,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305569901770002}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: Leyelid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7731,7 +7828,7 @@ GameObject:
   m_Component:
   - component: {fileID: 914305569904791616}
   - component: {fileID: 914305569904791619}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Pilot PuppetMaster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8249,7 +8346,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305569915374687}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: Rbrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8280,7 +8377,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305569965354160}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: RArmPinky3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8311,7 +8408,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305569969562138}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: Reyelid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8342,7 +8439,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305569979918199}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: LArmRing1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8428,7 +8525,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305569988577676}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: RArmMid3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8459,7 +8556,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305570004882735}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: RArmThumb1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8491,7 +8588,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305570015643646}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: Lmouth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8522,7 +8619,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305570016889071}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: Spine2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8554,7 +8651,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305570021122052}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: RArmThumb2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8587,7 +8684,7 @@ GameObject:
   m_Component:
   - component: {fileID: 914305570031489930}
   - component: {fileID: 914305570031489931}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: unity_pilot_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8737,7 +8834,8 @@ GameObject:
   - component: {fileID: 914305570067357897}
   - component: {fileID: 914305570067357899}
   - component: {fileID: 914305570067357898}
-  m_Layer: 0
+  - component: {fileID: 7881057129810623167}
+  m_Layer: 9
   m_Name: RLegCalf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8885,6 +8983,19 @@ ConfigurableJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &7881057129810623167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 914305570067357903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55901eb012015044d9103cfee8500a02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyView: {fileID: 5459611604311523536}
 --- !u!1 &914305570118416816
 GameObject:
   m_ObjectHideFlags: 0
@@ -8897,7 +9008,8 @@ GameObject:
   - component: {fileID: 914305570118416828}
   - component: {fileID: 914305570118416819}
   - component: {fileID: 914305570118416818}
-  m_Layer: 0
+  - component: {fileID: 8321928702503462419}
+  m_Layer: 9
   m_Name: LLegUpper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9045,6 +9157,19 @@ ConfigurableJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &8321928702503462419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 914305570118416816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55901eb012015044d9103cfee8500a02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyView: {fileID: 5459611604311523536}
 --- !u!1 &914305570186364080
 GameObject:
   m_ObjectHideFlags: 0
@@ -9054,7 +9179,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305570186364081}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: RLegCalf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9086,7 +9211,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305570209921971}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: LArmHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9123,7 +9248,7 @@ GameObject:
   m_Component:
   - component: {fileID: 914305570325715037}
   - component: {fileID: 914305570325715038}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Pilot Behaviours
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9173,7 +9298,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305570327466802}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: LArmForearm2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9205,7 +9330,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305570336394843}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: LArmMid1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9237,7 +9362,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305570336793818}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: LArmUpper2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9269,7 +9394,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305570345141776}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: LArmForearm1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9304,7 +9429,7 @@ GameObject:
   - component: {fileID: 914305570349931737}
   - component: {fileID: 914305570349931736}
   - component: {fileID: 914305570349931743}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Blood 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14130,7 +14255,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305570370566250}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: LArmIndex1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14162,7 +14287,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305570400973539}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: RLegUpper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14194,7 +14319,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305570416165711}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: LArmThumb1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14226,7 +14351,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305570423105691}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: RArmIndex3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14260,7 +14385,8 @@ GameObject:
   - component: {fileID: 914305570428914577}
   - component: {fileID: 914305570428914579}
   - component: {fileID: 914305570428914578}
-  m_Layer: 0
+  - component: {fileID: 6545815384954579324}
+  m_Layer: 9
   m_Name: RLegUpper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14408,6 +14534,19 @@ ConfigurableJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &6545815384954579324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 914305570428914583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55901eb012015044d9103cfee8500a02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyView: {fileID: 5459611604311523536}
 --- !u!1 &914305570435218927
 GameObject:
   m_ObjectHideFlags: 0
@@ -14417,7 +14556,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305570435218920}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: RArmRing2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14449,7 +14588,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305570463030851}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: LLegUpper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14481,7 +14620,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305570467815663}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: RArmIndex1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14516,7 +14655,8 @@ GameObject:
   - component: {fileID: 914305570482362379}
   - component: {fileID: 914305570482362378}
   - component: {fileID: 914305570482362377}
-  m_Layer: 0
+  - component: {fileID: 438858091087512277}
+  m_Layer: 9
   m_Name: NeckHead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14664,6 +14804,19 @@ ConfigurableJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &438858091087512277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 914305570482362383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55901eb012015044d9103cfee8500a02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyView: {fileID: 5459611604311523536}
 --- !u!1 &914305570483913971
 GameObject:
   m_ObjectHideFlags: 0
@@ -14676,7 +14829,8 @@ GameObject:
   - component: {fileID: 914305570483913983}
   - component: {fileID: 914305570483913982}
   - component: {fileID: 914305570483913981}
-  m_Layer: 0
+  - component: {fileID: 8576351553788999303}
+  m_Layer: 9
   m_Name: LArmForearm1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14824,6 +14978,19 @@ ConfigurableJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &8576351553788999303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 914305570483913971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55901eb012015044d9103cfee8500a02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyView: {fileID: 5459611604311523536}
 --- !u!1 &914305570485004807
 GameObject:
   m_ObjectHideFlags: 0
@@ -14834,7 +15001,7 @@ GameObject:
   m_Component:
   - component: {fileID: 914305570485004800}
   - component: {fileID: 914305570485004801}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14878,7 +15045,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305570500844684}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: Rmouth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14909,7 +15076,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305570547296565}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: Spine3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14943,7 +15110,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914305570589410480}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: LLegCalf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14976,7 +15143,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1002848800686060587}
   - component: {fileID: 7351328976323908284}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -12,6 +12,7 @@ public class EnemyView : MonoBehaviour
     [SerializeField] private EnemyAttacking _enemyAttacking;
     [SerializeField] private PlayerView _playerView;
 
+    private int _enemyID;
     private int _currentEnemyHP = 50;
     private float _lastStunTime;
     private bool _isStuned;
@@ -26,6 +27,12 @@ public class EnemyView : MonoBehaviour
     {
         get => _playerView;
         set => _playerView = value;
+    }
+
+    public int EnemyID
+    {
+        get => _enemyID;
+        set => _enemyID = value;
     }
 
     public int EnemyHP
@@ -65,7 +72,7 @@ public class EnemyView : MonoBehaviour
             _enemyMovement.ChangeMovementBehaviour(MovementBehaviour.Standing);
         }
         EnemyHP -= damage;
-        //Debug.Log(EnemyHP);
+        Debug.Log(EnemyHP);
     }
 
     private void Death()

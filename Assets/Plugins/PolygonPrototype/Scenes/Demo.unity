@@ -5084,9 +5084,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2060668690}
     m_Modifications:
+    - target: {fileID: 1051206382138208, guid: 070737ca19fedf044b465dbbcd97d924, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 1087233085573688, guid: 070737ca19fedf044b465dbbcd97d924, type: 3}
       propertyPath: m_Name
       value: SM_Wep_Rifle_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1087233085573688, guid: 070737ca19fedf044b465dbbcd97d924, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1559918221196860, guid: 070737ca19fedf044b465dbbcd97d924, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4416509164870928, guid: 070737ca19fedf044b465dbbcd97d924, type: 3}
       propertyPath: m_RootOrder
@@ -56187,6 +56199,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3623052758296398622, guid: fec508ec24666a34a98758442cefb000, type: 3}
+      propertyPath: groundLayers.m_Bits
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 3623052758296398622, guid: fec508ec24666a34a98758442cefb000, type: 3}
+      propertyPath: collisionLayers.m_Bits
+      value: 707
+      objectReference: {fileID: 0}
     - target: {fileID: 3623052758474837385, guid: fec508ec24666a34a98758442cefb000, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.3578744
@@ -56327,6 +56347,10 @@ PrefabInstance:
       propertyPath: ProjectileSpawnTransform
       value: 
       objectReference: {fileID: 810681792}
+    - target: {fileID: 7638893234728063211, guid: fec508ec24666a34a98758442cefb000, type: 3}
+      propertyPath: _weaponConfig
+      value: 
+      objectReference: {fileID: 11400000, guid: 09dfe50c298d6ca4eafecfc0cc0ce992, type: 2}
     - target: {fileID: 7638893234728063211, guid: fec508ec24666a34a98758442cefb000, type: 3}
       propertyPath: _ammoPanelView
       value: 
@@ -57627,6 +57651,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
+    - target: {fileID: 64585085720928606, guid: 571f8f8a90e22e94c90edd3d7b14a22c, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 571f8f8a90e22e94c90edd3d7b14a22c, type: 3}
 --- !u!4 &1725590681 stripped
@@ -58887,8 +58915,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 1841375295}
     m_Modifications:
     - target: {fileID: 1260071855740114, guid: 3f69af6bac8cc454aa0e1a8cb1d41ac8, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1260071855740114, guid: 3f69af6bac8cc454aa0e1a8cb1d41ac8, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1260071855740114, guid: 3f69af6bac8cc454aa0e1a8cb1d41ac8, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4012621514819990, guid: 3f69af6bac8cc454aa0e1a8cb1d41ac8, type: 3}
       propertyPath: m_RootOrder
