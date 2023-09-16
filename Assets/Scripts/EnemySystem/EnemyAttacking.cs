@@ -63,7 +63,7 @@ public class EnemyAttacking : MonoBehaviour
     {
         
         
-        if (_enemyConfig.AttackType == EnemyAttackType.Meele)
+        if (_enemyConfig.AttackType == EnemyAttackType.Melee)
         {
             _playerView.TakeDamage(_enemyConfig.EnemyDamage);
         }

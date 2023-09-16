@@ -20,6 +20,12 @@ public class SpawningSystem : MonoBehaviour
     private float _lastWaveTime;
     private bool _isWaveSpawning;
 
+    public int CurrentID
+    {
+        get => _currentID;
+        set => _currentID = value;
+    }
+
     private void Start()
     {
         _maxSpawnPointIndex = _spawnConfig.SpawnPointsList.Count - 1;
