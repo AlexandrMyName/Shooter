@@ -16,6 +16,7 @@ public class EnemyView : MonoBehaviour
     private int _currentEnemyHP = 50;
     private float _lastStunTime;
     private bool _isStuned;
+    private bool _isDead;
 
     public EnemyConfig EnemyConfig => _enemyConfig;
 
@@ -47,9 +48,12 @@ public class EnemyView : MonoBehaviour
             }
         }
     }
-    
+
+    public bool IsDead => _isDead;
+
     private void Start()
     {
+        _isDead = false;
         _currentEnemyHP = _enemyConfig.EnemyHp;
     }
 
@@ -72,15 +76,15 @@ public class EnemyView : MonoBehaviour
             _enemyMovement.ChangeMovementBehaviour(MovementBehaviour.Standing);
         }
         EnemyHP -= damage;
-        Debug.Log(EnemyHP);
     }
 
     private void Death()
     {
+        _isDead = true;
         _enemyMovement.StopMovement();
         
         //Destroy(gameObject);
         
-        Debug.Log($"{gameObject.name} killed");
+        Debug.Log($"{gameObject.name} killed {_isDead}");
     }
 }

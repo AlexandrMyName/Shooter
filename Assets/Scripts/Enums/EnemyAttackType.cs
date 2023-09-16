@@ -3,7 +3,7 @@
     public enum EnemyAttackType
     {
         None = 0,
-        Meele = 1,
+        Melee = 1,
         Shoot = 2,
         BurstShoot = 3,
         Laser = 4,
