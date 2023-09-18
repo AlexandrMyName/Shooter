@@ -9,6 +9,7 @@ namespace ShootingSystem
 {
     public class Weapon : MonoBehaviour
     {
+        [SerializeField] private Transform _playerObjectTransform;
         [SerializeField] private WeaponConfig _weaponConfig;
         [SerializeField] private Transform _projectileSpawnTransform;
         [SerializeField] private Transform _projectilesPool;
@@ -92,7 +93,7 @@ namespace ShootingSystem
         {
             if (_isTryShooting)
             {
-                ShootingEvents.RotateToCameraDirection(true);
+                //ShootingEvents.RotateToCameraDirection(true);
                 TryShoot();
                 ChangeShootingState(false);
             }
@@ -103,7 +104,7 @@ namespace ShootingSystem
                 ChangeRecoilVector(-_weaponConfig.RecoilModifierDeltaHorizontal, 
                     -_weaponConfig.RecoilModifierDeltaVertical);
                 _crosshairView.TryChangeScale(false);
-                ShootingEvents.RotateToCameraDirection(false);
+                //ShootingEvents.RotateToCameraDirection(false);
                 if (_isShooting)
                 {
                     _isShooting = false;
@@ -176,6 +177,7 @@ namespace ShootingSystem
                 _currentAmmoInMagazine--;
                 _lastShootTime = Time.time;
                 _ammoPanelView.SetAmmoInMagazine(_currentAmmoInMagazine);
+                
                 Shoot();
                 if (!_isShooting)
                 {
@@ -201,7 +203,7 @@ namespace ShootingSystem
             ChangeRecoilVector(_weaponConfig.RecoilModifierDeltaHorizontal, _weaponConfig.RecoilModifierDeltaVertical);
             MovePointOfHit();
             _crosshairView.TryChangeScale(true);
-
+            
             GameObject projectile = GameObject.Instantiate(_weaponConfig.ProjectilePrefab,
                 _projectileSpawnTransform.position ,_projectileSpawnTransform.rotation ,_projectilesPool);
             Projectile projectileView = projectile.GetOrAddComponent<Projectile>();
