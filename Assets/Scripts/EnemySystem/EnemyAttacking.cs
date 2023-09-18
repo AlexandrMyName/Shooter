@@ -41,7 +41,7 @@ public class EnemyAttacking : MonoBehaviour
             direction, out hitPoint, _enemyConfig.AttackDistance, layerMask);
             
         _canAttack = (Time.time > _lastAttackTime + _enemyConfig.EnemyAttackDelay) &&
-                     distance < _enemyConfig.AttackDistance && isHitCanMadeImpact && !_isAttacking;
+                     distance < _enemyConfig.AttackDistance && isHitCanMadeImpact && !_isAttacking && !_enemyView.IsDead;
         if (_canAttack)
         {
             Debug.Log("StartAttack");
