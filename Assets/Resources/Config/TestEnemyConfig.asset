@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0eeb6debb6eb48eab8ac4fde28c623da, type: 3}
   m_Name: TestEnemyConfig
   m_EditorClassIdentifier: 
-  _enemyHP: 10
-  _stunPossibility: 0.8
+  _enemyHP: 15
+  _stunPossibility: 0
   _stunTime: 3
   _attackType: 1
   _enemyDamage: 5

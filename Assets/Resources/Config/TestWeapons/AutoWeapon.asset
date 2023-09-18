@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: AutoWeapon
   m_EditorClassIdentifier: 
   _shootingType: 3
-  _maxAmmo: 120
-  _maxAmmoInMagazine: 30
+  _maxAmmo: 120000
+  _maxAmmoInMagazine: 60
   _maxAmmoInBurst: 0
-  _shootDelay: 0.3
+  _shootDelay: 0.15
   _burstDelay: 0
   _reloadDelay: 1
   _aimingSpeed: 0
@@ -24,10 +24,10 @@ MonoBehaviour:
   _spreadingHorizontal: 0.03
   _spreadingVertical: 0.03
   _spreadingModifierDelta: 0.03
-  _spreadingDefaultModifier: 0.5
+  _spreadingDefaultModifier: 0
   _aimingSpreadingModifier: 0
-  _recoilHorizontal: 0.06
-  _recoilVertical: 0.08
+  _recoilHorizontal: 0
+  _recoilVertical: 0
   _recoilModifierDeltaHorizontal: 0.003
   _recoilModifierDeltaVertical: 0.006
   _aimingRecoilModifier: 0
