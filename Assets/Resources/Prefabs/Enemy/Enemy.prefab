@@ -8486,7 +8486,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 914305569981895637}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: -0.00000016292068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.865, y: 0, z: 7.76}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -8497,7 +8497,7 @@ Transform:
   - {fileID: 914305570349931742}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &705482499048038075
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15179,3 +15179,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyView: {fileID: 5459611604311523536}
   _playerLayerIndex: 8
+  _projectilePrefab: {fileID: 8983598808202383336, guid: 0b70c437b81878342812ed0cdc931e28, type: 3}
+  _projectileSpawnTransform: {fileID: 1002848800686060587}

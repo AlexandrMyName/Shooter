@@ -844,7 +844,7 @@ MonoBehaviour:
   characterAnimation: {fileID: 3623052759164357213}
   userControl: {fileID: 3623052757933400982}
   cam: {fileID: 0}
-  moveMode: 0
+  moveMode: 1
   smoothPhysics: 0
   smoothAccelerationTime: 0.2
   linearAccelerationSpeed: 2
@@ -852,7 +852,7 @@ MonoBehaviour:
   groundStickyEffect: 7
   maxVerticalVelocityOnGround: 3
   velocityToGroundTangentWeight: 0
-  lookInCameraDirection: 0
+  lookInCameraDirection: 1
   turnSpeed: 40
   stationaryTurnSpeedMlp: 1
   smoothJump: 1
@@ -5622,6 +5622,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 773df98a29f21604681d5e694e4a249c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerObjectTransform: {fileID: 3623052758285718133}
   _weaponConfig: {fileID: 11400000, guid: 5785be1b1aded8742942c57a2387f48d, type: 2}
   _projectileSpawnTransform: {fileID: 8066911110132427951}
   _projectilesPool: {fileID: 0}

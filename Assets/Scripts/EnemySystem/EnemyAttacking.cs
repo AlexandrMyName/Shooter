@@ -1,11 +1,14 @@
 using Configs;
 using Enums;
+using Extentions;
 using UnityEngine;
 
 public class EnemyAttacking : MonoBehaviour
 {
     [SerializeField] private EnemyView _enemyView;
     [SerializeField] private int _playerLayerIndex;
+    [SerializeField] private GameObject _projectilePrefab;
+    [SerializeField] private Transform _projectileSpawnTransform;
 
     private PlayerView _playerView;
     private EnemyConfig _enemyConfig;
@@ -44,6 +47,14 @@ public class EnemyAttacking : MonoBehaviour
             Debug.Log("StartAttack");
             _lastAttackTime = Time.time;
             _isAttacking = true;
+            if (_enemyConfig.AttackType == EnemyAttackType.Shoot)
+            {
+                _enemyMovement.ChangeMovementBehaviour(MovementBehaviour.Standing);
+            }
+        }
+        else if (_enemyConfig.AttackType == EnemyAttackType.Shoot && distance > _enemyConfig.AttackDistance)
+        {
+            _enemyMovement.ChangeMovementBehaviourToDefault();
         }
 
         if (!isHitCanMadeImpact)
@@ -69,7 +80,13 @@ public class EnemyAttacking : MonoBehaviour
         }
         else if (_enemyConfig.AttackType == EnemyAttackType.Shoot)
         {
-            
+            Debug.Log("Shoot");
+            GameObject projectile = GameObject.Instantiate(_projectilePrefab,
+                _projectileSpawnTransform.position ,_projectileSpawnTransform.rotation ,gameObject.transform);
+            Projectile projectileView = projectile.GetOrAddComponent<Projectile>();
+            projectileView.StartMoving(_projectileSpawnTransform.position, 
+                _playerView.gameObject.transform.position,
+                gameObject.transform);
         }
         
     }
