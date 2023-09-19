@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 255189cfb657dee4bacf30b2aebd309d, type: 3}
-  m_Name: TestSpawnConfig
+  m_Name: ShootArenaWhiteBox
   m_EditorClassIdentifier: 
   _spawnPointsList:
-  - {x: -10.940509, y: 20.380001, z: 29.57}
-  - {x: 17, y: 20.630001, z: -17.43}
-  _isInfiniteSpawning: 0
-  _totalSpawnCount: 8
-  _waveSpawnCount: 4
-  _waveCooldown: 25
+  - {x: -25.83051, y: 9.38, z: 19.87}
+  - {x: -28.89, y: 9.38, z: 19.87}
+  _isInfiniteSpawning: 1
+  _totalSpawnCount: 1000
+  _waveSpawnCount: 2
+  _waveCooldown: 6
   _spawnCooldown: 2
