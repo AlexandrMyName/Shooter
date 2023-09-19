@@ -1163,6 +1163,7 @@ MonoBehaviour:
   _playerView: {fileID: 395318434}
   _spawnedObjectsRoot: {fileID: 1739346997}
   _goalObjectsRoot: {fileID: 1981897215}
+  _projectilesSpawnRoot: {fileID: 201956135}
 --- !u!1001 &23872852
 PrefabInstance:
   m_ObjectHideFlags: 0

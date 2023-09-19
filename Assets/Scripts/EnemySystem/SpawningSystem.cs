@@ -10,6 +10,7 @@ public class SpawningSystem : MonoBehaviour
     [SerializeField] private PlayerView _playerView;
     [SerializeField] private GameObject _spawnedObjectsRoot;
     [SerializeField] private GameObject _goalObjectsRoot;
+    [SerializeField] private GameObject _projectilesSpawnRoot;
 
     private int _maxSpawnPointIndex;
     private int _currentSpawnPointIndex;
@@ -83,6 +84,7 @@ public class SpawningSystem : MonoBehaviour
         enemyView.EnemyID = _currentID;
         _currentID++;
         enemyView.PlayerView = _playerView;
+        enemyView.EnemyAttacking.ProjectilesSpawnRoot = _projectilesSpawnRoot;
         enemyMovement.GoalObject = goal;
         NavMeshPuppet navMeshPuppet = enemyMovement.NavPuppet;
         navMeshPuppet.target = goal.transform;
