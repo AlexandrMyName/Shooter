@@ -22,7 +22,7 @@ public class PlayerView : MonoBehaviour
             {
                 _currentPlayerHP = 0;
                 _healthPanelView.SetCurrentHP(PlayerHP);
-                Destroy(gameObject);
+                //Destroy(gameObject);
                 Debug.Log($"{gameObject.name} killed");
             }
         }

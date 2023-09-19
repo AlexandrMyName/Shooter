@@ -62,6 +62,7 @@ public class Projectile : MonoBehaviour
         foreach (var hitCollider in hitColliders)
         {
             bool isEnemyHited = hitCollider.TryGetComponent<EnemyBoneView>(out EnemyBoneView enemyBoneView);
+            bool isPlayerHited = hitCollider.TryGetComponent<PlayerBoneView>(out PlayerBoneView playerBoneView);
             if (isEnemyHited)
             {
                 foreach (var id in _currentIDs)
@@ -71,6 +72,7 @@ public class Projectile : MonoBehaviour
                         isEnemyHited = false;
                     }
                 }
+                Debug.Log(isEnemyHited);
             }
             if (isEnemyHited)
             {
@@ -78,6 +80,12 @@ public class Projectile : MonoBehaviour
                 enemyBoneView.EnemyView.TakeDamage(_projectileConfig.Damage);
                 isMadeImpact = false;
             }
+
+            if (isPlayerHited)
+            {
+                playerBoneView.PlayerView.TakeDamage(_projectileConfig.Damage);
+            }
+            Debug.Log(isPlayerHited);
         }
         
         bool isHitCanMadeImpact = Physics.Raycast(_projectileLastPosition,
