@@ -59,6 +59,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerTransform: {fileID: 3623052757993481211}
+  _playerDamagableZoneTransform: {fileID: 3623052759152857008}
   _playerHP: 50
   _healthPanelView: {fileID: 0}
 --- !u!1 &2164564625223868174
@@ -6122,6 +6123,8 @@ MonoBehaviour:
   _hitEffectsRoot: {fileID: 0}
   _ammoPanelView: {fileID: 0}
   _crosshairView: {fileID: 0}
+  _playerLayerIndex: 8
+  _playerRagdollLayerIndex: 9
 --- !u!1 &8551271519825304636
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _damage: 5
   _maxLifetime: 1000
-  _damageRadius: 0.1
+  _damageRadius: 0.2
   _projectileSpeed: 30
   _isMadeImpact: 1
   _isGrenade: 0

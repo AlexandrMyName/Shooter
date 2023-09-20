@@ -47,7 +47,8 @@ public class EnemyAttacking : MonoBehaviour
 
     private void TryAttack()
     {
-        float distance = Vector3.Distance(_playerView.PlayerTransform.position, gameObject.transform.position);
+        float distance = Vector3.Distance(_playerView.PlayerDamagableZoneTransform.position, 
+            gameObject.transform.position);
         RaycastHit hitPoint;
         LayerMask layerMask;
         layerMask = 1 << _projectileLayerIndex;
@@ -109,7 +110,7 @@ public class EnemyAttacking : MonoBehaviour
                 _projectileSpawnTransform.position ,_projectileSpawnTransform.rotation, _projectilesSpawnRoot.transform);
             Projectile projectileView = projectile.GetOrAddComponent<Projectile>();
             projectileView.StartMoving(_projectileSpawnTransform.position, 
-                _playerView.PlayerTransform.position,
+                _playerView.PlayerDamagableZoneTransform.position,
                 gameObject.transform);
         }
         
