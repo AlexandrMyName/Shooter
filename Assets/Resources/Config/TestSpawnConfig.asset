@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: TestSpawnConfig
   m_EditorClassIdentifier: 
   _spawnPointsList:
-  - {x: -10.940509, y: 20.380001, z: 29.57}
-  - {x: 17, y: 20.630001, z: -17.43}
-  _isInfiniteSpawning: 0
+  - {x: 3.06, y: 0.966, z: 16.92}
+  - {x: -4.197, y: 0.459, z: 7.835}
+  - {x: 6.522, y: 2.97, z: 5.526}
+  - {x: 3.473, y: 1.455, z: 2.37}
+  _isInfiniteSpawning: 1
   _totalSpawnCount: 8
   _waveSpawnCount: 4
   _waveCooldown: 25

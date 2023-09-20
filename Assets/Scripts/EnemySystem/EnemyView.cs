@@ -1,8 +1,6 @@
-using System;
 using Configs;
 using Enums;
 using Extentions;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyView : MonoBehaviour
@@ -55,6 +53,10 @@ public class EnemyView : MonoBehaviour
     {
         _isDead = false;
         _currentEnemyHP = _enemyConfig.EnemyHp;
+        if (_enemyConfig.AttackType == EnemyAttackType.Shoot)
+        {
+            _enemyAttacking.ProjectilePrefab = _enemyConfig.ShootingProjectile;
+        }
     }
 
     private void FixedUpdate()

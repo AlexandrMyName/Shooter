@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Configs;
 using UnityEngine;
@@ -16,6 +17,7 @@ public class Projectile : MonoBehaviour
     private Vector3 _projectileLastPosition;
     private float _currentLifetime;
     private List<int> _currentIDs;
+    private bool _palyerHitedOnce;
 
     void OnEnable()
     {
@@ -49,46 +51,64 @@ public class Projectile : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void Update()
     {
-        RaycastHit hitPoint;
-        LayerMask layerMask;
-        layerMask = 1 << _groundLayerIndex;
-        layerMask |= 1 << _wallLayerIndex;
-        bool isMadeImpact = _projectileConfig.IsMadeImpact;
-        Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, _projectileConfig.DamageRadius);
-        _currentIDs = new List<int>();
-
-        foreach (var hitCollider in hitColliders)
+        if (_projectileRigidbody.constraints == RigidbodyConstraints.FreezeAll)
         {
-            bool isEnemyHited = hitCollider.TryGetComponent<EnemyBoneView>(out EnemyBoneView enemyBoneView);
-            if (isEnemyHited)
+            RaycastHit hitPoint;
+            LayerMask layerMask;
+            layerMask = 1 << _groundLayerIndex;
+            layerMask |= 1 << _wallLayerIndex;
+            bool isMadeImpact = _projectileConfig.IsMadeImpact;
+            Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, _projectileConfig.DamageRadius);
+            _currentIDs = new List<int>();
+            
+            foreach (var hitCollider in hitColliders)
             {
-                foreach (var id in _currentIDs)
+                bool isEnemyHited = hitCollider.TryGetComponent<EnemyBoneView>(out EnemyBoneView enemyBoneView);
+                bool isPlayerHited = hitCollider.TryGetComponent<PlayerBoneView>(out PlayerBoneView playerBoneView);
+                if (isEnemyHited)
                 {
-                    if (id == enemyBoneView.EnemyView.EnemyID)
+                    foreach (var id in _currentIDs)
                     {
-                        isEnemyHited = false;
+                        if (id == enemyBoneView.EnemyView.EnemyID)
+                        {
+                            isEnemyHited = false;
+                        }
                     }
                 }
+                if (isEnemyHited)
+                {
+                    _currentIDs.Add(enemyBoneView.EnemyView.EnemyID);
+                    enemyBoneView.EnemyView.TakeDamage(_projectileConfig.Damage);
+                    isMadeImpact = false;
+                }
+            
+                if (isPlayerHited && !_palyerHitedOnce) 
+                { 
+                    playerBoneView.PlayerView.TakeDamage(_projectileConfig.Damage);
+                    _palyerHitedOnce = true;
+                }
             }
-            if (isEnemyHited)
+            
+            _palyerHitedOnce = false;
+                    
+            bool isHitCanMadeImpact = Physics.Raycast(_projectileLastPosition,
+                _direction, out hitPoint, Mathf.Infinity, layerMask);
+            
+            if (isMadeImpact && isHitCanMadeImpact)
             {
-                _currentIDs.Add(enemyBoneView.EnemyView.EnemyID);
-                enemyBoneView.EnemyView.TakeDamage(_projectileConfig.Damage);
-                isMadeImpact = false;
+                Instantiate(_projectileConfig.ImpactParticleSystem, hitPoint.point, 
+                    Quaternion.LookRotation(hitPoint.normal), _hitEffectsRoot);
             }
+            Destroy(gameObject);
         }
-        
-        bool isHitCanMadeImpact = Physics.Raycast(_projectileLastPosition,
-            _direction, out hitPoint, Mathf.Infinity, layerMask);
+    }
 
-        if (isMadeImpact && isHitCanMadeImpact)
-        {
-            Instantiate(_projectileConfig.ImpactParticleSystem, hitPoint.point, Quaternion.LookRotation(hitPoint.normal),
-                _hitEffectsRoot);
-        }
-        Destroy(gameObject);
+    private void OnCollisionEnter(Collision collision)
+    {
+        _projectileRigidbody.constraints = RigidbodyConstraints.FreezeAll;
+
     }
     
 }

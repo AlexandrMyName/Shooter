@@ -7,15 +7,30 @@ public class EnemyAttacking : MonoBehaviour
 {
     [SerializeField] private EnemyView _enemyView;
     [SerializeField] private int _playerLayerIndex;
-    [SerializeField] private GameObject _projectilePrefab;
+    [SerializeField] private int _playerRagdolLayerIndex;
+    [SerializeField] private int _projectileLayerIndex;
     [SerializeField] private Transform _projectileSpawnTransform;
 
+    private GameObject _projectilePrefab;
+    private GameObject _projectilesSpawnRoot;
     private PlayerView _playerView;
     private EnemyConfig _enemyConfig;
     private EnemyMovement _enemyMovement;
     private float _lastAttackTime;
     private bool _canAttack;
     private bool _isAttacking;
+
+    public GameObject ProjectilePrefab
+    {
+        get => _projectilePrefab;
+        set => _projectilePrefab = value;
+    }
+
+    public GameObject ProjectilesSpawnRoot
+    {
+        get => _projectilesSpawnRoot;
+        set => _projectilesSpawnRoot = value;
+    }
 
     private void Start()
     {
@@ -35,11 +50,20 @@ public class EnemyAttacking : MonoBehaviour
         float distance = Vector3.Distance(_playerView.PlayerTransform.position, gameObject.transform.position);
         RaycastHit hitPoint;
         LayerMask layerMask;
-        layerMask = 1 << _playerLayerIndex;
+        layerMask = 1 << _projectileLayerIndex;
+        layerMask = ~layerMask;
         Vector3 direction = (_playerView.PlayerTransform.position - gameObject.transform.position).normalized;
         bool isHitCanMadeImpact = Physics.Raycast(gameObject.transform.position,
             direction, out hitPoint, _enemyConfig.AttackDistance, layerMask);
-            
+        if (isHitCanMadeImpact)
+        {
+            if (hitPoint.collider.gameObject.layer != _playerLayerIndex &&
+                hitPoint.collider.gameObject.layer != _playerRagdolLayerIndex)
+            {
+                isHitCanMadeImpact = false;
+            }
+        }
+
         _canAttack = (Time.time > _lastAttackTime + _enemyConfig.EnemyAttackDelay) &&
                      distance < _enemyConfig.AttackDistance && isHitCanMadeImpact && !_isAttacking && !_enemyView.IsDead;
         if (_canAttack)
@@ -52,7 +76,7 @@ public class EnemyAttacking : MonoBehaviour
                 _enemyMovement.ChangeMovementBehaviour(MovementBehaviour.Standing);
             }
         }
-        else if (_enemyConfig.AttackType == EnemyAttackType.Shoot && distance > _enemyConfig.AttackDistance)
+        else if (_enemyConfig.AttackType == EnemyAttackType.Shoot && !isHitCanMadeImpact)
         {
             _enemyMovement.ChangeMovementBehaviourToDefault();
         }
@@ -80,12 +104,12 @@ public class EnemyAttacking : MonoBehaviour
         }
         else if (_enemyConfig.AttackType == EnemyAttackType.Shoot)
         {
-            Debug.Log("Shoot");
+            _projectileSpawnTransform.LookAt(_playerView.PlayerTransform);
             GameObject projectile = GameObject.Instantiate(_projectilePrefab,
-                _projectileSpawnTransform.position ,_projectileSpawnTransform.rotation ,gameObject.transform);
+                _projectileSpawnTransform.position ,_projectileSpawnTransform.rotation, _projectilesSpawnRoot.transform);
             Projectile projectileView = projectile.GetOrAddComponent<Projectile>();
             projectileView.StartMoving(_projectileSpawnTransform.position, 
-                _playerView.gameObject.transform.position,
+                _playerView.PlayerTransform.position,
                 gameObject.transform);
         }
         

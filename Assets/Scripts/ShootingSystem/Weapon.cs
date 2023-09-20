@@ -16,7 +16,9 @@ namespace ShootingSystem
         [SerializeField] private Transform _hitEffectsRoot;
         [SerializeField] private AmmoPanelView _ammoPanelView;
         [SerializeField] private CrosshairView _crosshairView;
-        
+        [SerializeField] private int _playerLayerIndex = 8;
+        [SerializeField] private int _playerRagdollLayerIndex = 9;
+
         private Transform _cameraTransform;
         private GameObject _pointOfHitObject;
         private bool _isTryShooting = false;
@@ -63,7 +65,7 @@ namespace ShootingSystem
                 _ammoPanelView.Hide();
             }
 
-            
+
             ShootingEvents.OnTryShoot += ChangeShootingState;
             ShootingEvents.OnReload += Reload;
         }
@@ -71,7 +73,7 @@ namespace ShootingSystem
         private void Start()
         {
             _cameraTransform = Camera.main.transform;
-            _pointOfHitObject = 
+            _pointOfHitObject =
                 GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/Shooting/HitDirection"));
             _pointOfHitObject.SetActive(false);
             _spreadingModifier = _weaponConfig.SpreadingDefaultModifier;
@@ -101,7 +103,7 @@ namespace ShootingSystem
             {
                 _currentAmmonBurst = _maxAmmoInBurst;
                 ChangeSpread(-0.1f);
-                ChangeRecoilVector(-_weaponConfig.RecoilModifierDeltaHorizontal, 
+                ChangeRecoilVector(-_weaponConfig.RecoilModifierDeltaHorizontal,
                     -_weaponConfig.RecoilModifierDeltaVertical);
                 _crosshairView.TryChangeScale(false);
                 //ShootingEvents.RotateToCameraDirection(false);
@@ -111,7 +113,7 @@ namespace ShootingSystem
                     ShootingEvents.Shoot(_isShooting, _weaponConfig.ShootingType, 1f);
                 }
             }
-            
+
         }
 
         private void Reload()
@@ -169,7 +171,7 @@ namespace ShootingSystem
             {
                 haveAmmoInMagazine = true;
             }
-            _canShoot = (_lastShootTime + _weaponConfig.ShootDelay < Time.time) 
+            _canShoot = (_lastShootTime + _weaponConfig.ShootDelay < Time.time)
                         && haveAmmoInBurst && haveAmmoInMagazine && !_isReloading;
             if (_canShoot)
             {
@@ -177,14 +179,14 @@ namespace ShootingSystem
                 _currentAmmoInMagazine--;
                 _lastShootTime = Time.time;
                 _ammoPanelView.SetAmmoInMagazine(_currentAmmoInMagazine);
-                
+
                 Shoot();
                 if (!_isShooting)
                 {
                     _isShooting = true;
                     ShootingEvents.Shoot(_isShooting, _weaponConfig.ShootingType, 1f);
                 }
-                
+
             }
             else if (_isShooting && (!haveAmmoInBurst || !haveAmmoInMagazine || _isReloading))
             {
@@ -192,10 +194,10 @@ namespace ShootingSystem
                 ShootingEvents.Shoot(_isShooting, _weaponConfig.ShootingType, 1f);
             }
         }
-        
+
         private void Shoot()
         {
-            if (_recoilModifierHorizontal >= 
+            if (_recoilModifierHorizontal >=
                 _weaponConfig.RecoilHorizontal && _recoilModifierVertical >= _weaponConfig.RecoilVertical)
             {
                 ChangeSpread(_weaponConfig.SpreadingModifierDelta);
@@ -203,9 +205,9 @@ namespace ShootingSystem
             ChangeRecoilVector(_weaponConfig.RecoilModifierDeltaHorizontal, _weaponConfig.RecoilModifierDeltaVertical);
             MovePointOfHit();
             _crosshairView.TryChangeScale(true);
-            
+
             GameObject projectile = GameObject.Instantiate(_weaponConfig.ProjectilePrefab,
-                _projectileSpawnTransform.position ,_projectileSpawnTransform.rotation ,_projectilesPool);
+                _projectileSpawnTransform.position, _projectileSpawnTransform.rotation, _projectilesPool);
             Projectile projectileView = projectile.GetOrAddComponent<Projectile>();
             projectileView.StartMoving(_projectileSpawnTransform.position, _pointOfHitObject.transform.position,
                 _hitEffectsRoot);
@@ -215,10 +217,12 @@ namespace ShootingSystem
         {
             RaycastHit cameraHit;
             RaycastHit weaponHit;
-            
+
+            LayerMask layerMask = ~(1 << _playerLayerIndex | 1 << _playerRagdollLayerIndex);
+
             bool isCameraRayHitTarget = Physics.Raycast(_cameraTransform.position,
                 _cameraTransform.TransformDirection(Vector3.forward), out cameraHit,
-                Mathf.Infinity);
+                Mathf.Infinity, layerMask);
             if (isCameraRayHitTarget)
             {
                 MoveHitMarkObject(_pointOfHitObject, cameraHit.point, cameraHit.normal);
@@ -230,38 +234,35 @@ namespace ShootingSystem
                 MoveHitMarkObject(_pointOfHitObject, dir, Vector3.forward);
                 _projectileSpawnTransform.LookAt(_pointOfHitObject.transform);
             }
-            
             Vector3 direction = GetRecoilVector();
-            
             bool isWeaponRayHitTarget = Physics.Raycast(_projectileSpawnTransform.position,
                 _projectileSpawnTransform.TransformDirection(direction), out weaponHit,
-                Mathf.Infinity);
+                Mathf.Infinity, layerMask);
             if (isWeaponRayHitTarget)
             {
                 MoveHitMarkObject(_pointOfHitObject, weaponHit.point, weaponHit.normal);
             }
             else
             {
-                Vector3 dir = _projectileSpawnTransform.position + 
-                              (_projectileSpawnTransform.TransformDirection(Vector3.forward) * 1000);
+                Vector3 dir = _projectileSpawnTransform.position + (_projectileSpawnTransform.TransformDirection(Vector3.forward) * 1000);
                 MoveHitMarkObject(_pointOfHitObject, dir, Vector3.forward);
             }
         }
-        
+
         private void MoveHitMarkObject(GameObject markObject, Vector3 rayHitPoint, Vector3 rayHitNormal)
         {
             markObject.transform.position = rayHitPoint;
             markObject.transform.rotation = Quaternion.LookRotation(rayHitNormal);
             markObject.SetActive(true);
         }
-        
+
         private Vector3 GetRecoilVector()
         {
             Vector3 recoiledDirection = Vector3.forward;
 
             float x = _recoilModifierHorizontal;
             float y = _recoilModifierVertical;
-        
+
             float spreadX = Extention.GetRandomFloat(-_weaponConfig.SpreadingHorizontal,
                 _weaponConfig.SpreadingHorizontal) * _spreadingModifier;
             float spreadY = Extention.GetRandomFloat(-_weaponConfig.SpreadingVertical,
@@ -269,10 +270,10 @@ namespace ShootingSystem
             recoiledDirection = new Vector3(x + spreadX, y + spreadY, 1);
             return recoiledDirection;
         }
-        
+
         private void ChangeRecoilVector(float recoilHorizontalDelta,float recoilVerticalDelta)
         {
-            bool isRecoilHorizontalIncreasing = 
+            bool isRecoilHorizontalIncreasing =
                 _recoilModifierHorizontal < _weaponConfig.RecoilHorizontal && recoilHorizontalDelta > 0;
             bool isRecoilHorizontalDecreasing = _recoilModifierHorizontal > 0 && recoilHorizontalDelta < 0;
             if (isRecoilHorizontalIncreasing || isRecoilHorizontalDecreasing)
@@ -280,7 +281,7 @@ namespace ShootingSystem
                 _recoilModifierHorizontal += recoilHorizontalDelta;
             }
 
-            bool isRecoilVerticalIncreasing = 
+            bool isRecoilVerticalIncreasing =
                 _recoilModifierVertical < _weaponConfig.RecoilVertical && recoilVerticalDelta > 0;
             bool isRecoilVerticalDecreasing = _recoilModifierVertical > 0 && recoilVerticalDelta < 0;
             if (isRecoilVerticalIncreasing || isRecoilVerticalDecreasing)
@@ -298,6 +299,6 @@ namespace ShootingSystem
                 _spreadingModifier += spreadDelta;
             }
         }
-        
+
     }
 }

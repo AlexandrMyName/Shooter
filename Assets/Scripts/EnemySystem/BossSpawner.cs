@@ -40,16 +40,16 @@ public class BossSpawner : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.TryGetComponent(out PlayerView playerView))
+        if (other.gameObject.TryGetComponent(out PlayerBoneView playerBoneView))
         {
-            _playerView = playerView;
+            _playerView = playerBoneView.PlayerView;
             _isSpawnerActive = true;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.TryGetComponent(out PlayerView playerView))
+        if (other.gameObject.TryGetComponent(out PlayerBoneView playerBoneView))
         {
             _isSpawnerActive = false;
         }

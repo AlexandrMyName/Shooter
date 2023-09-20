@@ -15,11 +15,11 @@ TagManager:
   - Ground
   - RunableWall
   - Player
-  - Enemy
+  - PlayerRagdoll
   - Projectile
-  - 
-  - 
-  - 
+  - Enemy
+  - EnemyRagdoll
+  - EnemyProjectile
   - 
   - 
   - 

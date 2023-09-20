@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 4254013392182209986}
   - component: {fileID: 5977503005042018941}
   - component: {fileID: 71827893620081561}
-  m_Layer: 10
-  m_Name: TestProjectile
+  m_Layer: 13
+  m_Name: TestProjectileEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -145,7 +145,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3928528860053484037, guid: 43559d27d223bf340b413fde1315c256, type: 3}
       propertyPath: m_Layer
-      value: 10
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 4706939876495061202, guid: 43559d27d223bf340b413fde1315c256, type: 3}
       propertyPath: m_RootOrder
