@@ -56454,6 +56454,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 810681792}
     - target: {fileID: 6214686089731580113, guid: fec508ec24666a34a98758442cefb000, type: 3}
+      propertyPath: _playerHP
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6214686089731580113, guid: fec508ec24666a34a98758442cefb000, type: 3}
       propertyPath: _healthPanelView
       value: 
       objectReference: {fileID: 2712124836258560007}
