@@ -5,12 +5,15 @@ using UnityEngine;
 public class PlayerView : MonoBehaviour
 {
     [SerializeField] private Transform _playerTransform;
+    [SerializeField] private Transform _playerDamagableZoneTransform;
     [SerializeField] private int _playerHP = 50;
     [SerializeField] private HealthPanelView _healthPanelView;
     
     private int _currentPlayerHP;
 
     public Transform PlayerTransform => _playerTransform;
+    public Transform PlayerDamagableZoneTransform => _playerDamagableZoneTransform;
+
     public int PlayerHP
     {
         get => _currentPlayerHP;
