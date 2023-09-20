@@ -20,5 +20,5 @@ MonoBehaviour:
   _enemyAttackDelay: 2
   _enemyAttackDuration: 1
   _shootingProjectileSpeed: 2
-  _attackDistance: 8
+  _attackDistance: 32
   _shootingProjectile: {fileID: 8983598808202383336, guid: f76fc770b2f4a2e4eaa98feb275fa0a1, type: 3}
