@@ -15,7 +15,7 @@ MonoBehaviour:
   _damage: 5
   _maxLifetime: 1000
   _damageRadius: 0.1
-  _projectileSpeed: 30
+  _projectileSpeed: 100
   _isMadeImpact: 1
   _isGrenade: 0
   _impactParticleSystem: {fileID: 9064919875212695174, guid: a5e1e2c4d2cd81f4abed6272a2b8187a, type: 3}
