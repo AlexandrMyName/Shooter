@@ -38,20 +38,19 @@ namespace InputSystem
             {
                 ShowPauseMenu();
 
-                /*#if UNITY_EDITOR
+
+            }
+        }
+        private void ShowPauseMenu()
+        {
+                #if UNITY_EDITOR
                                 if(EditorApplication.isPlaying)
                                 {
                                     UnityEditor.EditorApplication.isPaused = true;
                                 }
                 #else
                             Application.Quit();
-                #endif */
-            }
-        }
-        private void ShowPauseMenu()
-        {
-            _pauseMenu.SetActive(true);
-            Time.timeScale = 0.0f;
+                #endif 
         }
 
     }
