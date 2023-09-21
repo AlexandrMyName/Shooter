@@ -1,5 +1,6 @@
 using Configs;
 using Enums;
+using EventBus;
 using Extentions;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ public class EnemyView : MonoBehaviour
     [SerializeField] private EnemyMovement _enemyMovement;
     [SerializeField] private EnemyAttacking _enemyAttacking;
     [SerializeField] private PlayerView _playerView;
-
+    
     private int _enemyID;
     private int _currentEnemyHP = 50;
     private float _lastStunTime;
@@ -71,17 +72,22 @@ public class EnemyView : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        if (Extention.CheckChance(_enemyConfig.StunPossibility))
+        if (!_isDead)
         {
-            _isStuned = true;
-            _lastStunTime = Time.time;
-            _enemyMovement.ChangeMovementBehaviour(MovementBehaviour.Standing);
+            if (Extention.CheckChance(_enemyConfig.StunPossibility))
+            {
+                _isStuned = true;
+                _lastStunTime = Time.time;
+                _enemyMovement.ChangeMovementBehaviour(MovementBehaviour.Standing);
+            }
+            EnemyEvents.EnemyDamaged();
+            EnemyHP -= damage;
         }
-        EnemyHP -= damage;
     }
 
     private void Death()
     {
+        EnemyEvents.EnemyDead();
         _isDead = true;
         _enemyMovement.StopMovement();
         
