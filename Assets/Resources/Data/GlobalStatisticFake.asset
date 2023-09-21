@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6a1260bb3947782439b7169e15346af7, type: 3}
-  m_Name: ScoreData
+  m_Name: GlobalStatisticFake
   m_EditorClassIdentifier: 
-  _scoreList: 0a0000000500000003000000
-  _maxListCapacity: 10
+  _scoreList: 00040000ae03000058030000090300009a02000000020000d801000040010000e800000064000000140000000f0000000a000000
+  _maxListCapacity: 9

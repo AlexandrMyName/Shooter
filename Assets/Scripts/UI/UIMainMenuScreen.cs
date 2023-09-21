@@ -7,6 +7,8 @@ public sealed class UIMainMenuScreen : MonoBehaviour
     [SerializeField] private Button _leaderboardButton;
     [SerializeField] private Button _exitButton;
 
+    [SerializeField] private LeaderBoard _leaderBoard;
+
     private void OnEnable()
     {
         _startButton.onClick.AddListener(StartButtonClick);
@@ -26,7 +28,8 @@ public sealed class UIMainMenuScreen : MonoBehaviour
 
     private void LeaderboardButtonClick()
     {
-
+        _leaderBoard.Show();
+        Hide();
     }
     private void ExitButtonClick()
     {
@@ -35,5 +38,15 @@ public sealed class UIMainMenuScreen : MonoBehaviour
     #else
         Application.Quit();
     #endif
+    }
+    
+    public void Show()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void Hide()
+    {
+        gameObject.SetActive(false);
     }
 }

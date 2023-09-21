@@ -1,42 +1,25 @@
-using EventBus;
+using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ScorePanelView : MonoBehaviour
 {
-    [SerializeField] private TMP_Text _currentScoreText;
-    private int _currentScore;
-    
-    public void SetCurrentScore(int score)
+    [SerializeField] private Image _panelBackground;
+    [SerializeField] private TMP_Text _placeInLeaderBoard;
+    [SerializeField] private TMP_Text _nickName;
+    [SerializeField] private TMP_Text _score;
+
+    public void SetParameters(int place, string nickname, int score)
     {
-        _currentScore = score;
-        _currentScoreText.text = score.ToString();
-    }
-    
-    public void Show()
-    {
-        gameObject.SetActive(true);
+        _placeInLeaderBoard.text = place.ToString();
+        _nickName.text = nickname;
+        _score.text = score.ToString();
     }
 
-    public void Hide()
+    public void MarkPanel()
     {
-        gameObject.SetActive(false);
-    }
-
-    private void Awake()
-    {
-        _currentScore = 0;
-        EnemyEvents.OnDead += AddScore;
-    }
-
-    private void OnDestroy()
-    {
-        EnemyEvents.OnDead -= AddScore;
-    }
-
-    private void AddScore()
-    {
-        _currentScore++;
-        _currentScoreText.text = _currentScore.ToString();
+        _panelBackground.color = Color.red;
     }
 }
