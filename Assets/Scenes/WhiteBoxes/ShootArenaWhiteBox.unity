@@ -217,6 +217,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &519323474 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1439193086924610244, guid: e951877d0174fc147b0ca47332515070, type: 3}
+  m_PrefabInstance: {fileID: 1439193087047686626}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &540494723
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -916,6 +921,10 @@ PrefabInstance:
       propertyPath: _spawnConfig
       value: 
       objectReference: {fileID: 11400000, guid: 406936a76f7fdf34bbbe49e458b073a7, type: 2}
+    - target: {fileID: 1439193087465057331, guid: e951877d0174fc147b0ca47332515070, type: 3}
+      propertyPath: _projectilesSpawnRoot
+      value: 
+      objectReference: {fileID: 519323474}
     - target: {fileID: 1576564716771187420, guid: e951877d0174fc147b0ca47332515070, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
