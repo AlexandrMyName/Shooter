@@ -13,11 +13,16 @@ MonoBehaviour:
   m_Name: MySpawnConfig
   m_EditorClassIdentifier: 
   _spawnPointsList:
-  - {x: 70.31, y: 49.85, z: 27.52}
-  - {x: 48.39, y: 49.85, z: -24.86}
-  - {x: 58.1, y: 48.7, z: 73.3}
+  - {x: -14, y: 48.49, z: -71.25}
+  - {x: 47.04, y: 48.49, z: -18.02}
+  - {x: 0.02999878, y: 36.47, z: 25.5}
+  - {x: 10.93, y: 36.47, z: -59.14}
+  - {x: -14, y: 48.49, z: -71.25}
+  - {x: 10.930001, y: 36.47, z: -59.14}
+  - {x: 47.04, y: 48.49, z: -18.02}
+  - {x: 71.71, y: 48.49, z: 27.58}
   _isInfiniteSpawning: 1
-  _totalSpawnCount: 12
-  _waveSpawnCount: 2
+  _totalSpawnCount: 1000
+  _waveSpawnCount: 10
   _waveCooldown: 6
   _spawnCooldown: 2
