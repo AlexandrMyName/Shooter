@@ -807,6 +807,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0.0074834824
       objectReference: {fileID: 0}
+    - target: {fileID: 6214686089731580113, guid: fec508ec24666a34a98758442cefb000, type: 3}
+      propertyPath: _healthPanelView
+      value: 
+      objectReference: {fileID: 2107424867}
     - target: {fileID: 7638893234728063211, guid: fec508ec24666a34a98758442cefb000, type: 3}
       propertyPath: _weaponConfig
       value: 
@@ -2287,7 +2291,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: fcf7416a68cc3bb44ab9d308611dc2e9, type: 2}
+  - {fileID: 2100000, guid: 702695461b7b2c94fb24520856efd8f7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3551,6 +3555,14 @@ PrefabInstance:
     - target: {fileID: 3957563968791078155, guid: 92f3727370288f940877a556cfbfa761, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 3957563969026755073, guid: 92f3727370288f940877a556cfbfa761, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 18.25684
+      objectReference: {fileID: 0}
+    - target: {fileID: 3957563969026755073, guid: 92f3727370288f940877a556cfbfa761, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.7237
       objectReference: {fileID: 0}
     - target: {fileID: 3957563969069998577, guid: 92f3727370288f940877a556cfbfa761, type: 3}
       propertyPath: m_RootOrder
