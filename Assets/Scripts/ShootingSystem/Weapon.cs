@@ -14,8 +14,6 @@ namespace ShootingSystem
         [SerializeField] private Transform _projectileSpawnTransform;
         [SerializeField] private Transform _projectilesPool;
         [SerializeField] private Transform _hitEffectsRoot;
-        [SerializeField] private AmmoPanelView _ammoPanelView;
-        [SerializeField] private CrosshairView _crosshairView;
         [SerializeField] private int _playerLayerIndex = 8;
         [SerializeField] private int _playerRagdollLayerIndex = 9;
 
@@ -54,18 +52,6 @@ namespace ShootingSystem
 
             _currentAmmonBurst = _maxAmmoInBurst;
 
-            if (_currentAmmo > 0)
-            {
-                _ammoPanelView.Show();
-                _ammoPanelView.SetAmmo(_currentAmmo);
-                _ammoPanelView.SetAmmoInMagazine(_currentAmmoInMagazine);
-            }
-            else
-            {
-                _ammoPanelView.Hide();
-            }
-
-
             ShootingEvents.OnTryShoot += ChangeShootingState;
             ShootingEvents.OnReload += Reload;
         }
@@ -78,6 +64,8 @@ namespace ShootingSystem
             _pointOfHitObject.SetActive(false);
             _spreadingModifier = _weaponConfig.SpreadingDefaultModifier;
             _lastShootTime = Time.time;
+            ShootingEvents.ChangeAmmoCount(_weaponConfig.MaxAmmo);
+            ShootingEvents.ChangeAmmoInMagazineCount(_currentAmmoInMagazine);
         }
 
         private void OnDisable()
@@ -105,7 +93,6 @@ namespace ShootingSystem
                 ChangeSpread(-0.1f);
                 ChangeRecoilVector(-_weaponConfig.RecoilModifierDeltaHorizontal,
                     -_weaponConfig.RecoilModifierDeltaVertical);
-                _crosshairView.TryChangeScale(false);
                 //ShootingEvents.RotateToCameraDirection(false);
                 if (_isShooting)
                 {
@@ -145,8 +132,8 @@ namespace ShootingSystem
                     _currentAmmo = deltaAmmo;
                 }
             }
-            _ammoPanelView.SetAmmo(_currentAmmo);
-            _ammoPanelView.SetAmmoInMagazine(_currentAmmoInMagazine);
+            ShootingEvents.ChangeAmmoCount(_currentAmmo);
+            ShootingEvents.ChangeAmmoInMagazineCount(_currentAmmoInMagazine);
             _isReloading = false;
             yield return null;
         }
@@ -178,7 +165,7 @@ namespace ShootingSystem
                 _currentAmmonBurst--;
                 _currentAmmoInMagazine--;
                 _lastShootTime = Time.time;
-                _ammoPanelView.SetAmmoInMagazine(_currentAmmoInMagazine);
+                ShootingEvents.ChangeAmmoInMagazineCount(_currentAmmoInMagazine);
 
                 Shoot();
                 if (!_isShooting)
@@ -204,7 +191,6 @@ namespace ShootingSystem
             }
             ChangeRecoilVector(_weaponConfig.RecoilModifierDeltaHorizontal, _weaponConfig.RecoilModifierDeltaVertical);
             MovePointOfHit();
-            _crosshairView.TryChangeScale(true);
 
             GameObject projectile = GameObject.Instantiate(_weaponConfig.ProjectilePrefab,
                 _projectileSpawnTransform.position, _projectileSpawnTransform.rotation, _projectilesPool);

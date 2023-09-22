@@ -7,9 +7,11 @@ public class PlayerScoreList : ScriptableObject
 {
     [SerializeField] private List<int> _scoreList;
     [SerializeField] private int _maxListCapacity;
-
     private bool _isSuitable;
-    
+
+    public List<int> ScoreList => _scoreList;
+    public int MaxListCapacity => _maxListCapacity;
+
     public void AddCurrentScoreToList(int score)
     {
         SuitableCheck(score);

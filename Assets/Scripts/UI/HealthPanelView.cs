@@ -1,3 +1,5 @@
+using System;
+using EventBus;
 using TMPro;
 using UnityEngine;
 
@@ -6,6 +8,24 @@ public class HealthPanelView : MonoBehaviour
     [SerializeField] private TMP_Text _currentHPText;
     [SerializeField] private TMP_Text _maxHPText;
 
+
+    private void Awake()
+    {
+        PlayerEvents.OnPlayerSpawned += SetStartHP;
+        PlayerEvents.OnPlayerDamaged += SetCurrentHP;
+    }
+
+    private void OnDestroy()
+    {
+        PlayerEvents.OnPlayerSpawned -= SetStartHP;
+        PlayerEvents.OnPlayerDamaged -= SetCurrentHP;
+    }
+
+    private void SetStartHP(int hp)
+    {
+        SetCurrentHP(hp);
+        SetMaxHP(hp);
+    }
 
     public void SetCurrentHP(int hp)
     {

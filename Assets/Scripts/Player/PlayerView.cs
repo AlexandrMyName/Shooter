@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using EventBus;
 using UnityEngine;
 
@@ -9,7 +6,6 @@ public class PlayerView : MonoBehaviour
     [SerializeField] private Transform _playerTransform;
     [SerializeField] private Transform _playerDamagableZoneTransform;
     [SerializeField] private int _playerHP = 50;
-    [SerializeField] private HealthPanelView _healthPanelView;
     
     private int _currentPlayerHP;
     private int _currentScore;
@@ -24,23 +20,19 @@ public class PlayerView : MonoBehaviour
         set
         {
             _currentPlayerHP = value;
-            _healthPanelView.SetCurrentHP(PlayerHP);
+            PlayerEvents.DamagePlayer(_currentPlayerHP);
             if (value <= 0)
             {
                 Death();
             }
         }
     }
-    
+
     private void Start()
     {
         EnemyEvents.OnDead += AddScore;
         _currentPlayerHP = _playerHP;
-        if (_healthPanelView != null)
-        {
-            _healthPanelView.SetMaxHP(_playerHP);
-            _healthPanelView.SetCurrentHP(_currentPlayerHP);
-        }
+        PlayerEvents.SpawnPlayer(_playerHP);
     }
     
     
@@ -61,7 +53,7 @@ public class PlayerView : MonoBehaviour
     private void Death()
     {
         _currentPlayerHP = 0;
-        _healthPanelView.SetCurrentHP(PlayerHP);
+        PlayerEvents.DamagePlayer(_currentPlayerHP);
         //Destroy(gameObject);
         _isDead = true;
         Debug.Log($"{gameObject.name} killed");

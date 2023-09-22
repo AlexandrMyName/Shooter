@@ -62,7 +62,6 @@ MonoBehaviour:
   _playerTransform: {fileID: 3623052757993481211}
   _playerDamagableZoneTransform: {fileID: 3623052759152857008}
   _playerHP: 50
-  _healthPanelView: {fileID: 0}
 --- !u!114 &8297143885209127969
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6131,12 +6130,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerObjectTransform: {fileID: 3623052758285718133}
-  _weaponConfig: {fileID: 11400000, guid: 5785be1b1aded8742942c57a2387f48d, type: 2}
+  _weaponConfig: {fileID: 11400000, guid: f6cb21d32c9c21e46b60187480128428, type: 2}
   _projectileSpawnTransform: {fileID: 8066911110132427951}
   _projectilesPool: {fileID: 0}
   _hitEffectsRoot: {fileID: 0}
-  _ammoPanelView: {fileID: 0}
-  _crosshairView: {fileID: 0}
   _playerLayerIndex: 8
   _playerRagdollLayerIndex: 9
 --- !u!1 &8551271519825304636
@@ -6230,6 +6227,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _characterController: {fileID: 3623052757933400981}
+  _cameraController: {fileID: 8082854430336243631}
 --- !u!114 &4693148390201266478
 MonoBehaviour:
   m_ObjectHideFlags: 0

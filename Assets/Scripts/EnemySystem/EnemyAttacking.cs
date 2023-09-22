@@ -89,7 +89,10 @@ public class EnemyAttacking : MonoBehaviour
 
         if (_isAttacking && Time.time > _lastAttackTime + _enemyConfig.EnemyAttackDuration)
         {
-            Attack();
+            if (!_enemyView.IsDead)
+            {
+                Attack();
+            }
             _isAttacking = false;
         }
 
