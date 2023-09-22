@@ -7,17 +7,22 @@ public class PauseView : MonoBehaviour
 {
     [SerializeField] private Button _continueButton;
     [SerializeField] private Button _exitButton;
+    
+    private int _currentScore;
+    private bool _isPlayerDead;
 
     private void Start()
     {
         Time.timeScale = 1.0f;
         PlayerEvents.OnGamePaused += ChangePauseState;
+        EnemyEvents.OnDead += AddScore;
         gameObject.SetActive(false);
     }
 
     private void OnDestroy()
     {
         PlayerEvents.OnGamePaused -= ChangePauseState;
+        EnemyEvents.OnDead -= AddScore;
     }
 
     private void OnEnable()
@@ -42,15 +47,21 @@ public class PauseView : MonoBehaviour
         {
             Time.timeScale = 1.0f;
         }
-        
     }
+    
     private void ContinueButtonClick()
     {
         PlayerEvents.PauseGame(false);
     }
     private void ExitButtonClick()
     {
+        PlayerEvents.GameEnded(_currentScore);
         SceneManager.LoadScene("MainMenu");
+    }
+    
+    private void AddScore()
+    {
+        _currentScore++;
     }
 
 }
