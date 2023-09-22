@@ -1,4 +1,3 @@
-using System;
 using EventBus;
 using UnityEngine.SceneManagement;
 using UnityEngine;
@@ -11,6 +10,7 @@ public class PauseView : MonoBehaviour
 
     private void Start()
     {
+        Time.timeScale = 1.0f;
         PlayerEvents.OnGamePaused += ChangePauseState;
         gameObject.SetActive(false);
     }
@@ -27,8 +27,8 @@ public class PauseView : MonoBehaviour
     }
     private void OnDisable()
     {
-        _continueButton.onClick.RemoveListener(ContinueButtonClick);
-        _exitButton.onClick.RemoveListener(ExitButtonClick);
+        _continueButton.onClick.RemoveAllListeners();
+        _exitButton.onClick.RemoveAllListeners();
     }
 
     private void ChangePauseState(bool isPaused)

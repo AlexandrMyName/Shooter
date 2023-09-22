@@ -51,9 +51,6 @@ namespace ShootingSystem
             }
 
             _currentAmmonBurst = _maxAmmoInBurst;
-            
-            ShootingEvents.ChangeAmmoCount(_currentAmmo);
-            ShootingEvents.ChangeAmmoInMagazineCount(_currentAmmoInMagazine);
 
             ShootingEvents.OnTryShoot += ChangeShootingState;
             ShootingEvents.OnReload += Reload;
@@ -67,6 +64,8 @@ namespace ShootingSystem
             _pointOfHitObject.SetActive(false);
             _spreadingModifier = _weaponConfig.SpreadingDefaultModifier;
             _lastShootTime = Time.time;
+            ShootingEvents.ChangeAmmoCount(_weaponConfig.MaxAmmo);
+            ShootingEvents.ChangeAmmoInMagazineCount(_currentAmmoInMagazine);
         }
 
         private void OnDisable()
