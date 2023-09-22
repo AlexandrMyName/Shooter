@@ -807,10 +807,6 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0.0074834824
       objectReference: {fileID: 0}
-    - target: {fileID: 6214686089731580113, guid: fec508ec24666a34a98758442cefb000, type: 3}
-      propertyPath: _healthPanelView
-      value: 
-      objectReference: {fileID: 2107424867}
     - target: {fileID: 7638893234728063211, guid: fec508ec24666a34a98758442cefb000, type: 3}
       propertyPath: _weaponConfig
       value: 
