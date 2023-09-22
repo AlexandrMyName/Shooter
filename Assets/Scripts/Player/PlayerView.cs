@@ -41,7 +41,6 @@ public class PlayerView : MonoBehaviour
         if (!_isDead)
         {
             PlayerHP -= damage;
-            //Debug.Log(PlayerHP);
         }
     }
 
@@ -54,10 +53,10 @@ public class PlayerView : MonoBehaviour
     {
         _currentPlayerHP = 0;
         PlayerEvents.DamagePlayer(_currentPlayerHP);
-        //Destroy(gameObject);
         _isDead = true;
         Debug.Log($"{gameObject.name} killed");
         PlayerEvents.GameEnded(_currentScore);
+        PlayerEvents.PlayerDead();
     }
 
     private void OnDestroy()
