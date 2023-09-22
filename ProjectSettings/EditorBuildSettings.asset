@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/WhiteBoxes/ShootArenaWhiteBox.unity
     guid: 333953ee0ea47bd468dfc241ed7a31ad
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: ca2acd74d022dcc428d94d0dcdf835d5
   m_configObjects: {}

@@ -8,7 +8,7 @@ namespace InputSystem
     public class InputSystem : MonoBehaviour
     {
         [SerializeField] private InputConfig _inputConfig;
-        [SerializeField] private GameObject _pauseMenu;
+        
         private void Update()
         {
             if (Input.GetKey(_inputConfig.ShootKeyCode))
@@ -37,20 +37,19 @@ namespace InputSystem
             if (Input.GetKeyDown(_inputConfig.PauseKeyCode))
             {
                 ShowPauseMenu();
-
-
             }
         }
         private void ShowPauseMenu()
         {
-                #if UNITY_EDITOR
-                                if(EditorApplication.isPlaying)
-                                {
-                                    UnityEditor.EditorApplication.isPaused = true;
-                                }
-                #else
-                            Application.Quit();
-                #endif 
+            PlayerEvents.PauseGame(true);
+#if UNITY_EDITOR
+            if(EditorApplication.isPlaying) 
+            { 
+                //UnityEditor.EditorApplication.isPaused = true;
+            }
+#else
+            //Application.Quit();
+#endif 
         }
 
     }

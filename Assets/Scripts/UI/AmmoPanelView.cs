@@ -1,3 +1,5 @@
+using System;
+using EventBus;
 using TMPro;
 using UnityEngine;
 
@@ -7,12 +9,24 @@ public class AmmoPanelView : MonoBehaviour
     [SerializeField] private TMP_Text _currentAmmoText;
 
 
-    public void SetAmmoInMagazine(int ammoInMagazine)
+    private void Awake()
+    {
+        ShootingEvents.OnAmmoCountChanged += SetAmmo;
+        ShootingEvents.OnAmmoCountInMagazineChanged += SetAmmoInMagazine;
+    }
+
+    private void OnDestroy()
+    {
+        ShootingEvents.OnAmmoCountChanged -= SetAmmo;
+        ShootingEvents.OnAmmoCountInMagazineChanged -= SetAmmoInMagazine;
+    }
+
+    private void SetAmmoInMagazine(int ammoInMagazine)
     {
         _currentAmmoInMagazineText.text = ammoInMagazine.ToString();
     }
 
-    public void SetAmmo(int ammo)
+    private void SetAmmo(int ammo)
     {
         _currentAmmoText.text = ammo.ToString();
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.NetworkInformation;
 using Assets.Scripts.Enums;
 using UnityEngine;
 
@@ -11,6 +12,8 @@ namespace EventBus
         public static event Action<bool> OnCameraDirectionRotate; 
         public static event Action<bool> OnAim;
         public static event Action OnReload;
+        public static event Action<int> OnAmmoCountChanged;
+        public static event Action<int> OnAmmoCountInMagazineChanged;
 
         public static void TryShoot(bool isTryShooting)
         {
@@ -35,6 +38,16 @@ namespace EventBus
         public static void Reload()
         {
             OnReload?.Invoke();
+        }
+
+        public static void ChangeAmmoCount(int ammoCount)
+        {
+            OnAmmoCountChanged?.Invoke(ammoCount);
+        }
+
+        public static void ChangeAmmoInMagazineCount(int ammoCount)
+        {
+            OnAmmoCountInMagazineChanged?.Invoke(ammoCount);
         }
     }
 }

@@ -1,3 +1,5 @@
+using System;
+using EventBus;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,6 +8,18 @@ public class PauseView : MonoBehaviour
 {
     [SerializeField] private Button _continueButton;
     [SerializeField] private Button _exitButton;
+
+    private void Start()
+    {
+        PlayerEvents.OnGamePaused += ChangePauseState;
+        gameObject.SetActive(false);
+    }
+
+    private void OnDestroy()
+    {
+        PlayerEvents.OnGamePaused -= ChangePauseState;
+    }
+
     private void OnEnable()
     {
         _continueButton.onClick.AddListener(ContinueButtonClick);
@@ -16,10 +30,23 @@ public class PauseView : MonoBehaviour
         _continueButton.onClick.RemoveListener(ContinueButtonClick);
         _exitButton.onClick.RemoveListener(ExitButtonClick);
     }
+
+    private void ChangePauseState(bool isPaused)
+    {
+        gameObject.SetActive(isPaused);
+        if (isPaused)
+        {
+            Time.timeScale = 0f;
+        }
+        else
+        {
+            Time.timeScale = 1.0f;
+        }
+        
+    }
     private void ContinueButtonClick()
     {
-        Time.timeScale = 1.0f;
-        gameObject.SetActive(false);
+        PlayerEvents.PauseGame(false);
     }
     private void ExitButtonClick()
     {
