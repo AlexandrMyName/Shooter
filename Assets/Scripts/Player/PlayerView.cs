@@ -52,7 +52,7 @@ public class PlayerView : MonoBehaviour
     private void Death()
     {
         _currentPlayerHP = 0;
-        PlayerEvents.DamagePlayer(_currentPlayerHP);
+        PlayerEvents.UpdateHealthView(_currentPlayerHP);
         _isDead = true;
         Debug.Log($"{gameObject.name} killed");
         PlayerEvents.GameEnded(_currentScore);
