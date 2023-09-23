@@ -10,6 +10,7 @@ public class EnemyView : MonoBehaviour
     [SerializeField] private EnemyMovement _enemyMovement;
     [SerializeField] private EnemyAttacking _enemyAttacking;
     [SerializeField] private PlayerView _playerView;
+     private EnemyDeathSystem _enemyDeath;
     
     private int _enemyID;
     private int _currentEnemyHP = 50;
@@ -52,6 +53,7 @@ public class EnemyView : MonoBehaviour
 
     private void Start()
     {
+        _enemyDeath = GetComponent<EnemyDeathSystem>();
         _isDead = false;
         _currentEnemyHP = _enemyConfig.EnemyHp;
         if (_enemyConfig.AttackType == EnemyAttackType.Shoot)
@@ -90,8 +92,7 @@ public class EnemyView : MonoBehaviour
         EnemyEvents.EnemyDead();
         _isDead = true;
         _enemyMovement.StopMovement();
-        
-        //Destroy(gameObject);
+        _enemyDeath.DestroyEnemy();
         
         Debug.Log($"{gameObject.name} killed {_isDead}");
     }

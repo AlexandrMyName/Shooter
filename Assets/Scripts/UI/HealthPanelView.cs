@@ -12,13 +12,13 @@ public class HealthPanelView : MonoBehaviour
     private void Awake()
     {
         PlayerEvents.OnPlayerSpawned += SetStartHP;
-        PlayerEvents.OnPlayerDamaged += SetCurrentHP;
+        PlayerEvents.OnUpdateHealthView += SetCurrentHP;
     }
 
     private void OnDestroy()
     {
         PlayerEvents.OnPlayerSpawned -= SetStartHP;
-        PlayerEvents.OnPlayerDamaged -= SetCurrentHP;
+        PlayerEvents.OnUpdateHealthView -= SetCurrentHP;
     }
 
     private void SetStartHP(int hp)

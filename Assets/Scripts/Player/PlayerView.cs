@@ -20,7 +20,7 @@ public class PlayerView : MonoBehaviour
         set
         {
             _currentPlayerHP = value;
-            PlayerEvents.DamagePlayer(_currentPlayerHP);
+            PlayerEvents.UpdateHealthView(_currentPlayerHP);
             if (value <= 0)
             {
                 Death();
