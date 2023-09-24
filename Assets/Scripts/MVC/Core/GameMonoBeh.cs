@@ -1,3 +1,5 @@
+using Configs;
+using Core.ResourceLoader;
 using MVC.Core.Factory;
 using MVC.Core.Initialization;
 using MVC.Core.Interface.Controllers;
@@ -10,6 +12,8 @@ namespace MVC.Core
 {
     public class GameMonoBeh : MonoBehaviour
     {
+        [SerializeField] private ConfigLoader _configLoader;
+        
         private IControllers _controllers;
         private IDataProvider _dataProvider;
         private IViewProvider _viewProvider;
@@ -17,6 +21,7 @@ namespace MVC.Core
 
         private void Awake()
         {
+            ResourceLoadManager.Init(_configLoader);
             _controllers = new Controllers();
             _dataProvider = new DataProvider();
             _viewProvider = new ViewProvider();

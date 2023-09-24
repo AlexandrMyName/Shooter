@@ -6,10 +6,12 @@ namespace MVC.Core.Factory
 {
     public class BaseGameFactory : IFactory
     {
-        private IControllers _controllers;
-        private IDataProvider _dataProvider;
-        private IViewProvider _viewProvider;
-        private IDataFactory _dataFactory;
+        private protected IControllers _controllers;
+        private protected IDataProvider _dataProvider;
+        private protected IViewProvider _viewProvider;
+        private protected IDataFactory _dataFactory;
+        
+        
         
         public BaseGameFactory(IControllers controllers, IDataProvider dataProvider, IViewProvider viewProvider,
             IDataFactory dataFactory)

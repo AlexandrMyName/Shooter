@@ -5,11 +5,11 @@ namespace MVC.Core
 {
     public sealed class Controllers : IControllers
     {
-        private readonly List<IPreInitialisation> _preInitializeControllers;
-        private readonly List<IInitialisation> _initializeControllers;
-        private readonly List<IExecute> _executeControllers;
-        private readonly List<IFixedExecute> _fixedExecuteControllers;
-        private readonly List<ICleanUp> _cleanupControllers;
+        private List<IPreInitialisation> _preInitializeControllers;
+        private List<IInitialization> _initializeControllers;
+        private List<IExecute> _executeControllers;
+        private List<IFixedExecute> _fixedExecuteControllers;
+        private List<ICleanUp> _cleanupControllers;
         
         internal Controllers()
         {
@@ -23,7 +23,7 @@ namespace MVC.Core
                 case IPreInitialisation preInitialisationController:
                     _preInitializeControllers.Add(preInitialisationController);
                     break;
-                case IInitialisation initializeController:
+                case IInitialization initializeController:
                     _initializeControllers.Add(initializeController);
                     break;
                 case IExecute executeController:
@@ -41,7 +41,11 @@ namespace MVC.Core
         
         private void Init()
         {
-
+            _preInitializeControllers = new List<IPreInitialisation>();
+            _initializeControllers = new List<IInitialization>();
+            _executeControllers = new List<IExecute>();
+            _fixedExecuteControllers = new List<IFixedExecute>();
+            _cleanupControllers = new List<ICleanUp>();
         }
 
         public void PreInitialization()

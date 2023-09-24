@@ -14,7 +14,8 @@ namespace MVC.Core.Initialization
 
         private void Initialization()
         {
-            
+            _menuUIFactory.CreateCanvas();
+            _menuUIFactory.CreateMainMenuPanel();
         }     
     }
 }

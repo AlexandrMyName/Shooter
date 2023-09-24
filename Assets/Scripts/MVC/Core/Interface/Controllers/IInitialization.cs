@@ -1,6 +1,6 @@
 ﻿namespace MVC.Core.Interface.Controllers
 {
-    internal interface IInitialisation : IController
+    internal interface IInitialization : IController
     {
         public void Initialisation();
     }

@@ -14,7 +14,7 @@ namespace MVC.Core.Initialization
 
         private void Initialization()
         {
-            
+            _gameUIFactory.CreateCanvas();
         }
     }
 }
