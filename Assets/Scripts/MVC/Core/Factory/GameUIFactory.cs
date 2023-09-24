@@ -23,5 +23,10 @@ namespace MVC.Core.Factory
             _viewProvider.AddView(canvasView);
             _canvasTransform = canvasView.RectTransform;
         }
+
+        public void CreateGUIPanel()
+        {
+            
+        }
     }
 }
