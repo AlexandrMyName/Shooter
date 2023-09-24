@@ -15,3 +15,6 @@ MonoBehaviour:
   _loadedScriptables: []
   _loadedPrefabs:
   - {fileID: 5190767426435855394, guid: 5a94cdead32b8e946888b7a1bbb54fb2, type: 3}
+  - {fileID: 5368063531054822867, guid: 5a2a9020137967442996d5bad40752fd, type: 3}
+  - {fileID: 3068510764890516646, guid: 9d141e0bfb660aa4fa3108407ea03b70, type: 3}
+  - {fileID: 5090045702665203243, guid: 06e637fc01827664e83e818bae9a7dc2, type: 3}

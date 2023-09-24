@@ -35,10 +35,10 @@ RectTransform:
   m_Father: {fileID: 3068510763674181737}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 150, y: -335.03668}
+  m_SizeDelta: {x: 280, y: 109.92667}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2139850901174214159
 CanvasRenderer:
@@ -398,10 +398,10 @@ RectTransform:
   m_Father: {fileID: 3068510763674181737}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 150, y: -215.11}
+  m_SizeDelta: {x: 280, y: 109.92667}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2139850901174214162
 CanvasRenderer:
@@ -653,10 +653,10 @@ RectTransform:
   m_Father: {fileID: 3068510763674181737}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 150, y: -80.07333}
+  m_SizeDelta: {x: 280, y: 140.14667}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3068510764886793138
 CanvasRenderer:
@@ -766,14 +766,14 @@ GameObject:
   - component: {fileID: 3068510764890516644}
   - component: {fileID: 3068510764890516650}
   - component: {fileID: 3068510764890516645}
-  - component: {fileID: 3068510764890516647}
+  - component: {fileID: 35829823671910841}
   m_Layer: 5
   m_Name: PauseMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3068510764890516644
 RectTransform:
   m_ObjectHideFlags: 0
@@ -833,7 +833,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3068510764890516647
+--- !u!114 &35829823671910841
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -842,7 +842,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3068510764890516646}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ee4186364b147b478ce45971e18a7d0, type: 3}
+  m_Script: {fileID: 11500000, guid: e306ea796743e214b9cea6b78e442fda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _continueButton: {fileID: 2139850901174214152}

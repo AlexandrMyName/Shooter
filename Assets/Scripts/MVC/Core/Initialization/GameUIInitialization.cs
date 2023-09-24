@@ -15,6 +15,10 @@ namespace MVC.Core.Initialization
         private void Initialization()
         {
             _gameUIFactory.CreateCanvas();
+            _gameUIFactory.CreateGUIPanel();
+            _gameUIFactory.CreatePauseMenuPanel();
+            _gameUIFactory.CreateGameOverPanel();
+            _gameUIFactory.CreateGUIControllers();
         }
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using MVC.Core.Interface.Controllers;
+using UnityEngine;
 
 namespace MVC.Core
 {
@@ -18,24 +19,20 @@ namespace MVC.Core
         
         public Controllers Add(IController controller)
         {
-            switch (controller)
-            {
-                case IPreInitialisation preInitialisationController:
-                    _preInitializeControllers.Add(preInitialisationController);
-                    break;
-                case IInitialization initializeController:
-                    _initializeControllers.Add(initializeController);
-                    break;
-                case IExecute executeController:
-                    _executeControllers.Add(executeController);
-                    break;
-                case IFixedExecute fixedExecuteController:
-                    _fixedExecuteControllers.Add(fixedExecuteController);
-                    break;
-                case ICleanUp cleanUpController:
-                    _cleanupControllers.Add(cleanUpController);
-                    break;
-            }
+            if (controller is IPreInitialisation preInitializeController)
+                _preInitializeControllers.Add(preInitializeController);
+            
+            if (controller is IInitialization initializeController)
+                _initializeControllers.Add(initializeController);
+
+            if (controller is IExecute executeController)
+                _executeControllers.Add(executeController);
+
+            if (controller is IFixedExecute fixedExecuteController)
+                _fixedExecuteControllers.Add(fixedExecuteController);
+
+            if (controller is ICleanUp cleanUpController)
+                _cleanupControllers.Add(cleanUpController);
             return this;
         }
         
@@ -87,5 +84,9 @@ namespace MVC.Core
                 _cleanupControllers[index].Cleanup();
             }
         }
+    }
+
+    public interface IInitialisation
+    {
     }
 }
