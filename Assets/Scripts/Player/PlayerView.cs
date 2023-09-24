@@ -30,21 +30,38 @@ namespace Player
             }
         }
 
-        private void Start()
-        {
-            EnemyEvents.OnDead += AddScore;
-            _currentPlayerHP = _playerHP;
-            PlayerEvents.SpawnPlayer(_playerHP);
-        }
-    
-    
-        public void TakeDamage(int damage)
+    private void Start()
+    {
+        EnemyEvents.OnDead += AddScore;
+        PlayerEvents.OnPlayerHealed += TakeHeal;
+        _currentPlayerHP = _playerHP;
+        PlayerEvents.SpawnPlayer(_playerHP);
+    }
+
+    public void TakeDamage(int damage)
+    {
+        if (!_isDead)
         {
             if (!_isDead)
             {
                 PlayerHP -= damage;
             }
         }
+    }
+    public void TakeHeal(int healAmount)
+    {
+        if (!_isDead)
+        {
+            if (PlayerHP + healAmount > _playerHP)
+            {
+                PlayerHP = _playerHP;
+            }
+            else
+            {
+                PlayerHP += healAmount;
+            }
+        }
+    }
 
         private void AddScore()
         {
@@ -61,9 +78,9 @@ namespace Player
             PlayerEvents.PlayerDead();
         }
 
-        private void OnDestroy()
-        {
-            EnemyEvents.OnDead -= AddScore;
-        }
+    private void OnDestroy()
+    {
+        EnemyEvents.OnDead -= AddScore;
+        PlayerEvents.OnPlayerHealed -= TakeHeal;
     }
 }

@@ -7,7 +7,9 @@ namespace EventBus
         public static event Action<int> OnPlayerSpawned;
         public static event Action<int> OnUpdateHealthView;
         public static event Action<int> OnGameEnded;
+        public static event Action<int> OnPlayerHealed;
         public static event Action<bool> OnGamePaused;
+        
         public static event Action OnDead;
 
         public static void SpawnPlayer(int hp)
@@ -18,6 +20,10 @@ namespace EventBus
         public static void UpdateHealthView(int hp)
         {
             OnUpdateHealthView?.Invoke(hp);
+        }
+        public static void HealPlayer(int hp)
+        {
+            OnPlayerHealed?.Invoke(hp);
         }
 
         public static void GameEnded(int score)
