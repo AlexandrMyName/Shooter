@@ -6,5 +6,6 @@ namespace MVC.Core.Interface.Providers
     {
         public void AddView(IView view);
         public T GetView<T>() where T : IView;
+        public void LogAllViews();
     }
 }

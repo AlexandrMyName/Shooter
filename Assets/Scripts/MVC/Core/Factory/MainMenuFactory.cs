@@ -3,6 +3,7 @@ using MVC.Controllers;
 using MVC.Core.Interface.Controllers;
 using MVC.Core.Interface.Factory;
 using MVC.Core.Interface.Providers;
+using MVC.Views;
 using UnityEngine;
 
 namespace MVC.Core.Factory
@@ -34,8 +35,24 @@ namespace MVC.Core.Factory
                     _canvasTransform);
             MainMenuView mainMenuView = mainMenuPanel.GetComponent<MainMenuView>();
             _viewProvider.AddView(mainMenuView);
-            _controllers.Add(new MainMenuController(_viewProvider));
+            
         }
-        
+
+        public void CreateLeaderboardPanel()
+        {
+            GameObject leaderBoardPanel =
+                GameObject.Instantiate(
+                    ResourceLoadManager.GetPrefabComponentOrGameObject<GameObject>("LeaderBoard"),
+                    _canvasTransform);
+            LeaderBoardView leaderBoardView = leaderBoardPanel.GetComponent<LeaderBoardView>();
+            _viewProvider.AddView(leaderBoardView);
+        }
+
+        public void CreateUIControllers()
+        {
+            _controllers.Add(new MainMenuController(_viewProvider));
+            _controllers.Add(new LeaderBoardController(_viewProvider));
+        }
+
     }
 }

@@ -16,6 +16,8 @@ namespace MVC.Core.Initialization
         {
             _menuUIFactory.CreateCanvas();
             _menuUIFactory.CreateMainMenuPanel();
+            _menuUIFactory.CreateLeaderboardPanel();
+            _menuUIFactory.CreateUIControllers();
         }     
     }
 }

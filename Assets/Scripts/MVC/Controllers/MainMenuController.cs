@@ -1,5 +1,6 @@
 ﻿using MVC.Core.Interface.Controllers;
 using MVC.Core.Interface.Providers;
+using MVC.Views;
 using UnityEngine.SceneManagement;
 
 namespace MVC.Controllers
@@ -7,10 +8,12 @@ namespace MVC.Controllers
     public class MainMenuController : IInitialization, ICleanUp
     {
         private MainMenuView _mainMenuView;
+        private LeaderBoardView _leaderBoardView;
         
         public MainMenuController(IViewProvider viewProvider)
         {
             _mainMenuView = viewProvider.GetView<MainMenuView>();
+            _leaderBoardView = viewProvider.GetView<LeaderBoardView>();
         }
         
         public void Initialisation()
@@ -34,7 +37,8 @@ namespace MVC.Controllers
 
         private void LeaderboardButtonClick()
         {
-
+            _mainMenuView.Hide();
+            _leaderBoardView.Show();
         }
         private void ExitButtonClick()
         {

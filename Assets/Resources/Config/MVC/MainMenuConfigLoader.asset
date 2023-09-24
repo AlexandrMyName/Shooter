@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a0fdb98c0654ca4aae6e779955d1ce3, type: 3}
   m_Name: MainMenuConfigLoader
   m_EditorClassIdentifier: 
-  _loadedScriptables: []
+  _loadedScriptables:
+  - {fileID: 11400000, guid: a39fd06ccaf9635439d91e7fc6307ffd, type: 2}
+  - {fileID: 11400000, guid: 4987aa726fd17584a882fd93af9315f6, type: 2}
   _loadedPrefabs:
   - {fileID: 5190767426435855394, guid: 5a94cdead32b8e946888b7a1bbb54fb2, type: 3}
   - {fileID: 5481181758977624947, guid: 082307c423d78974fad146a5f3ab4644, type: 3}
+  - {fileID: 5141128152975278548, guid: 24624f55582c5e349933f7986b0eaee2, type: 3}
+  - {fileID: 2833353114939473936, guid: b2a6db104624c6e4886b7587ba6d788e, type: 3}
