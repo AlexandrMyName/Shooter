@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Enums;
+﻿using Enums;
 using UnityEngine;
 
 namespace Configs

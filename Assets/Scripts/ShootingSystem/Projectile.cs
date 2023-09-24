@@ -1,114 +1,118 @@
-using System;
 using System.Collections.Generic;
 using Configs;
+using EnemySystem;
+using Player;
 using UnityEngine;
 
-public class Projectile : MonoBehaviour
+namespace ShootingSystem
 {
-    [SerializeField] private ProjectileConfig _projectileConfig;
-    [SerializeField] private Rigidbody _projectileRigidbody;
+    public class Projectile : MonoBehaviour
+    {
+        [SerializeField] private ProjectileConfig _projectileConfig;
+        [SerializeField] private Rigidbody _projectileRigidbody;
 
-    [SerializeField] private int _groundLayerIndex = 6;
-    [SerializeField] private int _wallLayerIndex = 7;
+        [SerializeField] private int _groundLayerIndex = 6;
+        [SerializeField] private int _wallLayerIndex = 7;
     
-    private Transform _hitEffectsRoot;
-    private Vector3 _direction;
-    private Vector3 _startPosition;
-    private Vector3 _projectileLastPosition;
-    private float _currentLifetime;
-    private List<int> _currentIDs;
-    private bool _palyerHitedOnce;
+        private Transform _hitEffectsRoot;
+        private Vector3 _direction;
+        private Vector3 _startPosition;
+        private Vector3 _projectileLastPosition;
+        private float _currentLifetime;
+        private List<int> _currentIDs;
+        private bool _palyerHitedOnce;
 
-    void OnEnable()
-    {
-        _direction = Vector3.zero;
-    }
-
-    public void StartMoving(Vector3 startPosition, Vector3 hitPosition, Transform hitEffectsRoot)
-    {
-        _hitEffectsRoot = hitEffectsRoot;
-        _startPosition = startPosition;
-        _projectileLastPosition = startPosition;
-        _direction = (hitPosition - startPosition).normalized;
-        _currentLifetime = _projectileConfig.MaxLifetime;
-        if (_projectileConfig.IsGrenade)
+        void OnEnable()
         {
-            _projectileRigidbody.AddForce(_direction * _projectileConfig.ProjectileSpeed);
+            _direction = Vector3.zero;
         }
-    }
 
-    void FixedUpdate()
-    {
-        if (!_projectileConfig.IsGrenade)
+        public void StartMoving(Vector3 startPosition, Vector3 hitPosition, Transform hitEffectsRoot)
         {
-            _projectileRigidbody.velocity = _direction * _projectileConfig.ProjectileSpeed;
-            _projectileLastPosition = gameObject.transform.position - _direction;
-        }
-        _currentLifetime--;
-        if (_currentLifetime <= 0)
-        {
-            Destroy(gameObject);
-        }
-    }
-
-    private void Update()
-    {
-        if (_projectileRigidbody.constraints == RigidbodyConstraints.FreezeAll)
-        {
-            RaycastHit hitPoint;
-            LayerMask layerMask;
-            layerMask = 1 << _groundLayerIndex;
-            layerMask |= 1 << _wallLayerIndex;
-            bool isMadeImpact = _projectileConfig.IsMadeImpact;
-            Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, _projectileConfig.DamageRadius);
-            _currentIDs = new List<int>();
-            
-            foreach (var hitCollider in hitColliders)
+            _hitEffectsRoot = hitEffectsRoot;
+            _startPosition = startPosition;
+            _projectileLastPosition = startPosition;
+            _direction = (hitPosition - startPosition).normalized;
+            _currentLifetime = _projectileConfig.MaxLifetime;
+            if (_projectileConfig.IsGrenade)
             {
-                bool isEnemyHited = hitCollider.TryGetComponent<EnemyBoneView>(out EnemyBoneView enemyBoneView);
-                bool isPlayerHited = hitCollider.TryGetComponent<PlayerBoneView>(out PlayerBoneView playerBoneView);
-                if (isEnemyHited)
+                _projectileRigidbody.AddForce(_direction * _projectileConfig.ProjectileSpeed);
+            }
+        }
+
+        void FixedUpdate()
+        {
+            if (!_projectileConfig.IsGrenade)
+            {
+                _projectileRigidbody.velocity = _direction * _projectileConfig.ProjectileSpeed;
+                _projectileLastPosition = gameObject.transform.position - _direction;
+            }
+            _currentLifetime--;
+            if (_currentLifetime <= 0)
+            {
+                Destroy(gameObject);
+            }
+        }
+
+        private void Update()
+        {
+            if (_projectileRigidbody.constraints == RigidbodyConstraints.FreezeAll)
+            {
+                RaycastHit hitPoint;
+                LayerMask layerMask;
+                layerMask = 1 << _groundLayerIndex;
+                layerMask |= 1 << _wallLayerIndex;
+                bool isMadeImpact = _projectileConfig.IsMadeImpact;
+                Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, _projectileConfig.DamageRadius);
+                _currentIDs = new List<int>();
+            
+                foreach (var hitCollider in hitColliders)
                 {
-                    foreach (var id in _currentIDs)
+                    bool isEnemyHited = hitCollider.TryGetComponent<EnemyBoneView>(out EnemyBoneView enemyBoneView);
+                    bool isPlayerHited = hitCollider.TryGetComponent<PlayerBoneView>(out PlayerBoneView playerBoneView);
+                    if (isEnemyHited)
                     {
-                        if (id == enemyBoneView.EnemyView.EnemyID)
+                        foreach (var id in _currentIDs)
                         {
-                            isEnemyHited = false;
+                            if (id == enemyBoneView.EnemyView.EnemyID)
+                            {
+                                isEnemyHited = false;
+                            }
                         }
                     }
-                }
-                if (isEnemyHited)
-                {
-                    _currentIDs.Add(enemyBoneView.EnemyView.EnemyID);
-                    enemyBoneView.EnemyView.TakeDamage(_projectileConfig.Damage);
-                    isMadeImpact = false;
+                    if (isEnemyHited)
+                    {
+                        _currentIDs.Add(enemyBoneView.EnemyView.EnemyID);
+                        enemyBoneView.EnemyView.TakeDamage(_projectileConfig.Damage);
+                        isMadeImpact = false;
+                    }
+            
+                    if (isPlayerHited && !_palyerHitedOnce) 
+                    { 
+                        playerBoneView.PlayerView.TakeDamage(_projectileConfig.Damage);
+                        _palyerHitedOnce = true;
+                    }
                 }
             
-                if (isPlayerHited && !_palyerHitedOnce) 
-                { 
-                    playerBoneView.PlayerView.TakeDamage(_projectileConfig.Damage);
-                    _palyerHitedOnce = true;
-                }
-            }
-            
-            _palyerHitedOnce = false;
+                _palyerHitedOnce = false;
                     
-            bool isHitCanMadeImpact = Physics.Raycast(_projectileLastPosition,
-                _direction, out hitPoint, Mathf.Infinity, layerMask);
+                bool isHitCanMadeImpact = Physics.Raycast(_projectileLastPosition,
+                    _direction, out hitPoint, Mathf.Infinity, layerMask);
             
-            if (isMadeImpact && isHitCanMadeImpact)
-            {
-                Instantiate(_projectileConfig.ImpactParticleSystem, hitPoint.point, 
-                    Quaternion.LookRotation(hitPoint.normal), _hitEffectsRoot);
+                if (isMadeImpact && isHitCanMadeImpact)
+                {
+                    Instantiate(_projectileConfig.ImpactParticleSystem, hitPoint.point, 
+                        Quaternion.LookRotation(hitPoint.normal), _hitEffectsRoot);
+                }
+                Destroy(gameObject);
             }
-            Destroy(gameObject);
         }
-    }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        _projectileRigidbody.constraints = RigidbodyConstraints.FreezeAll;
+        private void OnCollisionEnter(Collision collision)
+        {
+            _projectileRigidbody.constraints = RigidbodyConstraints.FreezeAll;
 
-    }
+        }
     
+    }
 }

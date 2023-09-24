@@ -1,43 +1,45 @@
-using System;
 using EventBus;
 using TMPro;
 using UnityEngine;
 
-public class AmmoPanelView : MonoBehaviour
+namespace UI
 {
-    [SerializeField] private TMP_Text _currentAmmoInMagazineText;
-    [SerializeField] private TMP_Text _currentAmmoText;
-
-
-    private void Awake()
+    public class AmmoPanelView : MonoBehaviour
     {
-        ShootingEvents.OnAmmoCountChanged += SetAmmo;
-        ShootingEvents.OnAmmoCountInMagazineChanged += SetAmmoInMagazine;
-    }
+        [SerializeField] private TMP_Text _currentAmmoInMagazineText;
+        [SerializeField] private TMP_Text _currentAmmoText;
 
-    private void OnDestroy()
-    {
-        ShootingEvents.OnAmmoCountChanged -= SetAmmo;
-        ShootingEvents.OnAmmoCountInMagazineChanged -= SetAmmoInMagazine;
-    }
 
-    private void SetAmmoInMagazine(int ammoInMagazine)
-    {
-        _currentAmmoInMagazineText.text = ammoInMagazine.ToString();
-    }
+        private void Awake()
+        {
+            ShootingEvents.OnAmmoCountChanged += SetAmmo;
+            ShootingEvents.OnAmmoCountInMagazineChanged += SetAmmoInMagazine;
+        }
 
-    private void SetAmmo(int ammo)
-    {
-        _currentAmmoText.text = ammo.ToString();
-    }
+        private void OnDestroy()
+        {
+            ShootingEvents.OnAmmoCountChanged -= SetAmmo;
+            ShootingEvents.OnAmmoCountInMagazineChanged -= SetAmmoInMagazine;
+        }
 
-    public void Show()
-    {
-        gameObject.SetActive(true);
-    }
+        private void SetAmmoInMagazine(int ammoInMagazine)
+        {
+            _currentAmmoInMagazineText.text = ammoInMagazine.ToString();
+        }
 
-    public void Hide()
-    {
-        gameObject.SetActive(false);
+        private void SetAmmo(int ammo)
+        {
+            _currentAmmoText.text = ammo.ToString();
+        }
+
+        public void Show()
+        {
+            gameObject.SetActive(true);
+        }
+
+        public void Hide()
+        {
+            gameObject.SetActive(false);
+        }
     }
 }

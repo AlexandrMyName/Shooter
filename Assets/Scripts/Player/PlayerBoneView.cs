@@ -1,8 +1,11 @@
 using UnityEngine;
 
-public class PlayerBoneView : MonoBehaviour
+namespace Player
 {
-    [SerializeField] private PlayerView _playerView;
+    public class PlayerBoneView : MonoBehaviour
+    {
+        [SerializeField] private PlayerView _playerView;
 
-    public PlayerView PlayerView => _playerView;
+        public PlayerView PlayerView => _playerView;
+    }
 }

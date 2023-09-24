@@ -1,19 +1,22 @@
 using System.Collections;
 using UnityEngine;
 
-public class ObjectsTimeDestructor : MonoBehaviour
+namespace ShootingSystem
 {
-    public float delay = 5f;
-
-    void Start()
+    public class ObjectsTimeDestructor : MonoBehaviour
     {
-        StartCoroutine(Destruct());
-    }
+        public float delay = 5f;
 
-    private IEnumerator Destruct()
-    {
-        yield return new WaitForSeconds(delay);
+        void Start()
+        {
+            StartCoroutine(Destruct());
+        }
 
-        Destroy(gameObject);
+        private IEnumerator Destruct()
+        {
+            yield return new WaitForSeconds(delay);
+
+            Destroy(gameObject);
+        }
     }
 }

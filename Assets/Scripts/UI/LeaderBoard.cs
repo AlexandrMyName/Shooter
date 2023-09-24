@@ -1,137 +1,141 @@
 using System.Collections.Generic;
+using SavableData;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LeaderBoard : MonoBehaviour
+namespace UI
 {
-    [SerializeField] private UIMainMenuScreen _uiMainMenuScreen;
-    [SerializeField] private GameObject _scorePanelPrefab;
-    [SerializeField] private PlayerScoreList _playerScoreList;
-    [SerializeField] private PlayerScoreList _globalScoreList;
-    [SerializeField] private RectTransform _leaderBoardContentLayout;
-    [SerializeField] private Button _backButton;
-    [SerializeField] private Button _globalButton;
-    [SerializeField] private Button _selfButton;
-
-    private List<GameObject> _activeScorePanels;
-
-    private void OnEnable()
+    public class LeaderBoard : MonoBehaviour
     {
-        _backButton.onClick.AddListener(BackButtonAction);
-        _globalButton.onClick.AddListener(ShowGlobalScoreBoard);
-        _selfButton.onClick.AddListener(ShowSelfScoreBoard);
-        _activeScorePanels = new List<GameObject>();
-        ShowSelfScoreBoard();
-    }
+        [SerializeField] private UIMainMenuScreen _uiMainMenuScreen;
+        [SerializeField] private GameObject _scorePanelPrefab;
+        [SerializeField] private PlayerScoreList _playerScoreList;
+        [SerializeField] private PlayerScoreList _globalScoreList;
+        [SerializeField] private RectTransform _leaderBoardContentLayout;
+        [SerializeField] private Button _backButton;
+        [SerializeField] private Button _globalButton;
+        [SerializeField] private Button _selfButton;
 
-    private void OnDisable()
-    {
-        _backButton.onClick.RemoveListener(BackButtonAction);
-        _globalButton.onClick.RemoveListener(ShowGlobalScoreBoard);
-        _selfButton.onClick.RemoveListener(ShowSelfScoreBoard);
-    }
+        private List<GameObject> _activeScorePanels;
 
-    public void Show()
-    {
-        gameObject.SetActive(true);
-    }
-
-    public void Hide()
-    {
-        gameObject.SetActive(false);
-    }
-
-    private void BackButtonAction()
-    {
-        HideActiveScorePanels();
-        _uiMainMenuScreen.Show();
-        Hide();
-    }
-
-    private void ShowSelfScoreBoard()
-    {
-        HideActiveScorePanels();
-        int i = 0;
-        foreach (int score in _playerScoreList.ScoreList)
+        private void OnEnable()
         {
-            i++;
-            GameObject scorePanel = Instantiate(_scorePanelPrefab, _leaderBoardContentLayout);
-            ScorePanelView scorePanelView = scorePanel.GetComponent<ScorePanelView>();
-            scorePanelView.SetParameters(i, "Test", score);
-            _activeScorePanels.Add(scorePanel);
+            _backButton.onClick.AddListener(BackButtonAction);
+            _globalButton.onClick.AddListener(ShowGlobalScoreBoard);
+            _selfButton.onClick.AddListener(ShowSelfScoreBoard);
+            _activeScorePanels = new List<GameObject>();
+            ShowSelfScoreBoard();
         }
-    }
 
-    private void ShowGlobalScoreBoard()
-    {
-        HideActiveScorePanels();
-
-        int playerHighScore = _playerScoreList.ScoreList[0];
-        int currentPlace = 1;
-        bool isPlayerScoreInBoard = false;
-        for (int i = 0; i < _globalScoreList.MaxListCapacity; i++)
+        private void OnDisable()
         {
-            int score = _globalScoreList.ScoreList[i];
-            GameObject scorePanel = Instantiate(_scorePanelPrefab, _leaderBoardContentLayout);
-            ScorePanelView scorePanelView = scorePanel.GetComponent<ScorePanelView>();
-            if (playerHighScore > score && !isPlayerScoreInBoard)
+            _backButton.onClick.RemoveListener(BackButtonAction);
+            _globalButton.onClick.RemoveListener(ShowGlobalScoreBoard);
+            _selfButton.onClick.RemoveListener(ShowSelfScoreBoard);
+        }
+
+        public void Show()
+        {
+            gameObject.SetActive(true);
+        }
+
+        public void Hide()
+        {
+            gameObject.SetActive(false);
+        }
+
+        private void BackButtonAction()
+        {
+            HideActiveScorePanels();
+            _uiMainMenuScreen.Show();
+            Hide();
+        }
+
+        private void ShowSelfScoreBoard()
+        {
+            HideActiveScorePanels();
+            int i = 0;
+            foreach (int score in _playerScoreList.ScoreList)
             {
-                scorePanelView.SetParameters(currentPlace, "Test", playerHighScore);
-                scorePanelView.MarkPanel();
-                currentPlace++;
+                i++;
+                GameObject scorePanel = Instantiate(_scorePanelPrefab, _leaderBoardContentLayout);
+                ScorePanelView scorePanelView = scorePanel.GetComponent<ScorePanelView>();
+                scorePanelView.SetParameters(i, "Test", score);
                 _activeScorePanels.Add(scorePanel);
-                isPlayerScoreInBoard = true;
-                scorePanel = Instantiate(_scorePanelPrefab, _leaderBoardContentLayout);
-                scorePanelView = scorePanel.GetComponent<ScorePanelView>();
-                scorePanelView.SetParameters(currentPlace, "Test", score);
-                currentPlace++;
             }
-            else
-            {
-                scorePanelView.SetParameters(currentPlace, "Test", score);
-                currentPlace++;
-            }
-            _activeScorePanels.Add(scorePanel);
         }
 
-        if (!isPlayerScoreInBoard)
+        private void ShowGlobalScoreBoard()
         {
-            for (int n = _globalScoreList.MaxListCapacity; n < _globalScoreList.ScoreList.Count; n++)
+            HideActiveScorePanels();
+
+            int playerHighScore = _playerScoreList.ScoreList[0];
+            int currentPlace = 1;
+            bool isPlayerScoreInBoard = false;
+            for (int i = 0; i < _globalScoreList.MaxListCapacity; i++)
             {
-                int score = _globalScoreList.ScoreList[n];
+                int score = _globalScoreList.ScoreList[i];
+                GameObject scorePanel = Instantiate(_scorePanelPrefab, _leaderBoardContentLayout);
+                ScorePanelView scorePanelView = scorePanel.GetComponent<ScorePanelView>();
                 if (playerHighScore > score && !isPlayerScoreInBoard)
                 {
-                    isPlayerScoreInBoard = true;
-                    GameObject scorePanel = Instantiate(_scorePanelPrefab, _leaderBoardContentLayout);
-                    ScorePanelView scorePanelView = scorePanel.GetComponent<ScorePanelView>();
-                    scorePanelView.MarkPanel();
                     scorePanelView.SetParameters(currentPlace, "Test", playerHighScore);
+                    scorePanelView.MarkPanel();
+                    currentPlace++;
                     _activeScorePanels.Add(scorePanel);
-                    break;
+                    isPlayerScoreInBoard = true;
+                    scorePanel = Instantiate(_scorePanelPrefab, _leaderBoardContentLayout);
+                    scorePanelView = scorePanel.GetComponent<ScorePanelView>();
+                    scorePanelView.SetParameters(currentPlace, "Test", score);
+                    currentPlace++;
                 }
-                else if (n == _globalScoreList.ScoreList.Count - 1)
+                else
                 {
-                    isPlayerScoreInBoard = true;
-                    GameObject scorePanel = Instantiate(_scorePanelPrefab, _leaderBoardContentLayout);
-                    ScorePanelView scorePanelView = scorePanel.GetComponent<ScorePanelView>();
-                    scorePanelView.MarkPanel();
-                    scorePanelView.SetParameters(currentPlace, "Test", playerHighScore);
-                    _activeScorePanels.Add(scorePanel);
+                    scorePanelView.SetParameters(currentPlace, "Test", score);
+                    currentPlace++;
                 }
-                currentPlace++;
+                _activeScorePanels.Add(scorePanel);
             }
-        }
-    }
-    
-    private void HideActiveScorePanels()
-    {
-        if (_activeScorePanels.Count > 0)
-        {
-            foreach (GameObject scorePanel in _activeScorePanels)
+
+            if (!isPlayerScoreInBoard)
             {
-                Destroy(scorePanel);
+                for (int n = _globalScoreList.MaxListCapacity; n < _globalScoreList.ScoreList.Count; n++)
+                {
+                    int score = _globalScoreList.ScoreList[n];
+                    if (playerHighScore > score && !isPlayerScoreInBoard)
+                    {
+                        isPlayerScoreInBoard = true;
+                        GameObject scorePanel = Instantiate(_scorePanelPrefab, _leaderBoardContentLayout);
+                        ScorePanelView scorePanelView = scorePanel.GetComponent<ScorePanelView>();
+                        scorePanelView.MarkPanel();
+                        scorePanelView.SetParameters(currentPlace, "Test", playerHighScore);
+                        _activeScorePanels.Add(scorePanel);
+                        break;
+                    }
+                    else if (n == _globalScoreList.ScoreList.Count - 1)
+                    {
+                        isPlayerScoreInBoard = true;
+                        GameObject scorePanel = Instantiate(_scorePanelPrefab, _leaderBoardContentLayout);
+                        ScorePanelView scorePanelView = scorePanel.GetComponent<ScorePanelView>();
+                        scorePanelView.MarkPanel();
+                        scorePanelView.SetParameters(currentPlace, "Test", playerHighScore);
+                        _activeScorePanels.Add(scorePanel);
+                    }
+                    currentPlace++;
+                }
             }
         }
-        _activeScorePanels.Clear();
+    
+        private void HideActiveScorePanels()
+        {
+            if (_activeScorePanels.Count > 0)
+            {
+                foreach (GameObject scorePanel in _activeScorePanels)
+                {
+                    Destroy(scorePanel);
+                }
+            }
+            _activeScorePanels.Clear();
+        }
     }
 }

@@ -1,49 +1,51 @@
-using System;
 using EventBus;
 using TMPro;
 using UnityEngine;
 
-public class HealthPanelView : MonoBehaviour
+namespace UI
 {
-    [SerializeField] private TMP_Text _currentHPText;
-    [SerializeField] private TMP_Text _maxHPText;
-
-
-    private void Awake()
+    public class HealthPanelView : MonoBehaviour
     {
-        PlayerEvents.OnPlayerSpawned += SetStartHP;
-        PlayerEvents.OnUpdateHealthView += SetCurrentHP;
-    }
+        [SerializeField] private TMP_Text _currentHPText;
+        [SerializeField] private TMP_Text _maxHPText;
 
-    private void OnDestroy()
-    {
-        PlayerEvents.OnPlayerSpawned -= SetStartHP;
-        PlayerEvents.OnUpdateHealthView -= SetCurrentHP;
-    }
 
-    private void SetStartHP(int hp)
-    {
-        SetCurrentHP(hp);
-        SetMaxHP(hp);
-    }
+        private void Awake()
+        {
+            PlayerEvents.OnPlayerSpawned += SetStartHP;
+            PlayerEvents.OnUpdateHealthView += SetCurrentHP;
+        }
 
-    public void SetCurrentHP(int hp)
-    {
-        _currentHPText.text = hp.ToString();
-    }
+        private void OnDestroy()
+        {
+            PlayerEvents.OnPlayerSpawned -= SetStartHP;
+            PlayerEvents.OnUpdateHealthView -= SetCurrentHP;
+        }
 
-    public void SetMaxHP(int hp)
-    {
-        _maxHPText.text = hp.ToString();
-    }
+        private void SetStartHP(int hp)
+        {
+            SetCurrentHP(hp);
+            SetMaxHP(hp);
+        }
 
-    public void Show()
-    {
-        gameObject.SetActive(true);
-    }
+        public void SetCurrentHP(int hp)
+        {
+            _currentHPText.text = hp.ToString();
+        }
 
-    public void Hide()
-    {
-        gameObject.SetActive(false);
+        public void SetMaxHP(int hp)
+        {
+            _maxHPText.text = hp.ToString();
+        }
+
+        public void Show()
+        {
+            gameObject.SetActive(true);
+        }
+
+        public void Hide()
+        {
+            gameObject.SetActive(false);
+        }
     }
 }

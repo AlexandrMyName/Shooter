@@ -1,51 +1,54 @@
 using EventBus;
 using UnityEngine;
 
-public class HitMarkerView : MonoBehaviour
+namespace UI
 {
-    [SerializeField] private GameObject _hitMarkerObject;
-    [SerializeField] private int _markerActiveFrames;
-
-    private bool _isShowed;
-    private int _currentShowFrames;
-    void Awake()
+    public class HitMarkerView : MonoBehaviour
     {
-        Hide();
-        EnemyEvents.OnDamaged += ShowTemporary;
-    }
+        [SerializeField] private GameObject _hitMarkerObject;
+        [SerializeField] private int _markerActiveFrames;
 
-    void OnDestroy()
-    {
-        EnemyEvents.OnDamaged -= ShowTemporary;
-    }
-
-    private void FixedUpdate()
-    {
-        if (_isShowed)
+        private bool _isShowed;
+        private int _currentShowFrames;
+        void Awake()
         {
-            _currentShowFrames++;
-            if (_currentShowFrames > _markerActiveFrames)
+            Hide();
+            EnemyEvents.OnDamaged += ShowTemporary;
+        }
+
+        void OnDestroy()
+        {
+            EnemyEvents.OnDamaged -= ShowTemporary;
+        }
+
+        private void FixedUpdate()
+        {
+            if (_isShowed)
             {
-                Hide();
-                _currentShowFrames = 0;
-                _isShowed = false;
+                _currentShowFrames++;
+                if (_currentShowFrames > _markerActiveFrames)
+                {
+                    Hide();
+                    _currentShowFrames = 0;
+                    _isShowed = false;
+                }
             }
         }
-    }
     
-    private void ShowTemporary()
-    {
-        Show();
-        _isShowed = true;
-    }
+        private void ShowTemporary()
+        {
+            Show();
+            _isShowed = true;
+        }
     
-    public void Show()
-    {
-        _hitMarkerObject.SetActive(true);
-    }
+        public void Show()
+        {
+            _hitMarkerObject.SetActive(true);
+        }
 
-    public void Hide()
-    {
-        _hitMarkerObject.SetActive(false);
+        public void Hide()
+        {
+            _hitMarkerObject.SetActive(false);
+        }
     }
 }
