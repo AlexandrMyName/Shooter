@@ -1,92 +1,97 @@
+using Configs;
 using Extentions;
+using Player;
 using RootMotion.Demos;
 using UnityEngine;
 
-public class SpawningSystem : MonoBehaviour
+namespace EnemySystem
 {
-    [SerializeField] private SpawnConfig _spawnConfig;
-    [SerializeField] private GameObject _spawnableEnemyPrefab;
-    [SerializeField] private GameObject _goalObjectPrefab;
-    [SerializeField] private PlayerView _playerView;
-    [SerializeField] private GameObject _spawnedObjectsRoot;
-    [SerializeField] private GameObject _goalObjectsRoot;
-    [SerializeField] private GameObject _projectilesSpawnRoot;
-
-    private int _maxSpawnPointIndex;
-    private int _currentSpawnPointIndex;
-    private int _spawnedInCurrentWave;
-    private int _totalSpawned;
-    private int _currentID;
-    private float _lastSpawnTime;
-    private float _lastWaveTime;
-    private bool _isWaveSpawning;
-
-    public int CurrentID
+    public class SpawningSystem : MonoBehaviour
     {
-        get => _currentID;
-        set => _currentID = value;
-    }
+        [SerializeField] private SpawnConfig _spawnConfig;
+        [SerializeField] private GameObject _spawnableEnemyPrefab;
+        [SerializeField] private GameObject _goalObjectPrefab;
+        [SerializeField] private PlayerView _playerView;
+        [SerializeField] private GameObject _spawnedObjectsRoot;
+        [SerializeField] private GameObject _goalObjectsRoot;
+        [SerializeField] private GameObject _projectilesSpawnRoot;
 
-    private void Start()
-    {
-        _maxSpawnPointIndex = _spawnConfig.SpawnPointsList.Count - 1;
-        _totalSpawned = 0;
-        _spawnedInCurrentWave = 0;
-        _lastWaveTime = Time.time - _spawnConfig.WaveCooldown;
-        _lastSpawnTime = Time.time - _spawnConfig.SpawnCooldown;
-    }
+        private int _maxSpawnPointIndex;
+        private int _currentSpawnPointIndex;
+        private int _spawnedInCurrentWave;
+        private int _totalSpawned;
+        private int _currentID;
+        private float _lastSpawnTime;
+        private float _lastWaveTime;
+        private bool _isWaveSpawning;
 
-    private void FixedUpdate()
-    {
-        if (_totalSpawned < _spawnConfig.TotalSpawnCount)
+        public int CurrentID
         {
-            TrySpawn();
+            get => _currentID;
+            set => _currentID = value;
         }
-    }
 
-    private void TrySpawn()
-    {
-        if (Time.time > _lastWaveTime + _spawnConfig.WaveCooldown && !_isWaveSpawning)
+        private void Start()
         {
-            _isWaveSpawning = true;
-            _lastWaveTime = Time.time;
+            _maxSpawnPointIndex = _spawnConfig.SpawnPointsList.Count - 1;
+            _totalSpawned = 0;
             _spawnedInCurrentWave = 0;
+            _lastWaveTime = Time.time - _spawnConfig.WaveCooldown;
+            _lastSpawnTime = Time.time - _spawnConfig.SpawnCooldown;
         }
+
+        private void FixedUpdate()
+        {
+            if (_totalSpawned < _spawnConfig.TotalSpawnCount)
+            {
+                TrySpawn();
+            }
+        }
+
+        private void TrySpawn()
+        {
+            if (Time.time > _lastWaveTime + _spawnConfig.WaveCooldown && !_isWaveSpawning)
+            {
+                _isWaveSpawning = true;
+                _lastWaveTime = Time.time;
+                _spawnedInCurrentWave = 0;
+            }
         
-        if (Time.time > _lastSpawnTime + _spawnConfig.SpawnCooldown && _isWaveSpawning)
-        {
-            _lastSpawnTime = Time.time;
-            _currentSpawnPointIndex = Extention.GetRandomInt(0, _maxSpawnPointIndex);
-            gameObject.transform.position = _spawnConfig.SpawnPointsList[_currentSpawnPointIndex];
-            Spawn();
-            _spawnedInCurrentWave++;
-            _totalSpawned++;
+            if (Time.time > _lastSpawnTime + _spawnConfig.SpawnCooldown && _isWaveSpawning)
+            {
+                _lastSpawnTime = Time.time;
+                _currentSpawnPointIndex = Extention.GetRandomInt(0, _maxSpawnPointIndex);
+                gameObject.transform.position = _spawnConfig.SpawnPointsList[_currentSpawnPointIndex];
+                Spawn();
+                _spawnedInCurrentWave++;
+                _totalSpawned++;
+            }
+
+            if (_spawnedInCurrentWave >= _spawnConfig.WaveSpawnCount)
+            {
+                _isWaveSpawning = false;
+            }
         }
 
-        if (_spawnedInCurrentWave >= _spawnConfig.WaveSpawnCount)
+        private void Spawn()
         {
-            _isWaveSpawning = false;
+            GameObject enemy = GameObject.Instantiate(_spawnableEnemyPrefab,
+                gameObject.transform.position,
+                gameObject.transform.rotation,
+                _spawnedObjectsRoot.transform);
+            GameObject goal = GameObject.Instantiate(_goalObjectPrefab,
+                gameObject.transform.position,
+                gameObject.transform.rotation,
+                _goalObjectsRoot.transform);
+            enemy.TryGetComponent(out EnemyMovement enemyMovement);
+            EnemyView enemyView = enemyMovement.EnemyView;
+            enemyView.EnemyID = _currentID;
+            _currentID++;
+            enemyView.PlayerView = _playerView;
+            enemyView.EnemyAttacking.ProjectilesSpawnRoot = _projectilesSpawnRoot;
+            enemyMovement.GoalObject = goal;
+            NavMeshPuppet navMeshPuppet = enemyMovement.NavPuppet;
+            navMeshPuppet.target = goal.transform;
         }
-    }
-
-    private void Spawn()
-    {
-        GameObject enemy = GameObject.Instantiate(_spawnableEnemyPrefab,
-            gameObject.transform.position,
-            gameObject.transform.rotation,
-            _spawnedObjectsRoot.transform);
-        GameObject goal = GameObject.Instantiate(_goalObjectPrefab,
-            gameObject.transform.position,
-            gameObject.transform.rotation,
-            _goalObjectsRoot.transform);
-        enemy.TryGetComponent(out EnemyMovement enemyMovement);
-        EnemyView enemyView = enemyMovement.EnemyView;
-        enemyView.EnemyID = _currentID;
-        _currentID++;
-        enemyView.PlayerView = _playerView;
-        enemyView.EnemyAttacking.ProjectilesSpawnRoot = _projectilesSpawnRoot;
-        enemyMovement.GoalObject = goal;
-        NavMeshPuppet navMeshPuppet = enemyMovement.NavPuppet;
-        navMeshPuppet.target = goal.transform;
     }
 }

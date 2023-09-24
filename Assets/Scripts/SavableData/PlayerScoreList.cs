@@ -2,51 +2,54 @@ using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ScoreData", menuName = "Data/ScoreData", order = 0)]
-public class PlayerScoreList : ScriptableObject
+namespace SavableData
 {
-    [SerializeField] private List<int> _scoreList;
-    [SerializeField] private int _maxListCapacity;
-    private bool _isSuitable;
-
-    public List<int> ScoreList => _scoreList;
-    public int MaxListCapacity => _maxListCapacity;
-
-    public void AddCurrentScoreToList(int score)
+    [CreateAssetMenu(fileName = "ScoreData", menuName = "Data/ScoreData", order = 0)]
+    public class PlayerScoreList : ScriptableObject
     {
-        SuitableCheck(score);
-        if (_scoreList.Count >= _maxListCapacity && _isSuitable)
+        [SerializeField] private List<int> _scoreList;
+        [SerializeField] private int _maxListCapacity;
+        private bool _isSuitable;
+
+        public List<int> ScoreList => _scoreList;
+        public int MaxListCapacity => _maxListCapacity;
+
+        public void AddCurrentScoreToList(int score)
         {
-            _scoreList.Remove(_maxListCapacity - 1);
-            _scoreList.Add(score);
-        }
-        else if(_isSuitable)
-        {
-            _scoreList.Add(score);
-        }
-        SortList();
-    }
-
-    [Button]
-    public void ClearScores()
-    {
-        _scoreList.Clear();
-    }
-
-    private void SortList()
-    {
-        _scoreList.Sort();
-        _scoreList.Reverse();
-    }
-
-    private void SuitableCheck(int score)
-    {
-        _isSuitable = true;
-        foreach (int scoreFromList in _scoreList)
-        {
-            if (score == scoreFromList)
+            SuitableCheck(score);
+            if (_scoreList.Count >= _maxListCapacity && _isSuitable)
             {
-                _isSuitable = false;
+                _scoreList.Remove(_maxListCapacity - 1);
+                _scoreList.Add(score);
+            }
+            else if(_isSuitable)
+            {
+                _scoreList.Add(score);
+            }
+            SortList();
+        }
+
+        [Button]
+        public void ClearScores()
+        {
+            _scoreList.Clear();
+        }
+
+        private void SortList()
+        {
+            _scoreList.Sort();
+            _scoreList.Reverse();
+        }
+
+        private void SuitableCheck(int score)
+        {
+            _isSuitable = true;
+            foreach (int scoreFromList in _scoreList)
+            {
+                if (score == scoreFromList)
+                {
+                    _isSuitable = false;
+                }
             }
         }
     }

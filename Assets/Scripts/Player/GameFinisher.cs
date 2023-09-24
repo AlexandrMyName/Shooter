@@ -1,27 +1,31 @@
 using EventBus;
+using SavableData;
 using UnityEngine;
 
-public class GameFinisher : MonoBehaviour
+namespace Player
 {
-    [SerializeField] private PlayerScoreList _playerScoreList;
-    
-    void Start()
+    public class GameFinisher : MonoBehaviour
     {
-        PlayerEvents.OnGameEnded += EndGameActions;
-    }
+        [SerializeField] private PlayerScoreList _playerScoreList;
     
-    void OnDestroy()
-    {
-        PlayerEvents.OnGameEnded -= EndGameActions;
-    }
+        void Start()
+        {
+            PlayerEvents.OnGameEnded += EndGameActions;
+        }
+    
+        void OnDestroy()
+        {
+            PlayerEvents.OnGameEnded -= EndGameActions;
+        }
 
-    private void EndGameActions(int score)
-    {
-        AddGameScoreToList(score);
-    }
+        private void EndGameActions(int score)
+        {
+            AddGameScoreToList(score);
+        }
     
-    private void AddGameScoreToList(int score)
-    {
-        _playerScoreList.AddCurrentScoreToList(score);
+        private void AddGameScoreToList(int score)
+        {
+            _playerScoreList.AddCurrentScoreToList(score);
+        }
     }
 }

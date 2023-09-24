@@ -2,30 +2,33 @@ using EventBus;
 using RootMotion.Demos;
 using UnityEngine;
 
-public class PuppetControllerExtention : MonoBehaviour
+namespace AssetExtentions
 {
-    [SerializeField] private CharacterPuppet _characterController;
-    [SerializeField] private Player.CameraController _cameraController;
-
-    private void Start()
+    public class PuppetControllerExtention : MonoBehaviour
     {
-        ShootingEvents.OnCameraDirectionRotate += ChangeRotationInCameraDirection;
-        PlayerEvents.OnGamePaused += ChangeCursorLockState;
-    }
+        [SerializeField] private CharacterPuppet _characterController;
+        [SerializeField] private Player.CameraController _cameraController;
 
-    private void OnDisable()
-    {
-        ShootingEvents.OnCameraDirectionRotate -= ChangeRotationInCameraDirection;
-        PlayerEvents.OnGamePaused -= ChangeCursorLockState;
-    }
+        private void Start()
+        {
+            ShootingEvents.OnCameraDirectionRotate += ChangeRotationInCameraDirection;
+            PlayerEvents.OnGamePaused += ChangeCursorLockState;
+        }
 
-    private void ChangeRotationInCameraDirection(bool isRotating)
-    {
-        _characterController.lookInCameraDirection = isRotating;
-    }
+        private void OnDisable()
+        {
+            ShootingEvents.OnCameraDirectionRotate -= ChangeRotationInCameraDirection;
+            PlayerEvents.OnGamePaused -= ChangeCursorLockState;
+        }
 
-    private void ChangeCursorLockState(bool isLocked)
-    {
-        _cameraController.lockCursor = !isLocked;
+        private void ChangeRotationInCameraDirection(bool isRotating)
+        {
+            _characterController.lookInCameraDirection = isRotating;
+        }
+
+        private void ChangeCursorLockState(bool isLocked)
+        {
+            _cameraController.lockCursor = !isLocked;
+        }
     }
 }

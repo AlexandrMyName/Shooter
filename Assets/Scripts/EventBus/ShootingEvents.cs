@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Net.NetworkInformation;
-using Assets.Scripts.Enums;
+using Enums;
 using UnityEngine;
 
 namespace EventBus

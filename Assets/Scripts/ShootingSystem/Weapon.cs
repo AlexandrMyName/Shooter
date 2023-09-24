@@ -1,9 +1,9 @@
-﻿using Assets.Scripts.Enums;
-using Configs;
+﻿using Configs;
 using EventBus;
 using Extentions;
 using UnityEngine;
 using System.Collections;
+using Enums;
 
 namespace ShootingSystem
 {

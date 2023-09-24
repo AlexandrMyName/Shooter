@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: GlobalStatisticFake
   m_EditorClassIdentifier: 
   _scoreList: 00040000ae03000058030000090300009a02000000020000d801000040010000b400000064000000140000000f0000000a000000
-  _maxListCapacity: 9
+  _maxListCapacity: 8
