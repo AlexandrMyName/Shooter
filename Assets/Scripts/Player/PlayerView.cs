@@ -6,7 +6,7 @@ public class PlayerView : MonoBehaviour
     [SerializeField] private Transform _playerTransform;
     [SerializeField] private Transform _playerDamagableZoneTransform;
     [SerializeField] private int _playerHP = 50;
-    
+
     private int _currentPlayerHP;
     private int _currentScore;
     private bool _isDead;
@@ -31,16 +31,30 @@ public class PlayerView : MonoBehaviour
     private void Start()
     {
         EnemyEvents.OnDead += AddScore;
+        PlayerEvents.OnPlayerHealed += TakeHeal;
         _currentPlayerHP = _playerHP;
         PlayerEvents.SpawnPlayer(_playerHP);
     }
-    
-    
+
     public void TakeDamage(int damage)
     {
         if (!_isDead)
         {
             PlayerHP -= damage;
+        }
+    }
+    public void TakeHeal(int healAmount)
+    {
+        if (!_isDead)
+        {
+            if (PlayerHP + healAmount > _playerHP)
+            {
+                PlayerHP = _playerHP;
+            }
+            else
+            {
+                PlayerHP += healAmount;
+            }
         }
     }
 
@@ -62,5 +76,6 @@ public class PlayerView : MonoBehaviour
     private void OnDestroy()
     {
         EnemyEvents.OnDead -= AddScore;
+        PlayerEvents.OnPlayerHealed -= TakeHeal;
     }
 }
