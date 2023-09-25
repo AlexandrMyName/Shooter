@@ -8,7 +8,7 @@ namespace Player
         [SerializeField] private Transform _playerTransform;
         [SerializeField] private Transform _playerDamagableZoneTransform;
         [SerializeField] private int _playerHP = 50;
-    
+
         private int _currentPlayerHP;
         private int _currentScore;
         private bool _isDead;
@@ -30,38 +30,39 @@ namespace Player
             }
         }
 
-    private void Start()
-    {
-        EnemyEvents.OnDead += AddScore;
-        PlayerEvents.OnPlayerHealed += TakeHeal;
-        _currentPlayerHP = _playerHP;
-        PlayerEvents.SpawnPlayer(_playerHP);
-    }
+        private void Start()
+        {
+            EnemyEvents.OnDead += AddScore;
+            PlayerEvents.OnPlayerHealed += TakeHeal;
+            _currentPlayerHP = _playerHP;
+            PlayerEvents.SpawnPlayer(_playerHP);
+        }
 
-    public void TakeDamage(int damage)
-    {
-        if (!_isDead)
+        public void TakeDamage(int damage)
         {
             if (!_isDead)
             {
-                PlayerHP -= damage;
+                if (!_isDead)
+                {
+                    PlayerHP -= damage;
+                }
             }
         }
-    }
-    public void TakeHeal(int healAmount)
-    {
-        if (!_isDead)
+
+        public void TakeHeal(int healAmount)
         {
-            if (PlayerHP + healAmount > _playerHP)
+            if (!_isDead)
             {
-                PlayerHP = _playerHP;
-            }
-            else
-            {
-                PlayerHP += healAmount;
+                if (PlayerHP + healAmount > _playerHP)
+                {
+                    PlayerHP = _playerHP;
+                }
+                else
+                {
+                    PlayerHP += healAmount;
+                }
             }
         }
-    }
 
         private void AddScore()
         {
@@ -78,9 +79,10 @@ namespace Player
             PlayerEvents.PlayerDead();
         }
 
-    private void OnDestroy()
-    {
-        EnemyEvents.OnDead -= AddScore;
-        PlayerEvents.OnPlayerHealed -= TakeHeal;
+        private void OnDestroy()
+        {
+            EnemyEvents.OnDead -= AddScore;
+            PlayerEvents.OnPlayerHealed -= TakeHeal;
+        }
     }
 }
