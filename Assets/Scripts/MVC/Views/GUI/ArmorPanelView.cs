@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace UI
 {
-    public class ArmorView : MonoBehaviour
+    public class ArmorPanelView : MonoBehaviour
     {
         [SerializeField] private TMP_Text _currentArmorText;
         [SerializeField] private TMP_Text _maxArmorText;
