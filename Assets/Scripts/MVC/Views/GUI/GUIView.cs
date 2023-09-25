@@ -6,7 +6,7 @@ public class GUIView : MonoBehaviour, IView
 {
     [SerializeField] private CrosshairView _crosshairView;
     [SerializeField] private HealthPanelView _healthPanelView;
-    [SerializeField] private ArmorPanelView _armorPanelView;
+    [SerializeField] private ArmorView _armorPanelView;
     [SerializeField] private AmmoPanelView _ammoPanelView;
     [SerializeField] private GUIScoreView _scoreView;
 
@@ -14,7 +14,7 @@ public class GUIView : MonoBehaviour, IView
 
     public HealthPanelView HealthPanelView => _healthPanelView;
 
-    public ArmorPanelView ArmorPanelView => _armorPanelView;
+    public ArmorView ArmorPanelView => _armorPanelView;
 
     public AmmoPanelView AmmoPanelView => _ammoPanelView;
 
