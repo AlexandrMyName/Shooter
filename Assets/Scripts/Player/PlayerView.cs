@@ -7,9 +7,11 @@ namespace Player
     {
         [SerializeField] private Transform _playerTransform;
         [SerializeField] private Transform _playerDamagableZoneTransform;
-        [SerializeField] private int _playerHP = 50;
+        [SerializeField] private int _playerMaxHP = 50;
+        [SerializeField] private int _playerMaxArmor = 50;
 
         private int _currentPlayerHP;
+        private int _currentPlayerArmor;
         private int _currentScore;
         private bool _isDead;
 
@@ -30,21 +32,47 @@ namespace Player
             }
         }
 
+        public int PlayerArmor
+        {
+            get => _currentPlayerArmor;
+            set
+            {
+                if (value > 0)
+                {
+                    _currentPlayerArmor = value;
+                }
+                else
+                {
+                    _currentPlayerArmor = 0;
+                }
+                PlayerEvents.UpdateArmorView(_currentPlayerArmor, _playerMaxArmor);
+            }
+        }
+
         private void Start()
         {
             EnemyEvents.OnDead += AddScore;
             PlayerEvents.OnPlayerHealed += TakeHeal;
-            _currentPlayerHP = _playerHP;
-            PlayerEvents.SpawnPlayer(_playerHP);
+            PlayerEvents.OnPlayerArmorAdded += TakeArmor;
+            _currentPlayerHP = _playerMaxHP;
+            _currentPlayerArmor = 0;
+            PlayerEvents.SpawnPlayer(_playerMaxHP);
+            PlayerEvents.UpdateArmorView(_currentPlayerArmor, _playerMaxArmor);
         }
 
         public void TakeDamage(int damage)
         {
             if (!_isDead)
             {
-                if (!_isDead)
+                if (damage <= PlayerArmor)
                 {
-                    PlayerHP -= damage;
+                    PlayerArmor -= damage;
+                }
+                else
+                {
+                    int deltaDamage = damage - PlayerArmor;
+                    PlayerArmor -= damage;
+                    PlayerHP -= deltaDamage;
                 }
             }
         }
@@ -53,13 +81,28 @@ namespace Player
         {
             if (!_isDead)
             {
-                if (PlayerHP + healAmount > _playerHP)
+                if (PlayerHP + healAmount > _playerMaxHP)
                 {
-                    PlayerHP = _playerHP;
+                    PlayerHP = _playerMaxHP;
                 }
                 else
                 {
                     PlayerHP += healAmount;
+                }
+            }
+        }
+        
+        public void TakeArmor(int armorAmount)
+        {
+            if (!_isDead)
+            {
+                if (PlayerArmor + armorAmount > _playerMaxHP)
+                {
+                    PlayerArmor = _playerMaxArmor;
+                }
+                else
+                {
+                    PlayerArmor += armorAmount;
                 }
             }
         }
@@ -83,6 +126,7 @@ namespace Player
         {
             EnemyEvents.OnDead -= AddScore;
             PlayerEvents.OnPlayerHealed -= TakeHeal;
+            PlayerEvents.OnPlayerArmorAdded -= TakeArmor;
         }
     }
 }
