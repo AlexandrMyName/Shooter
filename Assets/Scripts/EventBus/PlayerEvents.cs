@@ -6,8 +6,10 @@ namespace EventBus
     {
         public static event Action<int> OnPlayerSpawned;
         public static event Action<int> OnUpdateHealthView;
+        public static event Action<int, int> OnUpdateArmorView;
         public static event Action<int> OnGameEnded;
         public static event Action<int> OnPlayerHealed;
+        public static event Action<int> OnPlayerArmorAdded;
         public static event Action<bool> OnGamePaused;
         
         public static event Action OnDead;
@@ -21,9 +23,17 @@ namespace EventBus
         {
             OnUpdateHealthView?.Invoke(hp);
         }
+        public static void UpdateArmorView(int armor, int maxArmor)
+        {
+            OnUpdateArmorView?.Invoke(armor, maxArmor);
+        }
         public static void HealPlayer(int hp)
         {
             OnPlayerHealed?.Invoke(hp);
+        }
+        public static void AddArmor(int armor)
+        {
+            OnPlayerArmorAdded?.Invoke(armor);
         }
 
         public static void GameEnded(int score)
