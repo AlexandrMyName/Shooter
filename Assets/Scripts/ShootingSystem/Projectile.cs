@@ -5,6 +5,7 @@ using Player;
 using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
+using System;
 
 
 public class Projectile : MonoBehaviour, IDisposable
@@ -57,7 +58,9 @@ public class Projectile : MonoBehaviour, IDisposable
 
         if (_projectileConfig.ProjectileType == ProjectileType.Rocket)
         {
+
             projectTileCollider.isTrigger = true;
+
             GetComponent<Collider>()
                 .OnTriggerEnterAsObservable()
                 .Subscribe(col =>
@@ -66,6 +69,17 @@ public class Projectile : MonoBehaviour, IDisposable
                     TakeExposionForce();
                 })
                 .AddTo(_disposables);
+
+            GetComponent<Collider>()
+               .OnCollisionEnterAsObservable()
+               .Subscribe(col =>
+               {
+                   _projectileRigidbody.constraints = RigidbodyConstraints.FreezeAll;
+                   TakeExposionForce();
+               })
+               .AddTo(_disposables);
+
+
         }
         else
         {
