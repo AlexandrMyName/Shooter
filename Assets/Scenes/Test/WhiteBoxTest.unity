@@ -3078,7 +3078,7 @@ PrefabInstance:
     - target: {fileID: 7638893234728063211, guid: fec508ec24666a34a98758442cefb000, type: 3}
       propertyPath: _weaponConfig
       value: 
-      objectReference: {fileID: 11400000, guid: 09dfe50c298d6ca4eafecfc0cc0ce992, type: 2}
+      objectReference: {fileID: 11400000, guid: bf6a86f01bd9b9c41ad2700686c9bf1e, type: 2}
     - target: {fileID: 7638893234728063211, guid: fec508ec24666a34a98758442cefb000, type: 3}
       propertyPath: _ammoPanelView
       value: 

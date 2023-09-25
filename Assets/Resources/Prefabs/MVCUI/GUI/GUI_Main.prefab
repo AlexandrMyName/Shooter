@@ -2480,7 +2480,7 @@ GameObject:
   - component: {fileID: 6271871549752021275}
   - component: {fileID: 2750030030585345167}
   - component: {fileID: 1184959115474983125}
-  - component: {fileID: 4950619393367203728}
+  - component: {fileID: 7102430080919529556}
   m_Layer: 5
   m_Name: Armor
   m_TagString: Untagged
@@ -2577,7 +2577,7 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &4950619393367203728
+--- !u!114 &7102430080919529556
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2586,7 +2586,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7293360591343460858}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76876a960f7e51843896ea740a1e44f6, type: 3}
+  m_Script: {fileID: 11500000, guid: ab50779bfb6fb6e48a73435e5bcb0ac8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _currentArmorText: {fileID: 1394758107649616211}
