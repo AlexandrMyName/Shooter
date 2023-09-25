@@ -13,6 +13,11 @@ namespace Configs
         [SerializeField] private bool _isGrenade;
         [SerializeField] private ParticleSystem _impactParticleSystem;
 
+
+        [field: SerializeField] public ProjectileType ProjectileType { get; private set; }
+        [field: SerializeField] public DamageType DamageType { get; private set; }
+
+
         public int Damage => _damage;
         public float MaxLifetime => _maxLifetime;
         public float DamageRadius => _damageRadius;
