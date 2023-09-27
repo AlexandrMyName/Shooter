@@ -1610,7 +1610,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _crosshairView: {fileID: 6885052810478147488}
   _healthPanelView: {fileID: 4892516689861671133}
-  _armorPanelView: {fileID: 0}
+  _armorPanelView: {fileID: 7102430080919529556}
   _ammoPanelView: {fileID: 3281873369135840490}
   _scoreView: {fileID: 7751234774602613599}
 --- !u!1 &5424589877125996925

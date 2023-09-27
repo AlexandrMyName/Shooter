@@ -24,6 +24,7 @@ namespace MVC.Controllers
         {
             PlayerEvents.OnDead += ShowGameover;
             PlayerEvents.OnGameEnded += SetScore;
+            PlayerEvents.OnGodMode += ToggleGodMode;
             _gameOverView.RestartButton.onClick.AddListener(Restart);
             _gameOverView.ExitButton.onClick.AddListener(Exit);
             _gameOverView.Hide();
@@ -33,6 +34,7 @@ namespace MVC.Controllers
         {
             PlayerEvents.OnDead -= ShowGameover;
             PlayerEvents.OnGameEnded -= SetScore;
+            PlayerEvents.OnGodMode -= ToggleGodMode;
         }
 
         private void SetScore(int score)
@@ -46,6 +48,20 @@ namespace MVC.Controllers
             _gameOverView.Show();
             _pauseView.Hide();
             _guiView.Hide();
+        }
+        
+        private void ToggleGodMode(bool isActive)
+        {
+            if (isActive)
+            {
+                _guiView.ArmorPanelView.Hide();
+                _guiView.HealthPanelView.Hide();
+            }
+            else
+            {
+                _guiView.ArmorPanelView.Show();
+                _guiView.HealthPanelView.Show();
+            }
         }
 
         private void Restart()
