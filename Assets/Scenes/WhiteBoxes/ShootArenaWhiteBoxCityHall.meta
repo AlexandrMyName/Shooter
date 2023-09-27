@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-<<<<<<< Updated upstream:Assets/Resources/Prefabs/UI/MainMenu.meta
-guid: 23f6e1eb944161548a473d3984c21489
+<<<<<<<< HEAD:Assets/Scripts/TileSystem.meta
+guid: daa747ec17b1ab1458c21c2b8b55fdf9
+========
+guid: 16751631311cba44197f9eef044e0f35
+>>>>>>>> 5c79bd0 (RemoveFolderUI):Assets/Scenes/WhiteBoxes/ShootArenaWhiteBoxCityHall.meta
 folderAsset: yes
-=======
-guid: 840a078789282184f9347c973f7bdefd
->>>>>>> Stashed changes:Assets/Scenes/WhiteBoxes/ShootArenaWhiteBoxCityHall.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

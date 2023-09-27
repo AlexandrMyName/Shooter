@@ -1,7 +1,13 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Resources/Prefabs/MapTiles/Tile3.prefab.meta
 guid: b20f2fa9c288b5447a0a1e4fc97c59ca
 PrefabImporter:
+========
+guid: a81d43cfcf3cafe449c7e5756ab8dac4
+NativeFormatImporter:
+>>>>>>>> 5c79bd0 (RemoveFolderUI):Assets/Scenes/WhiteBoxes/ShootArenaWhiteBoxCityHall/NavMesh.asset.meta
   externalObjects: {}
+  mainObjectFileID: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
