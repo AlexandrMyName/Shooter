@@ -7,16 +7,19 @@ namespace Player
     {
         [SerializeField] private Transform _playerTransform;
         [SerializeField] private Transform _playerDamagableZoneTransform;
+        [SerializeField] private Transform _playerHeadTransform;
         [SerializeField] private int _playerMaxHP = 50;
         [SerializeField] private int _playerMaxArmor = 50;
 
         private int _currentPlayerHP;
         private int _currentPlayerArmor;
         private int _currentScore;
+        private bool _godMode;
         private bool _isDead;
 
         public Transform PlayerTransform => _playerTransform;
         public Transform PlayerDamagableZoneTransform => _playerDamagableZoneTransform;
+        public Transform PlayerHeadTransform => _playerHeadTransform;
 
         public int PlayerHP
         {
@@ -54,6 +57,7 @@ namespace Player
             EnemyEvents.OnDead += AddScore;
             PlayerEvents.OnPlayerHealed += TakeHeal;
             PlayerEvents.OnPlayerArmorAdded += TakeArmor;
+            PlayerEvents.OnGodMode += GodMode;
             _currentPlayerHP = _playerMaxHP;
             _currentPlayerArmor = 0;
             PlayerEvents.SpawnPlayer(_playerMaxHP);
@@ -62,7 +66,7 @@ namespace Player
 
         public void TakeDamage(int damage)
         {
-            if (!_isDead)
+            if (!_isDead && !_godMode)
             {
                 if (damage <= PlayerArmor)
                 {
@@ -91,7 +95,11 @@ namespace Player
                 }
             }
         }
-        
+        public void GodMode(bool godMode)
+        {
+            _godMode = godMode;
+        }
+
         public void TakeArmor(int armorAmount)
         {
             if (!_isDead)
@@ -127,6 +135,7 @@ namespace Player
             EnemyEvents.OnDead -= AddScore;
             PlayerEvents.OnPlayerHealed -= TakeHeal;
             PlayerEvents.OnPlayerArmorAdded -= TakeArmor;
+            PlayerEvents.OnGodMode -= GodMode;
         }
     }
 }

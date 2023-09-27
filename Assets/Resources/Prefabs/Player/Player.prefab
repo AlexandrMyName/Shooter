@@ -60,8 +60,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerTransform: {fileID: 3623052757993481211}
-  _playerDamagableZoneTransform: {fileID: 3623052759152857008}
-  _playerHP: 50
+  _playerDamagableZoneTransform: {fileID: 3623052757993481211}
+  _playerHeadTransform: {fileID: 3623052758640368833}
+  _playerMaxHP: 50
+  _playerMaxArmor: 50
 --- !u!114 &8297143885209127969
 MonoBehaviour:
   m_ObjectHideFlags: 0
