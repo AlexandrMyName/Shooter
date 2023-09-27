@@ -22,19 +22,42 @@ public class MapGenerator : MonoBehaviour
 
     public void GenerateTile(WorldSide side, ConnectorView connectorView)
     {
-        int randomIndex = Extention.GetRandomInt(0, _tilePrefabsList.Count);
-        GameObject tile = Instantiate(_tilePrefabsList[randomIndex], gameObject.transform);
+        int index = Extention.GetRandomInt(0, _tilePrefabsList.Count);
+        GameObject prefab = _tilePrefabsList[index];
+        TileView prefabView = prefab.GetComponent<TileView>();
+        while (prefabView.TileID == connectorView.TileView.TileID)
+        {
+            index = Extention.GetRandomInt(0, _tilePrefabsList.Count);
+            prefab = _tilePrefabsList[index];
+            prefabView = prefab.GetComponent<TileView>();
+        }
+        
+        prefabView.Initialize();
+        ConnectorView secondConnectorView;
+        if (prefabView.TryGetConnector(connectorView.ConnectableSide, out secondConnectorView))
+        {
+            bool isEnoughSpace = connectorView.IsConnectionPossible(secondConnectorView);
+            if (isEnoughSpace)
+            {
+                SpawnTile(index, connectorView);
+            }
+            secondConnectorView.IsGenerated = true;
+            connectorView.gameObject.SetActive(false);
+        }
+    }
+
+    private void SpawnTile(int index, ConnectorView connectorView)
+    {
+        GameObject tile = Instantiate(_tilePrefabsList[index], gameObject.transform);
         TileView tileView = tile.GetComponent<TileView>();
         _tileViews.Add(tileView);
         tileView.MapGenerator = this;
-        
         ConnectorView secondConnectorView;
         if (tileView.TryGetConnector(connectorView.ConnectableSide, out secondConnectorView))
         {
             Vector3 connectorPosition =
                 Vector3.zero + connectorView.transform.position;
             tile.transform.position = connectorPosition - secondConnectorView.gameObject.transform.position;
-            secondConnectorView.IsGenerated = true;
         }
     }
 }
