@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 255189cfb657dee4bacf30b2aebd309d, type: 3}
+  m_Name: CityHallSpawnConfig
+  m_EditorClassIdentifier: 
+  _spawnPointsList:
+  - {x: 18.319304, y: 19.878, z: 21.335485}
+  - {x: 2.599302, y: 19.978, z: 34.435486}
+  - {x: -20.810698, y: 19.978, z: -14.594515}
+  - {x: -20.810698, y: 19.978, z: -14.594515}
+  - {x: -2.7306979, y: 29.848001, z: -5.4445143}
+  - {x: -3.360698, y: 25.298, z: 26.135487}
+  _isInfiniteSpawning: 1
+  _totalSpawnCount: 1000
+  _waveSpawnCount: 2
+  _waveCooldown: 6
+  _spawnCooldown: 2
