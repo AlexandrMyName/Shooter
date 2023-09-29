@@ -599,11 +599,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animator: {fileID: 3623052758624158172}
   _lookAt: {fileID: 738995493}
-  _weight: 0
-  _body: 0
-  _head: 0
-  _eyes: 0
-  _clamp: 0
+  _weight: 1
+  _body: 0.55
+  _head: 0.967
+  _eyes: 1
+  _clamp: 0.564
 --- !u!1 &592304975
 GameObject:
   m_ObjectHideFlags: 0
