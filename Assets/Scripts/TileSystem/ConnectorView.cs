@@ -35,8 +35,6 @@ public class ConnectorView : MonoBehaviour
             gameObject.transform.position.x - _tileView.FoundationTransform.position.x,
             gameObject.transform.position.y,
             gameObject.transform.position.z - _tileView.FoundationTransform.position.z);
-        Debug.Log(connectorLocalPosition + " " + gameObject);
-        
         switch (_worldSide)
         {
             case WorldSide.North:
@@ -101,7 +99,7 @@ public class ConnectorView : MonoBehaviour
         if (_isUsable && Input.GetKeyDown(KeyCode.E))
         {
             _isGenerated = true;
-            _playerView.HasKey = false;
+            PlayerEvents.ChangeKeyStatus(false);
             _tileView.MapGenerator.GenerateTile(_worldSide, this);
         }
     }

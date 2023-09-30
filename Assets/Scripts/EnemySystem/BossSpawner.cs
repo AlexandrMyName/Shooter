@@ -1,3 +1,4 @@
+using EventBus;
 using Player;
 using RootMotion.Demos;
 using UnityEngine;
@@ -41,10 +42,12 @@ namespace EnemySystem
         {
             if (_enemyView != null)
             {
+                Debug.Log(_enemyView.IsDead);
                 if (_enemyView.IsDead)
                 {
                     _enemyView = null;
-                    _playerView.HasKey = true;
+                    Debug.Log("GetKey");
+                    PlayerEvents.ChangeKeyStatus(true);
                 }
             }
 

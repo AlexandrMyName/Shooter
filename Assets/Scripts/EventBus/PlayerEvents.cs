@@ -12,6 +12,7 @@ namespace EventBus
         public static event Action<int> OnPlayerArmorAdded;
         public static event Action<bool> OnGodMode;
         public static event Action<bool> OnGamePaused;
+        public static event Action<bool> OnKeyStatusChanged;
         
         public static event Action OnDead;
 
@@ -54,6 +55,11 @@ namespace EventBus
         public static void PlayerDead()
         {
             OnDead?.Invoke();
+        }
+
+        public static void ChangeKeyStatus(bool hasKey)
+        {
+            OnKeyStatusChanged?.Invoke(hasKey);
         }
     }
 }

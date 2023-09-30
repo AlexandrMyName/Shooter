@@ -22,11 +22,8 @@ namespace Player
         public Transform PlayerDamagableZoneTransform => _playerDamagableZoneTransform;
         public Transform PlayerHeadTransform => _playerHeadTransform;
 
-        public bool HasKey
-        {
-            get => _hasKey;
-            set => _hasKey = value;
-        }
+        public bool HasKey => _hasKey;
+
 
         public int PlayerHP
         {
@@ -65,6 +62,7 @@ namespace Player
             PlayerEvents.OnPlayerHealed += TakeHeal;
             PlayerEvents.OnPlayerArmorAdded += TakeArmor;
             PlayerEvents.OnGodMode += GodMode;
+            PlayerEvents.OnKeyStatusChanged += ChangeKeyStatus;
             _currentPlayerHP = _playerMaxHP;
             _currentPlayerArmor = 0;
             PlayerEvents.SpawnPlayer(_playerMaxHP);
@@ -127,6 +125,11 @@ namespace Player
             _currentScore++;
         }
 
+        private void ChangeKeyStatus(bool hasKey)
+        {
+            _hasKey = hasKey;
+        }
+
         private void Death()
         {
             _currentPlayerHP = 0;
@@ -143,6 +146,7 @@ namespace Player
             PlayerEvents.OnPlayerHealed -= TakeHeal;
             PlayerEvents.OnPlayerArmorAdded -= TakeArmor;
             PlayerEvents.OnGodMode -= GodMode;
+            PlayerEvents.OnKeyStatusChanged -= ChangeKeyStatus;
         }
     }
 }
