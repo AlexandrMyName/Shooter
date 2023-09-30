@@ -69,6 +69,9 @@ namespace EnemySystem
             }
         }
 
+        public int EnemyMaxHP => _enemyConfig.EnemyHp;
+        
+
         public bool IsDead => _isDead;
 
         

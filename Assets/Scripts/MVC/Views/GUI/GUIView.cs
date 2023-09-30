@@ -10,6 +10,7 @@ public class GUIView : MonoBehaviour, IView
     [SerializeField] private AmmoPanelView _ammoPanelView;
     [SerializeField] private GUIScoreView _scoreView;
     [SerializeField] private KeyIndicatorView _keyIndicatorView;
+    [SerializeField] private BossPanelView _bossPanelView;
 
     public CrosshairView CrosshairView => _crosshairView;
 
@@ -22,6 +23,8 @@ public class GUIView : MonoBehaviour, IView
     public GUIScoreView ScoreView => _scoreView;
 
     public KeyIndicatorView KeyIndicatorView => _keyIndicatorView;
+
+    public BossPanelView BossPanelView => _bossPanelView;
 
     public void Show()
     {

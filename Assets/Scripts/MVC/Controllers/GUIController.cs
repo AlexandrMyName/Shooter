@@ -26,10 +26,12 @@ namespace MVC.Controllers
             PlayerEvents.OnGameEnded += SetScore;
             PlayerEvents.OnGodMode += ToggleGodMode;
             PlayerEvents.OnKeyStatusChanged += ToggleKeyVisual;
+            EnemyEvents.OnBossStateChanged += ToggleBossPanel;
             _gameOverView.RestartButton.onClick.AddListener(Restart);
             _gameOverView.ExitButton.onClick.AddListener(Exit);
             _gameOverView.Hide();
             _guiView.KeyIndicatorView.Hide();
+            _guiView.BossPanelView.HideHPBar();
         }
 
         public void Cleanup()
@@ -38,6 +40,7 @@ namespace MVC.Controllers
             PlayerEvents.OnGameEnded -= SetScore;
             PlayerEvents.OnGodMode -= ToggleGodMode;
             PlayerEvents.OnKeyStatusChanged -= ToggleKeyVisual;
+            EnemyEvents.OnBossStateChanged -= ToggleBossPanel;
         }
 
         private void SetScore(int score)
@@ -45,12 +48,24 @@ namespace MVC.Controllers
             _gameOverView.ScoreText.text = score.ToString();
         }
 
-        public void ShowGameover()
+        private void ShowGameover()
         {
             PlayerEvents.PauseGame(true);
             _gameOverView.Show();
             _pauseView.Hide();
             _guiView.Hide();
+        }
+
+        private void ToggleBossPanel(bool isBossAlive)
+        {
+            if (isBossAlive)
+            {
+                _guiView.BossPanelView.ShowHPBar();
+            }
+            else
+            {
+                _guiView.BossPanelView.HideHPBar();
+            }
         }
         
         private void ToggleGodMode(bool isActive)
