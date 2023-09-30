@@ -1,3 +1,4 @@
+using System;
 using Configs;
 using Enums;
 using EventBus;
@@ -18,6 +19,12 @@ namespace EnemySystem
         [SerializeField] private EnemyAttacking _enemyAttacking;
         [SerializeField] private PlayerView _playerView;
         [SerializeField] private PuppetMaster _puppetMaster;
+
+        [Range(0.0f, 1.0f)]
+        [SerializeField] private float _pinWeightAfterCollision = 0.5f;
+        
+        [Range(0.0f, 1.0f)]
+        [SerializeField] private float _pinMuscleAfterCollision = 0.5f;
         
         private EnemyDeathSystem _enemyDeath;
 
@@ -116,8 +123,8 @@ namespace EnemySystem
         private void TakeForceToPuppetMuscle(Rigidbody rigidBody, float force, Vector3 projectileDirection)
         {
             _lastHitMuscle = _puppetMaster.GetMuscle(rigidBody);
-            _lastHitMuscle.props.pinWeight = 0.5f;
-            _lastHitMuscle.props.muscleWeight = 0.5f;
+            _lastHitMuscle.props.pinWeight = _pinWeightAfterCollision;
+            _lastHitMuscle.props.muscleWeight = _pinMuscleAfterCollision;
             rigidBody.AddForce(projectileDirection * force / 2, ForceMode.Impulse);
         }
 
