@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using EnemySystem;
 using EventBus;
 using Extentions;
 using UnityEngine;
@@ -8,6 +9,7 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] private List<GameObject> _tilePrefabsList;
     [SerializeField] private List<TileView> _tileViews;
     [SerializeField] private TileView _currentTileView;
+    [SerializeField] private SpawningSystem _spawningSystem;
     
     private void Awake()
     {
@@ -18,6 +20,7 @@ public class MapGenerator : MonoBehaviour
     {
         _tileViews.Clear();
         _tileViews.Add(_currentTileView);
+        _currentTileView.BossSpawner.SpawningSystem = _spawningSystem;
     }
 
     public void GenerateTile(WorldSide side, ConnectorView connectorView)
@@ -48,10 +51,12 @@ public class MapGenerator : MonoBehaviour
 
     private void SpawnTile(int index, ConnectorView connectorView)
     {
+        PlayerEvents.ChangeKeyStatus(false);
         GameObject tile = Instantiate(_tilePrefabsList[index], gameObject.transform);
         TileView tileView = tile.GetComponent<TileView>();
         _tileViews.Add(tileView);
         tileView.MapGenerator = this;
+        tileView.BossSpawner.SpawningSystem = _spawningSystem;
         ConnectorView secondConnectorView;
         if (tileView.TryGetConnector(connectorView.ConnectableSide, out secondConnectorView))
         {

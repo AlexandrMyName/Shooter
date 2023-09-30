@@ -91,7 +91,6 @@ namespace EnemySystem
                          distance < _enemyConfig.AttackDistance && isHitCanMadeImpact && !_isAttacking && !_enemyView.IsDead;
             if (_canAttack)
             {
-                Debug.Log("StartAttack");
                 _lastAttackTime = Time.time;
                 _isAttacking = true;
                 if (_enemyConfig.AttackType == EnemyAttackType.Shoot)

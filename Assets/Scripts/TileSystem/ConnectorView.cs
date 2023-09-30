@@ -99,7 +99,6 @@ public class ConnectorView : MonoBehaviour
         if (_isUsable && Input.GetKeyDown(KeyCode.E))
         {
             _isGenerated = true;
-            PlayerEvents.ChangeKeyStatus(false);
             _tileView.MapGenerator.GenerateTile(_worldSide, this);
         }
     }

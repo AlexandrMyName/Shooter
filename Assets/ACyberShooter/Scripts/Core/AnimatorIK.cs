@@ -102,7 +102,7 @@ namespace Core
             }
             else _isAiming = false;
 
-            _animator.SetBool("IsAiming", _isAiming);
+            //_animator.SetBool("IsAiming", _isAiming);
 
         }
 

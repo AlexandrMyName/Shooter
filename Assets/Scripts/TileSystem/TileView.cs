@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using EnemySystem;
 using EventBus;
 using UnityEngine;
 
@@ -7,6 +8,7 @@ public class TileView : MonoBehaviour
     [SerializeField] private int _tileID;
     [SerializeField] private List<ConnectorView> _connectorViews;
     [SerializeField] private Transform _foundationTransform;
+    [SerializeField] private BossSpawner _bossSpawner;
     
     private Vector2 _cornerNW;
     private Vector2 _cornerNE;
@@ -21,6 +23,8 @@ public class TileView : MonoBehaviour
         set => _mapGenerator = value;
     }
     public Transform FoundationTransform => _foundationTransform;
+
+    public BossSpawner BossSpawner => _bossSpawner;
 
     public Vector2 CornerNW => _cornerNW;
 

@@ -7,7 +7,6 @@ namespace EnemySystem
 {
     public class BossSpawner : MonoBehaviour
     {
-        [SerializeField] private SpawningSystem _spawningSystem;
         [SerializeField] private GameObject _bossPrefab;
         [SerializeField] private GameObject _goalObjectPrefab;
         [SerializeField] private GameObject _spawnPoint;
@@ -16,18 +15,28 @@ namespace EnemySystem
         [SerializeField] private float _timeToSpawn;
         [SerializeField] private bool _isSpawningByTime;
 
+        private SpawningSystem _spawningSystem;
         private PlayerView _playerView;
         private bool _isSpawnerActive;
         private bool _isSpawned;
         private bool _isKilled;
         private EnemyView _enemyView;
-        private float _startTime;
+        private float _currentTime;
 
-
+        public SpawningSystem SpawningSystem
+        {
+            get => _spawningSystem;
+            set
+            {
+                _spawningSystem = value;
+                _playerView = _spawningSystem.PlayerView;
+            }
+        
+        }
+        
         private void Start()
         {
-            _playerView = _spawningSystem.PlayerView;
-            _startTime = Time.time;
+            _currentTime = 0;
         }
 
         private void Update()
@@ -42,19 +51,23 @@ namespace EnemySystem
         {
             if (_enemyView != null)
             {
-                Debug.Log(_enemyView.IsDead);
                 if (_enemyView.IsDead)
                 {
                     _enemyView = null;
-                    Debug.Log("GetKey");
                     PlayerEvents.ChangeKeyStatus(true);
+                    EnemyEvents.ChangeBossState(false);
+                }
+                else
+                {
+                    EnemyEvents.UpdateBossHP(_enemyView.EnemyHP, _enemyView.EnemyMaxHP);
                 }
             }
 
             if (!_isSpawned && _isSpawningByTime)
             {
-                _timeToSpawn -= Time.fixedDeltaTime;
-                if (_startTime - _timeToSpawn >= 0 && !_isSpawned)
+                _currentTime += Time.fixedDeltaTime;
+                EnemyEvents.ChangeBossSpawningTimer((int)(_timeToSpawn - _currentTime));
+                if (_currentTime >= _timeToSpawn && !_isSpawned)
                 {
                     ActivteBossFight();
                 }
@@ -79,7 +92,7 @@ namespace EnemySystem
         private void ActivteBossFight()
         {
             _isSpawned = true;
-            _spawningSystem.gameObject.SetActive(false);
+            //_spawningSystem.gameObject.SetActive(false);
             GameObject enemy = GameObject.Instantiate(_bossPrefab,
                 _spawnPoint.transform.position,
                 _spawnPoint.transform.rotation,
@@ -97,6 +110,7 @@ namespace EnemySystem
             enemyMovement.GoalObject = goal;
             NavMeshPuppet navMeshPuppet = enemyMovement.NavPuppet;
             navMeshPuppet.target = goal.transform;
+            EnemyEvents.ChangeBossState(true);
         }
     }
 }
