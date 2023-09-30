@@ -6456,7 +6456,7 @@ MonoBehaviour:
     m_Bits: 16
   collisionLayers:
     serializedVersion: 2
-    m_Bits: 515
+    m_Bits: 1539
   collisionThreshold: 0.1
   collisionResistance:
     mode: 1
@@ -8490,7 +8490,7 @@ GameObject:
   - component: {fileID: 914305569981895638}
   - component: {fileID: 705482499048038075}
   m_Layer: 11
-  m_Name: Enemy
+  m_Name: Enemy_EI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
