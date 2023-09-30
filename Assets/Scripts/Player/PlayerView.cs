@@ -16,10 +16,17 @@ namespace Player
         private int _currentScore;
         private bool _godMode;
         private bool _isDead;
+        private bool _hasKey;
 
         public Transform PlayerTransform => _playerTransform;
         public Transform PlayerDamagableZoneTransform => _playerDamagableZoneTransform;
         public Transform PlayerHeadTransform => _playerHeadTransform;
+
+        public bool HasKey
+        {
+            get => _hasKey;
+            set => _hasKey = value;
+        }
 
         public int PlayerHP
         {
