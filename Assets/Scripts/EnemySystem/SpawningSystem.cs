@@ -25,6 +25,8 @@ namespace EnemySystem
         private float _lastWaveTime;
         private bool _isWaveSpawning;
 
+        public PlayerView PlayerView => _playerView;
+
         public int CurrentID
         {
             get => _currentID;

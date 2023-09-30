@@ -6456,7 +6456,7 @@ MonoBehaviour:
     m_Bits: 16
   collisionLayers:
     serializedVersion: 2
-    m_Bits: 515
+    m_Bits: 1539
   collisionThreshold: 0.1
   collisionResistance:
     mode: 1

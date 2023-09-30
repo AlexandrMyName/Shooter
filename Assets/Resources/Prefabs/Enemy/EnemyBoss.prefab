@@ -6456,7 +6456,7 @@ MonoBehaviour:
     m_Bits: 16
   collisionLayers:
     serializedVersion: 2
-    m_Bits: 515
+    m_Bits: 1539
   collisionThreshold: 0.1
   collisionResistance:
     mode: 1
@@ -6805,6 +6805,7 @@ MonoBehaviour:
   _enemyMovement: {fileID: 705482499048038075}
   _enemyAttacking: {fileID: 7351328976323908284}
   _playerView: {fileID: 0}
+  _puppetMaster: {fileID: 914305569904791619}
 --- !u!54 &4601887648258204040
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -1,3 +1,4 @@
+using EventBus;
 using Player;
 using RootMotion.Demos;
 using UnityEngine;
@@ -12,19 +13,27 @@ namespace EnemySystem
         [SerializeField] private GameObject _spawnPoint;
         [SerializeField] private GameObject _spawnedObjectsRoot;
         [SerializeField] private GameObject _goalObjectsRoot;
+        [SerializeField] private float _timeToSpawn;
+        [SerializeField] private bool _isSpawningByTime;
 
         private PlayerView _playerView;
         private bool _isSpawnerActive;
         private bool _isSpawned;
         private bool _isKilled;
         private EnemyView _enemyView;
+        private float _startTime;
 
+
+        private void Start()
+        {
+            _playerView = _spawningSystem.PlayerView;
+            _startTime = Time.time;
+        }
 
         private void Update()
         {
-            if (_isSpawnerActive && !_isSpawned && Input.GetKeyDown(KeyCode.E))
+            if (_isSpawnerActive && !_isSpawned && Input.GetKeyDown(KeyCode.E) && !_isSpawningByTime)
             {
-                _isSpawned = true;
                 ActivteBossFight();
             }
         }
@@ -33,10 +42,21 @@ namespace EnemySystem
         {
             if (_enemyView != null)
             {
+                Debug.Log(_enemyView.IsDead);
                 if (_enemyView.IsDead)
                 {
                     _enemyView = null;
-                    Debug.Log("Completed");
+                    Debug.Log("GetKey");
+                    PlayerEvents.ChangeKeyStatus(true);
+                }
+            }
+
+            if (!_isSpawned && _isSpawningByTime)
+            {
+                _timeToSpawn -= Time.fixedDeltaTime;
+                if (_startTime - _timeToSpawn >= 0 && !_isSpawned)
+                {
+                    ActivteBossFight();
                 }
             }
         }
@@ -44,7 +64,6 @@ namespace EnemySystem
         {
             if (other.gameObject.TryGetComponent(out PlayerBoneView playerBoneView))
             {
-                _playerView = playerBoneView.PlayerView;
                 _isSpawnerActive = true;
             }
         }
@@ -59,6 +78,7 @@ namespace EnemySystem
 
         private void ActivteBossFight()
         {
+            _isSpawned = true;
             _spawningSystem.gameObject.SetActive(false);
             GameObject enemy = GameObject.Instantiate(_bossPrefab,
                 _spawnPoint.transform.position,

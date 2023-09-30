@@ -25,9 +25,11 @@ namespace MVC.Controllers
             PlayerEvents.OnDead += ShowGameover;
             PlayerEvents.OnGameEnded += SetScore;
             PlayerEvents.OnGodMode += ToggleGodMode;
+            PlayerEvents.OnKeyStatusChanged += ToggleKeyVisual;
             _gameOverView.RestartButton.onClick.AddListener(Restart);
             _gameOverView.ExitButton.onClick.AddListener(Exit);
             _gameOverView.Hide();
+            _guiView.KeyIndicatorView.Hide();
         }
 
         public void Cleanup()
@@ -35,6 +37,7 @@ namespace MVC.Controllers
             PlayerEvents.OnDead -= ShowGameover;
             PlayerEvents.OnGameEnded -= SetScore;
             PlayerEvents.OnGodMode -= ToggleGodMode;
+            PlayerEvents.OnKeyStatusChanged -= ToggleKeyVisual;
         }
 
         private void SetScore(int score)
@@ -64,6 +67,18 @@ namespace MVC.Controllers
             }
         }
 
+        private void ToggleKeyVisual(bool hasKey)
+        {
+            if (hasKey)
+            {
+                _guiView.KeyIndicatorView.Show();
+            }
+            else
+            {
+                _guiView.KeyIndicatorView.Hide();
+            }
+        }
+        
         private void Restart()
         {
             Scene scene = SceneManager.GetActiveScene();

@@ -9,6 +9,7 @@ public class GUIView : MonoBehaviour, IView
     [SerializeField] private ArmorPanelView _armorPanelView;
     [SerializeField] private AmmoPanelView _ammoPanelView;
     [SerializeField] private GUIScoreView _scoreView;
+    [SerializeField] private KeyIndicatorView _keyIndicatorView;
 
     public CrosshairView CrosshairView => _crosshairView;
 
@@ -19,7 +20,9 @@ public class GUIView : MonoBehaviour, IView
     public AmmoPanelView AmmoPanelView => _ammoPanelView;
 
     public GUIScoreView ScoreView => _scoreView;
-    
+
+    public KeyIndicatorView KeyIndicatorView => _keyIndicatorView;
+
     public void Show()
     {
         gameObject.SetActive(true);

@@ -1,5 +1,5 @@
-using System;
 using EventBus;
+using Player;
 using UnityEngine;
 
 public class ConnectorView : MonoBehaviour
@@ -12,6 +12,7 @@ public class ConnectorView : MonoBehaviour
     private float _rightSideSpaceRequired;
     private float _backSideSpaceRequired;
     private bool _isUsable;
+    private PlayerView _playerView;
     
     public WorldSide WorldSide => _worldSide;
 
@@ -34,8 +35,6 @@ public class ConnectorView : MonoBehaviour
             gameObject.transform.position.x - _tileView.FoundationTransform.position.x,
             gameObject.transform.position.y,
             gameObject.transform.position.z - _tileView.FoundationTransform.position.z);
-        Debug.Log(connectorLocalPosition + " " + gameObject);
-        
         switch (_worldSide)
         {
             case WorldSide.North:
@@ -79,7 +78,7 @@ public class ConnectorView : MonoBehaviour
                   tileView.FoundationTransform.position.x;
         float y = overlapCenter.y - foundationScale.y / 2;
         float z = overlapCenter.z - connectorView.gameObject.transform.position.z +
-                  tileView.FoundationTransform.position.z;;
+                  tileView.FoundationTransform.position.z;
         overlapCenter = new Vector3(x, y, z);
         Vector3 overlapHalfExtents = new Vector3(foundationScale.x / 2 - 1, foundationScale.y / 2 - 1,
             foundationScale.z / 2 - 1);
@@ -100,6 +99,7 @@ public class ConnectorView : MonoBehaviour
         if (_isUsable && Input.GetKeyDown(KeyCode.E))
         {
             _isGenerated = true;
+            PlayerEvents.ChangeKeyStatus(false);
             _tileView.MapGenerator.GenerateTile(_worldSide, this);
         }
     }
@@ -108,7 +108,12 @@ public class ConnectorView : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("PlayerRagdoll") && !_isGenerated)
         {
-            _isUsable = true;
+            other.gameObject.TryGetComponent(out PlayerBoneView playerBoneView);
+            _playerView = playerBoneView.PlayerView;
+            if (_playerView.HasKey)
+            {
+                _isUsable = true;
+            }
         }
     }
 
