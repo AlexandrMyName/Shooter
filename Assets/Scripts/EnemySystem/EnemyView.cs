@@ -1,20 +1,37 @@
+using System;
 using Configs;
 using Enums;
 using EventBus;
 using Extentions;
 using Player;
+using RootMotion.Dynamics;
 using UnityEngine;
+
 
 namespace EnemySystem
 {
+    
     public class EnemyView : MonoBehaviour
     {
+        
         [SerializeField] private EnemyConfig _enemyConfig;
         [SerializeField] private EnemyMovement _enemyMovement;
         [SerializeField] private EnemyAttacking _enemyAttacking;
         [SerializeField] private PlayerView _playerView;
+        [SerializeField] private PuppetMaster _puppetMaster;
+
+        [Range(0.0f, 1.0f)]
+        [SerializeField] private float _pinWeightAfterCollision = 0.5f;
+        
+        [Range(0.0f, 1.0f)]
+        [SerializeField] private float _pinMuscleAfterCollision = 0.5f;
+        
         private EnemyDeathSystem _enemyDeath;
-    
+
+        private Muscle _lastHitMuscle;
+        private Vector3 _lastHitProjectileDirection;
+        private float _lastHitForce;
+        
         private int _enemyID;
         private int _currentEnemyHP = 50;
         private float _lastStunTime;
@@ -52,8 +69,12 @@ namespace EnemySystem
             }
         }
 
+        public int EnemyMaxHP => _enemyConfig.EnemyHp;
+        
+
         public bool IsDead => _isDead;
 
+        
         private void Start()
         {
             _enemyDeath = GetComponent<EnemyDeathSystem>();
@@ -65,6 +86,7 @@ namespace EnemySystem
             }
         }
 
+        
         private void FixedUpdate()
         {
             if (_isStuned && Time.time > _lastStunTime + _enemyConfig.StunTime)
@@ -86,18 +108,47 @@ namespace EnemySystem
                     _enemyMovement.ChangeMovementBehaviour(MovementBehaviour.Standing);
                 }
                 EnemyEvents.EnemyDamaged();
+                
                 EnemyHP -= damage;
             }
         }
 
+
+        public void TakeDamage(Rigidbody rigidBody, int damage, float force, Vector3 projectileDirection)
+        {
+            _lastHitProjectileDirection = projectileDirection;
+            _lastHitForce = force;
+            TakeForceToPuppetMuscle(rigidBody, force, projectileDirection);
+            TakeDamage(damage);
+        }
+
+
+        private void TakeForceToPuppetMuscle(Rigidbody rigidBody, float force, Vector3 projectileDirection)
+        {
+            _lastHitMuscle = _puppetMaster.GetMuscle(rigidBody);
+            _lastHitMuscle.props.pinWeight = _pinWeightAfterCollision;
+            _lastHitMuscle.props.muscleWeight = _pinMuscleAfterCollision;
+            rigidBody.AddForce(projectileDirection * force / 2, ForceMode.Impulse);
+        }
+
+        
         private void Death()
         {
             EnemyEvents.EnemyDead();
             _isDead = true;
             _enemyMovement.StopMovement();
+            AddDeadForce();
             _enemyDeath.DestroyEnemy();
         
             Debug.Log($"{gameObject.name} killed {_isDead}");
         }
+
+
+        private void AddDeadForce()
+        {
+            _lastHitMuscle.rigidbody.AddForce(_lastHitProjectileDirection * _lastHitForce * 2, ForceMode.Impulse);
+        }
+        
+        
     }
 }

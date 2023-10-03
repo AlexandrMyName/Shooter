@@ -12,12 +12,13 @@ namespace Animations
     
         private void OnEnable()
         {
-            ShootingEvents.OnShoot += ChangeShootingState;
+            //ShootingEvents.OnShoot += ChangeShootingState;
+            _animator.SetBool("IsAiming", true);
         }
 
         private void OnDisable()
         {
-            ShootingEvents.OnShoot -= ChangeShootingState;
+            //ShootingEvents.OnShoot -= ChangeShootingState;
         }
 
         private void ChangeShootingState(bool isShooting, ShootingType shootingType, float animationSpeed)

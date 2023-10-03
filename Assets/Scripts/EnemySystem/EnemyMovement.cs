@@ -117,12 +117,10 @@ namespace EnemySystem
                           _currentMovementBehaviour == MovementBehaviour.Standing;
             if (_isStanding)
             {
-                Debug.Log("Stop");
                 _agent.isStopped = true;
             }
             else
             {
-                Debug.Log("Go");
                 _agent.isStopped = false;
             }
         

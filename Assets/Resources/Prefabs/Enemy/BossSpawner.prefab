@@ -77,8 +77,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 4, y: 5, z: 4}
-  m_Center: {x: 0, y: 2.5, z: 0}
+  m_Size: {x: 4, y: 0.5747828, z: 4}
+  m_Center: {x: 0, y: 0.2873914, z: 0}
 --- !u!114 &2149265876660328838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91,12 +91,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c5a9e6159bb426498b07934299216e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawningSystem: {fileID: 0}
   _bossPrefab: {fileID: 914305569981895637, guid: 6cae52c26125fbd4da47be1edc778d38, type: 3}
   _goalObjectPrefab: {fileID: 7393731596362625064, guid: a3172ddf0bf77af4e93ddaf5cbe02868, type: 3}
   _spawnPoint: {fileID: 1707683093400362946}
-  _spawnedObjectsRoot: {fileID: 0}
-  _goalObjectsRoot: {fileID: 0}
+  _spawnedObjectsRoot: {fileID: 1707683093400362946}
+  _goalObjectsRoot: {fileID: 1707683093400362946}
+  _timeToSpawn: 30
+  _isSpawningByTime: 1
 --- !u!1 &6333079859759070068
 GameObject:
   m_ObjectHideFlags: 0
@@ -109,6 +110,7 @@ GameObject:
   - component: {fileID: 2197077027163625546}
   - component: {fileID: 8710458961925462840}
   - component: {fileID: 5949070469871815169}
+  - component: {fileID: 1748349569664196135}
   m_Layer: 0
   m_Name: View
   m_TagString: Untagged
@@ -194,3 +196,15 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1748349569664196135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6333079859759070068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e038bf700cfa444fb16c6ef963be9f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -23,6 +23,7 @@ namespace EnemySystem
         private float _lastAttackTime;
         private bool _canAttack;
         private bool _isAttacking;
+        private string _bodyPart;
 
         public GameObject ProjectilePrefab
         {
@@ -51,19 +52,36 @@ namespace EnemySystem
 
         private void TryAttack()
         {
-            float distance = Vector3.Distance(_playerView.PlayerDamagableZoneTransform.position, 
+            float distance = Vector3.Distance(_playerView.PlayerDamagableZoneTransform.position,
                 gameObject.transform.position);
             RaycastHit hitPoint;
             LayerMask layerMask;
             layerMask = 1 << _projectileLayerIndex;
             layerMask = ~layerMask;
-            Vector3 direction = (_playerView.PlayerTransform.position - gameObject.transform.position).normalized;
+            _bodyPart = "Body";
+            Vector3 bodyDirection = (_playerView.PlayerDamagableZoneTransform.position - gameObject.transform.position).normalized;
+            Vector3 headDirection = (_playerView.PlayerHeadTransform.position - gameObject.transform.position).normalized;
             bool isHitCanMadeImpact = Physics.Raycast(gameObject.transform.position,
-                direction, out hitPoint, _enemyConfig.AttackDistance, layerMask);
-            if (isHitCanMadeImpact)
+                   bodyDirection, out hitPoint, _enemyConfig.AttackDistance, layerMask);
+
+            if (isHitCanMadeImpact && hitPoint.collider.gameObject.layer != _playerLayerIndex)
             {
-                if (hitPoint.collider.gameObject.layer != _playerLayerIndex &&
-                    hitPoint.collider.gameObject.layer != _playerRagdolLayerIndex)
+                bool _isHeadHitCanMadeImpact = Physics.Raycast(gameObject.transform.position,
+                    headDirection, out RaycastHit headHitPoint, _enemyConfig.AttackDistance, layerMask);
+                if (_isHeadHitCanMadeImpact)
+                {
+                    if (headHitPoint.collider.gameObject.layer == _playerLayerIndex ||
+                        headHitPoint.collider.gameObject.layer == _playerRagdolLayerIndex)
+                    {
+                        isHitCanMadeImpact = true;
+                        _bodyPart = "Head";
+                    }
+                    else
+                    {
+                        isHitCanMadeImpact = false;
+                    }
+                }
+                else
                 {
                     isHitCanMadeImpact = false;
                 }
@@ -73,7 +91,6 @@ namespace EnemySystem
                          distance < _enemyConfig.AttackDistance && isHitCanMadeImpact && !_isAttacking && !_enemyView.IsDead;
             if (_canAttack)
             {
-                Debug.Log("StartAttack");
                 _lastAttackTime = Time.time;
                 _isAttacking = true;
                 if (_enemyConfig.AttackType == EnemyAttackType.Shoot)
@@ -104,23 +121,36 @@ namespace EnemySystem
 
         private void Attack()
         {
-        
-        
+
+
             if (_enemyConfig.AttackType == EnemyAttackType.Melee)
             {
                 _playerView.TakeDamage(_enemyConfig.EnemyDamage);
             }
             else if (_enemyConfig.AttackType == EnemyAttackType.Shoot)
             {
-                _projectileSpawnTransform.LookAt(_playerView.PlayerTransform);
-                GameObject projectile = GameObject.Instantiate(_projectilePrefab,
-                    _projectileSpawnTransform.position ,_projectileSpawnTransform.rotation, _projectilesSpawnRoot.transform);
-                Projectile projectileView = projectile.GetOrAddComponent<Projectile>();
-                projectileView.StartMoving(_projectileSpawnTransform.position, 
-                    _playerView.PlayerDamagableZoneTransform.position,
-                    gameObject.transform);
+                if (_bodyPart == "Body")
+                {
+                    _projectileSpawnTransform.LookAt(_playerView.PlayerTransform);
+                    GameObject projectile = GameObject.Instantiate(_projectilePrefab,
+                        _projectileSpawnTransform.position, _projectileSpawnTransform.rotation, _projectilesSpawnRoot.transform);
+                    Projectile projectileView = projectile.GetOrAddComponent<Projectile>();
+                    projectileView.StartMoving(_projectileSpawnTransform.position,
+                        _playerView.PlayerDamagableZoneTransform.position,
+                        gameObject.transform);
+                }
+                else
+                {
+                    _projectileSpawnTransform.LookAt(_playerView.PlayerTransform);
+                    GameObject projectile = GameObject.Instantiate(_projectilePrefab,
+                        _projectileSpawnTransform.position, _projectileSpawnTransform.rotation, _projectilesSpawnRoot.transform);
+                    Projectile projectileView = projectile.GetOrAddComponent<Projectile>();
+                    projectileView.StartMoving(_projectileSpawnTransform.position,
+                        _playerView.PlayerHeadTransform.position,
+                        gameObject.transform);
+                }
             }
-        
+
         }
     }
 }

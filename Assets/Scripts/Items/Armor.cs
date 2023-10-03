@@ -6,13 +6,13 @@ using UnityEngine;
 public class Armor : MonoBehaviour
 {
     [SerializeField] private int _armorAmount = 10;
-    private bool isUsed = false;
+    private bool _isUsed = false;
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("PlayerRagdoll"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("PlayerRagdoll") && !_isUsed)
         {
             PlayerEvents.AddArmor(_armorAmount);
-            isUsed = true;
+            _isUsed = true;
             Destroy(gameObject);
         }
     }

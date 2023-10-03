@@ -7,16 +7,23 @@ namespace Player
     {
         [SerializeField] private Transform _playerTransform;
         [SerializeField] private Transform _playerDamagableZoneTransform;
+        [SerializeField] private Transform _playerHeadTransform;
         [SerializeField] private int _playerMaxHP = 50;
         [SerializeField] private int _playerMaxArmor = 50;
 
         private int _currentPlayerHP;
         private int _currentPlayerArmor;
         private int _currentScore;
+        private bool _godMode;
         private bool _isDead;
+        private bool _hasKey;
 
         public Transform PlayerTransform => _playerTransform;
         public Transform PlayerDamagableZoneTransform => _playerDamagableZoneTransform;
+        public Transform PlayerHeadTransform => _playerHeadTransform;
+
+        public bool HasKey => _hasKey;
+
 
         public int PlayerHP
         {
@@ -54,6 +61,8 @@ namespace Player
             EnemyEvents.OnDead += AddScore;
             PlayerEvents.OnPlayerHealed += TakeHeal;
             PlayerEvents.OnPlayerArmorAdded += TakeArmor;
+            PlayerEvents.OnGodMode += GodMode;
+            PlayerEvents.OnKeyStatusChanged += ChangeKeyStatus;
             _currentPlayerHP = _playerMaxHP;
             _currentPlayerArmor = 0;
             PlayerEvents.SpawnPlayer(_playerMaxHP);
@@ -62,7 +71,7 @@ namespace Player
 
         public void TakeDamage(int damage)
         {
-            if (!_isDead)
+            if (!_isDead && !_godMode)
             {
                 if (damage <= PlayerArmor)
                 {
@@ -91,7 +100,11 @@ namespace Player
                 }
             }
         }
-        
+        public void GodMode(bool godMode)
+        {
+            _godMode = godMode;
+        }
+
         public void TakeArmor(int armorAmount)
         {
             if (!_isDead)
@@ -112,6 +125,11 @@ namespace Player
             _currentScore++;
         }
 
+        private void ChangeKeyStatus(bool hasKey)
+        {
+            _hasKey = hasKey;
+        }
+
         private void Death()
         {
             _currentPlayerHP = 0;
@@ -127,6 +145,8 @@ namespace Player
             EnemyEvents.OnDead -= AddScore;
             PlayerEvents.OnPlayerHealed -= TakeHeal;
             PlayerEvents.OnPlayerArmorAdded -= TakeArmor;
+            PlayerEvents.OnGodMode -= GodMode;
+            PlayerEvents.OnKeyStatusChanged -= ChangeKeyStatus;
         }
     }
 }

@@ -10,11 +10,13 @@ namespace Configs
         [SerializeField] private KeyCode _aimKeyCode = KeyCode.Mouse1;
         [SerializeField] private KeyCode _reloadKeyCode = KeyCode.R;
         [SerializeField] private KeyCode _pauseKeyCode = KeyCode.Escape;
+        [SerializeField] private KeyCode _godModeKeyCode = KeyCode.F1;
         
         public KeyCode ShootKeyCode => _shootKeyCode;
         public KeyCode AimKeyCode => _aimKeyCode;
         public KeyCode ReloadKeyCode => _reloadKeyCode;
         public KeyCode PauseKeyCode => _pauseKeyCode;
+        public KeyCode GodModeKeyCode => _godModeKeyCode;
         
     }
 }
