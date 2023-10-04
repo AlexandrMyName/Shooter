@@ -14,6 +14,7 @@ namespace EnemySystem
         [SerializeField] private GameObject _goalObjectsRoot;
         [SerializeField] private float _timeToSpawn;
         [SerializeField] private bool _isSpawningByTime;
+        [SerializeField] private bool _isFinal;
 
         private SpawningSystem _spawningSystem;
         private PlayerView _playerView;
@@ -56,6 +57,10 @@ namespace EnemySystem
                     _enemyView = null;
                     PlayerEvents.ChangeKeyStatus(true);
                     EnemyEvents.ChangeBossState(false);
+                    if (_isFinal)
+                    {
+                        _playerView.TakeDamage(9999999);
+                    }
                 }
                 else
                 {
