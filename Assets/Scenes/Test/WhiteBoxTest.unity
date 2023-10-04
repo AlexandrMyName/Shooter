@@ -2936,10 +2936,14 @@ MonoBehaviour:
   - {fileID: 9011748866482750252, guid: b20f2fa9c288b5447a0a1e4fc97c59ca, type: 3}
   - {fileID: 9011748866482750252, guid: 09c1263ad0dbf3f40a2312bf281bb732, type: 3}
   - {fileID: 9011748866482750252, guid: c4875afaa5826af45a81e7d48913fce9, type: 3}
+  _bossTilePrefabsList:
+  - {fileID: 8555267806767016343, guid: 73e3c1b45ca7b1f4e8c1a513d7576a72, type: 3}
+  - {fileID: 2780480292027210858, guid: d45f2b1b27c20ae4c9c6bb3598313811, type: 3}
   _tileViews:
   - {fileID: 1829594228}
   _currentTileView: {fileID: 1829594228}
   _spawningSystem: {fileID: 1439193087047686627}
+  _tilesToSpawnBoss: 2
 --- !u!1 &1125994743
 GameObject:
   m_ObjectHideFlags: 0
