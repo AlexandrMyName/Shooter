@@ -6,6 +6,7 @@ using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
 using System;
+using System.Linq;
 using UnityEngine.Serialization;
 
 
@@ -26,6 +27,7 @@ namespace ShootingSystem
         private RaycastHit _hitPoint;
         private Collider[] _playerHitColliders;
         private Collider[] _enemyHitColliders;
+        private Collider[] _defaultHitColliders;
         
         private List<IDisposable> _disposables = new ();
         
@@ -55,7 +57,6 @@ namespace ShootingSystem
 
         private void Update()
         {
-
             ControlProjectileLifeTime();
         }
         
@@ -87,9 +88,6 @@ namespace ShootingSystem
                 {
                     _projectileRigidbody.constraints = RigidbodyConstraints.FreezeAll;
                     _isProjectileCollided = true;
-
-                    if (_projectileConfig.ProjectileType == ProjectileType.Rocket)
-                        ExplodeCollisions();
                 })
                 .AddTo(_disposables);
         }
@@ -107,23 +105,72 @@ namespace ShootingSystem
                 _projectileConfig.DamageRadius,
                 _enemyRagdollLayer);
 
-            if (_playerHitColliders.Length > 0)
+            if (!_projectileConfig.ProjectileType.Equals(ProjectileType.Rocket))
             {
-                ProcessPlayerHit(_playerHitColliders);
-                _isMadeImpact = false;
+                if (_playerHitColliders.Length > 0)
+                {
+                    ProcessPlayerHit(_playerHitColliders);
+                    _isMadeImpact = false;
+                }
+
+                if (_enemyHitColliders.Length > 0)
+                {
+                    ProcessEnemyHit(_enemyHitColliders);
+                    _isMadeImpact = false;
+                }
             }
 
-            if (_enemyHitColliders.Length > 0)
+            if (_projectileConfig.ProjectileType.Equals(ProjectileType.Rocket))
             {
-                ProcessEnemyHit(_enemyHitColliders);
-                _isMadeImpact = false;
+                _defaultHitColliders = Physics.OverlapSphere(
+                    gameObject.transform.position,
+                    _projectileConfig.DamageRadius, 
+                    _explosionIncludeLayers);
+                
+                ProcessExplosionHits(_playerHitColliders, _enemyHitColliders, _defaultHitColliders);
             }
-            
+
             ProcessImpactOnTheWallsAndGround();
 
             Destroy(gameObject);
         }
 
+
+        private void ProcessExplosionHits(Collider[] playerHits, Collider[] enemyHits, Collider[] defaultHits)
+        {
+            for (int i = 0; i < defaultHits.Length; i++)
+            {
+                if (defaultHits[i].TryGetComponent<Rigidbody>(out var rb))
+                {
+                    rb.AddExplosionForce(
+                        _projectileConfig.Damage * rb.mass,
+                        transform.position,
+                        _projectileConfig.DamageRadius,
+                        0.5f,
+                        ForceMode.Impulse);
+                }
+            }
+
+            var enemiesRbs = enemyHits
+                .Select(col => col.attachedRigidbody)
+                .Where(rb => rb != null)
+                .Distinct(new EnemyViewComparer())
+                .ToArray();
+            
+            
+            foreach (var enemyRb in enemiesRbs)
+            {
+                enemyRb.GetComponent<EnemyBoneView>().EnemyView.TakeExplosionDamage(
+                    enemyRb, 
+                    _projectileConfig.Damage, 
+                    _projectileConfig.Damage,
+                    gameObject.transform.position,
+                    _projectileConfig.DamageRadius,
+                    _direction
+                    );
+            }
+        }
+        
         
         private void ProcessImpactOnTheWallsAndGround()
         {
@@ -206,31 +253,35 @@ namespace ShootingSystem
             }
         }
         
-        
-        private void ExplodeCollisions()
-        {
-            Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position,
-                _projectileConfig.DamageRadius, _explosionIncludeLayers);
-
-            foreach (var coll in hitColliders)
-            {
-                var rb = coll.gameObject.GetComponent<Rigidbody>();
-
-                if (rb != null)
-                    rb.AddExplosionForce(
-                        _projectileConfig.Damage,
-                        transform.position,
-                        _projectileConfig.DamageRadius,
-                        0f,
-                        ForceMode.Impulse);
-            }
-        }
-
 
         private void OnDestroy() => Dispose();
         
         
         public void Dispose() => _disposables.ForEach(disposable => disposable.Dispose());
+        
+        
+        private class EnemyViewComparer : IEqualityComparer<Rigidbody>
+        {
+            public bool Equals(Rigidbody x, Rigidbody y)
+            {
+                if (x == null || y == null)
+                {
+                    return false;
+                }
+
+                return x.GetComponent<EnemyBoneView>().EnemyView.GetInstanceID() == y.GetComponent<EnemyBoneView>().EnemyView.GetInstanceID();
+            }
+
+            public int GetHashCode(Rigidbody obj)
+            {
+                if (obj == null)
+                {
+                    return 0;
+                }
+
+                return obj.GetComponent<EnemyBoneView>().EnemyView.GetHashCode();
+            }
+        }
 
         
     }

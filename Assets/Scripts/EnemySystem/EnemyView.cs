@@ -1,17 +1,19 @@
 using System;
+using System.Collections;
 using Configs;
 using Enums;
 using EventBus;
 using Extentions;
 using Player;
 using RootMotion.Dynamics;
+using UniRx;
 using UnityEngine;
 
 
 namespace EnemySystem
 {
     
-    public class EnemyView : MonoBehaviour
+    public class EnemyView : MonoBehaviour, IComparable
     {
         
         [SerializeField] private EnemyConfig _enemyConfig;
@@ -37,6 +39,7 @@ namespace EnemySystem
         private float _lastStunTime;
         private bool _isStuned;
         private bool _isDead;
+        private bool _isLastDamageExplosion;
 
         public EnemyConfig EnemyConfig => _enemyConfig;
 
@@ -116,22 +119,44 @@ namespace EnemySystem
 
         public void TakeDamage(Rigidbody rigidBody, int damage, float force, Vector3 projectileDirection)
         {
+            _isLastDamageExplosion = false;
             _lastHitProjectileDirection = projectileDirection;
             _lastHitForce = force;
-            TakeForceToPuppetMuscle(rigidBody, force, projectileDirection);
+            RelaxMuscleBeforeForce(rigidBody, _pinWeightAfterCollision, _pinMuscleAfterCollision);
+            rigidBody.AddForce(projectileDirection * force / 2, ForceMode.Impulse);
             TakeDamage(damage);
         }
-
-
-        private void TakeForceToPuppetMuscle(Rigidbody rigidBody, float force, Vector3 projectileDirection)
+        
+        
+        public void TakeExplosionDamage(Rigidbody rigidBody, int damage, float force, 
+            Vector3 center, float radius, Vector3 projectileDirection)
+        {
+            _isLastDamageExplosion = true;
+            _lastHitProjectileDirection = projectileDirection;
+            _lastHitForce = force;
+            _puppetMaster.state = PuppetMaster.State.Frozen;
+            Observable.Timer(TimeSpan.FromSeconds(0.05f)).Subscribe(_ =>
+            {
+                rigidBody.AddExplosionForce(
+                    damage,
+                    center,
+                    radius,
+                    1000.0f,
+                    ForceMode.Impulse);
+                _puppetMaster.state = PuppetMaster.State.Alive;
+                TakeDamage(damage);
+            });
+        }
+        
+        
+        private void RelaxMuscleBeforeForce(Rigidbody rigidBody, float pinWeightAfterCollision, float pinMuscleAfterCollision)
         {
             _lastHitMuscle = _puppetMaster.GetMuscle(rigidBody);
-            _lastHitMuscle.props.pinWeight = _pinWeightAfterCollision;
-            _lastHitMuscle.props.muscleWeight = _pinMuscleAfterCollision;
-            rigidBody.AddForce(projectileDirection * force / 2, ForceMode.Impulse);
+            _lastHitMuscle.props.pinWeight = pinWeightAfterCollision;
+            _lastHitMuscle.props.muscleWeight = pinMuscleAfterCollision;
         }
 
-        
+
         private void Death()
         {
             EnemyEvents.EnemyDead();
@@ -146,7 +171,19 @@ namespace EnemySystem
 
         private void AddDeadForce()
         {
-            _lastHitMuscle.rigidbody.AddForce(_lastHitProjectileDirection * _lastHitForce * 2, ForceMode.Impulse);
+            if (!_isLastDamageExplosion) 
+                _lastHitMuscle.rigidbody.AddForce(_lastHitProjectileDirection * _lastHitForce * 2, ForceMode.Impulse);
+            // else
+            //     _lastHitMuscle.rigidbody.AddForce((_lastHitProjectileDirection + Vector3.up).normalized * _lastHitForce * 2, ForceMode.Impulse);
+        }
+
+        
+        public int CompareTo(object obj)
+        {
+            if (obj is EnemyView enemyView) 
+                return this.GetInstanceID().CompareTo(enemyView.GetInstanceID());
+            else
+                throw new ArgumentException("Incorrect object type");
         }
         
         
