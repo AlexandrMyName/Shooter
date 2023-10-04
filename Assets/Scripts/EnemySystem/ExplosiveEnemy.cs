@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using EnemySystem;
+using RootMotion.Dynamics;
 using Player;
 using UnityEngine;
 
@@ -32,11 +33,15 @@ public class ExplosiveEnemy : MonoBehaviour
     private IEnumerator ExplodeAfterDelay()
     {
         yield return new WaitForSeconds(explosionDelay);
+        if (!_enemyView.IsDead)
+        {      
         if (isPlayerTouching && !hasDamagedPlayer)
         {
             float distanceToPlayer = Vector3.Distance(transform.position, _enemyView.PlayerView.PlayerDamagableZoneTransform.position);
             if (distanceToPlayer <= explosionRadius)
             {
+                _enemyView.PlayerView.RagdollStun();
+                _enemyView.PlayerView.Invoke("RagdollUnStun", 0.5f);
                 _enemyView.PlayerView.TakeDamage(10);
                 hasDamagedPlayer = true;
             }
@@ -55,5 +60,6 @@ public class ExplosiveEnemy : MonoBehaviour
         }
         Destroy(gameObject);
         _enemyView.TakeDamage(9999);
+        }
     }
 }

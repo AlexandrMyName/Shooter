@@ -127,6 +127,12 @@ namespace EnemySystem
             {
                 _playerView.TakeDamage(_enemyConfig.EnemyDamage);
             }
+            else if (_enemyConfig.AttackType == EnemyAttackType.Explode)
+            {
+                GameObject projectile = GameObject.Instantiate(_projectilePrefab,
+                    _projectileSpawnTransform.position, _projectileSpawnTransform.rotation, _projectilesSpawnRoot.transform);
+                _enemyView.TakeDamage(9999);
+            }
             else if (_enemyConfig.AttackType == EnemyAttackType.Shoot)
             {
                 if (_bodyPart == "Body")

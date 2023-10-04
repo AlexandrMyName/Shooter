@@ -15,10 +15,10 @@ MonoBehaviour:
   _enemyHP: 15
   _stunPossibility: 0
   _stunTime: 3
-  _attackType: 1
+  _attackType: 7
   _enemyDamage: 0
   _enemyAttackDelay: 2
   _enemyAttackDuration: 1
   _shootingProjectileSpeed: 0
   _attackDistance: 1
-  _shootingProjectile: {fileID: 0}
+  _shootingProjectile: {fileID: 8983598808202383336, guid: 9982331d30df170488b853e3427a4de0, type: 3}
