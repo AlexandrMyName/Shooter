@@ -1,4 +1,5 @@
 using EventBus;
+using RootMotion.Dynamics;
 using UnityEngine;
 
 namespace Player
@@ -10,6 +11,7 @@ namespace Player
         [SerializeField] private Transform _playerHeadTransform;
         [SerializeField] private int _playerMaxHP = 50;
         [SerializeField] private int _playerMaxArmor = 50;
+        [SerializeField] private PuppetMaster _puppetMaster;
 
         private int _currentPlayerHP;
         private int _currentPlayerArmor;
@@ -98,6 +100,19 @@ namespace Player
                 {
                     PlayerHP += healAmount;
                 }
+            }
+        }
+        public void RagdollStun()
+        {
+            _puppetMaster.state = PuppetMaster.State.Frozen;
+            Debug.Log("Stun");
+        }
+
+        public void RagdollUnStun()
+        {
+            if (_puppetMaster.state != PuppetMaster.State.Dead)
+            {
+                _puppetMaster.state = PuppetMaster.State.Alive;
             }
         }
         public void GodMode(bool godMode)

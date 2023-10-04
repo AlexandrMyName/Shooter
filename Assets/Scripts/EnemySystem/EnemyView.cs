@@ -84,6 +84,11 @@ namespace EnemySystem
             {
                 _enemyAttacking.ProjectilePrefab = _enemyConfig.ShootingProjectile;
             }
+            else if (_enemyConfig.AttackType == EnemyAttackType.Explode)
+            {
+                _enemyAttacking.ProjectilePrefab = _enemyConfig.ShootingProjectile;
+            }
+            
         }
 
         

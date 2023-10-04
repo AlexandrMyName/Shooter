@@ -64,6 +64,7 @@ MonoBehaviour:
   _playerHeadTransform: {fileID: 3623052758640368833}
   _playerMaxHP: 50
   _playerMaxArmor: 50
+  _puppetMaster: {fileID: 3623052759535554120}
 --- !u!114 &8297143885209127969
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5522,8 +5523,8 @@ MonoBehaviour:
   angularPinning: 0
   updateJointAnchors: 1
   supportTranslationAnimation: 0
-  angularLimits: 1
-  internalCollisions: 1
+  angularLimits: 0
+  internalCollisions: 0
   muscles:
   - name: Pelvis
     joint: {fileID: 3623052757993481213}
