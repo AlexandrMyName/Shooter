@@ -8,8 +8,8 @@ namespace EventBus
         public static event Action<int> OnUpdateHealthView;
         public static event Action<int, int> OnUpdateArmorView;
         public static event Action<int> OnGameEnded;
-        public static event Action<int> OnPlayerHealed;
-        public static event Action<int> OnPlayerArmorAdded;
+        public static event Action<int, Healing.CallBack> OnPlayerHealed;
+        public static event Action<int, Armor.CallBack> OnPlayerArmorAdded;
         public static event Action<bool> OnGodMode;
         public static event Action<bool> OnGamePaused;
         public static event Action<bool> OnKeyStatusChanged;
@@ -29,13 +29,13 @@ namespace EventBus
         {
             OnUpdateArmorView?.Invoke(armor, maxArmor);
         }
-        public static void HealPlayer(int hp)
+        public static void HealPlayer(int hp, Healing.CallBack callBack)
         {
-            OnPlayerHealed?.Invoke(hp);
+            OnPlayerHealed?.Invoke(hp, callBack);
         }
-        public static void AddArmor(int armor)
+        public static void AddArmor(int armor, Armor.CallBack callBack)
         {
-            OnPlayerArmorAdded?.Invoke(armor);
+            OnPlayerArmorAdded?.Invoke(armor, callBack);
         }
         public static void GodMode(bool isGodModeEnabled)
         {

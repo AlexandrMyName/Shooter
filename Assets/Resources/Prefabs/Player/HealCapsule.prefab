@@ -112,7 +112,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7c937b4742847f48b48b4cdb93066fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healingAmount: 10
+  _pickupItemConfig: {fileID: 11400000, guid: b32c25dfedcd22a42ab6bb125ccda660, type: 2}
 --- !u!54 &6402157455428506724
 Rigidbody:
   m_ObjectHideFlags: 0
