@@ -128,3 +128,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c7a087b3f283c74f8c336130df7e44d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _pickupItemConfig: {fileID: 11400000, guid: b32c25dfedcd22a42ab6bb125ccda660, type: 2}

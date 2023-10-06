@@ -88,8 +88,12 @@ namespace Player
             }
         }
 
-        public void TakeHeal(int healAmount)
+        public void TakeHeal(int healAmount, Healing.CallBack callBack)
         {
+            if (PlayerHP == _playerMaxHP)
+            {
+                return;
+            }
             if (!_isDead)
             {
                 if (PlayerHP + healAmount > _playerMaxHP)
@@ -100,6 +104,7 @@ namespace Player
                 {
                     PlayerHP += healAmount;
                 }
+                callBack();
             }
         }
         public void RagdollStun()
@@ -120,8 +125,12 @@ namespace Player
             _godMode = godMode;
         }
 
-        public void TakeArmor(int armorAmount)
+        public void TakeArmor(int armorAmount, Armor.CallBack callback)
         {
+            if (PlayerArmor == _playerMaxArmor)
+            {
+                return;
+            }
             if (!_isDead)
             {
                 if (PlayerArmor + armorAmount > _playerMaxHP)
@@ -133,6 +142,7 @@ namespace Player
                     PlayerArmor += armorAmount;
                 }
             }
+            callback();
         }
 
         private void AddScore()
