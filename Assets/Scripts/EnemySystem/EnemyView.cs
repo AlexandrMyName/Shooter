@@ -117,7 +117,7 @@ namespace EnemySystem
         }
 
 
-        public void TakeDamage(Rigidbody rigidBody, int damage, float force, Vector3 projectileDirection)
+        public void TakeForceDamage(Rigidbody rigidBody, int damage, float force, Vector3 projectileDirection)
         {
             _isLastDamageExplosion = false;
             _lastHitProjectileDirection = projectileDirection;
@@ -128,7 +128,7 @@ namespace EnemySystem
         }
         
         
-        public void TakeExplosionDamage(Rigidbody rigidBody, int damage, float force, 
+        public void TakeExplosionDamage(Rigidbody rigidBody, float force, float upwardsModifier,
             Vector3 center, float radius, Vector3 projectileDirection)
         {
             _isLastDamageExplosion = true;
@@ -138,13 +138,12 @@ namespace EnemySystem
             Observable.Timer(TimeSpan.FromSeconds(0.05f)).Subscribe(_ =>
             {
                 rigidBody.AddExplosionForce(
-                    damage,
+                    force,
                     center,
                     radius,
-                    1000.0f,
+                    upwardsModifier,
                     ForceMode.Impulse);
                 _puppetMaster.state = PuppetMaster.State.Alive;
-                TakeDamage(damage);
             });
         }
         
@@ -173,8 +172,6 @@ namespace EnemySystem
         {
             if (!_isLastDamageExplosion) 
                 _lastHitMuscle.rigidbody.AddForce(_lastHitProjectileDirection * _lastHitForce * 2, ForceMode.Impulse);
-            // else
-            //     _lastHitMuscle.rigidbody.AddForce((_lastHitProjectileDirection + Vector3.up).normalized * _lastHitForce * 2, ForceMode.Impulse);
         }
 
         

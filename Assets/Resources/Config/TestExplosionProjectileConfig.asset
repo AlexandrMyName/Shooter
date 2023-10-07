@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c68b40e2b71191c46b4b20cb243b2e09, type: 3}
   m_Name: TestExplosionProjectileConfig
   m_EditorClassIdentifier: 
-  _damage: 500
+  _damage: 1000
   _maxLifetime: 1000
   _damageRadius: 10
   _projectileSpeed: 30

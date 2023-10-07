@@ -143,31 +143,36 @@ namespace ShootingSystem
                 if (defaultHits[i].TryGetComponent<Rigidbody>(out var rb))
                 {
                     rb.AddExplosionForce(
-                        _projectileConfig.Damage * rb.mass,
+                        _projectileConfig.Force * rb.mass,
                         transform.position,
                         _projectileConfig.DamageRadius,
                         0.5f,
                         ForceMode.Impulse);
                 }
             }
+            
 
-            var enemiesRbs = enemyHits
-                .Select(col => col.attachedRigidbody)
+            var enemiesRbsByView = enemyHits
+                .Select(collider => collider.attachedRigidbody)
                 .Where(rb => rb != null)
-                .Distinct(new EnemyViewComparer())
-                .ToArray();
+                .GroupBy(rb => rb.transform.GetComponent<EnemyBoneView>().EnemyView);
             
             
-            foreach (var enemyRb in enemiesRbs)
+            foreach (var enemyRbsGroup in enemiesRbsByView)
             {
-                enemyRb.GetComponent<EnemyBoneView>().EnemyView.TakeExplosionDamage(
-                    enemyRb, 
-                    _projectileConfig.Damage, 
-                    _projectileConfig.Damage,
-                    gameObject.transform.position,
-                    _projectileConfig.DamageRadius,
-                    _direction
+                foreach (var rb in enemyRbsGroup)
+                {
+                    rb.GetComponent<EnemyBoneView>().EnemyView.TakeExplosionDamage(
+                        rb, 
+                        _projectileConfig.Force * rb.mass,
+                        _projectileConfig.UpwardsModifier,
+                        gameObject.transform.position,
+                        _projectileConfig.DamageRadius,
+                        _direction
                     );
+                }
+                
+                enemyRbsGroup.Key.TakeDamage(_projectileConfig.Damage);
             }
         }
         
@@ -189,7 +194,7 @@ namespace ShootingSystem
         {
             if (enemyHitColliders[0].TryGetComponent(out EnemyBoneView enemyBoneView))
             {
-                enemyBoneView.EnemyView.TakeDamage(
+                enemyBoneView.EnemyView.TakeForceDamage(
                     enemyBoneView.GetComponent<Rigidbody>(), 
                     _projectileConfig.Damage, 
                     _projectileConfig.ProjectileSpeed,
@@ -200,7 +205,7 @@ namespace ShootingSystem
                 // This is necessary as we have collider without rigid body on feet of ragdoll
                 var enemyBoneViewParent = enemyHitColliders[0].GetComponentInParent<EnemyBoneView>();
                 if (enemyBoneViewParent)
-                    enemyBoneViewParent.EnemyView.TakeDamage(
+                    enemyBoneViewParent.EnemyView.TakeForceDamage(
                         enemyBoneView.GetComponent<Rigidbody>(), 
                         _projectileConfig.Damage, 
                         _projectileConfig.ProjectileSpeed,
