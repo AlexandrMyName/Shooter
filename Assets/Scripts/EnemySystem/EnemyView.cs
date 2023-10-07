@@ -138,7 +138,9 @@ namespace EnemySystem
             _isLastDamageExplosion = true;
             _lastHitProjectileDirection = direction;
             _lastHitForce = force;
-            _puppetMaster.state = PuppetMaster.State.Frozen;
+            
+            if (!_isDead) 
+                _puppetMaster.state = PuppetMaster.State.Frozen;
 
             float summDamage = 0.0f;
             
@@ -155,11 +157,12 @@ namespace EnemySystem
                         damageRadius,
                         upwardsModifier,
                         ForceMode.Impulse);
-                    _puppetMaster.state = PuppetMaster.State.Alive;
+                    
+                    if (!_isDead) 
+                        _puppetMaster.state = PuppetMaster.State.Alive;
                 });
                 summDamage += (damage / rigidbodies.Count) * ratioByDistance;
             }
-            
             Observable.Timer(TimeSpan.FromSeconds(1.0f)).Subscribe(_ => TakeDamage(summDamage));
         }
         
