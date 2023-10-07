@@ -269,29 +269,5 @@ namespace ShootingSystem
         public void Dispose() => _disposables.ForEach(disposable => disposable.Dispose());
         
         
-        private class EnemyViewComparer : IEqualityComparer<Rigidbody>
-        {
-            public bool Equals(Rigidbody x, Rigidbody y)
-            {
-                if (x == null || y == null)
-                {
-                    return false;
-                }
-
-                return x.GetComponent<EnemyBoneView>().EnemyView.GetInstanceID() == y.GetComponent<EnemyBoneView>().EnemyView.GetInstanceID();
-            }
-
-            public int GetHashCode(Rigidbody obj)
-            {
-                if (obj == null)
-                {
-                    return 0;
-                }
-
-                return obj.GetComponent<EnemyBoneView>().EnemyView.GetHashCode();
-            }
-        }
-
-        
     }
 }
