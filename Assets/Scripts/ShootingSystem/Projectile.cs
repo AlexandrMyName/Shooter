@@ -152,27 +152,31 @@ namespace ShootingSystem
             }
             
 
-            var enemiesRbsByView = enemyHits
+            Dictionary<EnemyView, List<Rigidbody>> enemiesRbsByView = enemyHits
                 .Select(collider => collider.attachedRigidbody)
                 .Where(rb => rb != null)
-                .GroupBy(rb => rb.transform.GetComponent<EnemyBoneView>().EnemyView);
+                .GroupBy(rb => rb.transform.GetComponent<EnemyBoneView>().EnemyView)
+                .ToDictionary(group => group.Key, group => group.ToList());
             
-            
+
             foreach (var enemyRbsGroup in enemiesRbsByView)
             {
-                foreach (var rb in enemyRbsGroup)
+                foreach (var rb in enemyRbsGroup.Value)
                 {
+                    float distance = Vector3.Distance(transform.position, rb.transform.position);
+                    float ratioByDistance = Mathf.Clamp01(1 - distance / _projectileConfig.DamageRadius);
+
                     rb.GetComponent<EnemyBoneView>().EnemyView.TakeExplosionDamage(
                         rb, 
-                        _projectileConfig.Force * rb.mass,
+                        _projectileConfig.Force * rb.mass * ratioByDistance,
                         _projectileConfig.UpwardsModifier,
                         gameObject.transform.position,
                         _projectileConfig.DamageRadius,
                         _direction
                     );
+                    
+                    enemyRbsGroup.Key.TakeDamage((_projectileConfig.Damage / enemyRbsGroup.Value.Count()) * ratioByDistance);
                 }
-                
-                enemyRbsGroup.Key.TakeDamage(_projectileConfig.Damage);
             }
         }
         

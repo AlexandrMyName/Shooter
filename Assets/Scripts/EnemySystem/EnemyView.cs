@@ -35,7 +35,7 @@ namespace EnemySystem
         private float _lastHitForce;
         
         private int _enemyID;
-        private int _currentEnemyHP = 50;
+        private float _currentEnemyHP = 50;
         private float _lastStunTime;
         private bool _isStuned;
         private bool _isDead;
@@ -59,7 +59,7 @@ namespace EnemySystem
             set => _enemyID = value;
         }
 
-        public int EnemyHP
+        public float EnemyHP
         {
             get => _currentEnemyHP;
             set
@@ -100,7 +100,7 @@ namespace EnemySystem
         }
 
 
-        public void TakeDamage(int damage)
+        public void TakeDamage(float damage)
         {
             if (!_isDead)
             {
