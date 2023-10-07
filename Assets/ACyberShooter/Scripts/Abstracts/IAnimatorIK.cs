@@ -14,6 +14,8 @@ namespace Abstracts
         void SetFloat(string keyID, float value);
         void SetFloat(string keyID, float value, float delta);
 
+        void SetBool(string keyID, bool value);
+
 
     }
 }

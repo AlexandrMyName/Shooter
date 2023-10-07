@@ -52,14 +52,12 @@ namespace Core
 
             _animatorIK.SetFloat("Horizontal", _direction.x, 1 / Time.deltaTime);
             _animatorIK.SetFloat("Vertical", _direction.z, 1 / Time.deltaTime);
-
+            _animatorIK.SetBool("IsRun", Input.GetKey(KeyCode.LeftShift) ? true : false);
         }
 
 
         protected override void FixedUpdate()
         {
-
-           
 
             _direction = _rb.transform.TransformDirection(_direction.x, 0, _direction.z);
             _rotation = _components.MainCamera.transform.parent.transform.forward * 1f;
