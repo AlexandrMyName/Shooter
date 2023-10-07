@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using RootMotion.Dynamics;
+using UnityEngine;
 
 namespace Configs
 {
@@ -16,6 +17,8 @@ namespace Configs
 
         [field: SerializeField] public ProjectileType ProjectileType { get; private set; }
         [field: SerializeField] public DamageType DamageType { get; private set; }
+        [field: SerializeField] public float Force { get; private set; }
+        [field: SerializeField] public float UpwardsModifier { get; private set; }
 
 
         public int Damage => _damage;

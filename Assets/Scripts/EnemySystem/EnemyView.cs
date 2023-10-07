@@ -1,19 +1,22 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using Configs;
 using Enums;
 using EventBus;
 using Extentions;
 using Player;
 using RootMotion.Dynamics;
+using UniRx;
 using UnityEngine;
 
 
 namespace EnemySystem
 {
-    
-    public class EnemyView : MonoBehaviour
+
+    public class EnemyView : MonoBehaviour, IComparable
     {
-        
+
         [SerializeField] private EnemyConfig _enemyConfig;
         [SerializeField] private EnemyMovement _enemyMovement;
         [SerializeField] private EnemyAttacking _enemyAttacking;
@@ -22,21 +25,22 @@ namespace EnemySystem
 
         [Range(0.0f, 1.0f)]
         [SerializeField] private float _pinWeightAfterCollision = 0.5f;
-        
+
         [Range(0.0f, 1.0f)]
         [SerializeField] private float _pinMuscleAfterCollision = 0.5f;
-        
+
         private EnemyDeathSystem _enemyDeath;
 
         private Muscle _lastHitMuscle;
         private Vector3 _lastHitProjectileDirection;
         private float _lastHitForce;
-        
+
         private int _enemyID;
-        private int _currentEnemyHP = 50;
+        private float _currentEnemyHP = 50;
         private float _lastStunTime;
         private bool _isStuned;
         private bool _isDead;
+        private bool _isLastDamageExplosion;
 
         public EnemyConfig EnemyConfig => _enemyConfig;
 
@@ -56,7 +60,7 @@ namespace EnemySystem
             set => _enemyID = value;
         }
 
-        public int EnemyHP
+        public float EnemyHP
         {
             get => _currentEnemyHP;
             set
@@ -70,11 +74,11 @@ namespace EnemySystem
         }
 
         public int EnemyMaxHP => _enemyConfig.EnemyHp;
-        
+
 
         public bool IsDead => _isDead;
 
-        
+
         private void Start()
         {
             _enemyDeath = GetComponent<EnemyDeathSystem>();
@@ -91,7 +95,7 @@ namespace EnemySystem
             
         }
 
-        
+
         private void FixedUpdate()
         {
             if (_isStuned && Time.time > _lastStunTime + _enemyConfig.StunTime)
@@ -99,10 +103,12 @@ namespace EnemySystem
                 _isStuned = false;
                 _enemyMovement.ChangeMovementBehaviourToDefault();
             }
+            
+            Debug.Log($"PUPPET STATE [{_puppetMaster.state}]");
         }
 
 
-        public void TakeDamage(int damage)
+        public void TakeDamage(float damage)
         {
             if (!_isDead)
             {
@@ -112,31 +118,69 @@ namespace EnemySystem
                     _lastStunTime = Time.time;
                     _enemyMovement.ChangeMovementBehaviour(MovementBehaviour.Standing);
                 }
+
                 EnemyEvents.EnemyDamaged();
-                
+
                 EnemyHP -= damage;
             }
         }
 
 
-        public void TakeDamage(Rigidbody rigidBody, int damage, float force, Vector3 projectileDirection)
+        public void TakeForceDamage(Rigidbody rigidBody, int damage, float force, Vector3 projectileDirection)
         {
+            _isLastDamageExplosion = false;
             _lastHitProjectileDirection = projectileDirection;
             _lastHitForce = force;
-            TakeForceToPuppetMuscle(rigidBody, force, projectileDirection);
+            RelaxMuscleBeforeForce(rigidBody, _pinWeightAfterCollision, _pinMuscleAfterCollision);
+            rigidBody.AddForce(projectileDirection * force / 2, ForceMode.Impulse);
             TakeDamage(damage);
         }
+        
+        
+        public void ProcessExplosionDamageForRbs(List<Rigidbody> rigidbodies, float damageRadius, float force,
+            float damage, float upwardsModifier, Vector3 direction, Vector3 projectileCenter)
+        {
+            _isLastDamageExplosion = true;
+            _lastHitProjectileDirection = direction;
+            _lastHitForce = force;
+            
+            if (!_isDead) 
+                _puppetMaster.state = PuppetMaster.State.Frozen;
 
+            float summDamage = 0.0f;
+            
+            foreach (var rb in rigidbodies)
+            {
+                float distance = Vector3.Distance(transform.position, rb.transform.position);
+                float ratioByDistance = Mathf.Clamp01(1 - distance / damageRadius);
+                
+                Observable.Timer(TimeSpan.FromSeconds(0.05f)).Subscribe(_ =>
+                {
+                    rb.AddExplosionForce(
+                        force,
+                        projectileCenter,
+                        damageRadius,
+                        upwardsModifier,
+                        ForceMode.Impulse);
+                    
+                    if (!_isDead) 
+                        _puppetMaster.state = PuppetMaster.State.Alive;
+                });
+                summDamage += (damage / rigidbodies.Count) * ratioByDistance;
+            }
+            Observable.Timer(TimeSpan.FromSeconds(1.0f)).Subscribe(_ => TakeDamage(summDamage));
+        }
+        
 
-        private void TakeForceToPuppetMuscle(Rigidbody rigidBody, float force, Vector3 projectileDirection)
+        private void RelaxMuscleBeforeForce(Rigidbody rigidBody, float pinWeightAfterCollision,
+            float pinMuscleAfterCollision)
         {
             _lastHitMuscle = _puppetMaster.GetMuscle(rigidBody);
-            _lastHitMuscle.props.pinWeight = _pinWeightAfterCollision;
-            _lastHitMuscle.props.muscleWeight = _pinMuscleAfterCollision;
-            rigidBody.AddForce(projectileDirection * force / 2, ForceMode.Impulse);
+            _lastHitMuscle.props.pinWeight = pinWeightAfterCollision;
+            _lastHitMuscle.props.muscleWeight = pinMuscleAfterCollision;
         }
 
-        
+
         private void Death()
         {
             EnemyEvents.EnemyDead();
@@ -144,16 +188,32 @@ namespace EnemySystem
             _enemyMovement.StopMovement();
             AddDeadForce();
             _enemyDeath.DestroyEnemy();
-        
+
             Debug.Log($"{gameObject.name} killed {_isDead}");
         }
 
 
         private void AddDeadForce()
         {
-            _lastHitMuscle.rigidbody.AddForce(_lastHitProjectileDirection * _lastHitForce * 2, ForceMode.Impulse);
+            if (!_isLastDamageExplosion)
+                _lastHitMuscle.rigidbody.AddForce(_lastHitProjectileDirection * _lastHitForce * 2, ForceMode.Impulse);
         }
-        
-        
+
+
+        public int CompareTo(object obj)
+        {
+            if (obj is EnemyView enemyView)
+                return this.GetInstanceID().CompareTo(enemyView.GetInstanceID());
+            else
+                throw new ArgumentException("Incorrect object type");
+        }
+
+
     }
 }
+
+        
+            
+        
+        
+        

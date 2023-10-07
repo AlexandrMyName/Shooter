@@ -130,8 +130,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _projectileConfig: {fileID: 11400000, guid: ccbe294613b55fe40b6fb4adaa3f98fe, type: 2}
   _projectileRigidbody: {fileID: 5977503005042018941}
-  _groundLayerIndex: 6
-  _wallLayerIndex: 7
+  _hitImpactLayers:
+    serializedVersion: 2
+    m_Bits: 192
+  _enemyRagdollLayer:
+    serializedVersion: 2
+    m_Bits: 4104
+  _playerRagdollLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  _explosionIncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1001 &8989752145262642794
 PrefabInstance:
   m_ObjectHideFlags: 0
