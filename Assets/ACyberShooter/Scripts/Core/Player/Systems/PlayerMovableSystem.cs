@@ -1,6 +1,6 @@
 using Abstracts;
 using UnityEngine;
-
+using UnityEngine.Animations.Rigging;
 
 namespace Core
 {
@@ -18,7 +18,13 @@ namespace Core
 
         Vector3 _direction = Vector3.zero;
         Vector3 _rotation = Vector3.zero;
+
+        [SerializeField] private TwoBoneIKConstraint _rithHand;
+        [SerializeField] private TwoBoneIKConstraint _leftHand;
+
         
+
+
         Quaternion _target_Rotation = Quaternion.identity;
 
 
