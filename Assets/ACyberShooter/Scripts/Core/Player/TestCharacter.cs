@@ -18,7 +18,11 @@ namespace Core
 
             ComponentsStorage = GetComponent<ComponentsStorage>();
 
-            throw new System.NotImplementedException();
+            return new List<ISystem>()
+             {
+                 new PlayerMovableSystem(),
+                 new PlayerCameraSystem()
+             };
         }
     }
 }

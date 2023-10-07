@@ -1,3 +1,4 @@
+using Configs;
 
 
 namespace Abstracts
@@ -7,6 +8,8 @@ namespace Abstracts
     {
 
         IAnimatorIK AnimatorIK { get; }
+        CameraConfig CameraConfig { get; }
+        
 
     }
 }

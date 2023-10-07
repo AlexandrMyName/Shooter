@@ -8,7 +8,8 @@ namespace Abstracts
     
     public abstract class StateMachine : MonoBehaviour
     {
-        
+
+        [SerializeField] private Camera _camera;
         private List<ISystem> _systems;
 
         protected abstract List<ISystem> GetSystems();
@@ -18,7 +19,7 @@ namespace Abstracts
         {
             _systems = GetSystems();
 
-            ObjectStack stack = new ObjectStack(Camera.main, this.gameObject);
+            ObjectStack stack = new ObjectStack(_camera, this.gameObject);
 
             for (int i = 0; i < _systems.Count; i++)
             {

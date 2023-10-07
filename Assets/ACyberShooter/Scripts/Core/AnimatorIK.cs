@@ -27,7 +27,6 @@ namespace Core
 
         [SerializeField] private CameraController _camController;
 
-        [SerializeField] private Transform _leftHandTarget;
 
         private bool _isAiming;
 
@@ -71,13 +70,13 @@ namespace Core
         private void Update(){
 
 
-            UpdateAiming();
-            UpdateCameraOffSet();
+            //UpdateAiming();
+          //  UpdateCameraOffSet();
 
         }
 
 
-        private void LateUpdate() =>  SetLookAtPosition(_lookAt.position);
+        private void FixedUpdate() =>  SetLookAtPosition(_lookAt.position);
 
 
         #region IK Aiming
@@ -128,20 +127,7 @@ namespace Core
             if (_lookAtIKpos != null)
                 _animator.SetLookAtPosition(_lookAtIKpos);
 
-            if (_isAiming)
-            {
-                _animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1);
-                _animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 1);
-            }
-            else
-            {
-                _animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 0);
-                _animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 0);
-            }
-
-
-            _animator.SetIKPosition(AvatarIKGoal.LeftHand, _leftHandTarget.position);
-            _animator.SetIKRotation(AvatarIKGoal.LeftHand, _leftHandTarget.rotation);
+            
 
         }
 
