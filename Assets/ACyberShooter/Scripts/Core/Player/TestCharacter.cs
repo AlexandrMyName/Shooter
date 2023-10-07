@@ -17,6 +17,7 @@ namespace Core
         {
 
             ComponentsStorage = GetComponent<ComponentsStorage>();
+            ComponentsStorage.InitComponents();
 
             return new List<ISystem>()
              {

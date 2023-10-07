@@ -15,7 +15,7 @@ namespace Core
         public IAnimatorIK AnimatorIK {get; private set;}
         
 
-        private void Awake()
+        public void InitComponents()
         {
 
             AnimatorIK = _animatorIK;

@@ -11,5 +11,9 @@ namespace Abstracts
         void SetLookAtWeight(float weight, float body, float head, float eyes, float clamp);
         void SetLookAtPosition(Vector3 lookAt);
 
+        void SetFloat(string keyID, float value);
+        void SetFloat(string keyID, float value, float delta);
+
+
     }
 }

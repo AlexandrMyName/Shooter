@@ -9,7 +9,7 @@ namespace Core
     {
 
         IGameComponents _components;
-
+        IAnimatorIK _animatorIK;
         float _speedWalk = 12f;
         float _speedRun = 22f;
 
@@ -27,7 +27,7 @@ namespace Core
 
             _rb.MovePosition(_rb.position + _direction * _speedWalk * Time.fixedDeltaTime);
 
-            if (Mathf.Abs(_direction.x) > 0 || Mathf.Abs(_direction.z) > 0)
+            if ((Mathf.Abs(_direction.x) > 0 || Mathf.Abs(_direction.z) > 0) || Input.GetMouseButton(1) || Input.GetMouseButton(0))
                 _rb.MoveRotation(_target_Rotation);
         }
 
@@ -38,6 +38,10 @@ namespace Core
             _components = components;
             _rb = components.BaseObject.GetComponent<Rigidbody>();
             _rotation = Vector3.zero;
+            _animatorIK = components.BaseObject.GetComponent<IPlayer>().ComponentsStorage.AnimatorIK;
+
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
 
 
@@ -45,6 +49,9 @@ namespace Core
         {
             _direction.x = Input.GetAxis("Horizontal");
             _direction.z = Input.GetAxis("Vertical");
+
+            _animatorIK.SetFloat("Horizontal", _direction.x, 1 / Time.deltaTime);
+            _animatorIK.SetFloat("Vertical", _direction.z, 1 / Time.deltaTime);
 
         }
 

@@ -23,7 +23,7 @@ MonoBehaviour:
   <WithPlayerLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 2147483647
-  <CameraSpeedMultiplier>k__BackingField: 5.76
+  <CameraSpeedMultiplier>k__BackingField: 11.82
   <MinDistance>k__BackingField: 1
   <CameraClampMin>k__BackingField: -90
   <CameraClampMax>k__BackingField: 90

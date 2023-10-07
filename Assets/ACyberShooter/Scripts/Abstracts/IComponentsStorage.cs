@@ -9,7 +9,10 @@ namespace Abstracts
 
         IAnimatorIK AnimatorIK { get; }
         CameraConfig CameraConfig { get; }
-        
+
+        void InitComponents();
+
+
 
     }
 }
