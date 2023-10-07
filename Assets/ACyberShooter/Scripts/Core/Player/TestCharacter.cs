@@ -22,7 +22,8 @@ namespace Core
             return new List<ISystem>()
              {
                  new PlayerMovableSystem(),
-                 new PlayerCameraSystem()
+                 new PlayerCameraSystem(),
+                 new PlayerShootSystem(),
              };
         }
     }

@@ -1,7 +1,7 @@
 using Abstracts;
-using Player;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
+
 
 namespace Core
 {
@@ -14,7 +14,7 @@ namespace Core
 
         [SerializeField] private Animator _animator;
 
-
+        [SerializeField] private IWeaponType _defaultWeapon;
         [SerializeField] private Transform _lookAt;
 
         private float _weight, _body, _head, _eyes, _clamp;
@@ -23,17 +23,17 @@ namespace Core
 
        
         [SerializeField] private IKWeightConfig _weightConfig;
-        [SerializeField] private TwoBoneIKConstraint _rightHandIK;
-        [SerializeField] private TwoBoneIKConstraint _leftHandIK;
         [SerializeField] private WeaponData _weaponData;
 
-        
+      
+
 
         private void Awake()
         {
             _weaponData ??= GetComponent<WeaponData>();
             _animator ??= GetComponent<Animator>();
             InitAimingWeight();
+            InitDefaultWeapon(_defaultWeapon);
         }
 
 
@@ -68,7 +68,7 @@ namespace Core
         private void Update(){
 
             InitAimingWeight();
-
+             
         }
 
 
@@ -79,6 +79,7 @@ namespace Core
 
         private void InitAimingWeight()
         {
+
             SetLookAtWeight
                 (_weightConfig._weight,
                 _weightConfig._body,
@@ -92,6 +93,66 @@ namespace Core
         #endregion
 
 
+
+        public void SetWeaponState(IWeaponType weaponType)
+        {
+             
+            Weapon weapon = _weaponData.Weapons.Find(weapon => weapon.Type == weaponType);
+
+            if (weapon == null) return;
+            DeactivateAllWeapons();
+
+            switch (weaponType)
+            {
+
+                case IWeaponType.Pistol:
+
+                    //+ Animation
+                    ActivateWeapon(weapon);
+
+                    break;
+
+                case IWeaponType.Auto:
+
+                    //+ Animation 
+                    ActivateWeapon(weapon);
+
+                    break;
+
+                default:
+                    DeactivateAllWeapons();
+                    break;
+            }
+        }
+
+
+        private void InitDefaultWeapon(IWeaponType weaponType) => SetWeaponState(weaponType);
+        
+
+
+        private static void ActivateWeapon(Weapon weapon)
+        {
+
+            weapon.leftHandIK.weight = 1;
+            weapon.rightHandIK.weight = 1;
+            weapon.weaponObject.SetActive(true);
+        }
+
+
+        private void DeactivateAllWeapons()
+        {
+
+            foreach(var weapon in _weaponData.Weapons)
+            {
+                weapon.rightHandIK.weight = 0;
+                weapon.leftHandIK.weight = 0;
+                weapon.weaponObject.SetActive(false);
+            }
+        }
+
+
+     
+
         private void OnAnimatorIK(int layerIndex)
         {
 
@@ -99,8 +160,6 @@ namespace Core
 
             if (_lookAtIKpos != null)
                 _animator.SetLookAtPosition(_lookAtIKpos);
-
-            
 
         }
 

@@ -1,7 +1,7 @@
 using Abstracts;
 using System;
 using UnityEngine;
-
+using UnityEngine.Animations.Rigging;
 
 namespace Core
 {
@@ -10,9 +10,10 @@ namespace Core
     public class Weapon
     {
 
+        public GameObject weaponObject;
         public IWeaponType Type; // oops, this not interface)
-        public Transform rightHandHint;
-        public Transform leftHandHint;
+        public TwoBoneIKConstraint rightHandIK;
+        public TwoBoneIKConstraint leftHandIK;
         //Add configs to this
     }
 }
