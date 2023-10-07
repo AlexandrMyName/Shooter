@@ -161,22 +161,10 @@ namespace ShootingSystem
 
             foreach (var enemyRbsGroup in enemiesRbsByView)
             {
-                foreach (var rb in enemyRbsGroup.Value)
-                {
-                    float distance = Vector3.Distance(transform.position, rb.transform.position);
-                    float ratioByDistance = Mathf.Clamp01(1 - distance / _projectileConfig.DamageRadius);
-
-                    rb.GetComponent<EnemyBoneView>().EnemyView.TakeExplosionDamage(
-                        rb, 
-                        _projectileConfig.Force * rb.mass * ratioByDistance,
-                        _projectileConfig.UpwardsModifier,
-                        gameObject.transform.position,
-                        _projectileConfig.DamageRadius,
-                        _direction
-                    );
-                    
-                    enemyRbsGroup.Key.TakeDamage((_projectileConfig.Damage / enemyRbsGroup.Value.Count()) * ratioByDistance);
-                }
+                enemyRbsGroup.Key.ProcessExplosionDamageForRbs(
+                    enemyRbsGroup.Value, _projectileConfig.DamageRadius, _projectileConfig.Force, 
+                    _projectileConfig.Damage, _projectileConfig.UpwardsModifier, _direction, 
+                    transform.position);
             }
         }
         
