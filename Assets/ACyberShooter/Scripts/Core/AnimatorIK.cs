@@ -1,16 +1,16 @@
 using Abstracts;
 using Player;
 using UnityEngine;
-
+using UnityEngine.Animations.Rigging;
 
 namespace Core
 {
 
-    [RequireComponent(typeof(Animator))]
+    [RequireComponent(typeof(Animator), typeof(WeaponData))]
     public class AnimatorIK : MonoBehaviour, IAnimatorIK
     {
 
-        [Header("Test IK with Aiming"), Space(20)]
+        [Header("IK Animator"), Space(20)]
 
         [SerializeField] private Animator _animator;
 
@@ -21,30 +21,27 @@ namespace Core
 
         private Vector3 _lookAtIKpos;
 
-        #region IK Aiming test not for this script
-
+       
         [SerializeField] private IKWeightConfig _weightConfig;
+        [SerializeField] private TwoBoneIKConstraint _rightHandIK;
+        [SerializeField] private TwoBoneIKConstraint _leftHandIK;
+        [SerializeField] private WeaponData _weaponData;
 
-        [SerializeField] private CameraController _camController;
-
-
-        private bool _isAiming;
-
-        [SerializeField] private Vector3 _aimingOffSet;
-
-        [SerializeField] private Vector3 _defaultOffSet;
-
-        #endregion
+        
 
         private void Awake()
         {
-
+            _weaponData ??= GetComponent<WeaponData>();
             _animator ??= GetComponent<Animator>();
             InitAimingWeight();
         }
-           
 
-        private void OnValidate() => _animator ??= GetComponent<Animator>();
+
+        private void OnValidate()
+        {
+            _weaponData ??= GetComponent<WeaponData>();
+            _animator ??= GetComponent<Animator>();
+        }
 
 
         public void SetLayerWeight(int indexLayer, float weight) => _animator.SetLayerWeight(indexLayer, weight);
@@ -71,8 +68,6 @@ namespace Core
         private void Update(){
 
             InitAimingWeight();
-            //UpdateAiming();
-            //  UpdateCameraOffSet();
 
         }
 
@@ -91,31 +86,8 @@ namespace Core
                 _weightConfig._eyes, 
                 _weightConfig._clamp);
         }
-        private void UpdateAiming()
-        {
-
-            if (Input.GetMouseButton(1))
-            {
-
-                _isAiming = true;
-
-            }
-            else _isAiming = false;
-
-            //_animator.SetBool("IsAiming", _isAiming);
-
-        }
-
-        private void UpdateCameraOffSet()
-        {
-
-            if (_isAiming){
-
-                _camController.offset = _aimingOffSet;
-
-            }
-            else _camController.offset = _defaultOffSet;
-        }
+      
+        
 
         #endregion
 
