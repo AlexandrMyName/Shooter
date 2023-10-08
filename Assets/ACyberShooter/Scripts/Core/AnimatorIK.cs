@@ -1,4 +1,5 @@
 using Abstracts;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
@@ -24,6 +25,8 @@ namespace Core
        
         [SerializeField] private IKWeightConfig _weightConfig;
         [SerializeField] private WeaponData _weaponData;
+
+        [SerializeField,Range(0f,1f)] private float _aimingDuration;
 
         private Weapon _currentWeapon;
 
@@ -77,6 +80,15 @@ namespace Core
 
             InitAimingWeight();
 
+
+            if (Input.GetMouseButton(0) || Input.GetMouseButton(1))
+            {
+                ActivateAiming(_currentWeapon);
+            }
+            else 
+            {
+                DisableAiming(_currentWeapon);
+            }
              
         }
 
@@ -108,34 +120,12 @@ namespace Core
              
             Weapon weapon = _weaponData.Weapons.Find(weapon => weapon.Type == weaponType);
 
-            if (weapon == null) return;
-            
+            if (weapon == null | weapon == _currentWeapon) return;
              
-
             DeactivateAllWeapons();
-
-            switch (weaponType)
-            {
-
-                case IWeaponType.Pistol:
-
-                    //+ Animation
-                    ActivateWeapon(weapon);
-
-                    break;
-
-                case IWeaponType.Auto:
-
-                    //+ Animation 
-                    ActivateWeapon(weapon);
-
-                    break;
-
-                default:
-                    DeactivateAllWeapons();
-                    break;
-            }
-
+ 
+            ActivateMuzzle(weapon);
+              
             _currentWeapon = weapon;
         }
 
@@ -146,30 +136,57 @@ namespace Core
         private void InitDefaultWeapon(IWeaponType weaponType) => SetWeaponState(weaponType);
         
 
-
-        private static void ActivateWeapon(Weapon weapon)
+        private void ActivateMuzzle(Weapon weapon)
         {
-
-            weapon.leftHandIK.weight = 1;
-            weapon.rightHandIK.weight = 1;
             weapon.weaponObject.SetActive(true);
             weapon.Muzzle.Activate();
-        
+
+            _weaponData.Weapons.ForEach(weapon =>
+            {
+                weapon.rightHandIK_NoAiming.weight = 0f;
+                weapon.leftHandIK_NoAiming.weight = 0f;
+            });
         }
 
+
+        private void ActivateAiming(Weapon weapon)
+        {
+             
+                weapon.leftHandIK_aiming.weight += Time.deltaTime/ _aimingDuration;
+                weapon.rightHandIK_aiming.weight += Time.deltaTime/_aimingDuration;
+
+                weapon.rightHandIK_NoAiming.weight -= Time.deltaTime / _aimingDuration;
+                weapon.leftHandIK_NoAiming.weight -= Time.deltaTime / _aimingDuration;
+             
+        }
+
+
+        private void DisableAiming(Weapon weapon)
+        {
+             
+                weapon.leftHandIK_aiming.weight -= Time.deltaTime / _aimingDuration;
+                weapon.rightHandIK_aiming.weight -= Time.deltaTime / _aimingDuration;
+
+                weapon.rightHandIK_NoAiming.weight += Time.deltaTime / _aimingDuration;
+                weapon.leftHandIK_NoAiming.weight += Time.deltaTime / _aimingDuration;
+             
+ 
+        }
+         
 
         private void DeactivateAllWeapons()
         {
 
             foreach(var weapon in _weaponData.Weapons)
             {
-                weapon.rightHandIK.weight = 0;
-                weapon.leftHandIK.weight = 0;
+                weapon.rightHandIK_aiming.weight = 0;
+                weapon.leftHandIK_aiming.weight = 0;
                 weapon.weaponObject.SetActive(false);
                 weapon.Muzzle.Disable();
             }
         }
          
+
         private void OnAnimatorIK(int layerIndex)
         {
 

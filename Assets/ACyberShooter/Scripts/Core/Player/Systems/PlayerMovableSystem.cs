@@ -57,7 +57,7 @@ namespace Core
             _direction.z = Input.GetAxis("Vertical");
 
             _animatorIK.SetFloat("Horizontal", _direction.x, 1 / Time.deltaTime);
-            _animatorIK.SetFloat("Vertical", _direction.z, 1 / Time.deltaTime);
+            _animatorIK.SetFloat("Vertical", /*_direction.z, 1 / Time.deltaTime*/ 1);
             _animatorIK.SetBool("IsRun", Input.GetKey(KeyCode.LeftShift) ? true : false);
         }
 
