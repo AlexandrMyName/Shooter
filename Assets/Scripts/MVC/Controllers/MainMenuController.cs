@@ -32,7 +32,7 @@ namespace MVC.Controllers
         
         private void StartButtonClick()
         {
-            SceneManager.LoadScene("ShootArenaWhiteBox");
+            SceneManager.LoadScene("WhiteBoxTest");
         }
 
         private void LeaderboardButtonClick()
