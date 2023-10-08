@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: IK_Aiming
   m_EditorClassIdentifier: 
   _weight: 1
-  _body: 0.8
-  _head: 0.8
-  _eyes: 0.8
-  _clamp: 0.1
+  _body: 1
+  _head: 1
+  _eyes: 1
+  _clamp: 0.6

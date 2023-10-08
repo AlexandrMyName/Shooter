@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9f0a578093206542a69c2ca0877937f, type: 3}
+  m_Name: CameraConfig
+  m_EditorClassIdentifier: 
+  <CameraOffSet_Normal>k__BackingField: {x: 1.04, y: -0.13, z: -1.18}
+  <CameraOffSet_Aiming>k__BackingField: {x: 0, y: 0, z: 0}
+  <ObstacleLayer>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 2129
+  <NoPlayerLayer>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 16119
+  <WithPlayerLayer>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 2147483647
+  <CameraSpeedMultiplier>k__BackingField: 11.82
+  <MinDistance>k__BackingField: 1
+  <CameraClampMin>k__BackingField: -90
+  <CameraClampMax>k__BackingField: 90

@@ -7,6 +7,7 @@ using Enums;
 
 namespace ShootingSystem
 {
+    
     public class Weapon : MonoBehaviour
     {
         [SerializeField] private Transform _playerObjectTransform;
@@ -74,6 +75,7 @@ namespace ShootingSystem
             ShootingEvents.OnReload -= Reload;
         }
 
+       
         private void ChangeShootingState(bool isShooting)
         {
             _isTryShooting = isShooting;
@@ -81,6 +83,7 @@ namespace ShootingSystem
 
         private void FixedUpdate()
         {
+
             if (_isTryShooting)
             {
                 //ShootingEvents.RotateToCameraDirection(true);
