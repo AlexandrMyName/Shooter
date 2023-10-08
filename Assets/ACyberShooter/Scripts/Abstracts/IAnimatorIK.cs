@@ -1,10 +1,11 @@
+using System;
 using UnityEngine;
 
 
 namespace Abstracts
 {
 
-    public interface IAnimatorIK
+    public interface IAnimatorIK : IDisposable
     {
 
         void SetLayerWeight(int indexLayer, float weight);

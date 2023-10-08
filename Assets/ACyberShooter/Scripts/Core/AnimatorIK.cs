@@ -25,7 +25,13 @@ namespace Core
         [SerializeField] private IKWeightConfig _weightConfig;
         [SerializeField] private WeaponData _weaponData;
 
-      
+        private Weapon _currentWeapon;
+
+        public void Dispose()
+        {
+
+            _weaponData.Weapons.ForEach(disposable => disposable.Muzzle.Dispose());
+        }
 
 
         private void Awake()
@@ -34,11 +40,13 @@ namespace Core
             _animator ??= GetComponent<Animator>();
             InitAimingWeight();
             InitDefaultWeapon(_defaultWeapon);
+            _weaponData.InitData();
         }
 
 
         private void OnValidate()
         {
+
             _weaponData ??= GetComponent<WeaponData>();
             _animator ??= GetComponent<Animator>();
         }
@@ -68,6 +76,7 @@ namespace Core
         private void Update(){
 
             InitAimingWeight();
+
              
         }
 
@@ -100,6 +109,9 @@ namespace Core
             Weapon weapon = _weaponData.Weapons.Find(weapon => weapon.Type == weaponType);
 
             if (weapon == null) return;
+            
+             
+
             DeactivateAllWeapons();
 
             switch (weaponType)
@@ -123,7 +135,12 @@ namespace Core
                     DeactivateAllWeapons();
                     break;
             }
+
+            _currentWeapon = weapon;
         }
+
+
+        
 
 
         private void InitDefaultWeapon(IWeaponType weaponType) => SetWeaponState(weaponType);
@@ -136,6 +153,8 @@ namespace Core
             weapon.leftHandIK.weight = 1;
             weapon.rightHandIK.weight = 1;
             weapon.weaponObject.SetActive(true);
+            weapon.Muzzle.Activate();
+        
         }
 
 
@@ -147,12 +166,10 @@ namespace Core
                 weapon.rightHandIK.weight = 0;
                 weapon.leftHandIK.weight = 0;
                 weapon.weaponObject.SetActive(false);
+                weapon.Muzzle.Disable();
             }
         }
-
-
-     
-
+         
         private void OnAnimatorIK(int layerIndex)
         {
 
@@ -162,6 +179,9 @@ namespace Core
                 _animator.SetLookAtPosition(_lookAtIKpos);
 
         }
+         
 
+        private void OnDestroy() => Dispose();
+        
     }
 }

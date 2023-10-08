@@ -1,4 +1,5 @@
 using Abstracts;
+using EventBus;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,9 @@ using UnityEngine;
 
 namespace Core
 {
-
+    /// <summary>
+    /// Need add Input System with out every update
+    /// </summary>
     public class PlayerShootSystem : BaseSystem, IDisposable
     {
 
@@ -49,7 +52,17 @@ namespace Core
                 _weaponType = IWeaponType.Auto;
                 SwitchWeapon(_weaponType);
             }
-            
+
+
+            if (Input.GetMouseButton(0))
+            {
+                ShootingEvents.TryShoot(true);
+            }
+
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                ShootingEvents.Reload();
+            }
         }
 
 

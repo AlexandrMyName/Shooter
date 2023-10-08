@@ -1,7 +1,11 @@
 using Abstracts;
+using Configs;
+using Enums;
+using EventBus;
 using System;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
+
 
 namespace Core
 {
@@ -14,6 +18,7 @@ namespace Core
         public IWeaponType Type; // oops, this not interface)
         public TwoBoneIKConstraint rightHandIK;
         public TwoBoneIKConstraint leftHandIK;
-        //Add configs to this
+        public Muzzle Muzzle;
+
     }
 }

@@ -1,23 +1,27 @@
-﻿using Configs;
+using Configs;
+using Enums;
 using EventBus;
 using Extentions;
-using UnityEngine;
+using ShootingSystem;
+using System;
 using System.Collections;
-using Enums;
+using System.Collections.Generic;
+using UniRx;
+using UnityEngine;
 
-namespace ShootingSystem
+
+namespace Core
 {
-    
-    public class Weapon : MonoBehaviour
+
+    [Serializable]
+    public class Muzzle : IDisposable
     {
-        [SerializeField] private Transform _playerObjectTransform;
+
+        //Need refactoring (not faster)
+        [Header ("Muzzle behavior"),Space(10)]
         [SerializeField] private WeaponConfig _weaponConfig;
         [SerializeField] private Transform _projectileSpawnTransform;
-        [SerializeField] private Transform _projectilesPool;
-        [SerializeField] private Transform _hitEffectsRoot;
-        [SerializeField] private int _playerLayerIndex = 8;
-        [SerializeField] private int _playerRagdollLayerIndex = 9;
-
+          
         private Transform _cameraTransform;
         private GameObject _pointOfHitObject;
         private bool _isTryShooting = false;
@@ -33,8 +37,26 @@ namespace ShootingSystem
         private int _maxAmmoInBurst;
         private int _currentAmmonBurst;
 
-        private void OnEnable()
+        private List<IDisposable> _disposables = new();
+
+        private Transform _projectilesPool;
+        private Transform _hitEffectsRoot;
+
+
+        private int _playerRagdollLayerIndex;
+        private int _playerLayerIndex;
+
+
+        public void Activate()
         {
+             
+            ShootingEvents.OnTryShoot += ChangeShootingState;
+            ShootingEvents.OnReload += Reload;
+
+            Observable.EveryFixedUpdate().Subscribe(value => FixedUpdate()).AddTo(_disposables);
+
+            if (_currentAmmo > 0) return;
+
             _currentAmmo = _weaponConfig.MaxAmmo;
             _currentAmmoInMagazine = _weaponConfig.MaxAmmoInMagazine;
 
@@ -52,13 +74,17 @@ namespace ShootingSystem
             }
 
             _currentAmmonBurst = _maxAmmoInBurst;
-
-            ShootingEvents.OnTryShoot += ChangeShootingState;
-            ShootingEvents.OnReload += Reload;
         }
 
-        private void Start()
+
+        public void InitPool(Transform projectilesRoot, Transform hitEffectsRoot, int playerRagdollIndex, int playerLayerIndex)
         {
+
+            _projectilesPool = projectilesRoot;
+            _hitEffectsRoot = hitEffectsRoot;
+            _playerLayerIndex = playerLayerIndex;
+            _playerRagdollLayerIndex = playerRagdollIndex;
+
             _cameraTransform = Camera.main.transform;
             _pointOfHitObject =
                 GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/Shooting/HitDirection"));
@@ -67,23 +93,29 @@ namespace ShootingSystem
             _lastShootTime = Time.time;
             ShootingEvents.ChangeAmmoCount(_weaponConfig.MaxAmmo);
             ShootingEvents.ChangeAmmoInMagazineCount(_currentAmmoInMagazine);
+
+             
         }
 
-        private void OnDisable()
+
+        public void Disable()
         {
             ShootingEvents.OnTryShoot -= ChangeShootingState;
             ShootingEvents.OnReload -= Reload;
+            _disposables.ForEach(disposable => disposable.Dispose());
         }
 
-       
+
         private void ChangeShootingState(bool isShooting)
         {
             _isTryShooting = isShooting;
         }
 
+
         private void FixedUpdate()
         {
 
+            Debug.Log(_isShooting);
             if (_isTryShooting)
             {
                 //ShootingEvents.RotateToCameraDirection(true);
@@ -106,14 +138,18 @@ namespace ShootingSystem
 
         }
 
+
         private void Reload()
         {
+
             if (_currentAmmo > 0)
             {
                 _isReloading = true;
-                StartCoroutine(ReloadingAction(_weaponConfig.ReloadDelay));
+                Observable.FromCoroutine(val => ReloadingAction(_weaponConfig.ReloadDelay)).Subscribe().AddTo(_disposables);
+               
             }
         }
+
 
         private IEnumerator ReloadingAction(float reloadDelay)
         {
@@ -140,6 +176,7 @@ namespace ShootingSystem
             _isReloading = false;
             yield return null;
         }
+
 
         private void TryShoot()
         {
@@ -185,6 +222,7 @@ namespace ShootingSystem
             }
         }
 
+
         private void Shoot()
         {
             if (_recoilModifierHorizontal >=
@@ -201,6 +239,7 @@ namespace ShootingSystem
             projectileView.StartMoving(_projectileSpawnTransform.position, _pointOfHitObject.transform.position,
                 _hitEffectsRoot);
         }
+
 
         private void MovePointOfHit()
         {
@@ -238,12 +277,14 @@ namespace ShootingSystem
             }
         }
 
+
         private void MoveHitMarkObject(GameObject markObject, Vector3 rayHitPoint, Vector3 rayHitNormal)
         {
             markObject.transform.position = rayHitPoint;
             markObject.transform.rotation = Quaternion.LookRotation(rayHitNormal);
             markObject.SetActive(true);
         }
+
 
         private Vector3 GetRecoilVector()
         {
@@ -260,7 +301,8 @@ namespace ShootingSystem
             return recoiledDirection;
         }
 
-        private void ChangeRecoilVector(float recoilHorizontalDelta,float recoilVerticalDelta)
+
+        private void ChangeRecoilVector(float recoilHorizontalDelta, float recoilVerticalDelta)
         {
             bool isRecoilHorizontalIncreasing =
                 _recoilModifierHorizontal < _weaponConfig.RecoilHorizontal && recoilHorizontalDelta > 0;
@@ -279,6 +321,7 @@ namespace ShootingSystem
             }
         }
 
+
         private void ChangeSpread(float spreadDelta)
         {
             bool isSpreadIncreasing = spreadDelta > 0 && _spreadingModifier < 1;
@@ -289,5 +332,9 @@ namespace ShootingSystem
             }
         }
 
+
+        public void Dispose()
+        => _disposables.ForEach(disposable => disposable.Dispose());
+        
     }
 }
