@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using NaughtyAttributes;
-using UnityEditor;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif 
 
 namespace Configs
 {
@@ -27,6 +29,7 @@ namespace Configs
 
         public int SpawnCooldown => _spawnCooldown;
 
+#if UNITY_EDITOR
         [Button]
         private void AddSelectedAsSpawnPoints()
         {
@@ -41,5 +44,6 @@ namespace Configs
         {
             _spawnPointsList.Clear();
         }
+#endif 
     }
 }

@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using Enums;
 using NaughtyAttributes;
-using UnityEditor;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif 
 
 namespace Configs
 {
@@ -37,6 +39,7 @@ namespace Configs
 
         public bool IsChangingBehaviourNearPlayer => _isChangingBehaviourNearPlayer;
     
+#if UNITY_EDITOR
         [Button]
         private void AddSelectedAsGoalPoint()
         {
@@ -60,6 +63,7 @@ namespace Configs
         {
             _goalsList.Clear();
         }
+#endif       
     
     }
 }
