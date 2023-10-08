@@ -1,12 +1,10 @@
 using Abstracts;
-using System.Collections;
 using UnityEngine;
-using UnityEngine.Animations.Rigging;
-
+  
 
 namespace Core
 {
-
+     
     [RequireComponent(typeof(Animator), typeof(WeaponData))]
     public class AnimatorIK : MonoBehaviour, IAnimatorIK
     {
@@ -21,8 +19,7 @@ namespace Core
         private float _weight, _body, _head, _eyes, _clamp;
 
         private Vector3 _lookAtIKpos;
-
-       
+         
         [SerializeField] private IKWeightConfig _weightConfig;
         [SerializeField] private WeaponData _weaponData;
 
@@ -30,15 +27,14 @@ namespace Core
 
         private Weapon _currentWeapon;
 
+
         public void Dispose()
-        {
-
-            _weaponData.Weapons.ForEach(disposable => disposable.Muzzle.Dispose());
-        }
-
+        => _weaponData.Weapons.ForEach(disposable => disposable.Muzzle.Dispose());
+        
 
         private void Awake()
         {
+
             _weaponData ??= GetComponent<WeaponData>();
             _animator ??= GetComponent<Animator>();
             InitAimingWeight();
@@ -76,22 +72,45 @@ namespace Core
         public void SetBool(string keyID, bool value) => _animator.SetBool(keyID, value);
 
 
-        private void Update(){
+        private void Update()
+        {
 
             InitAimingWeight();
 
+            
+            UpdateAimingIK();
 
-            if (Input.GetMouseButton(0) || Input.GetMouseButton(1))
+        }
+
+        private void UpdateAimingIK()
+        {
+
+            if (_currentWeapon.Muzzle.CurrentAmmoInMagazine == 0)
+            {
+                DisableAiming(_currentWeapon); 
+                return;
+            }
+
+            if ((Input.GetMouseButton(0) || Input.GetMouseButton(1)) && _currentWeapon.Type != IWeaponType.Pistol)
             {
                 ActivateAiming(_currentWeapon);
             }
-            else 
+            else
             {
                 DisableAiming(_currentWeapon);
             }
-             
-        }
 
+            if (Input.GetMouseButtonDown(0) && _currentWeapon.Type == IWeaponType.Pistol)
+            {
+                int frames = 5;
+
+                while (frames > 0)
+                {
+                    ActivateAiming(_currentWeapon);
+                    frames--;
+                }
+            }
+        }
 
         private void FixedUpdate() =>  SetLookAtPosition(_lookAt.position);
 
@@ -128,10 +147,7 @@ namespace Core
               
             _currentWeapon = weapon;
         }
-
-
-        
-
+         
 
         private void InitDefaultWeapon(IWeaponType weaponType) => SetWeaponState(weaponType);
         
@@ -169,8 +185,7 @@ namespace Core
 
                 weapon.rightHandIK_NoAiming.weight += Time.deltaTime / _aimingDuration;
                 weapon.leftHandIK_NoAiming.weight += Time.deltaTime / _aimingDuration;
-             
- 
+         
         }
          
 

@@ -32,8 +32,8 @@ namespace Core
         private float _spreadingModifier;
         private float _recoilModifierHorizontal;
         private float _recoilModifierVertical;
-        private int _currentAmmo;
-        private int _currentAmmoInMagazine;
+        [HideInInspector] public int CurrentAmmo;
+        [HideInInspector] public int CurrentAmmoInMagazine;
         private int _maxAmmoInBurst;
         private int _currentAmmonBurst;
 
@@ -55,10 +55,13 @@ namespace Core
 
             Observable.EveryFixedUpdate().Subscribe(value => FixedUpdate()).AddTo(_disposables);
 
-            if (_currentAmmo > 0) return;
+            ShootingEvents.ChangeAmmoCount(_weaponConfig.MaxAmmo);
+            ShootingEvents.ChangeAmmoInMagazineCount(CurrentAmmoInMagazine);
 
-            _currentAmmo = _weaponConfig.MaxAmmo;
-            _currentAmmoInMagazine = _weaponConfig.MaxAmmoInMagazine;
+            if (CurrentAmmo > 0) return;
+
+            CurrentAmmo = _weaponConfig.MaxAmmo;
+            CurrentAmmoInMagazine = _weaponConfig.MaxAmmoInMagazine;
 
             if (_weaponConfig.ShootingType == ShootingType.Auto)
             {
@@ -92,7 +95,7 @@ namespace Core
             _spreadingModifier = _weaponConfig.SpreadingDefaultModifier;
             _lastShootTime = Time.time;
             ShootingEvents.ChangeAmmoCount(_weaponConfig.MaxAmmo);
-            ShootingEvents.ChangeAmmoInMagazineCount(_currentAmmoInMagazine);
+            ShootingEvents.ChangeAmmoInMagazineCount(CurrentAmmoInMagazine);
 
              
         }
@@ -114,8 +117,7 @@ namespace Core
 
         private void FixedUpdate()
         {
-
-            Debug.Log(_isShooting);
+             
             if (_isTryShooting)
             {
                 //ShootingEvents.RotateToCameraDirection(true);
@@ -142,7 +144,7 @@ namespace Core
         private void Reload()
         {
 
-            if (_currentAmmo > 0)
+            if (CurrentAmmo > 0)
             {
                 _isReloading = true;
                 Observable.FromCoroutine(val => ReloadingAction(_weaponConfig.ReloadDelay)).Subscribe().AddTo(_disposables);
@@ -153,26 +155,27 @@ namespace Core
 
         private IEnumerator ReloadingAction(float reloadDelay)
         {
+
             yield return new WaitForSeconds(reloadDelay);
-            if (_currentAmmo >= _weaponConfig.MaxAmmoInMagazine)
+            if (CurrentAmmo >= _weaponConfig.MaxAmmoInMagazine)
             {
-                _currentAmmo -= _weaponConfig.MaxAmmoInMagazine;
-                _currentAmmo += _currentAmmoInMagazine;
-                _currentAmmoInMagazine = _weaponConfig.MaxAmmoInMagazine;
+                CurrentAmmo -= _weaponConfig.MaxAmmoInMagazine;
+                CurrentAmmo += CurrentAmmoInMagazine;
+                CurrentAmmoInMagazine = _weaponConfig.MaxAmmoInMagazine;
             }
             else
             {
-                _currentAmmoInMagazine += _currentAmmo;
-                _currentAmmo = 0;
-                if (_currentAmmoInMagazine > _weaponConfig.MaxAmmoInMagazine)
+                CurrentAmmoInMagazine += CurrentAmmo;
+                CurrentAmmo = 0;
+                if (CurrentAmmoInMagazine > _weaponConfig.MaxAmmoInMagazine)
                 {
-                    int deltaAmmo = _currentAmmoInMagazine - _weaponConfig.MaxAmmoInMagazine;
-                    _currentAmmoInMagazine -= deltaAmmo;
-                    _currentAmmo = deltaAmmo;
+                    int deltaAmmo = CurrentAmmoInMagazine - _weaponConfig.MaxAmmoInMagazine;
+                    CurrentAmmoInMagazine -= deltaAmmo;
+                    CurrentAmmo = deltaAmmo;
                 }
             }
-            ShootingEvents.ChangeAmmoCount(_currentAmmo);
-            ShootingEvents.ChangeAmmoInMagazineCount(_currentAmmoInMagazine);
+            ShootingEvents.ChangeAmmoCount(CurrentAmmo);
+            ShootingEvents.ChangeAmmoInMagazineCount(CurrentAmmoInMagazine);
             _isReloading = false;
             yield return null;
         }
@@ -192,7 +195,7 @@ namespace Core
             }
             if (_weaponConfig.MaxAmmo > 0)
             {
-                haveAmmoInMagazine = _currentAmmoInMagazine > 0;
+                haveAmmoInMagazine = CurrentAmmoInMagazine > 0;
             }
             else
             {
@@ -203,9 +206,9 @@ namespace Core
             if (_canShoot)
             {
                 _currentAmmonBurst--;
-                _currentAmmoInMagazine--;
+                CurrentAmmoInMagazine--;
                 _lastShootTime = Time.time;
-                ShootingEvents.ChangeAmmoInMagazineCount(_currentAmmoInMagazine);
+                ShootingEvents.ChangeAmmoInMagazineCount(CurrentAmmoInMagazine);
 
                 Shoot();
                 if (!_isShooting)
