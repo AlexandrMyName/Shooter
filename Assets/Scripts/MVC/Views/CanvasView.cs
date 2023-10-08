@@ -9,4 +9,7 @@ public class CanvasView : MonoBehaviour, IView
     public Canvas Canvas => _canvas;
 
     public RectTransform RectTransform => _rectTransform;
+
+
+    
 }

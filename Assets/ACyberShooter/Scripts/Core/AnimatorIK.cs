@@ -1,4 +1,5 @@
 using Abstracts;
+using RootMotion.Dynamics;
 using UnityEngine;
   
 
@@ -85,6 +86,8 @@ namespace Core
         private void UpdateAimingIK()
         {
 
+           // BehaviourPuppet puppet;
+           // puppet.puppetMaster.
             if (_currentWeapon.Muzzle.CurrentAmmoInMagazine == 0)
             {
                 DisableAiming(_currentWeapon); 
