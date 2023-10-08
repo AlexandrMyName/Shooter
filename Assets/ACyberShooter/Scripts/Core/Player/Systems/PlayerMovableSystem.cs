@@ -2,6 +2,7 @@ using Abstracts;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
+
 namespace Core
 {
 
@@ -21,13 +22,9 @@ namespace Core
 
         [SerializeField] private TwoBoneIKConstraint _rithHand;
         [SerializeField] private TwoBoneIKConstraint _leftHand;
-
-        
-
-
+         
         Quaternion _target_Rotation = Quaternion.identity;
-
-
+         
         private void Move()
         {
 
@@ -53,11 +50,12 @@ namespace Core
 
         protected override void Update()
         {
+
             _direction.x = Input.GetAxis("Horizontal");
             _direction.z = Input.GetAxis("Vertical");
 
             _animatorIK.SetFloat("Horizontal", _direction.x, 1 / Time.deltaTime);
-            _animatorIK.SetFloat("Vertical", /*_direction.z, 1 / Time.deltaTime*/ 1);
+            _animatorIK.SetFloat("Vertical", _direction.z, 1 / Time.deltaTime);
             _animatorIK.SetBool("IsRun", Input.GetKey(KeyCode.LeftShift) ? true : false);
         }
 

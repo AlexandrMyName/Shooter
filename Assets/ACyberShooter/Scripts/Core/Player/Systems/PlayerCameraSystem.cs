@@ -1,11 +1,14 @@
 using UnityEngine;
 using Abstracts;
+using EventBus;
+using System;
+using System.Collections.Generic;
 
 
 namespace Core
 {
 
-    public class PlayerCameraSystem : BaseSystem
+    public class PlayerCameraSystem : BaseSystem, IDisposable
     {
 
         private IGameComponents _components;
@@ -18,6 +21,9 @@ namespace Core
 
         private Transform _cameraParent;
 
+        List<IDisposable> _disposables = new();
+
+
         protected override void Awake(IGameComponents components)
         {
 
@@ -28,6 +34,27 @@ namespace Core
             _components.MainCamera.transform.parent = _cameraParent;
 
             _cameraParent.position += Vector3.up * camera_offset_UP;
+
+
+            PlayerEvents.OnGamePaused += onPausedGame;
+           
+            
+        }
+
+
+        private void onPausedGame(bool isPaused)
+        {
+
+            if (isPaused == true)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
         }
 
 
@@ -56,7 +83,6 @@ namespace Core
                 _components.MainCamera.transform.position = hit.point;
                 Debug.Log("Hirt");
             }
-
             else _components.MainCamera.transform.position =
                  _cameraParent
                      .TransformPoint(_componentsStorage.CameraConfig.CameraOffSet_Normal);
@@ -85,6 +111,9 @@ namespace Core
             }
             _components.MainCamera.transform.LookAt(_cameraParent.GetChild(0).GetChild(0));
         }
-     
+
+        public void Dispose()
+        => PlayerEvents.OnGamePaused -= onPausedGame;
+        
     }
 }
