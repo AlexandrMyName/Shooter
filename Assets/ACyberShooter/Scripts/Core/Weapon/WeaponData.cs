@@ -15,15 +15,14 @@ namespace Core
         [SerializeField] private Transform _playerRoot;
         [SerializeField] private Transform _projectilesPool;
         [SerializeField] private Transform _hitEffectsRoot;
-
-        [SerializeField] private int _playerLayerIndex = 8;
-        [SerializeField] private int _playerRagdollLayerIndex = 9;
+        
+        [SerializeField] private LayerMask _ignoreRaycastLayerMask;
 
 
         public void InitData()
         {
 
-            Weapons.ForEach(weapon => weapon.Muzzle.InitPool(_projectilesPool, _hitEffectsRoot, _playerRagdollLayerIndex, _playerLayerIndex));
+            Weapons.ForEach(weapon => weapon.Muzzle.InitPool(_projectilesPool, _hitEffectsRoot, _ignoreRaycastLayerMask));
         }
     }
 
