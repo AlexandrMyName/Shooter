@@ -176,8 +176,11 @@ namespace EnemySystem
             float pinMuscleAfterCollision)
         {
             _lastHitMuscle = _puppetMaster.GetMuscle(rigidBody);
-            _lastHitMuscle.props.pinWeight = pinWeightAfterCollision;
-            _lastHitMuscle.props.muscleWeight = pinMuscleAfterCollision;
+            if (_lastHitMuscle != null)
+            {
+                _lastHitMuscle.props.pinWeight = pinWeightAfterCollision;
+                _lastHitMuscle.props.muscleWeight = pinMuscleAfterCollision;
+            }
         }
 
 

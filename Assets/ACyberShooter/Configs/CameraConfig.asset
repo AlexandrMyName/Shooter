@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9f0a578093206542a69c2ca0877937f, type: 3}
   m_Name: CameraConfig
   m_EditorClassIdentifier: 
-  <CameraOffSet_Normal>k__BackingField: {x: 1, y: -0.13, z: -1.18}
+  <CameraOffSet_Normal>k__BackingField: {x: 0.5, y: 0, z: -1.6}
   <CameraOffSet_Aiming>k__BackingField: {x: 0, y: 0, z: 0}
   <ObstacleLayer>k__BackingField:
     serializedVersion: 2
@@ -23,7 +23,7 @@ MonoBehaviour:
   <WithPlayerLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 2147483647
-  <CameraSpeedMultiplier>k__BackingField: 11.82
+  <CameraSpeedMultiplier>k__BackingField: 5
   <MinDistance>k__BackingField: 1
   <CameraClampMin>k__BackingField: -57.7
   <CameraClampMax>k__BackingField: 57.8

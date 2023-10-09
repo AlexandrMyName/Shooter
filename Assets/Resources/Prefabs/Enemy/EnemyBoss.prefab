@@ -753,6 +753,8 @@ GameObject:
   m_Component:
   - component: {fileID: 914305568688193607}
   - component: {fileID: 914305568688193600}
+  - component: {fileID: 6170020824127413100}
+  - component: {fileID: 2761160678483731116}
   m_Layer: 12
   m_Name: Collider
   m_TagString: Untagged
@@ -788,6 +790,35 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.28748453, y: 0.09850244, z: 0.13022105}
   m_Center: {x: -0.069932975, y: -0.07338645, z: 0.00003954838}
+--- !u!114 &6170020824127413100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 914305568688193606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55901eb012015044d9103cfee8500a02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyView: {fileID: 5459611604311523536}
+--- !u!54 &2761160678483731116
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 914305568688193606}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_Constraints: 0
+  m_CollisionDetection: 2
 --- !u!1 &914305568698858259
 GameObject:
   m_ObjectHideFlags: 0
@@ -6807,6 +6838,8 @@ MonoBehaviour:
   _enemyAttacking: {fileID: 7351328976323908284}
   _playerView: {fileID: 0}
   _puppetMaster: {fileID: 914305569904791619}
+  _pinWeightAfterCollision: 0.5
+  _pinMuscleAfterCollision: 0.5
 --- !u!54 &4601887648258204040
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -15019,6 +15052,8 @@ GameObject:
   m_Component:
   - component: {fileID: 914305570485004800}
   - component: {fileID: 914305570485004801}
+  - component: {fileID: 4042525879312728956}
+  - component: {fileID: 1100303412480315264}
   m_Layer: 12
   m_Name: Collider
   m_TagString: Untagged
@@ -15054,6 +15089,35 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.28748453, y: 0.09850244, z: 0.13022105}
   m_Center: {x: -0.069932975, y: -0.07338645, z: 0.00003954838}
+--- !u!114 &4042525879312728956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 914305570485004807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55901eb012015044d9103cfee8500a02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyView: {fileID: 5459611604311523536}
+--- !u!54 &1100303412480315264
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 914305570485004807}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_Constraints: 0
+  m_CollisionDetection: 2
 --- !u!1 &914305570500844675
 GameObject:
   m_ObjectHideFlags: 0

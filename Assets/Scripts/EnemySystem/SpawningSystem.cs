@@ -38,8 +38,8 @@ namespace EnemySystem
             _maxSpawnPointIndex = _spawnConfig.SpawnPointsList.Count - 1;
             _totalSpawned = 0;
             _spawnedInCurrentWave = 0;
-            _lastWaveTime = Time.time - _spawnConfig.WaveCooldown;
-            _lastSpawnTime = Time.time - _spawnConfig.SpawnCooldown;
+            _lastWaveTime = Time.time - _spawnConfig.WaveCooldown + 1;
+            _lastSpawnTime = Time.time - _spawnConfig.SpawnCooldown + 1;
         }
 
         private void FixedUpdate()

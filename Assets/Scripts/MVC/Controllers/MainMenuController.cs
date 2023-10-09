@@ -33,6 +33,7 @@ namespace MVC.Controllers
         
         private void StartButtonClick()
         {
+            Time.timeScale = 0f;
             SceneManager.LoadScene("WhiteBoxTest");
         }
 

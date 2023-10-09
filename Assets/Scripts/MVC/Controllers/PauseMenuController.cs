@@ -22,6 +22,7 @@ namespace MVC.Controllers
 
         public void Initialisation()
         {
+            Time.timeScale = 1f;
             PlayerEvents.OnGamePaused += ChangePauseState;
             EnemyEvents.OnDead += AddScore;
             _pauseView.ContinueButton.onClick.AddListener(ContinueButtonClick);
