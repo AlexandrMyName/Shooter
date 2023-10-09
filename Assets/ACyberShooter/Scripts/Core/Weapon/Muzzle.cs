@@ -41,10 +41,8 @@ namespace Core
 
         private Transform _projectilesPool;
         private Transform _hitEffectsRoot;
-
-
-        private int _playerRagdollLayerIndex;
-        private int _playerLayerIndex;
+        
+        private LayerMask _ignoreRaycastLayerMask;
 
 
         public void Activate()
@@ -80,13 +78,12 @@ namespace Core
         }
 
 
-        public void InitPool(Transform projectilesRoot, Transform hitEffectsRoot, int playerRagdollIndex, int playerLayerIndex)
+        public void InitPool(Transform projectilesRoot, Transform hitEffectsRoot, LayerMask ignoreRaycastLayerMask)
         {
 
             _projectilesPool = projectilesRoot;
             _hitEffectsRoot = hitEffectsRoot;
-            _playerLayerIndex = playerLayerIndex;
-            _playerRagdollLayerIndex = playerRagdollIndex;
+            _ignoreRaycastLayerMask = ignoreRaycastLayerMask;
 
             _cameraTransform = Camera.main.transform;
             _pointOfHitObject =
@@ -255,7 +252,7 @@ namespace Core
             RaycastHit cameraHit;
             RaycastHit weaponHit;
 
-            LayerMask layerMask = ~(1 << _playerLayerIndex | 1 << _playerRagdollLayerIndex);
+            LayerMask layerMask = _ignoreRaycastLayerMask;
 
             bool isCameraRayHitTarget = Physics.Raycast(_cameraTransform.position,
                 _cameraTransform.TransformDirection(Vector3.forward), out cameraHit,

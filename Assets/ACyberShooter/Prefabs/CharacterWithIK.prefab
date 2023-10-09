@@ -5749,6 +5749,9 @@ MonoBehaviour:
   _hitEffectsRoot: {fileID: 0}
   _playerLayerIndex: 8
   _playerRagdollLayerIndex: 9
+  _ignoreRaycastLayerMask:
+    serializedVersion: 2
+    m_Bits: 772
 --- !u!114 &2355088348054377837
 MonoBehaviour:
   m_ObjectHideFlags: 0
