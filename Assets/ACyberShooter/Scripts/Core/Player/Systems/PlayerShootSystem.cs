@@ -56,7 +56,8 @@ namespace Core
 
             if (Input.GetMouseButton(0))
             {
-                ShootingEvents.TryShoot(true);
+                if(Input.GetMouseButton(1))
+                    ShootingEvents.TryShoot(true);
             }
 
             if (Input.GetKeyDown(KeyCode.R))

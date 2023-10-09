@@ -122,6 +122,7 @@ namespace Core
             {
                 //ShootingEvents.RotateToCameraDirection(true);
                 TryShoot();
+               
                 ChangeShootingState(false);
             }
             else
@@ -183,16 +184,20 @@ namespace Core
 
         private void TryShoot()
         {
+
             bool haveAmmoInMagazine;
-            bool haveAmmoInBurst;
-            if (_weaponConfig.ShootingType != ShootingType.Auto)
-            {
-                haveAmmoInBurst = _currentAmmonBurst > 0;
-            }
-            else
-            {
-                haveAmmoInBurst = true;
-            }
+            bool haveAmmoInBurst; 
+            //if (_weaponConfig.ShootingType != ShootingType.Auto) ??
+            //{
+            //    haveAmmoInBurst = _currentAmmonBurst > 0;
+            //}
+            //else ??
+            //{
+            //    haveAmmoInBurst = true;
+            //}
+
+             haveAmmoInBurst = true;
+
             if (_weaponConfig.MaxAmmo > 0)
             {
                 haveAmmoInMagazine = CurrentAmmoInMagazine > 0;
@@ -203,6 +208,7 @@ namespace Core
             }
             _canShoot = (_lastShootTime + _weaponConfig.ShootDelay < Time.time)
                         && haveAmmoInBurst && haveAmmoInMagazine && !_isReloading;
+            
             if (_canShoot)
             {
                 _currentAmmonBurst--;
