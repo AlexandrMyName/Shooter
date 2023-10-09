@@ -14,7 +14,7 @@ namespace Core
         float _speedWalk = 12f;
         float _speedRun = 22f;
 
-        float _turnMultiplier = 555f;
+        float _turnMultiplier = 1055f;
         Rigidbody _rb;
 
         Vector3 _direction = Vector3.zero;

@@ -14,13 +14,12 @@ namespace Core
     public class Weapon
     {
 
-        public GameObject weaponObject;
+        public GameObject WeaponObject;
         public IWeaponType Type; // oops, this not interface)
-        public TwoBoneIKConstraint rightHandIK_aiming;
-        public TwoBoneIKConstraint leftHandIK_aiming;
- 
-        public TwoBoneIKConstraint rightHandIK_NoAiming;
-        public TwoBoneIKConstraint leftHandIK_NoAiming;
+        public Rig AimingRig;
+        public Rig NoAimingRig;
+        public Rig HandsRig;
+        [Range(0,1f)] public float RigDuration;
         public Muzzle Muzzle;
 
     }
