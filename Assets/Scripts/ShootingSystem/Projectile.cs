@@ -18,6 +18,7 @@ namespace ShootingSystem
 
         [SerializeField] private ProjectileConfig _projectileConfig;
         [SerializeField] private Rigidbody _projectileRigidbody;
+        [SerializeField] private SphereCollider _collider;
 
         [SerializeField] private LayerMask _hitImpactLayers;
         [SerializeField] private LayerMask _enemyRagdollLayer;
@@ -76,7 +77,11 @@ namespace ShootingSystem
             }
                 
         }
-        
+
+        public void SetColliderRadius(float radius)
+        {
+            _collider.radius = radius;
+        }
         
         private void InitObservables()
         {
@@ -92,7 +97,6 @@ namespace ShootingSystem
                 .AddTo(_disposables);
         }
 
-        
         private void ProcessHitLogic()
         {
             _playerHitColliders = Physics.OverlapSphere(
@@ -157,7 +161,6 @@ namespace ShootingSystem
                 .Where(rb => rb != null)
                 .GroupBy(rb => rb.transform.GetComponent<EnemyBoneView>().EnemyView)
                 .ToDictionary(group => group.Key, group => group.ToList());
-            
 
             foreach (var enemyRbsGroup in enemiesRbsByView)
             {
@@ -165,6 +168,11 @@ namespace ShootingSystem
                     enemyRbsGroup.Value, _projectileConfig.DamageRadius, _projectileConfig.Force, 
                     _projectileConfig.Damage, _projectileConfig.UpwardsModifier, _direction, 
                     transform.position);
+            }
+
+            if (_projectileConfig.DamageType == DamageType.PlayerIcluded)
+            {
+                playerHits[0].gameObject.GetComponent<PlayerBoneView>().PlayerView.TakeDamage(_projectileConfig.Damage);
             }
         }
         

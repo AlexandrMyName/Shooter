@@ -18,7 +18,8 @@ MonoBehaviour:
   _attackType: 7
   _enemyDamage: 0
   _enemyAttackDelay: 2
-  _enemyAttackDuration: 1
+  _enemyAttackDuration: 2
   _shootingProjectileSpeed: 0
-  _attackDistance: 1
+  _attackDistance: 5
+  _meleeDistance: 0
   _shootingProjectile: {fileID: 8983598808202383336, guid: 9982331d30df170488b853e3427a4de0, type: 3}

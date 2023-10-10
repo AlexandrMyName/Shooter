@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0eeb6debb6eb48eab8ac4fde28c623da, type: 3}
   m_Name: TestRushingEnemyConfig
   m_EditorClassIdentifier: 
-  _enemyHP: 15
+  _enemyHP: 30
   _stunPossibility: 0
   _stunTime: 3
   _attackType: 8
   _enemyDamage: 10
   _enemyAttackDelay: 5
-  _enemyAttackDuration: 1
+  _enemyAttackDuration: 2
   _shootingProjectileSpeed: 2
-  _attackDistance: 0.3
-  _aggroDistance: 20
-  _shootingProjectile: {fileID: 8983598808202383336, guid: f76fc770b2f4a2e4eaa98feb275fa0a1, type: 3}
+  _attackDistance: 30
+  _meleeDistance: 1.5
+  _shootingProjectile: {fileID: 8983598808202383336, guid: 3d2468015fd77104999a8fe36fa1694b, type: 3}

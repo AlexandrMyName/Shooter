@@ -6,6 +6,7 @@
         ToPlayerPosition = 1,
         Random = 2,
         ToPoint = 3,
-        Standing = 4
+        Standing = 4,
+        Rushing = 5
     }
 }

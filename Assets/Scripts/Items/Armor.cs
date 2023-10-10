@@ -22,10 +22,12 @@ public class Armor : MonoBehaviour
     {
         _isUsed = true;
         gameObject.SetActive(false);
-        Observable.Timer(TimeSpan.FromSeconds(_pickupItemConfig.ArmorCooldown)).Subscribe(_ =>
-        {
-            gameObject.SetActive(true);
-            _isUsed = false;
-        });
+        Observable.Timer(TimeSpan.FromSeconds(_pickupItemConfig.ArmorCooldown)).Subscribe(_ => RespawnArmor());
+    }
+
+    private void RespawnArmor()
+    {
+        gameObject.SetActive(true);
+        _isUsed = false;
     }
 }

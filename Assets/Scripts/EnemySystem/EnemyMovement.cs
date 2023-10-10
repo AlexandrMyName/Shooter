@@ -76,23 +76,25 @@ namespace EnemySystem
                 _puppetMaster.state = PuppetMaster.State.Dead;
             }
         }
-        public void IncreaseMovementSpeed()
+        public void IncreaseMovementSpeed(float rushTime, float standingTime)
         {
             _currentMovementBehaviour = MovementBehaviour.Standing;
             _agent.acceleration = _movementBehaviour.Acceleration * 5;
             _agent.speed = _movementBehaviour.Speed * 10;
 
-            Observable.Timer(TimeSpan.FromSeconds(3))
+            Observable.Timer(TimeSpan.FromSeconds(standingTime))
                 .Subscribe(_ =>
                 {
-                    _currentMovementBehaviour = MovementBehaviour.ToPlayerPosition;
-                    Observable.Timer(TimeSpan.FromSeconds(3))
+                    _currentMovementBehaviour = MovementBehaviour.Rushing;
+                    Observable.Timer(TimeSpan.FromSeconds(rushTime))
                         .Subscribe(__ =>
                         {
                             _agent.speed = _movementBehaviour.Speed;
                             _agent.acceleration = _movementBehaviour.Acceleration;
                         });
+                    _currentMovementBehaviour = MovementBehaviour.ToPlayerPosition;
                 });
+
         }
 
         private void Start()
@@ -161,6 +163,10 @@ namespace EnemySystem
                     _goalObject.transform.position = _currentGoal;
                     //_agent.SetDestination(_playerTransform.position);
                 }
+            }
+            else if (_currentMovementBehaviour == MovementBehaviour.Rushing)
+            {
+                _goalObject.transform.position = _currentGoal;
             }
             else if (_agent.remainingDistance < _movementBehaviour.DistanceToChangeGoal && !_isStanding)
             {
