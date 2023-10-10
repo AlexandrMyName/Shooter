@@ -23,6 +23,7 @@ namespace EnemySystem
         private float _lastAttackTime;
         private bool _canAttack;
         private bool _isAttacking;
+        bool _instantFirstAttack;
         private string _bodyPart;
 
         public GameObject ProjectilePrefab
@@ -108,6 +109,21 @@ namespace EnemySystem
                 _isAttacking = false;
             }
 
+            if (_enemyConfig.AttackType == EnemyAttackType.Rushing)
+            {
+                bool canRushAttack = Physics.Raycast(gameObject.transform.position, bodyDirection, out hitPoint, _enemyConfig.AggroDistance, layerMask);
+                if (canRushAttack && hitPoint.collider.gameObject.layer == _playerLayerIndex)
+                {
+
+                    _enemyMovement.IncreaseMovementSpeed();
+                    Collider[] colliders = Physics.OverlapSphere(transform.position, _enemyConfig.AttackDistance, 1 << _playerLayerIndex);
+                    if (colliders.Length > 0 && !_instantFirstAttack)
+                    {
+                        _playerView.TakeDamage(_enemyConfig.EnemyDamage);
+                        _instantFirstAttack = true;
+                    }
+                }
+            }
             if (_isAttacking && Time.time > _lastAttackTime + _enemyConfig.EnemyAttackDuration)
             {
                 if (!_enemyView.IsDead)
@@ -121,9 +137,16 @@ namespace EnemySystem
 
         private void Attack()
         {
-
-
-            if (_enemyConfig.AttackType == EnemyAttackType.Melee)
+            Collider[] colliders = Physics.OverlapSphere(transform.position, _enemyConfig.AttackDistance, 1 << _playerLayerIndex);
+            if (colliders.Length > 0)
+            {
+                Debug.Log(colliders.Length);
+                if (_enemyConfig.AttackType == EnemyAttackType.Rushing)
+                {
+                    _playerView.TakeDamage(_enemyConfig.EnemyDamage);
+                }
+            }
+            else if (_enemyConfig.AttackType == EnemyAttackType.Melee)
             {
                 _playerView.TakeDamage(_enemyConfig.EnemyDamage);
             }

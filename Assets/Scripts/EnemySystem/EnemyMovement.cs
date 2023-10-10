@@ -5,6 +5,8 @@ using RootMotion.Demos;
 using RootMotion.Dynamics;
 using UnityEngine;
 using UnityEngine.AI;
+using UniRx;
+using System;
 
 namespace EnemySystem
 {
@@ -16,7 +18,7 @@ namespace EnemySystem
         [SerializeField] private NavMeshPuppet _navPuppet;
         [SerializeField] private GameObject _goalObject;
         [SerializeField] private PuppetMaster _puppetMaster;
-    
+
         private Transform _playerTransform;
         private MovementBehaviour _currentMovementBehaviour;
         private int _currentGoalIndex;
@@ -52,7 +54,7 @@ namespace EnemySystem
             _puppetMaster.state = PuppetMaster.State.Frozen;
             Debug.Log("Stun");
         }
-    
+
         public void RagdollUnStun()
         {
             if (_puppetMaster.state != PuppetMaster.State.Dead)
@@ -74,7 +76,25 @@ namespace EnemySystem
                 _puppetMaster.state = PuppetMaster.State.Dead;
             }
         }
-    
+        public void IncreaseMovementSpeed()
+        {
+            _currentMovementBehaviour = MovementBehaviour.Standing;
+            _agent.acceleration = _movementBehaviour.Acceleration * 5;
+            _agent.speed = _movementBehaviour.Speed * 10;
+
+            Observable.Timer(TimeSpan.FromSeconds(3))
+                .Subscribe(_ =>
+                {
+                    _currentMovementBehaviour = MovementBehaviour.ToPlayerPosition;
+                    Observable.Timer(TimeSpan.FromSeconds(3))
+                        .Subscribe(__ =>
+                        {
+                            _agent.speed = _movementBehaviour.Speed;
+                            _agent.acceleration = _movementBehaviour.Acceleration;
+                        });
+                });
+        }
+
         private void Start()
         {
             _playerTransform = _enemyView.PlayerView.PlayerTransform;
@@ -100,7 +120,7 @@ namespace EnemySystem
             {
                 ChangeDestinationGoal();
             }
-        
+
         }
 
         private void FixedUpdate()
@@ -123,7 +143,7 @@ namespace EnemySystem
             {
                 _agent.isStopped = false;
             }
-        
+
             if (_currentMovementBehaviour == MovementBehaviour.ToPlayerPosition)
 
             {
@@ -147,9 +167,9 @@ namespace EnemySystem
                 ChangeDestinationGoal();
             }
         }
-    
+
         private void ChangeDestinationGoal()
-        { 
+        {
             if (_movementBehaviour.MovementBehaviour == MovementBehaviour.Random)
             {
                 RandomDestinationChange();
