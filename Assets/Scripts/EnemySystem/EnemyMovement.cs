@@ -5,6 +5,8 @@ using RootMotion.Demos;
 using RootMotion.Dynamics;
 using UnityEngine;
 using UnityEngine.AI;
+using UniRx;
+using System;
 
 namespace EnemySystem
 {
@@ -16,7 +18,7 @@ namespace EnemySystem
         [SerializeField] private NavMeshPuppet _navPuppet;
         [SerializeField] private GameObject _goalObject;
         [SerializeField] private PuppetMaster _puppetMaster;
-    
+
         private Transform _playerTransform;
         private MovementBehaviour _currentMovementBehaviour;
         private int _currentGoalIndex;
@@ -52,7 +54,7 @@ namespace EnemySystem
             _puppetMaster.state = PuppetMaster.State.Frozen;
             Debug.Log("Stun");
         }
-    
+
         public void RagdollUnStun()
         {
             if (_puppetMaster.state != PuppetMaster.State.Dead)
@@ -74,7 +76,27 @@ namespace EnemySystem
                 _puppetMaster.state = PuppetMaster.State.Dead;
             }
         }
-    
+        public void IncreaseMovementSpeed(float rushTime, float standingTime)
+        {
+            _currentMovementBehaviour = MovementBehaviour.Standing;
+            _agent.acceleration = _movementBehaviour.Acceleration * 5;
+            _agent.speed = _movementBehaviour.Speed * 10;
+
+            Observable.Timer(TimeSpan.FromSeconds(standingTime))
+                .Subscribe(_ =>
+                {
+                    _currentMovementBehaviour = MovementBehaviour.Rushing;
+                    Observable.Timer(TimeSpan.FromSeconds(rushTime))
+                        .Subscribe(__ =>
+                        {
+                            _agent.speed = _movementBehaviour.Speed;
+                            _agent.acceleration = _movementBehaviour.Acceleration;
+                        });
+                    _currentMovementBehaviour = MovementBehaviour.ToPlayerPosition;
+                });
+
+        }
+
         private void Start()
         {
             _playerTransform = _enemyView.PlayerView.PlayerTransform;
@@ -100,7 +122,7 @@ namespace EnemySystem
             {
                 ChangeDestinationGoal();
             }
-        
+
         }
 
         private void FixedUpdate()
@@ -123,7 +145,7 @@ namespace EnemySystem
             {
                 _agent.isStopped = false;
             }
-        
+
             if (_currentMovementBehaviour == MovementBehaviour.ToPlayerPosition)
 
             {
@@ -142,14 +164,18 @@ namespace EnemySystem
                     //_agent.SetDestination(_playerTransform.position);
                 }
             }
+            else if (_currentMovementBehaviour == MovementBehaviour.Rushing)
+            {
+                _goalObject.transform.position = _currentGoal;
+            }
             else if (_agent.remainingDistance < _movementBehaviour.DistanceToChangeGoal && !_isStanding)
             {
                 ChangeDestinationGoal();
             }
         }
-    
+
         private void ChangeDestinationGoal()
-        { 
+        {
             if (_movementBehaviour.MovementBehaviour == MovementBehaviour.Random)
             {
                 RandomDestinationChange();

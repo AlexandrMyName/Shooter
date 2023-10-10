@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 8983598808202383336}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.02, y: 0.02, z: 0.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4436163363662493368}
@@ -98,7 +98,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &5977503005042018941
 Rigidbody:
@@ -130,9 +130,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _projectileConfig: {fileID: 11400000, guid: 2f7ebaed10fd7684b861861dd86f3d60, type: 2}
   _projectileRigidbody: {fileID: 5977503005042018941}
-  _groundLayerIndex: 6
-  _wallLayerIndex: 7
-  _enemyRagdoll: 12
+  _collider: {fileID: 4254013392182209986}
+  _hitImpactLayers:
+    serializedVersion: 2
+    m_Bits: 6912
+  _enemyRagdollLayer:
+    serializedVersion: 2
+    m_Bits: 6144
+  _playerRagdollLayer:
+    serializedVersion: 2
+    m_Bits: 768
   _explosionIncludeLayers:
     serializedVersion: 2
     m_Bits: 6912
@@ -150,6 +157,10 @@ PrefabInstance:
     - target: {fileID: 3928528860053484037, guid: 43559d27d223bf340b413fde1315c256, type: 3}
       propertyPath: m_Layer
       value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 3928528860053484037, guid: 43559d27d223bf340b413fde1315c256, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4706939876495061202, guid: 43559d27d223bf340b413fde1315c256, type: 3}
       propertyPath: m_RootOrder

@@ -104,7 +104,7 @@ namespace EnemySystem
                 _enemyMovement.ChangeMovementBehaviourToDefault();
             }
             
-            Debug.Log($"PUPPET STATE [{_puppetMaster.state}]");
+            //Debug.Log($"PUPPET STATE [{_puppetMaster.state}]");
         }
 
 
@@ -199,7 +199,12 @@ namespace EnemySystem
         private void AddDeadForce()
         {
             if (!_isLastDamageExplosion)
-                _lastHitMuscle.rigidbody.AddForce(_lastHitProjectileDirection * _lastHitForce * 2, ForceMode.Impulse);
+            {
+                if (_lastHitMuscle != null)
+                {
+                    _lastHitMuscle.rigidbody.AddForce(_lastHitProjectileDirection * _lastHitForce * 2, ForceMode.Impulse);
+                }
+            }
         }
 
 

@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c68b40e2b71191c46b4b20cb243b2e09, type: 3}
   m_Name: TestBombProjectileConfig
   m_EditorClassIdentifier: 
-  _damage: 150
+  _damage: 10
   _maxLifetime: 1000
   _damageRadius: 10
   _projectileSpeed: 0
-  _isMadeImpact: 1
+  _isMadeImpact: 0
   _isGrenade: 0
   _impactParticleSystem: {fileID: 9064919875212695174, guid: a5e1e2c4d2cd81f4abed6272a2b8187a, type: 3}
   <ProjectileType>k__BackingField: 1
   <DamageType>k__BackingField: 0
+  <Force>k__BackingField: 0
+  <UpwardsModifier>k__BackingField: 0

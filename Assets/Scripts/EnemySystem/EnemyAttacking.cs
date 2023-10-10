@@ -23,6 +23,7 @@ namespace EnemySystem
         private float _lastAttackTime;
         private bool _canAttack;
         private bool _isAttacking;
+        bool _isRushing;
         private string _bodyPart;
 
         public GameObject ProjectilePrefab
@@ -48,6 +49,20 @@ namespace EnemySystem
         private void FixedUpdate()
         {
             TryAttack();
+            if (_isRushing)
+            {
+                RushAttack();
+            }
+        }
+
+        private void RushAttack()
+        {
+            Collider[] colliders = Physics.OverlapSphere(transform.position, _enemyConfig.MeleeDistance, 1 << _playerRagdolLayerIndex);
+            if (colliders.Length > 0)
+            {
+                _playerView.TakeDamage(_enemyConfig.EnemyDamage);
+                _isRushing = false;
+            }
         }
 
         private void TryAttack()
@@ -91,25 +106,37 @@ namespace EnemySystem
                          distance < _enemyConfig.AttackDistance && isHitCanMadeImpact && !_isAttacking && !_enemyView.IsDead;
             if (_canAttack)
             {
-                _lastAttackTime = Time.time;
                 _isAttacking = true;
                 if (_enemyConfig.AttackType == EnemyAttackType.Shoot)
                 {
                     _enemyMovement.ChangeMovementBehaviour(MovementBehaviour.Standing);
+                }
+                if (_enemyConfig.AttackType == EnemyAttackType.Rushing)
+                {
+                    bool canRushAttack = Physics.Raycast(gameObject.transform.position, bodyDirection, out hitPoint, _enemyConfig.AttackDistance, layerMask);
+                    if (canRushAttack)
+                    {
+                        float rushTime = (_enemyConfig.EnemyAttackDuration);
+                        float standingTime = (1f);
+                        _enemyMovement.IncreaseMovementSpeed(rushTime, standingTime);
+                    }
+                }
+                if (_enemyConfig.AttackType == EnemyAttackType.Explode)
+                {
+                    _lastAttackTime = Time.time;
                 }
             }
             else if (_enemyConfig.AttackType == EnemyAttackType.Shoot && !isHitCanMadeImpact)
             {
                 _enemyMovement.ChangeMovementBehaviourToDefault();
             }
-
             if (!isHitCanMadeImpact)
             {
                 _isAttacking = false;
             }
-
             if (_isAttacking && Time.time > _lastAttackTime + _enemyConfig.EnemyAttackDuration)
             {
+                _lastAttackTime = Time.time;
                 if (!_enemyView.IsDead)
                 {
                     Attack();
@@ -121,16 +148,22 @@ namespace EnemySystem
 
         private void Attack()
         {
-
-
-            if (_enemyConfig.AttackType == EnemyAttackType.Melee)
+            if (_enemyConfig.AttackType == EnemyAttackType.Rushing)
+            {
+                _isRushing = true;
+            }
+            else if (_enemyConfig.AttackType == EnemyAttackType.Melee)
             {
                 _playerView.TakeDamage(_enemyConfig.EnemyDamage);
             }
             else if (_enemyConfig.AttackType == EnemyAttackType.Explode)
             {
-                GameObject projectile = GameObject.Instantiate(_projectilePrefab,
-                    _projectileSpawnTransform.position, _projectileSpawnTransform.rotation, _projectilesSpawnRoot.transform);
+                GameObject projectileObject = GameObject.Instantiate(_projectilePrefab,
+                    _projectileSpawnTransform.position, _projectileSpawnTransform.rotation, _projectileSpawnTransform.transform);
+                Projectile projectile = projectileObject.GetComponent<Projectile>();
+                projectile.StartMoving(gameObject.transform.position, Vector3.zero,
+                    _projectilesSpawnRoot.transform);
+                projectile.SetColliderRadius(_enemyConfig.AttackDistance);
                 _enemyView.TakeDamage(9999);
             }
             else if (_enemyConfig.AttackType == EnemyAttackType.Shoot)

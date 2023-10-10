@@ -9,6 +9,7 @@
         Laser = 4,
         HitScan = 5,
         Area = 6,
-        Explode = 7
+        Explode = 7,
+        Rushing = 8
     }
 }
