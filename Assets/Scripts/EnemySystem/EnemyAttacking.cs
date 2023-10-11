@@ -163,6 +163,7 @@ namespace EnemySystem
                 Projectile projectile = projectileObject.GetComponent<Projectile>();
                 projectile.StartMoving(gameObject.transform.position, Vector3.zero,
                     _projectilesSpawnRoot.transform);
+                projectile.FreezeRigidbody();
                 projectile.SetColliderRadius(_enemyConfig.AttackDistance);
                 _enemyView.TakeDamage(9999);
             }
