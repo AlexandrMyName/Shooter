@@ -82,6 +82,11 @@ namespace ShootingSystem
         {
             _collider.radius = radius;
         }
+        public void FreezeRigidbody()
+        {
+            _projectileRigidbody.constraints = RigidbodyConstraints.FreezeAll;
+            _isProjectileCollided = true;
+        }
 
         private void InitObservables()
         {
@@ -91,8 +96,7 @@ namespace ShootingSystem
                 .OnCollisionEnterAsObservable()
                 .Subscribe(col =>
                 {
-                    _projectileRigidbody.constraints = RigidbodyConstraints.FreezeAll;
-                    _isProjectileCollided = true;
+                    FreezeRigidbody();
                 })
                 .AddTo(_disposables);
         }
