@@ -29,16 +29,16 @@ namespace ShootingSystem
         private Collider[] _playerHitColliders;
         private Collider[] _enemyHitColliders;
         private Collider[] _defaultHitColliders;
-        
-        private List<IDisposable> _disposables = new ();
-        
+
+        private List<IDisposable> _disposables = new();
+
         private Transform _hitEffectsRoot;
         private Vector3 _direction;
         private Vector3 _startPosition;
         private Vector3 _projectileLastPosition;
-        
+
         private float _currentLifetime;
-        
+
         private bool _playerHitOnce;
         private bool _isMadeImpact;
         private bool _isProjectileCollided;
@@ -48,7 +48,7 @@ namespace ShootingSystem
 
         private void OnEnable() => _direction = Vector3.zero;
 
-        
+
         private void Start()
         {
             _isMadeImpact = _projectileConfig.IsMadeImpact;
@@ -60,8 +60,8 @@ namespace ShootingSystem
         {
             ControlProjectileLifeTime();
         }
-        
-        
+
+
         private void FixedUpdate()
         {
             if (!_projectileConfig.IsGrenade)
@@ -75,14 +75,14 @@ namespace ShootingSystem
                 _isProjectileCollided = false;
                 ProcessHitLogic();
             }
-                
+
         }
 
         public void SetColliderRadius(float radius)
         {
             _collider.radius = radius;
         }
-        
+
         private void InitObservables()
         {
             var projectTileCollider = GetComponent<Collider>();
@@ -128,9 +128,9 @@ namespace ShootingSystem
             {
                 _defaultHitColliders = Physics.OverlapSphere(
                     gameObject.transform.position,
-                    _projectileConfig.DamageRadius, 
+                    _projectileConfig.DamageRadius,
                     _explosionIncludeLayers);
-                
+
                 ProcessExplosionHits(_playerHitColliders, _enemyHitColliders, _defaultHitColliders);
             }
 
@@ -144,7 +144,7 @@ namespace ShootingSystem
         {
             for (int i = 0; i < defaultHits.Length; i++)
             {
-                if (defaultHits[i].TryGetComponent<Rigidbody>(out var rb))
+                if (defaultHits[i] != null && defaultHits[i].TryGetComponent<Rigidbody>(out var rb))
                 {
                     rb.AddExplosionForce(
                         _projectileConfig.Force * rb.mass,
@@ -154,7 +154,6 @@ namespace ShootingSystem
                         ForceMode.Impulse);
                 }
             }
-            
 
             Dictionary<EnemyView, List<Rigidbody>> enemiesRbsByView = enemyHits
                 .Select(collider => collider.attachedRigidbody)
@@ -165,18 +164,27 @@ namespace ShootingSystem
             foreach (var enemyRbsGroup in enemiesRbsByView)
             {
                 enemyRbsGroup.Key.ProcessExplosionDamageForRbs(
-                    enemyRbsGroup.Value, _projectileConfig.DamageRadius, _projectileConfig.Force, 
-                    _projectileConfig.Damage, _projectileConfig.UpwardsModifier, _direction, 
+                    enemyRbsGroup.Value, _projectileConfig.DamageRadius, _projectileConfig.Force,
+                    _projectileConfig.Damage, _projectileConfig.UpwardsModifier, _direction,
                     transform.position);
             }
 
-            if (_projectileConfig.DamageType == DamageType.PlayerIcluded)
+            if (_projectileConfig.DamageType == DamageType.PlayerIcluded && playerHits != null && playerHits.Length > 0)
             {
-                playerHits[0].gameObject.GetComponent<PlayerBoneView>().PlayerView.TakeDamage(_projectileConfig.Damage);
+                var playerBoneView = playerHits[0].GetComponentInParent<PlayerBoneView>();
+                if (playerBoneView != null)
+                {
+                    playerBoneView.PlayerView.TakeDamage(_projectileConfig.Damage);
+                    playerBoneView.PlayerView.RagdollStun();
+                    Observable.Timer(TimeSpan.FromSeconds(0.5)).Subscribe(_ =>
+                    {
+                        playerBoneView.PlayerView.RagdollUnStun();
+                    });
+                }
             }
         }
-        
-        
+
+
         private void ProcessImpactOnTheWallsAndGround()
         {
             bool isHitCanMadeImpact = Physics.Raycast(_projectileLastPosition,
@@ -195,8 +203,8 @@ namespace ShootingSystem
             if (enemyHitColliders[0].TryGetComponent(out EnemyBoneView enemyBoneView))
             {
                 enemyBoneView.EnemyView.TakeForceDamage(
-                    enemyBoneView.GetComponent<Rigidbody>(), 
-                    _projectileConfig.Damage, 
+                    enemyBoneView.GetComponent<Rigidbody>(),
+                    _projectileConfig.Damage,
                     _projectileConfig.ProjectileSpeed,
                     _direction);
             }
@@ -206,8 +214,8 @@ namespace ShootingSystem
                 var enemyBoneViewParent = enemyHitColliders[0].GetComponentInParent<EnemyBoneView>();
                 if (enemyBoneViewParent)
                     enemyBoneViewParent.EnemyView.TakeForceDamage(
-                        enemyBoneView.GetComponent<Rigidbody>(), 
-                        _projectileConfig.Damage, 
+                        enemyBoneView.GetComponent<Rigidbody>(),
+                        _projectileConfig.Damage,
                         _projectileConfig.ProjectileSpeed,
                         _direction);
                 else
@@ -257,13 +265,13 @@ namespace ShootingSystem
                 _projectileRigidbody.AddForce(_direction * _projectileConfig.ProjectileSpeed);
             }
         }
-        
+
 
         private void OnDestroy() => Dispose();
-        
-        
+
+
         public void Dispose() => _disposables.ForEach(disposable => disposable.Dispose());
-        
-        
+
+
     }
 }
