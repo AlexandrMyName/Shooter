@@ -14,7 +14,7 @@ namespace Core
         private IGameComponents _components;
         private IComponentsStorage _componentsStorage;
 
-        private const float camera_offset_UP = 1.6f;//Высота игрока
+        private const float camera_offset_UP = 1.6f;//пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         private Quaternion rotation;
 
         private Vector2 _inputMouseDirection = Vector2.zero;
@@ -106,8 +106,10 @@ namespace Core
 
             if (_cameraParent.rotation != newRot)
             {
-                _cameraParent.rotation = Quaternion.SlerpUnclamped(_cameraParent.rotation, newRot,
-                    Time.deltaTime * _componentsStorage.CameraConfig.CameraSpeedMultiplier);
+                //_cameraParent.rotation = Quaternion.SlerpUnclamped(_cameraParent.rotation, newRot,
+                //    Time.deltaTime * _componentsStorage.CameraConfig.CameraSpeedMultiplier);
+
+                _cameraParent.transform.rotation = newRot;
             }
             _components.MainCamera.transform.LookAt(_cameraParent.GetChild(0).GetChild(0));
         }
