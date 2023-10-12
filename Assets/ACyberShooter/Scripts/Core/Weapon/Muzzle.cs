@@ -7,6 +7,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
 
 
@@ -23,7 +24,8 @@ namespace Core
         [SerializeField] private Transform _projectileSpawnTransform;
           
         private Transform _cameraTransform;
-        private GameObject _pointOfHitObject;
+        [SerializeField] private GameObject _pointOfCameraHitObject;
+        [SerializeField] private GameObject _pointOfWeaponHit;
         private bool _isTryShooting = false;
         private bool _canShoot = false;
         private bool _isReloading = false;
@@ -86,9 +88,9 @@ namespace Core
             _ignoreRaycastLayerMask = ignoreRaycastLayerMask;
 
             _cameraTransform = Camera.main.transform;
-            _pointOfHitObject =
+            //_pointOfHitObject =
                 GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/Shooting/HitDirection"));
-            _pointOfHitObject.SetActive(false);
+            //_pointOfHitObject.SetActive(false);
             _spreadingModifier = _weaponConfig.SpreadingDefaultModifier;
             _lastShootTime = Time.time;
             ShootingEvents.ChangeAmmoCount(_weaponConfig.MaxAmmo);
@@ -239,34 +241,43 @@ namespace Core
             ChangeRecoilVector(_weaponConfig.RecoilModifierDeltaHorizontal, _weaponConfig.RecoilModifierDeltaVertical);
             MovePointOfHit();
 
+            
             GameObject projectile = GameObject.Instantiate(_weaponConfig.ProjectilePrefab,
                 _projectileSpawnTransform.position, _projectileSpawnTransform.rotation, _projectilesPool);
             Projectile projectileView = projectile.GetOrAddComponent<Projectile>();
-            projectileView.StartMoving(_projectileSpawnTransform.position, _pointOfHitObject.transform.position,
+            projectileView.StartMoving(_projectileSpawnTransform.position, _pointOfWeaponHit.transform.position,
                 _hitEffectsRoot);
+            //TrailView trailView = projectile.GetOrAddComponent<TrailView>();
+            //trailView.TrailRenderer.AddPosition(_pointOfWeaponHit.transform.position);
+            //trailView.TrailRenderer.OnCollisionEnterAsObservable().Subscribe(
+            //    val => HitObject(val)).AddTo(_disposables);
         }
 
+        private void HitObject(Collision collision)
+        {
+            Debug.Log(collision.gameObject.name);
+        }
 
         private void MovePointOfHit()
         {
             RaycastHit cameraHit;
             RaycastHit weaponHit;
 
-            LayerMask layerMask = _ignoreRaycastLayerMask;
+            LayerMask layerMask = ~_ignoreRaycastLayerMask;
 
             bool isCameraRayHitTarget = Physics.Raycast(_cameraTransform.position,
                 _cameraTransform.TransformDirection(Vector3.forward), out cameraHit,
                 Mathf.Infinity, layerMask);
             if (isCameraRayHitTarget)
             {
-                MoveHitMarkObject(_pointOfHitObject, cameraHit.point, cameraHit.normal);
-                _projectileSpawnTransform.LookAt(_pointOfHitObject.transform);
+                MoveHitMarkObject(_pointOfCameraHitObject, cameraHit.point, cameraHit.normal);
+                _projectileSpawnTransform.LookAt(_pointOfCameraHitObject.transform);
             }
             else
             {
                 Vector3 dir = _cameraTransform.position + (_cameraTransform.TransformDirection(Vector3.forward) * 1000);
-                MoveHitMarkObject(_pointOfHitObject, dir, Vector3.forward);
-                _projectileSpawnTransform.LookAt(_pointOfHitObject.transform);
+                MoveHitMarkObject(_pointOfCameraHitObject, dir, Vector3.forward);
+                _projectileSpawnTransform.LookAt(_pointOfCameraHitObject.transform);
             }
             Vector3 direction = GetRecoilVector();
             bool isWeaponRayHitTarget = Physics.Raycast(_projectileSpawnTransform.position,
@@ -274,12 +285,12 @@ namespace Core
                 Mathf.Infinity, layerMask);
             if (isWeaponRayHitTarget)
             {
-                MoveHitMarkObject(_pointOfHitObject, weaponHit.point, weaponHit.normal);
+                MoveHitMarkObject(_pointOfWeaponHit, weaponHit.point, weaponHit.normal);
             }
             else
             {
                 Vector3 dir = _projectileSpawnTransform.position + (_projectileSpawnTransform.TransformDirection(Vector3.forward) * 1000);
-                MoveHitMarkObject(_pointOfHitObject, dir, Vector3.forward);
+                MoveHitMarkObject(_pointOfWeaponHit, dir, Vector3.forward);
             }
         }
 

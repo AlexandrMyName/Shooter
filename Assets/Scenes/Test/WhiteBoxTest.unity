@@ -4692,6 +4692,10 @@ PrefabInstance:
       value: Tech
       objectReference: {fileID: 0}
     - target: {fileID: 1439193087465057331, guid: e951877d0174fc147b0ca47332515070, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1439193087465057331, guid: e951877d0174fc147b0ca47332515070, type: 3}
       propertyPath: _playerView
       value: 
       objectReference: {fileID: 187296451}
