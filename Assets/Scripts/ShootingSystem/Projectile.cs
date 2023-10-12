@@ -97,6 +97,7 @@ namespace ShootingSystem
                 .Subscribe(col =>
                 {
                     FreezeRigidbody();
+                    ProcessImpactOnTheWallsAndGround(col);
                 })
                 .AddTo(_disposables);
         }
@@ -138,7 +139,7 @@ namespace ShootingSystem
                 ProcessExplosionHits(_playerHitColliders, _enemyHitColliders, _defaultHitColliders);
             }
 
-            ProcessImpactOnTheWallsAndGround();
+            //ProcessImpactOnTheWallsAndGround();
 
             Destroy(gameObject);
         }
@@ -189,15 +190,15 @@ namespace ShootingSystem
         }
 
 
-        private void ProcessImpactOnTheWallsAndGround()
+        private void ProcessImpactOnTheWallsAndGround(Collision collision)
         {
+            //ContactPoint hitPoint = collision.GetContact(collision.contactCount - 1);
             bool isHitCanMadeImpact = Physics.Raycast(_projectileLastPosition,
-                _direction, out var hitPoint, Mathf.Infinity, _hitImpactLayers);
-
+               _direction, out var hitPoint, Mathf.Infinity, _hitImpactLayers);
             if (_isMadeImpact && isHitCanMadeImpact)
             {
                 Instantiate(_projectileConfig.ImpactParticleSystem, hitPoint.point,
-                    Quaternion.LookRotation(hitPoint.normal), _hitEffectsRoot);
+                    Quaternion.LookRotation(hitPoint.normal), _hitEffectsRoot); 
             }
         }
 
