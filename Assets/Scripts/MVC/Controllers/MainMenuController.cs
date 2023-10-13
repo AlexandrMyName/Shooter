@@ -1,6 +1,8 @@
-﻿using MVC.Core.Interface.Controllers;
+﻿using Core.ResourceLoader;
+using MVC.Core.Interface.Controllers;
 using MVC.Core.Interface.Providers;
 using MVC.Views;
+using SavableData;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 
@@ -22,6 +24,8 @@ namespace MVC.Controllers
             _mainMenuView.StartButton.onClick.AddListener(StartButtonClick);
             _mainMenuView.LeaderboardButton.onClick.AddListener(LeaderboardButtonClick);
             _mainMenuView.ExitButton.onClick.AddListener(ExitButtonClick);
+            _mainMenuView.ProgressPointsText.text =
+                ResourceLoadManager.GetConfig<MetaProgression>().ProgressionPoints.ToString();
         }
 
         public void Cleanup()

@@ -18,6 +18,7 @@ namespace MVC.Core.Initialization
             _gameUIFactory.CreateGUIPanel();
             _gameUIFactory.CreatePauseMenuPanel();
             _gameUIFactory.CreateGameOverPanel();
+            _gameUIFactory.CreateWinPanel();
             _gameUIFactory.CreateGUIControllers();
         }
     }

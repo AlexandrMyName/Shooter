@@ -15,6 +15,10 @@ PrefabInstance:
       propertyPath: _isFinal
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2532921395655854047, guid: d63b5c7d15f941040a71b546726cb386, type: 3}
+      propertyPath: _progressPointsValue
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 6759916465532804122, guid: d63b5c7d15f941040a71b546726cb386, type: 3}
       propertyPath: m_RootOrder
       value: 0

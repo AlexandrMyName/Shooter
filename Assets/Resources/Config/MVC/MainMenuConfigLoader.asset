@@ -15,6 +15,7 @@ MonoBehaviour:
   _loadedScriptables:
   - {fileID: 11400000, guid: a39fd06ccaf9635439d91e7fc6307ffd, type: 2}
   - {fileID: 11400000, guid: 4987aa726fd17584a882fd93af9315f6, type: 2}
+  - {fileID: 11400000, guid: 04ef6379a81bce14282d6b5defcad386, type: 2}
   _loadedPrefabs:
   - {fileID: 5190767426435855394, guid: 3a96d87335ed43c4da096a3732ab4826, type: 3}
   - {fileID: 5481181758977624947, guid: 8740b2824b15a4e41981212cea930484, type: 3}

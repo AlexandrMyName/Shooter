@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Configs;
 using Extentions;
 using Player;
@@ -9,14 +11,13 @@ namespace EnemySystem
     public class SpawningSystem : MonoBehaviour
     {
         [SerializeField] private SpawnConfig _spawnConfig;
-        [SerializeField] private GameObject _spawnableEnemyPrefab;
         [SerializeField] private GameObject _goalObjectPrefab;
         [SerializeField] private PlayerView _playerView;
         [SerializeField] private GameObject _spawnedObjectsRoot;
         [SerializeField] private GameObject _goalObjectsRoot;
         [SerializeField] private GameObject _projectilesSpawnRoot;
-
-        private int _maxSpawnPointIndex;
+        [SerializeField] private List<GameObject> _spawnableEnemyPrefabs;
+        
         private int _currentSpawnPointIndex;
         private int _spawnedInCurrentWave;
         private int _totalSpawned;
@@ -24,6 +25,7 @@ namespace EnemySystem
         private float _lastSpawnTime;
         private float _lastWaveTime;
         private bool _isWaveSpawning;
+        private List<SpawnerView> _currentlyActiveSpawners;
 
         public PlayerView PlayerView => _playerView;
 
@@ -33,11 +35,16 @@ namespace EnemySystem
             set => _currentID = value;
         }
 
+        private void Awake()
+        {
+            _currentlyActiveSpawners = new List<SpawnerView>();
+        }
+
         private void Start()
         {
-            _maxSpawnPointIndex = _spawnConfig.SpawnPointsList.Count - 1;
             _totalSpawned = 0;
             _spawnedInCurrentWave = 0;
+            _currentID = 0;
             _lastWaveTime = Time.time - _spawnConfig.WaveCooldown + 1;
             _lastSpawnTime = Time.time - _spawnConfig.SpawnCooldown + 1;
         }
@@ -50,6 +57,19 @@ namespace EnemySystem
             }
         }
 
+        public void AddNewSpawnPoints(List<SpawnerView> newSpawnersList)
+        {
+            foreach (SpawnerView spawnerView in newSpawnersList)
+            {
+                _currentlyActiveSpawners.Add(spawnerView);
+            }
+        }
+
+        public void ClearActiveSpawners()
+        {
+            _currentlyActiveSpawners.Clear();
+        }
+
         private void TrySpawn()
         {
             if (Time.time > _lastWaveTime + _spawnConfig.WaveCooldown && !_isWaveSpawning)
@@ -59,11 +79,19 @@ namespace EnemySystem
                 _spawnedInCurrentWave = 0;
             }
         
-            if (Time.time > _lastSpawnTime + _spawnConfig.SpawnCooldown && _isWaveSpawning)
+            if (Time.time > _lastSpawnTime + _spawnConfig.SpawnCooldown && _isWaveSpawning &&
+                _currentlyActiveSpawners.Count > 0)
             {
                 _lastSpawnTime = Time.time;
-                _currentSpawnPointIndex = Extention.GetRandomInt(0, _maxSpawnPointIndex);
-                gameObject.transform.position = _spawnConfig.SpawnPointsList[_currentSpawnPointIndex];
+                if (_currentlyActiveSpawners.Count > 1)
+                {
+                    _currentSpawnPointIndex = Extention.GetRandomInt(0, _currentlyActiveSpawners.Count);
+                }
+                else
+                {
+                    _currentSpawnPointIndex = 0;
+                }
+                gameObject.transform.position = _currentlyActiveSpawners[_currentSpawnPointIndex].SpawnerPosition;
                 Spawn();
                 _spawnedInCurrentWave++;
                 _totalSpawned++;
@@ -77,7 +105,8 @@ namespace EnemySystem
 
         private void Spawn()
         {
-            GameObject enemy = GameObject.Instantiate(_spawnableEnemyPrefab,
+            GameObject prefab = _spawnableEnemyPrefabs[Extention.GetRandomInt(0, _spawnableEnemyPrefabs.Count)];
+            GameObject enemy = GameObject.Instantiate(prefab,
                 gameObject.transform.position,
                 gameObject.transform.rotation,
                 _spawnedObjectsRoot.transform);

@@ -11,12 +11,14 @@ namespace MVC.Controllers
         private GUIView _guiView;
         private PauseView _pauseView;
         private GameOverView _gameOverView;
+        private WinScreenView _winScreenView;
         
         public GUIController(IViewProvider viewProvider)
         {
             _guiView = viewProvider.GetView<GUIView>();
             _pauseView = viewProvider.GetView<PauseView>();
             _gameOverView = viewProvider.GetView<GameOverView>();
+            _winScreenView = viewProvider.GetView<WinScreenView>();
         }
 
 
@@ -24,12 +26,16 @@ namespace MVC.Controllers
         {
             PlayerEvents.OnDead += ShowGameover;
             PlayerEvents.OnGameEnded += SetScore;
+            PlayerEvents.OnGameWined += ShowWinScreen;
             PlayerEvents.OnGodMode += ToggleGodMode;
             PlayerEvents.OnKeyStatusChanged += ToggleKeyVisual;
             EnemyEvents.OnBossStateChanged += ToggleBossPanel;
             _gameOverView.RestartButton.onClick.AddListener(Restart);
             _gameOverView.ExitButton.onClick.AddListener(Exit);
+            _winScreenView.RestartButton.onClick.AddListener(Restart);
+            _winScreenView.ExitButton.onClick.AddListener(Exit);
             _gameOverView.Hide();
+            _winScreenView.Hide();
             _guiView.KeyIndicatorView.Hide();
             _guiView.BossPanelView.HideHPBar();
         }
@@ -38,20 +44,36 @@ namespace MVC.Controllers
         {
             PlayerEvents.OnDead -= ShowGameover;
             PlayerEvents.OnGameEnded -= SetScore;
+            PlayerEvents.OnGameWined -= ShowWinScreen;
             PlayerEvents.OnGodMode -= ToggleGodMode;
             PlayerEvents.OnKeyStatusChanged -= ToggleKeyVisual;
             EnemyEvents.OnBossStateChanged -= ToggleBossPanel;
+            _gameOverView.RestartButton.onClick.RemoveListener(Restart);
+            _gameOverView.ExitButton.onClick.RemoveListener(Exit);
+            _winScreenView.RestartButton.onClick.RemoveListener(Restart);
+            _winScreenView.ExitButton.onClick.RemoveListener(Exit);
         }
 
-        private void SetScore(int score)
+        private void SetScore(int score, int progressPoints)
         {
             _gameOverView.ScoreText.text = score.ToString();
+            _gameOverView.ProgressPoints.text = progressPoints.ToString();
+            _winScreenView.ScoreText.text = score.ToString();
+            _winScreenView.ProgressPoints.text = progressPoints.ToString();
         }
 
         private void ShowGameover()
         {
             PlayerEvents.PauseGame(true);
             _gameOverView.Show();
+            _pauseView.Hide();
+            _guiView.Hide();
+        }
+
+        private void ShowWinScreen()
+        {
+            PlayerEvents.PauseGame(true);
+            _winScreenView.Show();
             _pauseView.Hide();
             _guiView.Hide();
         }

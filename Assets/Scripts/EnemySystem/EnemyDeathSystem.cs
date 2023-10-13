@@ -8,8 +8,10 @@ namespace EnemySystem
         [SerializeField] private PuppetMaster _puppetMaster;
         [SerializeField] private float _timeToDestroy;
         [SerializeField] private float _timeToDisableCollider;
+        [SerializeField] private GameObject _enemyIconObject;
         public void DestroyEnemy()
         {
+            _enemyIconObject.SetActive(false);
             Invoke("DisableCollider", _timeToDisableCollider);
             Destroy(transform.parent.gameObject, _timeToDestroy);
         }

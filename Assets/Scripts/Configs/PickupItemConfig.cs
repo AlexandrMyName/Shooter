@@ -1,3 +1,4 @@
+using Enums;
 using UnityEngine;
 
 namespace Configs
@@ -5,13 +6,11 @@ namespace Configs
     [CreateAssetMenu(fileName = "PickupItemConfig", menuName = "Configs/PickupItemConfig", order = 0)]
     public class PickupItemConfig : ScriptableObject
     {
-        [SerializeField] private int _healingAmount = 10;
-        [SerializeField] private int _healCooldown = 10;
-        [SerializeField] private int _armorAmount = 10;
-        [SerializeField] private int _armorCooldown = 10;
-        public int HealingAmount => _healingAmount;
-        public int HealCooldown => _healCooldown;
-        public int ArmorAmount => _armorAmount;
-        public int ArmorCooldown => _armorCooldown;
+        [SerializeField] private int _changingAmount = 10;
+        [SerializeField] private int _cooldown = 10;
+        [SerializeField] private PickUpType _pickUpType;
+        public int ChangingAmount => _changingAmount;
+        public int Cooldown => _cooldown;
+        public PickUpType PickUpType => _pickUpType;
     }
 }

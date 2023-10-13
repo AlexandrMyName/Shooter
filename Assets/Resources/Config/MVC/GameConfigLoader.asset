@@ -12,9 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a0fdb98c0654ca4aae6e779955d1ce3, type: 3}
   m_Name: GameConfigLoader
   m_EditorClassIdentifier: 
-  _loadedScriptables: []
+  _loadedScriptables:
+  - {fileID: 11400000, guid: a39fd06ccaf9635439d91e7fc6307ffd, type: 2}
+  - {fileID: 11400000, guid: 04ef6379a81bce14282d6b5defcad386, type: 2}
   _loadedPrefabs:
   - {fileID: 5190767426435855394, guid: 3a96d87335ed43c4da096a3732ab4826, type: 3}
   - {fileID: 5368063531054822867, guid: 190b10aac9526d74cb50336dc9fa8e71, type: 3}
   - {fileID: 5090045702665203243, guid: 61d80ac66eb963e45a1096495f8a7ca3, type: 3}
   - {fileID: 3068510764890516646, guid: 9a455ae360a5a474c8bca20e1d33b210, type: 3}
+  - {fileID: 5090045702665203243, guid: f3f60b0bbb5927444b04ba6955901331, type: 3}

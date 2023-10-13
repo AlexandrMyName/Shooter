@@ -61,7 +61,7 @@ namespace MVC.Controllers
         }
         private void ExitButtonClick()
         {
-            PlayerEvents.GameEnded(_currentScore);
+            PlayerEvents.GameEnded(_currentScore, 0);
             SceneManager.LoadScene("MainMenu");
         }
     

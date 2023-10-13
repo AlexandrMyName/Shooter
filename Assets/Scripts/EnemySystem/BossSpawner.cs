@@ -15,6 +15,7 @@ namespace EnemySystem
         [SerializeField] private float _timeToSpawn;
         [SerializeField] private bool _isSpawningByTime;
         [SerializeField] private bool _isFinal;
+        [SerializeField] private int _progressPointsValue;
 
         private SpawningSystem _spawningSystem;
         private PlayerView _playerView;
@@ -54,12 +55,13 @@ namespace EnemySystem
             {
                 if (_enemyView.IsDead)
                 {
+                    _playerView.CurrentProgressPoints += _progressPointsValue;
                     _enemyView = null;
                     PlayerEvents.ChangeKeyStatus(true);
                     EnemyEvents.ChangeBossState(false);
                     if (_isFinal)
                     {
-                        _playerView.TakeDamage(9999999);
+                        _playerView.WinGame();
                     }
                 }
                 else

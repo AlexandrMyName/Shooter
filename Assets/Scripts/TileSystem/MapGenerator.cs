@@ -12,7 +12,7 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] private TileView _currentTileView;
     [SerializeField] private SpawningSystem _spawningSystem;
     [SerializeField] private int _tilesToSpawnBoss;
-    
+
     private void Awake()
     {
         _currentTileView.MapGenerator = this;
@@ -23,26 +23,26 @@ public class MapGenerator : MonoBehaviour
         _tileViews.Clear();
         _tileViews.Add(_currentTileView);
         _currentTileView.BossSpawner.SpawningSystem = _spawningSystem;
+        _spawningSystem.AddNewSpawnPoints(_currentTileView.TileSpawners);
     }
 
     public void GenerateTile(WorldSide side, ConnectorView connectorView)
     {
         List<GameObject> tilePrefabsList;
-        if (_tilesToSpawnBoss <= 0)
+        if (_tilesToSpawnBoss == 0)
         {
             tilePrefabsList = _bossTilePrefabsList;
         }
         else
         {
             tilePrefabsList = _tilePrefabsList;
-            _tilesToSpawnBoss--;
         }
         
         int index = Extention.GetRandomInt(0, tilePrefabsList.Count);
         GameObject prefab = tilePrefabsList[index];
         TileView prefabView = prefab.GetComponent<TileView>();
         int t = 0;
-        while (prefabView.TileID == connectorView.TileView.TileID || t > 10)
+        while (prefabView.TileID == connectorView.TileView.TileID && t < 10)
         {
             index = Extention.GetRandomInt(0, tilePrefabsList.Count);
             prefab = tilePrefabsList[index];
@@ -66,6 +66,7 @@ public class MapGenerator : MonoBehaviour
 
     private void SpawnTile(int index, ConnectorView connectorView, List<GameObject> tilePrefabsList)
     {
+        _tilesToSpawnBoss--;
         PlayerEvents.ChangeKeyStatus(false);
         GameObject tile = Instantiate(tilePrefabsList[index], gameObject.transform);
         TileView tileView = tile.GetComponent<TileView>();
@@ -79,5 +80,7 @@ public class MapGenerator : MonoBehaviour
                 Vector3.zero + connectorView.transform.position;
             tile.transform.position = connectorPosition - secondConnectorView.gameObject.transform.position;
         }
+        _spawningSystem.ClearActiveSpawners();
+        _spawningSystem.AddNewSpawnPoints(tileView.TileSpawners);
     }
 }

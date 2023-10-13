@@ -34,8 +34,8 @@ namespace Core
         private float _spreadingModifier;
         private float _recoilModifierHorizontal;
         private float _recoilModifierVertical;
-        [HideInInspector] public int CurrentAmmo;
-        [HideInInspector] public int CurrentAmmoInMagazine;
+        private int _currentAmmo;
+        private int _currentAmmoInMagazine;
         private int _maxAmmoInBurst;
         private int _currentAmmonBurst;
 
@@ -46,22 +46,26 @@ namespace Core
         
         private LayerMask _ignoreRaycastLayerMask;
 
+        private bool _isWeaponHitTarget;
+        private RaycastHit _weaponHit;
 
+        public int CurrentAmmo => _currentAmmo;
+
+        public int CurrentAmmoInMagazine => _currentAmmoInMagazine;
+        
         public void Activate()
         {
              
             ShootingEvents.OnTryShoot += ChangeShootingState;
             ShootingEvents.OnReload += Reload;
+            PlayerEvents.OnRifleAmmoAdded += AddAmmo;
 
             Observable.EveryFixedUpdate().Subscribe(value => FixedUpdate()).AddTo(_disposables);
 
-            ShootingEvents.ChangeAmmoCount(_weaponConfig.MaxAmmo);
-            ShootingEvents.ChangeAmmoInMagazineCount(CurrentAmmoInMagazine);
+            if (_currentAmmo > 0) return;
 
-            if (CurrentAmmo > 0) return;
-
-            CurrentAmmo = _weaponConfig.MaxAmmo;
-            CurrentAmmoInMagazine = _weaponConfig.MaxAmmoInMagazine;
+            _currentAmmo = _weaponConfig.MaxAmmo;
+            _currentAmmoInMagazine = _weaponConfig.MaxAmmoInMagazine;
 
             if (_weaponConfig.ShootingType == ShootingType.Auto)
             {
@@ -78,8 +82,7 @@ namespace Core
 
             _currentAmmonBurst = _maxAmmoInBurst;
         }
-
-
+        
         public void InitPool(Transform projectilesRoot, Transform hitEffectsRoot, LayerMask ignoreRaycastLayerMask)
         {
 
@@ -93,17 +96,13 @@ namespace Core
             //_pointOfHitObject.SetActive(false);
             _spreadingModifier = _weaponConfig.SpreadingDefaultModifier;
             _lastShootTime = Time.time;
-            ShootingEvents.ChangeAmmoCount(_weaponConfig.MaxAmmo);
-            ShootingEvents.ChangeAmmoInMagazineCount(CurrentAmmoInMagazine);
-
-             
         }
-
 
         public void Disable()
         {
             ShootingEvents.OnTryShoot -= ChangeShootingState;
             ShootingEvents.OnReload -= Reload;
+            PlayerEvents.OnRifleAmmoAdded -= AddAmmo;
             _disposables.ForEach(disposable => disposable.Dispose());
         }
 
@@ -116,6 +115,8 @@ namespace Core
 
         private void FixedUpdate()
         {
+            ShootingEvents.ChangeAmmoCount(_currentAmmo);
+            ShootingEvents.ChangeAmmoInMagazineCount(_currentAmmoInMagazine);
              
             if (_isTryShooting)
             {
@@ -144,12 +145,29 @@ namespace Core
         private void Reload()
         {
 
-            if (CurrentAmmo > 0)
+            if (_currentAmmo > 0)
             {
                 _isReloading = true;
                 Observable.FromCoroutine(val => ReloadingAction(_weaponConfig.ReloadDelay)).Subscribe().AddTo(_disposables);
                
             }
+        }
+        
+        private void AddAmmo(int additionAmmo, PickUp.CallBack callback)
+        {
+            if (_currentAmmo == _weaponConfig.MaxAmmo)
+            {
+                return;
+            }
+            if (_currentAmmo + additionAmmo > _weaponConfig.MaxAmmo)
+            {
+                _currentAmmo = _weaponConfig.MaxAmmo;
+            }
+            else
+            {
+                _currentAmmo += additionAmmo;
+            }
+            callback();
         }
 
 
@@ -157,25 +175,25 @@ namespace Core
         {
 
             yield return new WaitForSeconds(reloadDelay);
-            if (CurrentAmmo >= _weaponConfig.MaxAmmoInMagazine)
+            if (_currentAmmo >= _weaponConfig.MaxAmmoInMagazine)
             {
-                CurrentAmmo -= _weaponConfig.MaxAmmoInMagazine;
-                CurrentAmmo += CurrentAmmoInMagazine;
-                CurrentAmmoInMagazine = _weaponConfig.MaxAmmoInMagazine;
+                _currentAmmo -= _weaponConfig.MaxAmmoInMagazine;
+                _currentAmmo += _currentAmmoInMagazine;
+                _currentAmmoInMagazine = _weaponConfig.MaxAmmoInMagazine;
             }
             else
             {
-                CurrentAmmoInMagazine += CurrentAmmo;
-                CurrentAmmo = 0;
-                if (CurrentAmmoInMagazine > _weaponConfig.MaxAmmoInMagazine)
+                _currentAmmoInMagazine += _currentAmmo;
+                _currentAmmo = 0;
+                if (_currentAmmoInMagazine > _weaponConfig.MaxAmmoInMagazine)
                 {
-                    int deltaAmmo = CurrentAmmoInMagazine - _weaponConfig.MaxAmmoInMagazine;
-                    CurrentAmmoInMagazine -= deltaAmmo;
-                    CurrentAmmo = deltaAmmo;
+                    int deltaAmmo = _currentAmmoInMagazine - _weaponConfig.MaxAmmoInMagazine;
+                    _currentAmmoInMagazine -= deltaAmmo;
+                    _currentAmmo = deltaAmmo;
                 }
             }
-            ShootingEvents.ChangeAmmoCount(CurrentAmmo);
-            ShootingEvents.ChangeAmmoInMagazineCount(CurrentAmmoInMagazine);
+            ShootingEvents.ChangeAmmoCount(_currentAmmo);
+            ShootingEvents.ChangeAmmoInMagazineCount(_currentAmmoInMagazine);
             _isReloading = false;
             yield return null;
         }
@@ -199,7 +217,7 @@ namespace Core
 
             if (_weaponConfig.MaxAmmo > 0)
             {
-                haveAmmoInMagazine = CurrentAmmoInMagazine > 0;
+                haveAmmoInMagazine = _currentAmmoInMagazine > 0;
             }
             else
             {
@@ -211,9 +229,9 @@ namespace Core
             if (_canShoot)
             {
                 _currentAmmonBurst--;
-                CurrentAmmoInMagazine--;
+                _currentAmmoInMagazine--;
                 _lastShootTime = Time.time;
-                ShootingEvents.ChangeAmmoInMagazineCount(CurrentAmmoInMagazine);
+                ShootingEvents.ChangeAmmoInMagazineCount(_currentAmmoInMagazine);
 
                 Shoot();
                 if (!_isShooting)
@@ -245,12 +263,16 @@ namespace Core
             GameObject projectile = GameObject.Instantiate(_weaponConfig.ProjectilePrefab,
                 _projectileSpawnTransform.position, _projectileSpawnTransform.rotation, _projectilesPool);
             Projectile projectileView = projectile.GetOrAddComponent<Projectile>();
+            projectileView.IsWeaponHitTarget = _isWeaponHitTarget;
+            projectileView.Hit = _weaponHit;
             projectileView.StartMoving(_projectileSpawnTransform.position, _pointOfWeaponHit.transform.position,
                 _hitEffectsRoot);
             //TrailView trailView = projectile.GetOrAddComponent<TrailView>();
             //trailView.TrailRenderer.AddPosition(_pointOfWeaponHit.transform.position);
             //trailView.TrailRenderer.OnCollisionEnterAsObservable().Subscribe(
             //    val => HitObject(val)).AddTo(_disposables);
+            
+
         }
 
         private void HitObject(Collision collision)
@@ -286,12 +308,15 @@ namespace Core
             if (isWeaponRayHitTarget)
             {
                 MoveHitMarkObject(_pointOfWeaponHit, weaponHit.point, weaponHit.normal);
+                _weaponHit = weaponHit;
             }
             else
             {
-                Vector3 dir = _projectileSpawnTransform.position + (_projectileSpawnTransform.TransformDirection(Vector3.forward) * 1000);
+                Vector3 dir = _projectileSpawnTransform.position +
+                              (_projectileSpawnTransform.TransformDirection(Vector3.forward) * 1000);
                 MoveHitMarkObject(_pointOfWeaponHit, dir, Vector3.forward);
             }
+            _isWeaponHitTarget = isWeaponRayHitTarget;
         }
 
 

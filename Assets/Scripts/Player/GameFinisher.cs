@@ -1,3 +1,4 @@
+using Core.ResourceLoader;
 using EventBus;
 using SavableData;
 using UnityEngine;
@@ -6,10 +7,13 @@ namespace Player
 {
     public class GameFinisher : MonoBehaviour
     {
-        [SerializeField] private PlayerScoreList _playerScoreList;
+        private PlayerScoreList _playerScoreList;
+        private MetaProgression _metaProgression;
     
         void Start()
         {
+            _playerScoreList = ResourceLoadManager.GetConfig<PlayerScoreList>();
+            _metaProgression = ResourceLoadManager.GetConfig<MetaProgression>();
             PlayerEvents.OnGameEnded += EndGameActions;
         }
     
@@ -18,14 +22,10 @@ namespace Player
             PlayerEvents.OnGameEnded -= EndGameActions;
         }
 
-        private void EndGameActions(int score)
-        {
-            AddGameScoreToList(score);
-        }
-    
-        private void AddGameScoreToList(int score)
+        private void EndGameActions(int score, int progressPoints)
         {
             _playerScoreList.AddCurrentScoreToList(score);
+            _metaProgression.AppProgressionPoints(progressPoints);
         }
     }
 }

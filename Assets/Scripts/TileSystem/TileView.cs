@@ -9,7 +9,8 @@ public class TileView : MonoBehaviour
     [SerializeField] private List<ConnectorView> _connectorViews;
     [SerializeField] private Transform _foundationTransform;
     [SerializeField] private BossSpawner _bossSpawner;
-    
+    [SerializeField] private List<SpawnerView> _tileSpawners;
+
     private Vector2 _cornerNW;
     private Vector2 _cornerNE;
     private Vector2 _cornerSW;
@@ -25,6 +26,8 @@ public class TileView : MonoBehaviour
     public Transform FoundationTransform => _foundationTransform;
 
     public BossSpawner BossSpawner => _bossSpawner;
+
+    public List<SpawnerView> TileSpawners => _tileSpawners;
 
     public Vector2 CornerNW => _cornerNW;
 

@@ -16,6 +16,7 @@ namespace Player
         private int _currentPlayerHP;
         private int _currentPlayerArmor;
         private int _currentScore;
+        private int _currentProgressPoints;
         private bool _godMode;
         private bool _isDead;
         private bool _hasKey;
@@ -23,9 +24,13 @@ namespace Player
         public Transform PlayerTransform => _playerTransform;
         public Transform PlayerDamagableZoneTransform => _playerDamagableZoneTransform;
         public Transform PlayerHeadTransform => _playerHeadTransform;
-
         public bool HasKey => _hasKey;
 
+        public int CurrentProgressPoints
+        {
+            get => _currentProgressPoints;
+            set => _currentProgressPoints = value;
+        }
 
         public int PlayerHP
         {
@@ -67,6 +72,7 @@ namespace Player
             PlayerEvents.OnKeyStatusChanged += ChangeKeyStatus;
             _currentPlayerHP = _playerMaxHP;
             _currentPlayerArmor = 0;
+            _currentProgressPoints = 0;
             PlayerEvents.SpawnPlayer(_playerMaxHP);
             PlayerEvents.UpdateArmorView(_currentPlayerArmor, _playerMaxArmor);
         }
@@ -88,7 +94,7 @@ namespace Player
             }
         }
 
-        public void TakeHeal(int healAmount, Healing.CallBack callBack)
+        public void TakeHeal(int healAmount, PickUp.CallBack callBack)
         {
             if (PlayerHP == _playerMaxHP)
             {
@@ -125,7 +131,7 @@ namespace Player
             _godMode = godMode;
         }
 
-        public void TakeArmor(int armorAmount, Armor.CallBack callback)
+        public void TakeArmor(int armorAmount, PickUp.CallBack callback)
         {
             if (PlayerArmor == _playerMaxArmor)
             {
@@ -145,6 +151,12 @@ namespace Player
             callback();
         }
 
+        public void WinGame()
+        {
+            PlayerEvents.GameEnded(_currentScore, _currentProgressPoints);
+            PlayerEvents.WinGame();
+        }
+
         private void AddScore()
         {
             _currentScore++;
@@ -161,7 +173,7 @@ namespace Player
             PlayerEvents.UpdateHealthView(_currentPlayerHP);
             _isDead = true;
             Debug.Log($"{gameObject.name} killed");
-            PlayerEvents.GameEnded(_currentScore);
+            PlayerEvents.GameEnded(_currentScore, _currentProgressPoints / 2);
             PlayerEvents.PlayerDead();
         }
 
