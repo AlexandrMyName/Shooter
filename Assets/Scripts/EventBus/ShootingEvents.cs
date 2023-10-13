@@ -49,5 +49,6 @@ namespace EventBus
         {
             OnAmmoCountInMagazineChanged?.Invoke(ammoCount);
         }
+        
     }
 }

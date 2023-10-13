@@ -11,14 +11,13 @@ namespace EnemySystem
     public class SpawningSystem : MonoBehaviour
     {
         [SerializeField] private SpawnConfig _spawnConfig;
-        [SerializeField] private GameObject _spawnableEnemyPrefab;
         [SerializeField] private GameObject _goalObjectPrefab;
         [SerializeField] private PlayerView _playerView;
         [SerializeField] private GameObject _spawnedObjectsRoot;
         [SerializeField] private GameObject _goalObjectsRoot;
         [SerializeField] private GameObject _projectilesSpawnRoot;
-
-        private int _maxSpawnPointIndex;
+        [SerializeField] private List<GameObject> _spawnableEnemyPrefabs;
+        
         private int _currentSpawnPointIndex;
         private int _spawnedInCurrentWave;
         private int _totalSpawned;
@@ -43,7 +42,6 @@ namespace EnemySystem
 
         private void Start()
         {
-            _maxSpawnPointIndex = _spawnConfig.SpawnPointsList.Count - 1;
             _totalSpawned = 0;
             _spawnedInCurrentWave = 0;
             _currentID = 0;
@@ -107,7 +105,8 @@ namespace EnemySystem
 
         private void Spawn()
         {
-            GameObject enemy = GameObject.Instantiate(_spawnableEnemyPrefab,
+            GameObject prefab = _spawnableEnemyPrefabs[Extention.GetRandomInt(0, _spawnableEnemyPrefabs.Count)];
+            GameObject enemy = GameObject.Instantiate(prefab,
                 gameObject.transform.position,
                 gameObject.transform.rotation,
                 _spawnedObjectsRoot.transform);

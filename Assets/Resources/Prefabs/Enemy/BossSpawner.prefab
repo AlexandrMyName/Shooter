@@ -99,6 +99,7 @@ MonoBehaviour:
   _timeToSpawn: 30
   _isSpawningByTime: 1
   _isFinal: 0
+  _progressPointsValue: 2
 --- !u!1 &6333079859759070068
 GameObject:
   m_ObjectHideFlags: 0

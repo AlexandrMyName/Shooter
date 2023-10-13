@@ -42,7 +42,7 @@ public class MapGenerator : MonoBehaviour
         GameObject prefab = tilePrefabsList[index];
         TileView prefabView = prefab.GetComponent<TileView>();
         int t = 0;
-        while (prefabView.TileID == connectorView.TileView.TileID || t > 10)
+        while (prefabView.TileID == connectorView.TileView.TileID && t < 10)
         {
             index = Extention.GetRandomInt(0, tilePrefabsList.Count);
             prefab = tilePrefabsList[index];

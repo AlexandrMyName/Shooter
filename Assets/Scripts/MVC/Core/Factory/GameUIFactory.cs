@@ -55,6 +55,16 @@ namespace MVC.Core.Factory
             GameOverView gameOverView = gameOverPanel.GetComponent<GameOverView>();
             _viewProvider.AddView(gameOverView);
         }
+        
+        public void CreateWinPanel()
+        {
+            GameObject winPanel = 
+                GameObject.Instantiate(
+                    ResourceLoadManager.GetPrefabComponentOrGameObject<GameObject>("WinPanel"),
+                    _canvasTransform);
+            WinScreenView winScreenView = winPanel.GetComponent<WinScreenView>();
+            _viewProvider.AddView(winScreenView);
+        }
 
         public void CreateGUIControllers()
         {

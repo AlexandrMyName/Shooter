@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AutoWeapon
   m_EditorClassIdentifier: 
   _shootingType: 3
-  _maxAmmo: 120000
+  _maxAmmo: 120
   _maxAmmoInMagazine: 60
   _maxAmmoInBurst: 0
   _shootDelay: 0.15

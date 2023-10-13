@@ -143,12 +143,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spawnConfig: {fileID: 11400000, guid: 406936a76f7fdf34bbbe49e458b073a7, type: 2}
-  _spawnableEnemyPrefab: {fileID: 914305569981895637, guid: f4756bd0c94733f46b9926cc564f7423, type: 3}
   _goalObjectPrefab: {fileID: 7393731596362625064, guid: a3172ddf0bf77af4e93ddaf5cbe02868, type: 3}
   _playerView: {fileID: 0}
   _spawnedObjectsRoot: {fileID: 1439193086924610244}
   _goalObjectsRoot: {fileID: 1439193086924610244}
   _projectilesSpawnRoot: {fileID: 0}
+  _spawnableEnemyPrefabs: []
 --- !u!1 &8547506448169710254
 GameObject:
   m_ObjectHideFlags: 0
@@ -194,6 +194,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerScoreList: {fileID: 11400000, guid: a39fd06ccaf9635439d91e7fc6307ffd, type: 2}
+  _metaProgression: {fileID: 11400000, guid: 04ef6379a81bce14282d6b5defcad386, type: 2}
 --- !u!1001 &7198994353960284676
 PrefabInstance:
   m_ObjectHideFlags: 0
