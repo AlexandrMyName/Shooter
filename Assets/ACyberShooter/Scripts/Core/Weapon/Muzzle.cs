@@ -46,6 +46,9 @@ namespace Core
         
         private LayerMask _ignoreRaycastLayerMask;
 
+        private bool _isWeaponHitTarget;
+        private RaycastHit _weaponHit;
+
 
         public void Activate()
         {
@@ -245,12 +248,16 @@ namespace Core
             GameObject projectile = GameObject.Instantiate(_weaponConfig.ProjectilePrefab,
                 _projectileSpawnTransform.position, _projectileSpawnTransform.rotation, _projectilesPool);
             Projectile projectileView = projectile.GetOrAddComponent<Projectile>();
+            projectileView.IsWeaponHitTarget = _isWeaponHitTarget;
+            projectileView.Hit = _weaponHit;
             projectileView.StartMoving(_projectileSpawnTransform.position, _pointOfWeaponHit.transform.position,
                 _hitEffectsRoot);
             //TrailView trailView = projectile.GetOrAddComponent<TrailView>();
             //trailView.TrailRenderer.AddPosition(_pointOfWeaponHit.transform.position);
             //trailView.TrailRenderer.OnCollisionEnterAsObservable().Subscribe(
             //    val => HitObject(val)).AddTo(_disposables);
+            
+
         }
 
         private void HitObject(Collision collision)
@@ -286,12 +293,15 @@ namespace Core
             if (isWeaponRayHitTarget)
             {
                 MoveHitMarkObject(_pointOfWeaponHit, weaponHit.point, weaponHit.normal);
+                _weaponHit = weaponHit;
             }
             else
             {
-                Vector3 dir = _projectileSpawnTransform.position + (_projectileSpawnTransform.TransformDirection(Vector3.forward) * 1000);
+                Vector3 dir = _projectileSpawnTransform.position +
+                              (_projectileSpawnTransform.TransformDirection(Vector3.forward) * 1000);
                 MoveHitMarkObject(_pointOfWeaponHit, dir, Vector3.forward);
             }
+            _isWeaponHitTarget = isWeaponRayHitTarget;
         }
 
 

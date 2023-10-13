@@ -89,8 +89,11 @@ namespace EnemySystem
                     Observable.Timer(TimeSpan.FromSeconds(rushTime))
                         .Subscribe(__ =>
                         {
-                            _agent.speed = _movementBehaviour.Speed;
-                            _agent.acceleration = _movementBehaviour.Acceleration;
+                            if (_agent != null)
+                            {
+                                _agent.speed = _movementBehaviour.Speed;
+                                _agent.acceleration = _movementBehaviour.Acceleration;
+                            }
                         });
                     _currentMovementBehaviour = MovementBehaviour.ToPlayerPosition;
                 });

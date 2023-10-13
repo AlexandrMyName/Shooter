@@ -7,6 +7,7 @@ using UniRx;
 using UniRx.Triggers;
 using System;
 using System.Linq;
+using RootMotion;
 using UnityEngine.Serialization;
 
 
@@ -41,9 +42,21 @@ namespace ShootingSystem
 
         private bool _playerHitOnce;
         private bool _isMadeImpact;
+        private bool _isWeaponHitTarget;
         private bool _isProjectileCollided;
         private bool _isEnemyHit;
         private bool _isPlayerHit;
+        private RaycastHit _hit;
+
+        public bool IsWeaponHitTarget
+        {
+            set => _isWeaponHitTarget = value;
+        }
+
+        public RaycastHit Hit
+        {
+            set => _hit = value;
+        }
 
 
         private void OnEnable() => _direction = Vector3.zero;
@@ -96,8 +109,8 @@ namespace ShootingSystem
                 .OnCollisionEnterAsObservable()
                 .Subscribe(col =>
                 {
-                    FreezeRigidbody();
                     ProcessImpactOnTheWallsAndGround(col);
+                    FreezeRigidbody();
                 })
                 .AddTo(_disposables);
         }
@@ -138,9 +151,7 @@ namespace ShootingSystem
 
                 ProcessExplosionHits(_playerHitColliders, _enemyHitColliders, _defaultHitColliders);
             }
-
-            //ProcessImpactOnTheWallsAndGround();
-
+            
             Destroy(gameObject);
         }
 
@@ -192,13 +203,27 @@ namespace ShootingSystem
 
         private void ProcessImpactOnTheWallsAndGround(Collision collision)
         {
-            //ContactPoint hitPoint = collision.GetContact(collision.contactCount - 1);
-            bool isHitCanMadeImpact = Physics.Raycast(_projectileLastPosition,
-               _direction, out var hitPoint, Mathf.Infinity, _hitImpactLayers);
-            if (_isMadeImpact && isHitCanMadeImpact)
+            bool canMadeImpact = false;
+            int[] layerList = _hitImpactLayers.MaskToNumbers();
+            foreach (int layerIndex in layerList)
             {
-                Instantiate(_projectileConfig.ImpactParticleSystem, hitPoint.point,
-                    Quaternion.LookRotation(hitPoint.normal), _hitEffectsRoot); 
+                if (collision.collider.gameObject.layer == layerIndex)
+                {
+                    canMadeImpact = true;
+                }
+            }
+
+            float maxDelta = 0.4f;
+            Vector3 delta = _hit.point - _projectileLastPosition;
+            if (delta.x >= maxDelta || delta.y >= maxDelta || delta.z >= maxDelta)
+            {
+                canMadeImpact = false;
+            }
+            
+            if (_isMadeImpact && _isWeaponHitTarget && canMadeImpact)
+            {
+                Instantiate(_projectileConfig.ImpactParticleSystem, _hit.point,
+                    Quaternion.LookRotation(_hit.normal), _hitEffectsRoot); 
             }
         }
 

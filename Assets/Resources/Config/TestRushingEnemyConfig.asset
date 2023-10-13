@@ -16,10 +16,10 @@ MonoBehaviour:
   _stunPossibility: 0
   _stunTime: 3
   _attackType: 8
-  _enemyDamage: 10
+  _enemyDamage: 30
   _enemyAttackDelay: 5
   _enemyAttackDuration: 2
   _shootingProjectileSpeed: 2
   _attackDistance: 30
-  _meleeDistance: 1.5
+  _meleeDistance: 0.5
   _shootingProjectile: {fileID: 8983598808202383336, guid: 3d2468015fd77104999a8fe36fa1694b, type: 3}

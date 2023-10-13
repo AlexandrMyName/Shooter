@@ -4707,6 +4707,10 @@ PrefabInstance:
       propertyPath: _projectilesSpawnRoot
       value: 
       objectReference: {fileID: 519323474}
+    - target: {fileID: 1439193087465057331, guid: e951877d0174fc147b0ca47332515070, type: 3}
+      propertyPath: _spawnableEnemyPrefab
+      value: 
+      objectReference: {fileID: 914305569981895637, guid: f4756bd0c94733f46b9926cc564f7423, type: 3}
     - target: {fileID: 1486636301007927003, guid: e951877d0174fc147b0ca47332515070, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -5431,7 +5435,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8420118835061306669, guid: 1dc0ac12c0910cf418173f478016129b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 17.5
+      value: 2.45
       objectReference: {fileID: 0}
     - target: {fileID: 8420118835061306669, guid: 1dc0ac12c0910cf418173f478016129b, type: 3}
       propertyPath: m_LocalPosition.z

@@ -22,6 +22,7 @@ namespace MVC.Core
 
         private void Awake()
         {
+            Debug.developerConsoleVisible = true;
             ResourceLoadManager.Init(_configLoader);
             _controllers = new Controllers();
             _dataProvider = new DataProvider();
