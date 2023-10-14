@@ -273,11 +273,6 @@ Transform:
   m_Father: {fileID: 1112266329}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &24775662 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2355088347381298973, guid: 89be3cc43fc9ef940bc2f8579678b4a4, type: 3}
-  m_PrefabInstance: {fileID: 970634090}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &54035785 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6402157455428506725, guid: c57aed7b6731b994bade98b0a1617afe, type: 3}
@@ -1660,11 +1655,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c57aed7b6731b994bade98b0a1617afe, type: 3}
---- !u!1 &924597057 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2355088348054377812, guid: 89be3cc43fc9ef940bc2f8579678b4a4, type: 3}
-  m_PrefabInstance: {fileID: 970634090}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &970634090
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1720,18 +1710,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: CharacterWithIK
       objectReference: {fileID: 0}
-    - target: {fileID: 2355088348054377834, guid: 89be3cc43fc9ef940bc2f8579678b4a4, type: 3}
-      propertyPath: _puppetObject
-      value: 
-      objectReference: {fileID: 924597057}
-    - target: {fileID: 2355088348054377838, guid: 89be3cc43fc9ef940bc2f8579678b4a4, type: 3}
-      propertyPath: Weapons.Array.data[1].Muzzle._pointOfWeaponHit
-      value: 
-      objectReference: {fileID: 1347599483}
-    - target: {fileID: 2355088348054377838, guid: 89be3cc43fc9ef940bc2f8579678b4a4, type: 3}
-      propertyPath: Weapons.Array.data[1].Muzzle._pointOfCameraHitObject
-      value: 
-      objectReference: {fileID: 24775662}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 89be3cc43fc9ef940bc2f8579678b4a4, type: 3}
 --- !u!1 &984526345
@@ -2351,11 +2329,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c57aed7b6731b994bade98b0a1617afe, type: 3}
---- !u!1 &1347599483 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8616793048982643500, guid: 89be3cc43fc9ef940bc2f8579678b4a4, type: 3}
-  m_PrefabInstance: {fileID: 970634090}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1392947260
 GameObject:
   m_ObjectHideFlags: 0
