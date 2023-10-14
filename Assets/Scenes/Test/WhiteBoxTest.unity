@@ -2030,7 +2030,7 @@ MonoBehaviour:
   - {fileID: 1829594228}
   _currentTileView: {fileID: 1829594228}
   _spawningSystem: {fileID: 1439193087047686627}
-  _tilesToSpawnBoss: 2
+  _tilesToSpawnBoss: 1
 --- !u!1 &1125994743
 GameObject:
   m_ObjectHideFlags: 0
