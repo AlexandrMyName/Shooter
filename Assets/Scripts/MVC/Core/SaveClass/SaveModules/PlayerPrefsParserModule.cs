@@ -13,18 +13,15 @@ internal sealed class PlayerPrefsParserModule : ISave
         PlayerScoreList playerScoreList = GetScriptable<PlayerScoreList>(configLoader);
         SavePlayerScoreList(playerScoreList);
     }
-
     public void TryLoad(ConfigLoader configLoader)
     {
         PlayerScoreList playerScoreList = GetScriptable<PlayerScoreList>(configLoader);
         LoadPlayerScoreList(playerScoreList);
     }
-
     private T GetScriptable<T>(ConfigLoader configLoader) where T : ScriptableObject
     {
         return configLoader.LoadedScriptables.Find(scriptable => scriptable.GetType() == typeof(T)) as T;
     }
-
     private void SavePlayerScoreList(PlayerScoreList playerScoreList)
     {
         int i = 0;

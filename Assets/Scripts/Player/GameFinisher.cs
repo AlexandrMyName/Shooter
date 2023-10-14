@@ -25,8 +25,14 @@ namespace Player
         private void EndGameActions(int score, int progressPoints)
         {
             _playerScoreList.AddCurrentScoreToList(score);
+            SaveParametres();
             _metaProgression.AppProgressionPoints(progressPoints);
 			SaveParametres();
+        }
+        private void SaveParametres()
+        {
+            Saver.Save(new PlayerPrefsParserModule());
+            PlayerPrefs.Save();
         }
         private void SaveParametres()
         {
