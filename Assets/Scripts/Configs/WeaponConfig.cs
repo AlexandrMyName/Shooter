@@ -19,10 +19,10 @@ namespace Configs
         [SerializeField] private float _aimingSpeed;
         [SerializeField] private float _zoomMultiplicity;
         
-        [SerializeField] private float _spreadingHorizontal;
-        [SerializeField] private float _spreadingVertical;
-        [SerializeField] private float _spreadingModifierDelta;
-        [SerializeField] private float _spreadingDefaultModifier;
+        [Range(0, 1f)] [SerializeField] private float _spreadingHorizontal;
+        [Range(0, 1f)] [SerializeField] private float _spreadingVertical;
+        [Range(0, 2f)] [SerializeField] private float _spreadingModifierDelta;
+        [Range(0, 1f)] [SerializeField] private float _spreadingDefaultModifier;
         [SerializeField] private float _aimingSpreadingModifier;
         
         [SerializeField] private float _recoilHorizontal;

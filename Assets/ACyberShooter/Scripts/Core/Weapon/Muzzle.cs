@@ -91,9 +91,6 @@ namespace Core
             _ignoreRaycastLayerMask = ignoreRaycastLayerMask;
 
             _cameraTransform = Camera.main.transform;
-            //_pointOfHitObject =
-                GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/Shooting/HitDirection"));
-            //_pointOfHitObject.SetActive(false);
             _spreadingModifier = _weaponConfig.SpreadingDefaultModifier;
             _lastShootTime = Time.time;
         }
@@ -318,18 +315,19 @@ namespace Core
             }
             _isWeaponHitTarget = isWeaponRayHitTarget;
         }
-
-
+        
         private void MoveHitMarkObject(GameObject markObject, Vector3 rayHitPoint, Vector3 rayHitNormal)
         {
             markObject.transform.position = rayHitPoint;
             markObject.transform.rotation = Quaternion.LookRotation(rayHitNormal);
             markObject.SetActive(true);
         }
-
-
+        
         private Vector3 GetRecoilVector()
         {
+            float maxSpreadX = 0.06f;
+            float maxSpreadY = 0.06f;
+            
             Vector3 recoiledDirection = Vector3.forward;
 
             float x = _recoilModifierHorizontal;
@@ -339,11 +337,10 @@ namespace Core
                 _weaponConfig.SpreadingHorizontal) * _spreadingModifier;
             float spreadY = Extention.GetRandomFloat(-_weaponConfig.SpreadingVertical,
                 _weaponConfig.SpreadingVertical) * _spreadingModifier;
-            recoiledDirection = new Vector3(x + spreadX, y + spreadY, 1);
+            recoiledDirection = new Vector3(x + maxSpreadX * spreadX, y + maxSpreadY * spreadY, 1);
             return recoiledDirection;
         }
-
-
+        
         private void ChangeRecoilVector(float recoilHorizontalDelta, float recoilVerticalDelta)
         {
             bool isRecoilHorizontalIncreasing =
@@ -366,11 +363,13 @@ namespace Core
 
         private void ChangeSpread(float spreadDelta)
         {
+            float maxSpreadDelta = 0.06f;
+            
             bool isSpreadIncreasing = spreadDelta > 0 && _spreadingModifier < 1;
             bool isSpreadDecreasing = spreadDelta < 0 && _spreadingModifier > _weaponConfig.SpreadingDefaultModifier;
             if (isSpreadIncreasing || isSpreadDecreasing)
             {
-                _spreadingModifier += spreadDelta;
+                _spreadingModifier += spreadDelta * maxSpreadDelta;
             }
         }
 

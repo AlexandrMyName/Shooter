@@ -1,4 +1,6 @@
+using System;
 using Abstracts;
+using UniRx;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
@@ -24,6 +26,8 @@ namespace Core
         [SerializeField] private TwoBoneIKConstraint _leftHand;
          
         Quaternion _target_Rotation = Quaternion.identity;
+        private bool _isFallen;
+        private Vector3 _initialPosition;
          
         private void Move()
         {
@@ -42,31 +46,40 @@ namespace Core
             _rb = components.BaseObject.GetComponent<Rigidbody>();
             _rotation = Vector3.zero;
             _animatorIK = components.BaseObject.GetComponent<IPlayer>().ComponentsStorage.AnimatorIK;
-
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+            _initialPosition = _rb.gameObject.transform.position;
         }
 
 
         protected override void Update()
         {
-
-            _direction.x = Input.GetAxis("Horizontal");
-            _direction.z = Input.GetAxis("Vertical");
-
-            _animatorIK.SetFloat("Horizontal", _direction.x, 1 / Time.deltaTime);
-            _animatorIK.SetFloat("Vertical", _direction.z, 1 / Time.deltaTime);
-            _animatorIK.SetBool("IsRun", Input.GetKey(KeyCode.LeftShift) ? true : false);
+            
+            if (_animatorIK.PuppetObject.transform.localPosition.y == 0)
+            {
+                _direction.x = Input.GetAxis("Horizontal");
+                _direction.z = Input.GetAxis("Vertical");
+            
+                _animatorIK.SetFloat("Horizontal", _direction.x, 1 / Time.deltaTime);
+                _animatorIK.SetFloat("Vertical", _direction.z, 1 / Time.deltaTime);
+                _animatorIK.SetBool("IsRun", Input.GetKey(KeyCode.LeftShift) ? true : false);
+            }
+            else
+            {
+                _direction.x = 0;
+                _direction.y = 0;
+                _animatorIK.SetFloat("Horizontal", _direction.x, 1 / Time.deltaTime);
+                _animatorIK.SetFloat("Vertical", _direction.z, 1 / Time.deltaTime);
+            }
         }
 
 
         protected override void FixedUpdate()
         {
-
             _direction = _rb.transform.TransformDirection(_direction.x, 0, _direction.z);
             _rotation = _components.MainCamera.transform.parent.transform.forward * 1f;
             _rotation.y = 0;
-
+            CheckFallenState();
             float currentSpeed = 0f;
 
             if (Input.GetKey(KeyCode.LeftShift))
@@ -90,10 +103,30 @@ namespace Core
             float turn = _turnMultiplier * Time.fixedDeltaTime;
 
             _target_Rotation = Quaternion.RotateTowards(_components.BaseObject.transform.rotation, look, turn);
-
-
             Move();
+            if (_rb.gameObject.transform.position.y < -100f)
+            {
+                TeleportToInitialPosition();
+            }
+        }
 
+        private void TeleportToInitialPosition()
+        {
+            _rb.gameObject.transform.position = _initialPosition;
+        }
+
+        private void CheckFallenState()
+        {
+            if (_animatorIK.PuppetObject.transform.position != _rb.gameObject.transform.position && !_isFallen)
+            {
+                _isFallen = true;
+                Observable.Timer(TimeSpan.FromSeconds(2f)).Subscribe(_ =>
+                {
+                    _animatorIK.PuppetObject.transform.position = _rb.gameObject.transform.position;
+                    _animatorIK.PuppetObject.transform.rotation = _rb.gameObject.transform.rotation;
+                    _isFallen = false;
+                });
+            }
         }
         
 
