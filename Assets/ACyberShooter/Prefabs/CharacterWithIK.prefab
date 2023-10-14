@@ -5684,6 +5684,7 @@ MonoBehaviour:
   _weaponData: {fileID: 2355088348054377838}
   _aimingDuration: 0.5
   _puppetObject: {fileID: 2355088348054377812}
+  _puppetMaster: {fileID: 3201951093366260846}
 --- !u!114 &2355088348054377832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7022,7 +7023,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2820464077731880661}
   - component: {fileID: 3201951093366260846}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: PuppetMaster
   m_TagString: Untagged
   m_Icon: {fileID: 0}

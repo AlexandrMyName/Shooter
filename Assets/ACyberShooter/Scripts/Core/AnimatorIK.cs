@@ -26,11 +26,14 @@ namespace Core
 
         [SerializeField,Range(0f,1f)] private float _aimingDuration;
         [SerializeField] private GameObject _puppetObject;
+        [SerializeField] private PuppetMaster _puppetMaster;
 
         private Weapon _currentWeapon;
 
         public GameObject PuppetObject => _puppetObject;
-        
+        public PuppetMaster PuppetMaster => _puppetMaster;
+
+
         public void Dispose()
         => _weaponData.Weapons.ForEach(disposable => disposable.Muzzle.Dispose());
         

@@ -7725,9 +7725,41 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3518568011075635001, guid: 59f12368d17aee04e8d9d50e7bd7de9b, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 31.827282
+      objectReference: {fileID: 0}
+    - target: {fileID: 3518568011075635001, guid: 59f12368d17aee04e8d9d50e7bd7de9b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -18.8488
+      objectReference: {fileID: 0}
+    - target: {fileID: 3518568011203368719, guid: 59f12368d17aee04e8d9d50e7bd7de9b, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 32.04039
+      objectReference: {fileID: 0}
+    - target: {fileID: 3518568011203368719, guid: 59f12368d17aee04e8d9d50e7bd7de9b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -18.9554
+      objectReference: {fileID: 0}
     - target: {fileID: 6141092875822932479, guid: 59f12368d17aee04e8d9d50e7bd7de9b, type: 3}
       propertyPath: m_Name
       value: Connectors
+      objectReference: {fileID: 0}
+    - target: {fileID: 7599045765604570926, guid: 59f12368d17aee04e8d9d50e7bd7de9b, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 32.593746
+      objectReference: {fileID: 0}
+    - target: {fileID: 7599045765604570926, guid: 59f12368d17aee04e8d9d50e7bd7de9b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 19.0269
+      objectReference: {fileID: 0}
+    - target: {fileID: 7599045765711324952, guid: 59f12368d17aee04e8d9d50e7bd7de9b, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 32.672935
+      objectReference: {fileID: 0}
+    - target: {fileID: 7599045765711324952, guid: 59f12368d17aee04e8d9d50e7bd7de9b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 19.0671
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 59f12368d17aee04e8d9d50e7bd7de9b, type: 3}

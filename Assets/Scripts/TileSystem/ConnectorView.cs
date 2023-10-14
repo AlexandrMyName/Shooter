@@ -5,6 +5,8 @@ using UnityEngine;
 public class ConnectorView : MonoBehaviour
 {
     [SerializeField] private WorldSide _worldSide;
+    [SerializeField] private GameObject _doorObject;
+    [SerializeField] private GameObject _connectorBox;
     private TileView _tileView;
     private bool _isGenerated;
     private WorldSide _connectableSide;
@@ -27,6 +29,21 @@ public class ConnectorView : MonoBehaviour
     {
         get => _isGenerated;
         set => _isGenerated = value;
+    }
+
+    public void DeactivateDoor()
+    {
+        _doorObject.SetActive(false);
+    }
+
+    public void PaintDoorRed()
+    {
+        _doorObject.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
+    }
+
+    public void DeactivateConnectorBox()
+    {
+        _connectorBox.SetActive(false);
     }
 
     public void CheckConnectorRequirements()

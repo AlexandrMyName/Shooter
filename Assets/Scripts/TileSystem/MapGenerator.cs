@@ -58,9 +58,13 @@ public class MapGenerator : MonoBehaviour
             if (isEnoughSpace)
             {
                 SpawnTile(index, connectorView, tilePrefabsList);
+                connectorView.DeactivateConnectorBox();
             }
-            secondConnectorView.IsGenerated = true;
-            connectorView.gameObject.SetActive(false);
+            else
+            {
+                connectorView.PaintDoorRed();
+            }
+            connectorView.IsGenerated = true;
         }
     }
 
@@ -79,6 +83,8 @@ public class MapGenerator : MonoBehaviour
             Vector3 connectorPosition =
                 Vector3.zero + connectorView.transform.position;
             tile.transform.position = connectorPosition - secondConnectorView.gameObject.transform.position;
+            secondConnectorView.IsGenerated = true;
+            secondConnectorView.DeactivateDoor();
         }
         _spawningSystem.ClearActiveSpawners();
         _spawningSystem.AddNewSpawnPoints(tileView.TileSpawners);

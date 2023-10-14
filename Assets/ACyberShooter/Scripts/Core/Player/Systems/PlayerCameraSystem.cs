@@ -81,7 +81,6 @@ namespace Core
                Mathf.Abs(_componentsStorage.CameraConfig.CameraOffSet_Normal.z), _componentsStorage.CameraConfig.ObstacleLayer))
             {
                 _components.MainCamera.transform.position = hit.point;
-                Debug.Log("Hirt");
             }
             else _components.MainCamera.transform.position =
                  _cameraParent

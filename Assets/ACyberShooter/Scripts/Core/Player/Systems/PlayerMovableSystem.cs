@@ -1,5 +1,6 @@
 using System;
 using Abstracts;
+using RootMotion.Dynamics;
 using UniRx;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
@@ -55,7 +56,8 @@ namespace Core
         protected override void Update()
         {
             
-            if (_animatorIK.PuppetObject.transform.localPosition.y == 0)
+            if (_animatorIK.PuppetObject.transform.localPosition.y == 0 ||
+                _animatorIK.PuppetMaster.state != PuppetMaster.State.Alive )
             {
                 _direction.x = Input.GetAxis("Horizontal");
                 _direction.z = Input.GetAxis("Vertical");
@@ -113,6 +115,9 @@ namespace Core
         private void TeleportToInitialPosition()
         {
             _rb.gameObject.transform.position = _initialPosition;
+            _animatorIK.PuppetObject.transform.position = _rb.gameObject.transform.position;
+            _animatorIK.PuppetObject.transform.rotation = _rb.gameObject.transform.rotation;
+            _animatorIK.PuppetMaster.gameObject.transform.localPosition = Vector3.zero;
         }
 
         private void CheckFallenState()

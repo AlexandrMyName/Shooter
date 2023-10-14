@@ -1,4 +1,5 @@
 using System;
+using RootMotion.Dynamics;
 using UnityEngine;
 
 
@@ -19,6 +20,7 @@ namespace Abstracts
         void SetWeaponState(IWeaponType weaponType);
 
         GameObject PuppetObject { get; }
+        public PuppetMaster PuppetMaster { get; }
 
     }
 }

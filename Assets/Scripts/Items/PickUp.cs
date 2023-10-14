@@ -16,7 +16,7 @@ public class PickUp : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("PlayerRagdoll") && !_isUsed)
+        if (other.gameObject.layer == LayerMask.NameToLayer("Player") && !_isUsed)
         {
             CallBack pickupCallBack = new CallBack(UsePickup);
             ApplyPickUp(pickupCallBack);

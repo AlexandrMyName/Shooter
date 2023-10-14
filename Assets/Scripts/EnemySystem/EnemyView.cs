@@ -191,8 +191,6 @@ namespace EnemySystem
             _enemyMovement.StopMovement();
             AddDeadForce();
             _enemyDeath.DestroyEnemy();
-
-            Debug.Log($"{gameObject.name} killed {_isDead}");
         }
 
 

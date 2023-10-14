@@ -16,12 +16,12 @@ public class ExplosiveEnemy : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("PlayerRagdoll") && _enemyView.IsDead == false)
+        if (other.gameObject.layer == LayerMask.NameToLayer("Player") && _enemyView.IsDead == false)
         {
             RaycastHit hit;
             if (Physics.Raycast(transform.position, other.transform.position - transform.position, out hit))
             {
-                if (hit.collider.gameObject.layer == LayerMask.NameToLayer("PlayerRagdoll"))
+                if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
                 {
                     isPlayerTouching = true;
                     StartCoroutine(ExplodeAfterDelay());
