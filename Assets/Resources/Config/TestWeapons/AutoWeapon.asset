@@ -21,9 +21,9 @@ MonoBehaviour:
   _reloadDelay: 1
   _aimingSpeed: 0
   _zoomMultiplicity: 0
-  _spreadingHorizontal: 0.03
-  _spreadingVertical: 0.03
-  _spreadingModifierDelta: 0.03
+  _spreadingHorizontal: 0.5
+  _spreadingVertical: 0.5
+  _spreadingModifierDelta: 0.25
   _spreadingDefaultModifier: 0
   _aimingSpreadingModifier: 0
   _recoilHorizontal: 0

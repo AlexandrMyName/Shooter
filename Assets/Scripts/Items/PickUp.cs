@@ -11,6 +11,7 @@ public class PickUp : MonoBehaviour
     
     public PickupItemConfig PickupItemConfig => _pickupItemConfig;
     private bool _isUsed = false;
+    private IDisposable _disposable;
     public delegate void CallBack();
     
     private void OnTriggerEnter(Collider other)
@@ -47,11 +48,19 @@ public class PickUp : MonoBehaviour
         gameObject.SetActive(false);
         if (_pickupItemConfig.Cooldown > 0)
         {
-            Observable.Timer(TimeSpan.FromSeconds(_pickupItemConfig.Cooldown)).Subscribe(_ =>
+            _disposable = Observable.Timer(TimeSpan.FromSeconds(_pickupItemConfig.Cooldown)).Subscribe(_ =>
             {
                 gameObject.SetActive(true);
                 _isUsed = false;
             });
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (_disposable != null)
+        {
+            _disposable.Dispose();
         }
     }
 }
