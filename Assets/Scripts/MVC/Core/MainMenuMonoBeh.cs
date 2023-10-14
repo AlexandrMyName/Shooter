@@ -13,7 +13,7 @@ namespace MVC.Core
     public class MainMenuMonoBeh : MonoBehaviour
     {
         [SerializeField] private ConfigLoader _configLoader;
-        
+
         private IControllers _controllers;
         private IDataProvider _dataProvider;
         private IViewProvider _viewProvider;
@@ -28,11 +28,13 @@ namespace MVC.Core
             _dataProvider = new DataProvider();
             _viewProvider = new ViewProvider();
             _dataFactory = new DataFactory(_dataProvider);
+            Saver.Init(_configLoader);
+            Saver.Load(new PlayerPrefsParserModule());
 
             MainMenuFactory mainMenuFactory = new MainMenuFactory(_controllers, _dataProvider, _viewProvider,
                 _dataFactory);
             MainMenuInitialization menuInitialization = new MainMenuInitialization(mainMenuFactory);
-            
+
             _controllers.PreInitialization();
         }
         void Start()

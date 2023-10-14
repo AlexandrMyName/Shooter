@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Core.ResourceLoader;
+using MVC.Core.Factory;
 using MVC.Core.Interface.Controllers;
 using MVC.Core.Interface.Providers;
 using MVC.Views;
@@ -37,7 +38,7 @@ namespace MVC.Controllers
             _playerScoreList = ResourceLoadManager.GetConfig<PlayerScoreList>("ScoreData");
             _globalScoreList = ResourceLoadManager.GetConfig<PlayerScoreList>("GlobalStatisticFake");
             _scorePanelPrefab = ResourceLoadManager.GetPrefabComponentOrGameObject<GameObject>("ScorePanel");
-            ShowSelfScoreBoard();
+            ShowGlobalScoreBoard();
         }
 
         public void Cleanup()
@@ -72,10 +73,18 @@ namespace MVC.Controllers
         private void ShowGlobalScoreBoard()
         {
             HideActiveScorePanels();
-
-            int playerHighScore = _playerScoreList.ScoreList[0];
-            int currentPlace = 1;
             bool isPlayerScoreInBoard = false;
+            int playerHighScore = 0;
+            if (_playerScoreList.ScoreList.Count != 0)
+            {
+                playerHighScore = _playerScoreList.ScoreList[0];
+            }
+            else
+            {
+                isPlayerScoreInBoard = true;
+            }
+            int currentPlace = 1;
+            
             for (int i = 0; i < _globalScoreList.MaxListCapacity; i++)
             {
                 int score = _globalScoreList.ScoreList[i];

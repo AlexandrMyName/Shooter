@@ -27,6 +27,7 @@ namespace MVC.Core
             _viewProvider = new ViewProvider();
             _dataFactory = new DataFactory(_dataProvider);
             
+            Saver.Init(_configLoader); 
             GameUIFactory gameUIFactory = new GameUIFactory(_controllers, _dataProvider, _viewProvider, _dataFactory);
             GameUIInitialization uiInitialization = new GameUIInitialization(gameUIFactory);
             _controllers.PreInitialization();
