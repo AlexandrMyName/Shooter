@@ -7,7 +7,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UniRx;
-using UniRx.Triggers;
 using UnityEngine;
 
 
@@ -17,15 +16,16 @@ namespace Core
     [Serializable]
     public class Muzzle : IDisposable
     {
-
-        //Need refactoring (not faster)
+        
+       
         [Header ("Muzzle behavior"),Space(10)]
         [SerializeField] private WeaponConfig _weaponConfig;
-        [SerializeField] private Transform _projectileSpawnTransform;
-          
-        private Transform _cameraTransform;
-        [SerializeField] private GameObject _pointOfCameraHitObject;
-        [SerializeField] private GameObject _pointOfWeaponHit;
+        [SerializeField] private Transform _muzzleRoot;
+
+        [SerializeField] private BulletConfig _bulletConfig;
+        private RaycastWeapon _weaponRay;
+
+
         private bool _isTryShooting = false;
         private bool _canShoot = false;
         private bool _isReloading = false;
@@ -40,19 +40,13 @@ namespace Core
         private int _currentAmmonBurst;
 
         private List<IDisposable> _disposables = new();
-
-        private Transform _projectilesPool;
-        private Transform _hitEffectsRoot;
-        
-        private LayerMask _ignoreRaycastLayerMask;
-
-        private bool _isWeaponHitTarget;
-        private RaycastHit _weaponHit;
+       
+        private ParticleSystem[] _muzzleFlash;
 
         public int CurrentAmmo => _currentAmmo;
-
         public int CurrentAmmoInMagazine => _currentAmmoInMagazine;
         
+         
         public void Activate()
         {
              
@@ -61,6 +55,7 @@ namespace Core
             PlayerEvents.OnRifleAmmoAdded += AddAmmo;
 
             Observable.EveryFixedUpdate().Subscribe(value => FixedUpdate()).AddTo(_disposables);
+            Observable.EveryUpdate().Subscribe(value => Update()).AddTo(_disposables);
 
             if (_currentAmmo > 0) return;
 
@@ -83,20 +78,29 @@ namespace Core
             _currentAmmonBurst = _maxAmmoInBurst;
         }
         
-        public void InitPool(Transform projectilesRoot, Transform hitEffectsRoot, LayerMask ignoreRaycastLayerMask)
-        {
 
-            _projectilesPool = projectilesRoot;
-            _hitEffectsRoot = hitEffectsRoot;
-            _ignoreRaycastLayerMask = ignoreRaycastLayerMask;
+        public void InitPool(
+            LayerMask ignoreRaycastLayerMask,
+            ParticleSystem[] muzzleFlash ,
+            Transform crossHairTransform,
+            ParticleSystem hitEffect // this not correct (need create new config with array and material's type)
+            ){ ///INITIALIZER\\\
 
-            _cameraTransform = Camera.main.transform;
+            _muzzleFlash = muzzleFlash;
+            _weaponRay = new RaycastWeapon(
+                crossHairTransform,
+                _muzzleRoot,
+                ignoreRaycastLayerMask,
+                hitEffect);
+  
             _spreadingModifier = _weaponConfig.SpreadingDefaultModifier;
             _lastShootTime = Time.time;
         }
 
+
         public void Disable()
         {
+
             ShootingEvents.OnTryShoot -= ChangeShootingState;
             ShootingEvents.OnReload -= Reload;
             PlayerEvents.OnRifleAmmoAdded -= AddAmmo;
@@ -104,20 +108,17 @@ namespace Core
         }
 
 
-        private void ChangeShootingState(bool isShooting)
-        {
-            _isTryShooting = isShooting;
-        }
+        private void ChangeShootingState(bool isShooting) => _isTryShooting = isShooting;
+        
 
-
-        private void FixedUpdate()
+        void FixedUpdate()
         {
+
             ShootingEvents.ChangeAmmoCount(_currentAmmo);
             ShootingEvents.ChangeAmmoInMagazineCount(_currentAmmoInMagazine);
              
             if (_isTryShooting)
             {
-                //ShootingEvents.RotateToCameraDirection(true);
                 TryShoot();
                
                 ChangeShootingState(false);
@@ -126,9 +127,7 @@ namespace Core
             {
                 _currentAmmonBurst = _maxAmmoInBurst;
                 ChangeSpread(-0.1f);
-                ChangeRecoilVector(-_weaponConfig.RecoilModifierDeltaHorizontal,
-                    -_weaponConfig.RecoilModifierDeltaVertical);
-                //ShootingEvents.RotateToCameraDirection(false);
+             
                 if (_isShooting)
                 {
                     _isShooting = false;
@@ -138,6 +137,11 @@ namespace Core
 
         }
 
+
+        void Update()
+        {
+            _weaponRay.UpdateBullets(Time.deltaTime);
+        }
 
         private void Reload()
         {
@@ -150,8 +154,10 @@ namespace Core
             }
         }
         
+
         private void AddAmmo(int additionAmmo, PickUp.CallBack callback)
         {
+
             if (_currentAmmo == _weaponConfig.MaxAmmo)
             {
                 return;
@@ -172,6 +178,7 @@ namespace Core
         {
 
             yield return new WaitForSeconds(reloadDelay);
+
             if (_currentAmmo >= _weaponConfig.MaxAmmoInMagazine)
             {
                 _currentAmmo -= _weaponConfig.MaxAmmoInMagazine;
@@ -199,38 +206,24 @@ namespace Core
         private void TryShoot()
         {
 
-            bool haveAmmoInMagazine;
-            bool haveAmmoInBurst; 
-            //if (_weaponConfig.ShootingType != ShootingType.Auto) ??
-            //{
-            //    haveAmmoInBurst = _currentAmmonBurst > 0;
-            //}
-            //else ??
-            //{
-            //    haveAmmoInBurst = true;
-            //}
-
-             haveAmmoInBurst = true;
-
-            if (_weaponConfig.MaxAmmo > 0)
-            {
-                haveAmmoInMagazine = _currentAmmoInMagazine > 0;
-            }
-            else
-            {
-                haveAmmoInMagazine = true;
-            }
-            _canShoot = (_lastShootTime + _weaponConfig.ShootDelay < Time.time)
-                        && haveAmmoInBurst && haveAmmoInMagazine && !_isReloading;
+            bool haveAmmoInMagazine = _weaponConfig.MaxAmmo > 0 ? _currentAmmoInMagazine > 0  :  true; ;
+            bool haveAmmoInBurst = true;
+             
+            _canShoot = 
+                (_lastShootTime + _weaponConfig.ShootDelay < Time.time)
+                 && haveAmmoInBurst && haveAmmoInMagazine && !_isReloading;
             
+
             if (_canShoot)
             {
+
                 _currentAmmonBurst--;
                 _currentAmmoInMagazine--;
                 _lastShootTime = Time.time;
                 ShootingEvents.ChangeAmmoInMagazineCount(_currentAmmoInMagazine);
 
                 Shoot();
+
                 if (!_isShooting)
                 {
                     _isShooting = true;
@@ -240,6 +233,7 @@ namespace Core
             }
             else if (_isShooting && (!haveAmmoInBurst || !haveAmmoInMagazine || _isReloading))
             {
+
                 _isShooting = false;
                 ShootingEvents.Shoot(_isShooting, _weaponConfig.ShootingType, 1f);
             }
@@ -248,81 +242,25 @@ namespace Core
 
         private void Shoot()
         {
-            if (_recoilModifierHorizontal >=
-                _weaponConfig.RecoilHorizontal && _recoilModifierVertical >= _weaponConfig.RecoilVertical)
+
+            foreach(var effect in _muzzleFlash)
             {
+                effect.Emit(1);
+            }
+            if (_bulletConfig == null)
+                throw new NullReferenceException("Bullet config is null => (Muzzle) on WeaponData");
+
+            _weaponRay.Fire(_bulletConfig);
+
+            if (_recoilModifierHorizontal >=
+                _weaponConfig.RecoilHorizontal && 
+                _recoilModifierVertical >= _weaponConfig.RecoilVertical) {
                 ChangeSpread(_weaponConfig.SpreadingModifierDelta);
             }
-            ChangeRecoilVector(_weaponConfig.RecoilModifierDeltaHorizontal, _weaponConfig.RecoilModifierDeltaVertical);
-            MovePointOfHit();
-
-            
-            GameObject projectile = GameObject.Instantiate(_weaponConfig.ProjectilePrefab,
-                _projectileSpawnTransform.position, _projectileSpawnTransform.rotation, _projectilesPool);
-            Projectile projectileView = projectile.GetOrAddComponent<Projectile>();
-            projectileView.IsWeaponHitTarget = _isWeaponHitTarget;
-            projectileView.Hit = _weaponHit;
-            projectileView.StartMoving(_projectileSpawnTransform.position, _pointOfWeaponHit.transform.position,
-                _hitEffectsRoot);
-            //TrailView trailView = projectile.GetOrAddComponent<TrailView>();
-            //trailView.TrailRenderer.AddPosition(_pointOfWeaponHit.transform.position);
-            //trailView.TrailRenderer.OnCollisionEnterAsObservable().Subscribe(
-            //    val => HitObject(val)).AddTo(_disposables);
-            
-
+ 
         }
-
-        private void HitObject(Collision collision)
-        {
-            Debug.Log(collision.gameObject.name);
-        }
-
-        private void MovePointOfHit()
-        {
-            RaycastHit cameraHit;
-            RaycastHit weaponHit;
-
-            LayerMask layerMask = ~_ignoreRaycastLayerMask;
-
-            bool isCameraRayHitTarget = Physics.Raycast(_cameraTransform.position,
-                _cameraTransform.TransformDirection(Vector3.forward), out cameraHit,
-                Mathf.Infinity, layerMask);
-            if (isCameraRayHitTarget)
-            {
-                MoveHitMarkObject(_pointOfCameraHitObject, cameraHit.point, cameraHit.normal);
-                _projectileSpawnTransform.LookAt(_pointOfCameraHitObject.transform);
-            }
-            else
-            {
-                Vector3 dir = _cameraTransform.position + (_cameraTransform.TransformDirection(Vector3.forward) * 1000);
-                MoveHitMarkObject(_pointOfCameraHitObject, dir, Vector3.forward);
-                _projectileSpawnTransform.LookAt(_pointOfCameraHitObject.transform);
-            }
-            Vector3 direction = GetRecoilVector();
-            bool isWeaponRayHitTarget = Physics.Raycast(_projectileSpawnTransform.position,
-                _projectileSpawnTransform.TransformDirection(direction), out weaponHit,
-                Mathf.Infinity, layerMask);
-            if (isWeaponRayHitTarget)
-            {
-                MoveHitMarkObject(_pointOfWeaponHit, weaponHit.point, weaponHit.normal);
-                _weaponHit = weaponHit;
-            }
-            else
-            {
-                Vector3 dir = _projectileSpawnTransform.position +
-                              (_projectileSpawnTransform.TransformDirection(Vector3.forward) * 1000);
-                MoveHitMarkObject(_pointOfWeaponHit, dir, Vector3.forward);
-            }
-            _isWeaponHitTarget = isWeaponRayHitTarget;
-        }
-        
-        private void MoveHitMarkObject(GameObject markObject, Vector3 rayHitPoint, Vector3 rayHitNormal)
-        {
-            markObject.transform.position = rayHitPoint;
-            markObject.transform.rotation = Quaternion.LookRotation(rayHitNormal);
-            markObject.SetActive(true);
-        }
-        
+ 
+         
         private Vector3 GetRecoilVector()
         {
             float maxSpreadX = 0.06f;
@@ -340,6 +278,8 @@ namespace Core
             recoiledDirection = new Vector3(x + maxSpreadX * spreadX, y + maxSpreadY * spreadY, 1);
             return recoiledDirection;
         }
+         
+
         
         private void ChangeRecoilVector(float recoilHorizontalDelta, float recoilVerticalDelta)
         {
