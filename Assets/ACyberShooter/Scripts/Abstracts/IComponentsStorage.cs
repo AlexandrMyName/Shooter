@@ -1,4 +1,5 @@
 using Configs;
+using Core;
 
 
 namespace Abstracts
@@ -9,7 +10,7 @@ namespace Abstracts
 
         IAnimatorIK AnimatorIK { get; }
         CameraConfig CameraConfig { get; }
-
+        CrossHairTarget CrossHairTarget { get; set; }
         void InitComponents();
 
 

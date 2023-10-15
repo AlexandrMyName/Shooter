@@ -34,10 +34,8 @@ namespace Core
             _components.MainCamera.transform.parent = _cameraParent;
 
             _cameraParent.position += Vector3.up * camera_offset_UP;
-
-
+             
             PlayerEvents.OnGamePaused += onPausedGame;
-           
             
         }
 
@@ -103,14 +101,8 @@ namespace Core
 
             Quaternion newRot = Quaternion.Euler(rotation.x, rotation.y, rotation.z);
 
-            if (_cameraParent.rotation != newRot)
-            {
-                //_cameraParent.rotation = Quaternion.SlerpUnclamped(_cameraParent.rotation, newRot,
-                //    Time.deltaTime * _componentsStorage.CameraConfig.CameraSpeedMultiplier);
-
-                _cameraParent.transform.rotation = newRot;
-            }
-            _components.MainCamera.transform.LookAt(_cameraParent.GetChild(0).GetChild(0));
+            _cameraParent.transform.rotation = newRot;
+          
         }
 
         public void Dispose()
