@@ -21,7 +21,7 @@ namespace Core
 
         private Vector3 _lookAtIKpos;
          
-        [SerializeField] private IKWeightConfig _weightConfig;
+         
         [SerializeField] private WeaponData _weaponData;
 
         [SerializeField,Range(0f,1f)] private float _aimingDuration;
@@ -43,7 +43,7 @@ namespace Core
             
             _weaponData ??= GetComponent<WeaponData>();
             _animator ??= GetComponent<Animator>();
-            InitAimingWeight();
+            
             InitDefaultWeapon(_defaultWeapon);
             _weaponData.InitData();
         }
@@ -80,8 +80,6 @@ namespace Core
 
         private void Update()
         {
-
-            InitAimingWeight();
              
             UpdateAimingIK();
 
@@ -120,28 +118,7 @@ namespace Core
           
         }
 
-        private void FixedUpdate() =>  SetLookAtPosition(_lookAt.position);
-
-
-        #region IK Aiming
-
-        private void InitAimingWeight()
-        {
-
-            SetLookAtWeight
-                (_weightConfig._weight,
-                _weightConfig._body,
-                _weightConfig._head,
-                _weightConfig._eyes, 
-                _weightConfig._clamp);
-        }
-      
-        
-
-        #endregion
-
-
-
+       
         public void SetWeaponState(IWeaponType weaponType)
         {
              

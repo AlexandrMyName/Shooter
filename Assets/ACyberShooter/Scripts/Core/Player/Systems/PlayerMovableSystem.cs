@@ -78,10 +78,11 @@ namespace Core
 
         protected override void FixedUpdate()
         {
+
             _direction = _rb.transform.TransformDirection(_direction.x, 0, _direction.z);
             _rotation = _components.MainCamera.transform.parent.transform.forward * 1f;
             _rotation.y = 0;
-            CheckFallenState();
+             CheckFallenState();
             float currentSpeed = 0f;
 
             if (Input.GetKey(KeyCode.LeftShift))
@@ -94,23 +95,23 @@ namespace Core
             else currentSpeed = _speedWalk;
 
             _direction = _direction * currentSpeed * Time.fixedDeltaTime;
-
-            //if (speedPos == playerC.Speed_Sprint)
-            //   playerC.Animator.SetBool("RUN", true);
-
-            //else playerC.Animator.SetBool("RUN", false);
-
+ 
             Quaternion look = Quaternion.LookRotation(_rotation);
 
             float turn = _turnMultiplier * Time.fixedDeltaTime;
 
-            _target_Rotation = Quaternion.RotateTowards(_components.BaseObject.transform.rotation, look, turn);
+            _target_Rotation 
+                = Quaternion
+                    .RotateTowards(_components.BaseObject.transform.rotation, look, turn);
+             
             Move();
+
             if (_rb.gameObject.transform.position.y < -100f)
             {
                 TeleportToInitialPosition();
             }
         }
+
 
         private void TeleportToInitialPosition()
         {
@@ -119,6 +120,7 @@ namespace Core
             _animatorIK.PuppetObject.transform.rotation = _rb.gameObject.transform.rotation;
             _animatorIK.PuppetMaster.gameObject.transform.localPosition = Vector3.zero;
         }
+
 
         private void CheckFallenState()
         {
@@ -133,7 +135,7 @@ namespace Core
                 });
             }
         }
-        
+
 
     }
 }

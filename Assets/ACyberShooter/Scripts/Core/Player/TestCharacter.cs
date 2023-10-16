@@ -19,11 +19,13 @@ namespace Core
             ComponentsStorage = GetComponent<ComponentsStorage>();
             ComponentsStorage.InitComponents();
 
-            return new List<ISystem>()
-             {
-                 new PlayerMovableSystem(),
+             return new List<ISystem>()
+             { 
                  new PlayerCameraSystem(),
+                 new PlayerCrossHairSystem(),
+                 new PlayerMovableSystem(),
                  new PlayerShootSystem(),
+
              };
         }
     }
