@@ -17,4 +17,5 @@ MonoBehaviour:
   <Speed>k__BackingField: 1000
   <Drop>k__BackingField: 0
   <MaxTime>k__BackingField: 3
+  <Damage>k__BackingField: 35
   <Traicer>k__BackingField: {fileID: 8089881354419632696, guid: 1fd02452374b3c1419bf95742ecd94c1, type: 3}

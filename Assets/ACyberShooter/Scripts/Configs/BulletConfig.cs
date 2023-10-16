@@ -16,6 +16,7 @@ namespace Configs
         [field: SerializeField] public float Drop { get; set; }
         [field: SerializeField] public float MaxTime { get; set; }
 
+        [field: SerializeField] public float Damage { get; set; }
         [field:SerializeField] public TrailRenderer Traicer { get; set; }
 
     }

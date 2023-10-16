@@ -1,4 +1,5 @@
 using Configs;
+using EnemySystem;
 using RootMotion;
 using System.Collections;
 using System.Collections.Generic;
@@ -122,12 +123,23 @@ namespace Core
             {
                 //we can check material collider and sets hit effect from config (need create)
                 TryInstantiateHitEffect();
-
+                TryTakeDamage(hit, bullet.config);
                 TryInstantiateTracer(bullet);
 
                 bullet.time = bullet.config.MaxTime;
             }
             else if(bullet.tracer != null) bullet.tracer.transform.position = end;
+        }
+
+        private void TryTakeDamage(RaycastHit hit, BulletConfig config)
+        {
+
+            if(hit.collider.TryGetComponent<EnemyBoneView>(out var enemyView))
+            {
+                enemyView.EnemyView.TakeDamage(config.Damage);
+            }
+
+
         }
 
 

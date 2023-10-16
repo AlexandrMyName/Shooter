@@ -1232,6 +1232,17 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 667793797}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &673403389 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2867113964625431876, guid: 89be3cc43fc9ef940bc2f8579678b4a4, type: 3}
+  m_PrefabInstance: {fileID: 1177558684}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98905ed91883c3d4f8fc09dffa3b68f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &774313387 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3957563969369620809, guid: 92f3727370288f940877a556cfbfa761, type: 3}
@@ -3656,12 +3667,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1439193087465057331, guid: e951877d0174fc147b0ca47332515070, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1439193087465057331, guid: e951877d0174fc147b0ca47332515070, type: 3}
       propertyPath: _playerView
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 673403389}
     - target: {fileID: 1439193087465057331, guid: e951877d0174fc147b0ca47332515070, type: 3}
       propertyPath: _spawnConfig
       value: 
@@ -3670,6 +3681,10 @@ PrefabInstance:
       propertyPath: _projectilesSpawnRoot
       value: 
       objectReference: {fileID: 519323474}
+    - target: {fileID: 1439193087465057331, guid: e951877d0174fc147b0ca47332515070, type: 3}
+      propertyPath: _spawnableEnemyPrefabs.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1442613000674637168, guid: e951877d0174fc147b0ca47332515070, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
