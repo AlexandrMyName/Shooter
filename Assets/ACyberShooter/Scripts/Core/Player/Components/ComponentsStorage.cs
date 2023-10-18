@@ -12,6 +12,7 @@ namespace Core
     {
 
         [SerializeField] private AnimatorIK _animatorIK;
+
         [field:SerializeField] public WeaponData WeaponData { get; private set; }
         public ReactiveProperty<Vector3> Recoil { get; set; }
         [field: SerializeField] public CrossHairTarget CrossHairTarget { get; set; }
@@ -24,14 +25,17 @@ namespace Core
         [field: SerializeField] public Transform GroundCheckerL { get; private set; }
         public ReactiveCommand<WeaponRecoilConfig> RecoilCommand { get; set; }
 
+        public IInput Input { get; private set; }
+
+
         public void InitComponents()
         {
 
             RecoilCommand = new();
            // Recoil.SkipLatestValueOnSubscribe();
-         
+           
             AnimatorIK = _animatorIK;
-
+            Input = new Input.Input();
         }
 
         

@@ -8,6 +8,8 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
+using static UnityEngine.Input;
+
 
 namespace Core
 {
@@ -34,25 +36,18 @@ namespace Core
 
         private bool _IsProccessRig;
         public GameObject PuppetObject => _puppetObject;
-        
+
         public PuppetMaster PuppetMaster => _puppetMaster;
         
         public Animator Animator => _animator;
-
         
-        public void Dispose()
-        {
 
-            foreach(var weap in _weaponData.Weapons)
-            {
-                weap.Muzzle.Dispose();
-            }
-        }
+        public void Dispose() => _weaponData.Weapons.ForEach(disposable => disposable.Muzzle.Dispose());
+
 
 
         private void Awake()
         {
-            
             _weaponData ??= GetComponent<WeaponData>();
             _animator ??= GetComponent<Animator>();
              
@@ -174,10 +169,7 @@ namespace Core
 
         private void UpdateAimingIK()
         {
-
             SetActiveAimingIK(_weaponData.CurrentWeapon, true);
-
-           
         }
 
        
@@ -297,7 +289,7 @@ namespace Core
         public void SetActiveAimingIK(Weapon currentWeapon, bool isActive)
         {
 
-            bool isAiming = Input.GetMouseButton(1) ? true : false;
+            bool isAiming = GetMouseButton(1) ? true : false;
             _animator.SetBool("IsAiming", isAiming);
         }
 

@@ -4,6 +4,7 @@ using RootMotion.Dynamics;
 using UniRx;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
+using static UnityEngine.Input;
 
 
 namespace Core
@@ -55,12 +56,12 @@ namespace Core
             if (_animatorIK.PuppetObject.transform.localPosition.y == 0 ||
                 _animatorIK.PuppetMaster.state != PuppetMaster.State.Alive )
             {
-                _direction.x = Input.GetAxis("Horizontal");
-                _direction.z = Input.GetAxis("Vertical");
+                _direction.x = GetAxis("Horizontal");
+                _direction.z = GetAxis("Vertical");
                 _direction.y = 0;
                 _animatorIK.SetFloat("Horizontal", _direction.x, 1 / Time.deltaTime);
                 _animatorIK.SetFloat("Vertical", _direction.z, 1 / Time.deltaTime);
-                _animatorIK.SetBool("IsRun", Input.GetKey(KeyCode.LeftShift) ? true : false);
+                _animatorIK.SetBool("IsRun", GetKey(KeyCode.LeftShift) ? true : false);
             }
             else
             {
@@ -92,7 +93,7 @@ namespace Core
 
             float currentSpeed = 0f;
 
-            if (Input.GetKey(KeyCode.LeftShift))
+            if (GetKey(KeyCode.LeftShift))
             {
                 if (Mathf.Abs(_direction.z) > 0 || Mathf.Abs(_direction.x) > 0)
                     currentSpeed = _speedRun;

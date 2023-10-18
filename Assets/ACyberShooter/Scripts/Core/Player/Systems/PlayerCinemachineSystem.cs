@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using UniRx;
 using Cinemachine;
 using Configs;
+using static UnityEngine.Input;
+
 
 namespace Core
 {
@@ -76,7 +78,7 @@ namespace Core
         {
             if (_recoilDuration > 0)
             {
-                float recoilModifier = Input.GetMouseButton(1) ?  0.3f : 0.7f;
+                float recoilModifier = GetMouseButton(1) ?  0.3f : 0.7f;
                 _config.Y_Axis.Value -= (_verticalRecoil/ 10 * Time.deltaTime)/_recoilDuration * recoilModifier;
                 _recoilDuration -= Time.deltaTime;
             }

@@ -4,6 +4,7 @@ using Core;
 using UniRx;
 using UnityEngine;
 
+
 namespace Abstracts
 {
 
@@ -13,6 +14,7 @@ namespace Abstracts
         IAnimatorIK AnimatorIK { get; }
         ReactiveCommand<WeaponRecoilConfig> RecoilCommand { get; set; }
         WeaponData WeaponData { get; }
+
         CameraConfig CameraConfig { get; }
         Transform CameraLookAt { get; set; }
         CinemachineCameraConfig CinemachineCameraConfig { get; set; }
@@ -20,6 +22,7 @@ namespace Abstracts
         JumpConfig JumpConfig { get;}
         Transform GroundCheckerR { get; }
         Transform GroundCheckerL { get; }
+        IInput Input { get; }
         void InitComponents();
 
 

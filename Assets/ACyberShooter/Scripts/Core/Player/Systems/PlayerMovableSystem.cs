@@ -14,6 +14,8 @@ namespace Core
 
         IGameComponents _components;
         IAnimatorIK _animatorIK;
+        private PlayerInput _input;
+        
         float _speedWalk = 12f;
         float _speedRun = 22f;
 
@@ -35,7 +37,7 @@ namespace Core
 
             _rb.MovePosition(_rb.position + _direction * _speedWalk * Time.fixedDeltaTime);
 
-            if ((Mathf.Abs(_direction.x) > 0 || Mathf.Abs(_direction.z) > 0) || Input.GetMouseButton(1) || Input.GetMouseButton(0))
+            if ((Mathf.Abs(_direction.x) > 0 || Mathf.Abs(_direction.y) > 0) || _input.Player.Shoot.IsPressed() || _input.Player.Aim.IsPressed())
                 _rb.MoveRotation(_target_Rotation);
         }
 
@@ -44,6 +46,7 @@ namespace Core
         {
 
             _components = components;
+            _input = _components.BaseObject.GetComponent<IComponentsStorage>().Input.PlayerInput;
             _rb = components.BaseObject.GetComponent<Rigidbody>();
             _rotation = Vector3.zero;
             _animatorIK = components.BaseObject.GetComponent<IPlayer>().ComponentsStorage.AnimatorIK;
@@ -59,12 +62,12 @@ namespace Core
             if (_animatorIK.PuppetObject.transform.localPosition.y == 0 ||
                 _animatorIK.PuppetMaster.state != PuppetMaster.State.Alive )
             {
-                _direction.x = Input.GetAxis("Horizontal");
-                _direction.z = Input.GetAxis("Vertical");
-            
+                _direction.x = _input.Player.Move.ReadValue<Vector2>().x;
+                _direction.z = _input.Player.Move.ReadValue<Vector2>().y;
+
                 _animatorIK.SetFloat("Horizontal", _direction.x, 1 / Time.deltaTime);
                 _animatorIK.SetFloat("Vertical", _direction.z, 1 / Time.deltaTime);
-                _animatorIK.SetBool("IsRun", Input.GetKey(KeyCode.LeftShift) ? true : false);
+                _animatorIK.SetBool("IsRun", _input.Player.Accelerate.IsPressed() ? true : false);
             }
             else
             {
@@ -85,7 +88,7 @@ namespace Core
              CheckFallenState();
             float currentSpeed = 0f;
 
-            if (Input.GetKey(KeyCode.LeftShift))
+            if (_input.Player.Accelerate.IsPressed())
             {
 
                 if (Mathf.Abs(_direction.z) > 0 || Mathf.Abs(_direction.x) > 0)

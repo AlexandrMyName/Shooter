@@ -1,6 +1,7 @@
 ﻿using Abstracts;
 using Configs;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 
 namespace Core
@@ -11,6 +12,7 @@ namespace Core
         
         private IGameComponents _components;
         private JumpConfig _jumpConfig;
+        private PlayerInput _input;
 
         private Rigidbody _rigidbody;
         private CapsuleCollider _collider;
@@ -18,6 +20,7 @@ namespace Core
         private Animator _animator;
         private Transform _groundTransformR;
         private Transform _groundTransformL;
+
         private LayerMask _groundLayer;
         
         private float _jumpForce;
@@ -26,6 +29,7 @@ namespace Core
 
         private float _defaultColliderHeight;
         private float _jumpColliderHeight;
+
         
 
         private RaycastHit hitInfo;
@@ -44,6 +48,7 @@ namespace Core
         protected override void Awake(IGameComponents components)
         {
             _components = components;
+            _input = _components.BaseObject.GetComponent<IComponentsStorage>().Input.PlayerInput;
             _rigidbody = components.BaseObject.GetComponent<Rigidbody>();
             _collider = components.BaseObject.GetComponent<CapsuleCollider>();
             _defaultColliderHeight = _collider.height;
@@ -53,6 +58,7 @@ namespace Core
             _jumpConfig = components.BaseObject.GetComponent<IPlayer>().ComponentsStorage.JumpConfig;
             _groundTransformR = components.BaseObject.GetComponent<IPlayer>().ComponentsStorage.GroundCheckerR;
             _groundTransformL = components.BaseObject.GetComponent<IPlayer>().ComponentsStorage.GroundCheckerL;
+
             _groundLayer = _jumpConfig.GroundLayer;
             _jumpForce = _jumpConfig.JumpForce;
             _groundCastRadius = _jumpConfig.GroundCastRadius;
@@ -69,7 +75,7 @@ namespace Core
         
         protected override void Update()
         {
-            _isJumpPressed = Input.GetButtonDown("Jump");
+            _isJumpPressed = _input.Player.Jump.IsPressed();
 
             if (_isJumpPressed && _isGrounded)
             {
@@ -101,7 +107,7 @@ namespace Core
 
             // if (_isGrounded)
             //     Debug.Log("I'm GROUNDED");
-            
+
             if (_isJumpReady && _isGrounded)
             {
                 _isJumpReady = false;

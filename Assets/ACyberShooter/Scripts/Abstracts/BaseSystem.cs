@@ -14,6 +14,7 @@ namespace Abstracts
         protected virtual void LateUpdate() { }
         protected virtual void OnDestroy() { }
         protected virtual void OnDrawGizmos() {}
+        protected virtual void OnDisable() { }
 
         #region baseImplement
 
@@ -25,6 +26,7 @@ namespace Abstracts
         public void BaseLateUpdate() => LateUpdate();
         public void BaseOnDestroy() => OnDestroy();
         public void BaseOnDrawGizmos() => OnDrawGizmos();
+        public void BaseOnDisable() => OnDisable();
 
         #endregion
     }

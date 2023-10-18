@@ -23,7 +23,7 @@ namespace Core
 
              return new List<ISystem>()
              {
-
+                 new PlayerInputSystem(),
                  new PlayerLocomotionSystem(),
                  new PlayerShootSystem(),
                  new PlayerJumpSystem(),
