@@ -21,7 +21,7 @@ namespace MVC.Controllers
         public CrosshairController(IViewProvider viewProvider)
         {
             _crosshairView = viewProvider.GetView<GUIView>().CrosshairView;
-            //ShootingEvents.OnShoot += TryChangeScale;
+            ShootingEvents.OnCrosshairScaleChange += TryChangeScale;
         }
 
         public void Initialisation()
@@ -29,7 +29,7 @@ namespace MVC.Controllers
             _isIncreasing = true;
             _currentScaleDelta = 0;
             _currentShowHitFrames = 0;
-            _pulseSize = _crosshairView.MaxScaleDelta/10;
+            _pulseSize = _crosshairView.MaxScaleDelta / 10;
             _crosshairView.HitMarkerObject.SetActive(false);
             EnemyEvents.OnDamaged += ShowHitTemporary;
         }
@@ -51,7 +51,7 @@ namespace MVC.Controllers
         public void Cleanup()
         {
             EnemyEvents.OnDamaged -= ShowHitTemporary;
-            //ShootingEvents.OnShoot -= TryChangeScale;
+            ShootingEvents.OnCrosshairScaleChange -= TryChangeScale;
         }
 
         private void ShowHitTemporary()
@@ -60,7 +60,7 @@ namespace MVC.Controllers
             _isHitShowed = true;
         }
 
-        public void TryChangeScale(bool isShooting, ShootingType shootingType, float animationSpeed, float spreadingModifier)
+        public void TryChangeScale(bool isShooting, float spreadingModifier)
         {
             if (isShooting)
             {
