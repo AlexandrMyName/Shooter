@@ -311,6 +311,15 @@ namespace Core
             {
                 _spreadingModifier += spreadDelta * maxSpreadDelta;
             }
+
+            if (spreadDelta > 0)
+            {
+                ShootingEvents.CrosshairScaleChange(true, _spreadingModifier);
+            }
+            else
+            {
+                ShootingEvents.CrosshairScaleChange(false, _spreadingModifier);
+            }
         }
 
 
