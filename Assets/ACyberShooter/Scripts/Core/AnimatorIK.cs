@@ -1,5 +1,7 @@
 using Abstracts;
 using RootMotion.Dynamics;
+using ShootingSystem;
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
@@ -50,7 +52,7 @@ namespace Core
              
             _weaponData.InitData();
 
-            SetRigWeaponState();
+            SetRigWeaponState(_weaponData.CurrentWeapon.Type, false);
 
 
         }
@@ -83,10 +85,14 @@ namespace Core
         }
 
 
-        private void SetRigWeaponState()
+        private void SetRigWeaponState(IWeaponType weaponType, bool isEquiped)
         {
-            if (_rigController != null)
-                _rigController.Play(_weaponData.CurrentWeapon.Type.ToString() + "Unequip", 0);
+            if (_rigController != null) {
+
+                string equipmentState = isEquiped ? "Equip" : "Unequip"; 
+                _rigController.Play(weaponType.ToString() + equipmentState, 0);
+
+            }
         }
 
 
@@ -130,36 +136,95 @@ namespace Core
         {
              
             Weapon weapon = _weaponData.Weapons.Where(weapon => weapon.Type == weaponType).FirstOrDefault();
-
-            Debug.Log($"{weapon == null} Weapon is null | {weapon == _weaponData.CurrentWeapon}");
-
+             
             if (weapon == null) return;
-
-            var currentWeaponActiveState = _weaponData.CurrentWeapon.IsActive;
-
+             
             DeactivateAllWeapons();
 
-            _rigController.SetBool(_weaponData.CurrentWeapon.Type.ToString() + "Equip", false);
-              
-            _rigController.SetBool(weapon.Type.ToString() + "Equip", !weapon.IsActive);
-             
-            weapon.IsActive = !weapon.IsActive;
-             
-            if(weapon.IsActive)
-            ActivateMuzzle(weapon);
-            else
-            {
-                 
-            }
+            // if(currentWeaponActiveState)
 
-            _weaponData.CurrentWeapon = weapon;
+            StartCoroutine(SwitchWeaponRig(weapon));
+             
+           
         }
          
          
+        private IEnumerator ActivateWeaponRig(Weapon weapon)
+        {
+
+            bool isAllready = weapon.Type == _weaponData.CurrentWeapon.Type;
+
+            if (!isAllready)
+            {
+                SetRigWeaponState(weapon.Type, true);
+                _rigController.SetBool(_weaponData.CurrentWeapon.Type.ToString() + "Equip",true);
+
+                do
+                {
+                    yield return new WaitForEndOfFrame();
+                }
+                while (_rigController.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f);
+                
+            }
+            else if(!_weaponData.CurrentWeapon.IsActive)
+            {
+                _rigController.SetBool(_weaponData.CurrentWeapon.Type.ToString() + "Equip", true);
+
+                yield return new WaitForSeconds(.1f);
+                do
+                {
+                    yield return new WaitForEndOfFrame();
+                }
+                while (_rigController.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f);
+
+                 
+                _weaponData.CurrentWeapon.IsActive = true;
+            }
+            
+            _weaponData.CurrentWeapon = weapon;
+             
+            ActivateMuzzle(weapon);
+
+            yield break;
+        }
+
+
+        private IEnumerator ActivateHolsterRig(Weapon weapon)
+        {
+             
+            if (_weaponData.CurrentWeapon.IsActive)
+            {
+                _rigController.SetBool(_weaponData.CurrentWeapon.Type.ToString() + "Equip", false);
+           
+                yield return new WaitForSeconds(.1f); 
+                do
+                {
+                    yield return new WaitForEndOfFrame();
+                }
+                while (_rigController.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f);
+
+                _weaponData.CurrentWeapon.Muzzle.Disable();
+
+                _weaponData.CurrentWeapon.IsActive = false;
+            }
+           
+        }
+
+
+        private IEnumerator SwitchWeaponRig(Weapon weapon)
+        {
+
+            yield return StartCoroutine(ActivateHolsterRig(weapon));
+             
+            yield return StartCoroutine(ActivateWeaponRig(weapon)); 
+            
+        }
+
+
         private void ActivateMuzzle(Weapon weapon)
         {
        
-             //weapon.WeaponObject.SetActive(true);
+            weapon.IsActive = true;
             weapon.Muzzle.Activate();
         
   

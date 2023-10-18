@@ -21,10 +21,7 @@ namespace Core
  
         [field:SerializeField] public WeaponModel_View PrimaryWeaponViewsFab { get; set; }
         [field: SerializeField] public WeaponModel_View SecondaryWeaponViewsFab { get; set; }
-
-        [SerializeField] private Transform _primaryWeaponSlot;
-        [SerializeField] private Transform _secondaryWeaponSlot;    
-
+   
         [SerializeField] private Transform _playerRoot;
         [SerializeField] private Transform _weaponsRoot;
 
@@ -42,8 +39,14 @@ namespace Core
 
         public void InitData()
         {
-            AddWeapon(PrimaryWeaponViewsFab, true, _primaryWeaponSlot);
-            AddWeapon(SecondaryWeaponViewsFab, false, _secondaryWeaponSlot);
+            if(PrimaryWeaponViewsFab != null)
+                AddWeapon(PrimaryWeaponViewsFab, false, _weaponsRoot);
+
+            if (SecondaryWeaponViewsFab != null)
+            {
+                AddWeapon(SecondaryWeaponViewsFab, false, _weaponsRoot);
+                
+            }
              
             if (Weapons.Count > 0)
             {
