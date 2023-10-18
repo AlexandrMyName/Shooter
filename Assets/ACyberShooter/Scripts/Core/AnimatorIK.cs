@@ -1,5 +1,6 @@
 using Abstracts;
 using RootMotion.Dynamics;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
@@ -13,7 +14,7 @@ namespace Core
         [Header("IK Animator"), Space(20)]
 
         [SerializeField] private Animator _animator;
-
+        [SerializeField] private Animator _rigController;
         [SerializeField] private IWeaponType _defaultWeapon;
   
         [SerializeField] private WeaponData _weaponData;
@@ -32,8 +33,14 @@ namespace Core
 
 
         public void Dispose()
-        => _weaponData.Weapons.ForEach(disposable => disposable.Muzzle.Dispose());
-        
+        {
+
+            foreach(var weap in _weaponData.Weapons)
+            {
+                weap.Muzzle.Dispose();
+            }
+        }
+
 
         private void Awake()
         {
@@ -42,6 +49,10 @@ namespace Core
             _animator ??= GetComponent<Animator>();
              
             _weaponData.InitData();
+
+            SetRigWeaponState();
+
+
         }
 
 
@@ -52,7 +63,7 @@ namespace Core
             _animator ??= GetComponent<Animator>();
         }
 
-
+         
         public void SetLayerWeight(int indexLayer, float weight) => _animator.SetLayerWeight(indexLayer, weight);
            
         
@@ -65,13 +76,19 @@ namespace Core
 
         private void Update()
         {
-
-            
+             
              if(_weaponData.CurrentWeapon != null)
                 UpdateAimingIK();
-             
-
+              
         }
+
+
+        private void SetRigWeaponState()
+        {
+            if (_rigController != null)
+                _rigController.Play(_weaponData.CurrentWeapon.Type.ToString() + "Unequip", 0);
+        }
+
 
         private void UpdateAimingIK()
         {
@@ -112,13 +129,28 @@ namespace Core
         public void SetWeaponState(IWeaponType weaponType)
         {
              
-            Weapon weapon = _weaponData.Weapons.Find(weapon => weapon.Type == weaponType);
+            Weapon weapon = _weaponData.Weapons.Where(weapon => weapon.Type == weaponType).FirstOrDefault();
 
-            if (weapon == null || weapon == _weaponData.CurrentWeapon) return;
-             
+            Debug.Log($"{weapon == null} Weapon is null | {weapon == _weaponData.CurrentWeapon}");
+
+            if (weapon == null) return;
+
+            var currentWeaponActiveState = _weaponData.CurrentWeapon.IsActive;
+
             DeactivateAllWeapons();
- 
+
+            _rigController.SetBool(_weaponData.CurrentWeapon.Type.ToString() + "Equip", false);
+              
+            _rigController.SetBool(weapon.Type.ToString() + "Equip", !weapon.IsActive);
+             
+            weapon.IsActive = !weapon.IsActive;
+             
+            if(weapon.IsActive)
             ActivateMuzzle(weapon);
+            else
+            {
+                 
+            }
 
             _weaponData.CurrentWeapon = weapon;
         }
@@ -126,10 +158,10 @@ namespace Core
          
         private void ActivateMuzzle(Weapon weapon)
         {
-            Debug.Log("S");
-            weapon.WeaponObject.SetActive(true);
+       
+             //weapon.WeaponObject.SetActive(true);
             weapon.Muzzle.Activate();
-           // weapon.HandsRig.weight = 1f;
+        
   
         }
          
@@ -159,7 +191,7 @@ namespace Core
                // weapon.AimingRig.weight = 0f;
                // weapon.NoAimingRig.weight = 0f;
                // weapon.HandsRig.weight = 0f;
-                weapon.WeaponObject.SetActive(false);
+               // weapon.WeaponObject.SetActive(false);
                 weapon.Muzzle.Disable();
             }
         }

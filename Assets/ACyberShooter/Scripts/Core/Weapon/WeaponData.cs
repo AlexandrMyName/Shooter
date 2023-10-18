@@ -1,5 +1,3 @@
-using ShootingSystem;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,7 +6,9 @@ using UnityEditor.Animations;
 #endif
 
 using UnityEngine;
+using UnityEngine.UIElements;
 using Views;
+
 
 namespace Core
 {
@@ -17,13 +17,13 @@ namespace Core
     public class WeaponData : MonoBehaviour
     {
 
-        [HideInInspector] public List<Weapon> Weapons = new List<Weapon>();
-        [field: SerializeField] public List<WeaponModel_View> _weaponViewsFab { get; set; }
+        [HideInInspector] public List<Weapon> Weapons = new();
+ 
+        [field:SerializeField] public WeaponModel_View PrimaryWeaponViewsFab { get; set; }
+        [field: SerializeField] public WeaponModel_View SecondaryWeaponViewsFab { get; set; }
 
-        [Header("Base controller - ovveridable! Animations - tackelage!")]
-        [Space, SerializeField] private string _emptyWeaponNameClip = "EmptyWeapon"; 
-        private Animator _animator;
-        private AnimatorOverrideController _ovverideController;
+        [SerializeField] private Transform _primaryWeaponSlot;
+        [SerializeField] private Transform _secondaryWeaponSlot;    
 
         [SerializeField] private Transform _playerRoot;
         [SerializeField] private Transform _weaponsRoot;
@@ -39,96 +39,54 @@ namespace Core
 
         public Weapon CurrentWeapon { get; set; }
 
-        
+
         public void InitData()
         {
-
-            _animator ??= GetComponent<Animator>();
-            _ovverideController = _animator.runtimeAnimatorController as AnimatorOverrideController;
-            
-
-            _weaponViewsFab.ForEach(weaponView => AddWeapon(weaponView,false));
-
-            if(Weapons.Count > 0)
-            {
-                CurrentWeapon = Weapons[0];
-                ActivateCurrentWeapon();
-            }
-          
+            AddWeapon(PrimaryWeaponViewsFab, true, _primaryWeaponSlot);
+            AddWeapon(SecondaryWeaponViewsFab, false, _secondaryWeaponSlot);
              
+            if (Weapons.Count > 0)
+            {
+                
+                CurrentWeapon = Weapons.First();
+                CurrentWeapon.WeaponObject.SetActive(true);
+                CurrentWeapon.IsActive = false;
+            }
+
         }
 
 
-        public void AddWeapon(WeaponModel_View weaponView, bool isActivate)
+        public void AddWeapon(WeaponModel_View weaponView, bool isActivate, Transform weaponSlot)
         {
-
+             
             Weapon addedWeapon = weaponView.GetWeapon();
-            Weapon findedWeapon = Weapons.Where(weap => weap.Type != addedWeapon.Type).FirstOrDefault();
+            Weapon findedWeapon = Weapons.Find(weap => weap.Type == addedWeapon.Type);
 
-            if(findedWeapon == null)
+            if (findedWeapon == null)
             {
-                
-                var viewInstance = GameObject.Instantiate(weaponView, _weaponsRoot);
+
+                var viewInstance = GameObject.Instantiate(weaponView, weaponSlot);
+
+
                 Weapons.Add(viewInstance.GetWeapon());
 
                 Weapon newWeapon = viewInstance.GetWeapon();
 
                 newWeapon.Muzzle.InitPool(_ignoreRaycastLayerMask, newWeapon.MuzzleFlash, _crossHairTransform, _hitEffect);
 
-                if (isActivate)
-                {
-                    Weapons.ForEach(weapon => { 
-                        weapon.WeaponObject.SetActive(!isActivate);
-                        weapon.Muzzle.Disable();
-                    });
-                     
-                }
                 
-                newWeapon.WeaponObject.SetActive(isActivate);
+               
+                newWeapon.IsActive = isActivate;
+                
+                newWeapon.WeaponObject.SetActive(true);
 
-                _animator.SetLayerWeight(1, 1.0f);
+
             }
             else
             {
-                //Already 
+                //Already - weapon can be refreshed
             }
         }
-
-
-        public void ActivateCurrentWeapon()
-        {
-
-            if (CurrentWeapon == null) return;
-
-            CurrentWeapon.WeaponObject.SetActive(true);
-            CurrentWeapon.Muzzle.Activate();
-            Invoke(nameof(SetAnimationDelay), 0.001f);
-        }
-
-        private void SetAnimationDelay()
-        {
-           
-            _ovverideController[_emptyWeaponNameClip] = CurrentWeapon._weaponClip;
-        }
-
-
-#if UNITY_EDITOR
-        [ContextMenu("SaveWeaponPos")]
-        private void SaveWeaponPose()
-        {
-
-            if (CurrentWeapon == null) return;
-
-            GameObjectRecorder recorder = new GameObjectRecorder(_playerRoot.gameObject);
-
-            recorder.BindComponentsOfType<Transform>(CurrentWeapon.WeaponObject, false);
-            recorder.BindComponentsOfType<Transform>(CurrentWeapon.LeftHandTarget.gameObject, false);
-            recorder.BindComponentsOfType<Transform>(CurrentWeapon.RightHandTarget.gameObject, false);
-  
-            recorder.TakeSnapshot(0.0f); // one frame
-            recorder.SaveToClip(CurrentWeapon._weaponClip);
-        }
+         
     }
-#endif
-     
 }

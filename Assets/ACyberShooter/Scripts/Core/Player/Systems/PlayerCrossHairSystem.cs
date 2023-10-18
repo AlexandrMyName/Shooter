@@ -61,6 +61,7 @@ namespace Core
                     = Quaternion.SlerpUnclamped(_crossHairParent.rotation, newRot,
                         Time.deltaTime * _componentsStorage.CameraConfig.CameraSpeedMultiplier);
                 
+           
         }
 
         public void Dispose() { } 
