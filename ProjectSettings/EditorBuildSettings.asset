@@ -5,13 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: ca2acd74d022dcc428d94d0dcdf835d5
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Test/WhiteBoxTest.unity
     guid: b8efe426545e8794c853f8d3255cd6a4
-  - enabled: 1
+  - enabled: 0
     path: Assets/ACyberShooter/Scenes/TestIK_AIMING.unity
     guid: 4739a8dd8c883e3468e4b659c9a3bdc6
   m_configObjects: {}
