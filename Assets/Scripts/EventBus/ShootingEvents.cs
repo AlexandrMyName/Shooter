@@ -9,7 +9,8 @@ namespace EventBus
     {
         public static event Action<bool> OnTryShoot;
         public static event Action<bool, ShootingType, float> OnShoot;
-        public static event Action<bool> OnCameraDirectionRotate; 
+        public static event Action<bool, float> OnCrosshairScaleChange;
+        public static event Action<bool> OnCameraDirectionRotate;
         public static event Action<bool> OnAim;
         public static event Action OnReload;
         public static event Action<int> OnAmmoCountChanged;
@@ -23,6 +24,10 @@ namespace EventBus
         public static void Shoot(bool isShooting, ShootingType shootingType, float animationSpeed)
         {
             OnShoot?.Invoke(isShooting, shootingType, animationSpeed);
+        }
+        public static void CrosshairScaleChange(bool isShooting, float spreadingModifier)
+        {
+            OnCrosshairScaleChange?.Invoke(isShooting, spreadingModifier);
         }
 
         public static void RotateToCameraDirection(bool isRotating)
@@ -49,6 +54,6 @@ namespace EventBus
         {
             OnAmmoCountInMagazineChanged?.Invoke(ammoCount);
         }
-        
+
     }
 }

@@ -33,5 +33,6 @@ namespace Player
             Saver.Save(new PlayerPrefsParserModule());
             PlayerPrefs.Save();
         }
+
     }
 }
