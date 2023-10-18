@@ -60,7 +60,10 @@ namespace EnemySystem
             Collider[] colliders = Physics.OverlapSphere(transform.position, _enemyConfig.MeleeDistance, 1 << _playerRagdolLayerIndex);
             if (colliders.Length > 0)
             {
-                _playerView.TakeDamage(_enemyConfig.EnemyDamage);
+                if (!_enemyView.IsDead)
+                {
+                    _playerView.TakeDamage(_enemyConfig.EnemyDamage);
+                }
                 _isRushing = false;
             }
         }
