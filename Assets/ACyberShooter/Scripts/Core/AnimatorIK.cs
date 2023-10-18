@@ -28,8 +28,8 @@ namespace Core
         [SerializeField] private GameObject _puppetObject;
         [SerializeField] private PuppetMaster _puppetMaster;
 
-         
 
+        private bool _IsProccessRig;
         public GameObject PuppetObject => _puppetObject;
         public PuppetMaster PuppetMaster => _puppetMaster;
 
@@ -52,8 +52,15 @@ namespace Core
              
             _weaponData.InitData();
 
-            SetRigWeaponState(_weaponData.CurrentWeapon.Type, false);
+            //SetRigWeaponState(_weaponData.CurrentWeapon.Type, false);
 
+            StartCoroutine(SwitchWeaponRig(_weaponData.CurrentWeapon));
+
+            _weaponData.Weapons.ForEach(weap =>
+            {
+                weap.Muzzle.Disable();
+            });
+            
 
         }
 
@@ -134,15 +141,14 @@ namespace Core
        
         public void SetWeaponState(IWeaponType weaponType)
         {
-             
+             if(_IsProccessRig) return;
             Weapon weapon = _weaponData.Weapons.Where(weapon => weapon.Type == weaponType).FirstOrDefault();
              
             if (weapon == null) return;
-             
+            if (weapon.Type == _weaponData.CurrentWeapon.Type) return;
             DeactivateAllWeapons();
-
-            // if(currentWeaponActiveState)
-
+             
+            
             StartCoroutine(SwitchWeaponRig(weapon));
              
            
@@ -151,7 +157,7 @@ namespace Core
          
         private IEnumerator ActivateWeaponRig(Weapon weapon)
         {
-
+             
             bool isAllready = weapon.Type == _weaponData.CurrentWeapon.Type;
 
             if (!isAllready)
@@ -184,14 +190,18 @@ namespace Core
             _weaponData.CurrentWeapon = weapon;
              
             ActivateMuzzle(weapon);
-
+            _IsProccessRig = false;
             yield break;
         }
 
 
         private IEnumerator ActivateHolsterRig(Weapon weapon)
         {
+
              
+            _IsProccessRig = true;
+
+            
             if (_weaponData.CurrentWeapon.IsActive)
             {
                 _rigController.SetBool(_weaponData.CurrentWeapon.Type.ToString() + "Equip", false);
@@ -203,7 +213,7 @@ namespace Core
                 }
                 while (_rigController.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f);
 
-                _weaponData.CurrentWeapon.Muzzle.Disable();
+               
 
                 _weaponData.CurrentWeapon.IsActive = false;
             }
@@ -253,10 +263,7 @@ namespace Core
 
             foreach(var weapon in _weaponData.Weapons)
             {
-               // weapon.AimingRig.weight = 0f;
-               // weapon.NoAimingRig.weight = 0f;
-               // weapon.HandsRig.weight = 0f;
-               // weapon.WeaponObject.SetActive(false);
+ 
                 weapon.Muzzle.Disable();
             }
         }

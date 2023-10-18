@@ -20,8 +20,9 @@ namespace Core
         [HideInInspector] public List<Weapon> Weapons = new();
  
         [field:SerializeField] public WeaponModel_View PrimaryWeaponViewsFab { get; set; }
+        [SerializeField] private Transform _primaryRoot;
         [field: SerializeField] public WeaponModel_View SecondaryWeaponViewsFab { get; set; }
-   
+        [SerializeField] private Transform _secondaryRoot;
         [SerializeField] private Transform _playerRoot;
         [SerializeField] private Transform _weaponsRoot;
 
@@ -40,11 +41,11 @@ namespace Core
         public void InitData()
         {
             if(PrimaryWeaponViewsFab != null)
-                AddWeapon(PrimaryWeaponViewsFab, false, _weaponsRoot);
+                AddWeapon(PrimaryWeaponViewsFab, _primaryRoot);
 
             if (SecondaryWeaponViewsFab != null)
             {
-                AddWeapon(SecondaryWeaponViewsFab, false, _weaponsRoot);
+                AddWeapon(SecondaryWeaponViewsFab, _secondaryRoot);
                 
             }
              
@@ -52,14 +53,13 @@ namespace Core
             {
                 
                 CurrentWeapon = Weapons.First();
-                CurrentWeapon.WeaponObject.SetActive(true);
                 CurrentWeapon.IsActive = false;
             }
 
         }
 
 
-        public void AddWeapon(WeaponModel_View weaponView, bool isActivate, Transform weaponSlot)
+        public void AddWeapon(WeaponModel_View weaponView, Transform weaponSlot)
         {
              
             Weapon addedWeapon = weaponView.GetWeapon();
@@ -76,14 +76,9 @@ namespace Core
                 Weapon newWeapon = viewInstance.GetWeapon();
 
                 newWeapon.Muzzle.InitPool(_ignoreRaycastLayerMask, newWeapon.MuzzleFlash, _crossHairTransform, _hitEffect);
-
-                
-               
-                newWeapon.IsActive = isActivate;
-                
+                  
                 newWeapon.WeaponObject.SetActive(true);
-
-
+                 
             }
             else
             {
