@@ -17,7 +17,9 @@ namespace Abstracts
         void SetBool(string keyID, bool value);
         void SetWeaponState(IWeaponType weaponType);
         GameObject PuppetObject { get; }
-        public PuppetMaster PuppetMaster { get; }
+        PuppetMaster PuppetMaster { get; }
+
+        Animator Animator { get; }
 
     }
 }

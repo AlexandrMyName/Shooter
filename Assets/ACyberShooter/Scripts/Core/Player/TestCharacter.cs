@@ -25,7 +25,7 @@ namespace Core
                  new PlayerCrossHairSystem(),
                  new PlayerMovableSystem(),
                  new PlayerShootSystem(),
-
+                 new PlayerJumpSystem()
              };
         }
     }

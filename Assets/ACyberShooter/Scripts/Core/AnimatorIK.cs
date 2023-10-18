@@ -34,7 +34,10 @@ namespace Core
 
         private bool _IsProccessRig;
         public GameObject PuppetObject => _puppetObject;
+        
         public PuppetMaster PuppetMaster => _puppetMaster;
+        
+        public Animator Animator => _animator;
 
         
         public void Dispose()
