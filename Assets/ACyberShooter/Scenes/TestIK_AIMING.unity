@@ -2039,6 +2039,7 @@ GameObject:
   m_Component:
   - component: {fileID: 877310005}
   - component: {fileID: 877310006}
+  - component: {fileID: 877310007}
   m_Layer: 8
   m_Name: ---RIG---
   m_TagString: Untagged
@@ -2087,6 +2088,21 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &877310007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 877310004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27dbc17089e197144933df26c365eb4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _weaponData: {fileID: 2355088347078151154}
+  LeftHandPoint: {fileID: 2355088347907563898}
+  RightHandPoint: {fileID: 2355088346814484271}
 --- !u!1 &882451203
 GameObject:
   m_ObjectHideFlags: 0

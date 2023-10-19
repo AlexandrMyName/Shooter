@@ -102,6 +102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _weapon:
+    Magazine: {fileID: 16450506974917413}
     WeaponObject: {fileID: 16344661316192893}
     Type: 1
     RigDuration: 0.175

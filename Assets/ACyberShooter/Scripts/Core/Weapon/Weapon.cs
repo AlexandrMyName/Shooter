@@ -16,7 +16,8 @@ namespace Core
     [Serializable]
     public class Weapon
     {
-  
+
+        public GameObject Magazine;
         public GameObject WeaponObject;
         public IWeaponType Type; // oops, this not interface)
        

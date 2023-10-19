@@ -62,7 +62,7 @@ namespace Core
             StartCoroutine(InitDefaultWeapon(_weaponData.Weapons[0],_weaponData.Weapons[1], _weaponData.Weapons[2]));
 
             ShootingEvents.OnShoot += SetShootAnimation;
-
+            ShootingEvents.OnReload += SetReloadAnimation;
         }
 
         private void OnValidate()
@@ -126,21 +126,21 @@ namespace Core
 
         public void SetShootAnimation(bool isAct,ShootingType type,float value)
         {
-            if(isAct) 
-            if(_weaponData.CurrentWeapon.Type == IWeaponType.Pistol)
-            {
-                _rigController.Play(_weaponData.CurrentWeapon.Type.ToString() + "Recoil", 1);
-            }
 
+            if(isAct)
+             _rigController.Play(_weaponData.CurrentWeapon.Type.ToString() + "Recoil", 1);
+        }
+
+
+        public void SetReloadAnimation()
+        {
+             
             if (_weaponData.CurrentWeapon.Type == IWeaponType.Auto)
             {
-                _rigController.Play(_weaponData.CurrentWeapon.Type.ToString() + "Recoil", 1);
+                _rigController.SetTrigger(_weaponData.CurrentWeapon.Type.ToString() + "Reload");
             }
 
-            if (_weaponData.CurrentWeapon.Type == IWeaponType.Rocket)
-            {
-                _rigController.Play(_weaponData.CurrentWeapon.Type.ToString() + "Recoil", 1);
-            }
+            
         }
 
 
