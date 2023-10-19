@@ -9,7 +9,7 @@ namespace Abstracts
         None = 0,
         Auto = 1,
         Pistol = 2,
-        RocketLauncher = 3,
+        Rocket = 3,
         // etc
     }
 }

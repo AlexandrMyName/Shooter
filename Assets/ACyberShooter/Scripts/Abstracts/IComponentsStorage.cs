@@ -9,6 +9,7 @@ namespace Abstracts
     {
 
         IAnimatorIK AnimatorIK { get; }
+        WeaponData WeaponData { get; }
         CameraConfig CameraConfig { get; }
         CrossHairTarget CrossHairTarget { get; set; }
         void InitComponents();

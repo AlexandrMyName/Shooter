@@ -1,3 +1,4 @@
+using Abstracts;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,11 +19,17 @@ namespace Core
     {
 
         [HideInInspector] public List<Weapon> Weapons = new();
- 
-        [field:SerializeField] public WeaponModel_View PrimaryWeaponViewsFab { get; set; }
+        
+        [field:SerializeField, Space] public WeaponModel_View PrimaryAutoWeaponViewsFab { get; set; }
         [SerializeField] private Transform _primaryRoot;
-        [field: SerializeField] public WeaponModel_View SecondaryWeaponViewsFab { get; set; }
+        [field: SerializeField, Space] public WeaponModel_View SecondaryPistolWeaponViewsFab { get; set; }
         [SerializeField] private Transform _secondaryRoot;
+
+        [field: SerializeField, Space] public WeaponModel_View RocketLauncherWeaponViewsFab { get; set; }
+        [SerializeField] public Transform _rocketLauncherWeaponViewsFabRoot;
+
+        [Space(20)]
+
         [SerializeField] private Transform _playerRoot;
         [SerializeField] private Transform _weaponsRoot;
 
@@ -35,20 +42,25 @@ namespace Core
         [SerializeField] private Transform _crossHairTransform;
         [SerializeField] private LayerMask _ignoreRaycastLayerMask;
 
+        public int PrimaryIndex = 0;
+        public int SecondaryIndex = 1;
+         
         public Weapon CurrentWeapon { get; set; }
 
 
         public void InitData()
         {
-            if(PrimaryWeaponViewsFab != null)
-                AddWeapon(PrimaryWeaponViewsFab, _primaryRoot);
 
-            if (SecondaryWeaponViewsFab != null)
-            {
-                AddWeapon(SecondaryWeaponViewsFab, _secondaryRoot);
-                
-            }
+            if(PrimaryAutoWeaponViewsFab != null)
+                AddWeapon(PrimaryAutoWeaponViewsFab, _primaryRoot);
              
+            if (SecondaryPistolWeaponViewsFab != null)
+                AddWeapon(SecondaryPistolWeaponViewsFab, _secondaryRoot);
+                 
+            if(RocketLauncherWeaponViewsFab != null)
+                AddWeapon(RocketLauncherWeaponViewsFab, _rocketLauncherWeaponViewsFabRoot);
+  
+
             if (Weapons.Count > 0)
             {
                 
@@ -59,9 +71,11 @@ namespace Core
         }
 
 
-        public void AddWeapon(WeaponModel_View weaponView, Transform weaponSlot)
+        public void AddWeapon(WeaponModel_View weaponView, Transform weaponSlot, bool isActive = true)
         {
-             
+
+            if (weaponSlot == null) weaponSlot = _weaponsRoot;
+
             Weapon addedWeapon = weaponView.GetWeapon();
             Weapon findedWeapon = Weapons.Find(weap => weap.Type == addedWeapon.Type);
 
@@ -77,7 +91,7 @@ namespace Core
 
                 newWeapon.Muzzle.InitPool(_ignoreRaycastLayerMask, newWeapon.MuzzleFlash, _crossHairTransform, _hitEffect);
                   
-                newWeapon.WeaponObject.SetActive(true);
+                newWeapon.WeaponObject.SetActive(isActive);
                  
             }
             else
@@ -85,6 +99,11 @@ namespace Core
                 //Already - weapon can be refreshed
             }
         }
-         
+
+ 
+        public void RemoveWeapon(IWeaponType weaponType)
+        {
+
+        }
     }
 }

@@ -51,19 +51,15 @@ namespace Core
             _animator ??= GetComponent<Animator>();
              
             _weaponData.InitData();
+             
+        }
+        private void Start()
+        {
+            //This script need large refactoring
+            StartCoroutine(InitDefaultWeapon(_weaponData.Weapons[0],_weaponData.Weapons[1], _weaponData.Weapons[2]));
 
-            //SetRigWeaponState(_weaponData.CurrentWeapon.Type, false);
-
-            StartCoroutine(SwitchWeaponRig(_weaponData.CurrentWeapon));
-
-            _weaponData.Weapons.ForEach(weap =>
-            {
-                weap.Muzzle.Disable();
-            });
-            
 
         }
-
 
         private void OnValidate()
         {
@@ -72,11 +68,64 @@ namespace Core
             _animator ??= GetComponent<Animator>();
         }
 
-         
+        private IEnumerator InitDefaultWeapon(Weapon primary, Weapon secondary, Weapon rocketLauncher)
+        {
+
+            _IsProccessRig = true;
+            primary.WeaponObject.SetActive(false);
+            secondary.WeaponObject.SetActive(false);
+            rocketLauncher.WeaponObject.SetActive(false);
+
+            SetRigWeaponState(primary.Type, false);
+            _rigController.SetBool(primary.Type.ToString() + "Equip", false);
+            primary.WeaponObject.SetActive(true);
+
+            do
+            {
+                yield return null;
+            }
+            while (_rigController.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f);
+
+            primary.IsActive = false;
+
+            SetRigWeaponState(secondary.Type, false);
+            _rigController.SetBool(secondary.Type.ToString() + "Equip", false);
+            secondary.WeaponObject.SetActive(true);
+            do
+            {
+                yield return null;
+            }
+            while (_rigController.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f);
+
+            secondary.IsActive = false;
+
+
+            //SetRigWeaponState(rocketLauncher.Type, false);
+            //_rigController.SetBool(rocketLauncher.Type.ToString() + "Equip", false);
+            // rocketLauncher.WeaponObject.SetActive(true);
+            //do
+            //{
+            //    yield return null;
+            //}
+            //while (_rigController.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f);
+
+            rocketLauncher.IsActive = false;
+            _IsProccessRig = false;
+
+            rocketLauncher.WeaponObject.SetActive(true);
+            yield return StartCoroutine(SwitchWeaponRig(rocketLauncher,true));
+            yield return StartCoroutine(SwitchWeaponRig(secondary, true));
+
+            
+            secondary.Muzzle.Disable();
+            primary.Muzzle.Disable();
+            rocketLauncher.Muzzle.Disable();
+ 
+        }
+
+
         public void SetLayerWeight(int indexLayer, float weight) => _animator.SetLayerWeight(indexLayer, weight);
-           
-        
-     
+            
         public void SetTrigger(string keyID) => _animator.SetTrigger(keyID);
         public void SetFloat(string keyID, float value) => _animator.SetFloat(keyID, value);
         public void SetFloat(string keyID, float value, float delta) => _animator.SetFloat(keyID, value, 0, delta);
@@ -88,16 +137,16 @@ namespace Core
              
              if(_weaponData.CurrentWeapon != null)
                 UpdateAimingIK();
-              
         }
 
 
         private void SetRigWeaponState(IWeaponType weaponType, bool isEquiped)
         {
+
             if (_rigController != null) {
 
                 string equipmentState = isEquiped ? "Equip" : "Unequip"; 
-                _rigController.Play(weaponType.ToString() + equipmentState, 0);
+                _rigController.PlayInFixedTime(weaponType.ToString() + equipmentState, 0);
 
             }
         }
@@ -141,32 +190,37 @@ namespace Core
        
         public void SetWeaponState(IWeaponType weaponType)
         {
+
              if(_IsProccessRig) return;
             Weapon weapon = _weaponData.Weapons.Where(weapon => weapon.Type == weaponType).FirstOrDefault();
              
             if (weapon == null) return;
-            if (weapon.Type == _weaponData.CurrentWeapon.Type) return;
-            DeactivateAllWeapons();
              
-            
+            if (weapon.Type == _weaponData.CurrentWeapon.Type)
+            {
+                if (_weaponData.CurrentWeapon.IsActive) return;
+            }
+   
+            DeactivateAllWeapons();
+              
             StartCoroutine(SwitchWeaponRig(weapon));
              
-           
         }
          
          
         private IEnumerator ActivateWeaponRig(Weapon weapon)
         {
-             
+            
             bool isAllready = weapon.Type == _weaponData.CurrentWeapon.Type;
-
+            
             if (!isAllready)
             {
-                SetRigWeaponState(weapon.Type, true);
+                SetRigWeaponState(weapon.Type,  !weapon.IsActive);
                 _rigController.SetBool(_weaponData.CurrentWeapon.Type.ToString() + "Equip",true);
-
+                
                 do
                 {
+                    yield return new WaitForSeconds(.1f);
                     yield return new WaitForEndOfFrame();
                 }
                 while (_rigController.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f);
@@ -174,9 +228,11 @@ namespace Core
             }
             else if(!_weaponData.CurrentWeapon.IsActive)
             {
+                 
                 _rigController.SetBool(_weaponData.CurrentWeapon.Type.ToString() + "Equip", true);
 
                 yield return new WaitForSeconds(.1f);
+
                 do
                 {
                     yield return new WaitForEndOfFrame();
@@ -191,43 +247,49 @@ namespace Core
              
             ActivateMuzzle(weapon);
             _IsProccessRig = false;
+            
             yield break;
         }
 
 
         private IEnumerator ActivateHolsterRig(Weapon weapon)
         {
-
              
             _IsProccessRig = true;
-
             
             if (_weaponData.CurrentWeapon.IsActive)
             {
+               
                 _rigController.SetBool(_weaponData.CurrentWeapon.Type.ToString() + "Equip", false);
            
                 yield return new WaitForSeconds(.1f); 
+
                 do
                 {
                     yield return new WaitForEndOfFrame();
                 }
                 while (_rigController.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f);
-
-               
-
+                 
                 _weaponData.CurrentWeapon.IsActive = false;
             }
            
         }
 
 
-        private IEnumerator SwitchWeaponRig(Weapon weapon)
+        private IEnumerator SwitchWeaponRig(Weapon weapon, bool ignoreActiveMuzzle = false)
         {
 
             yield return StartCoroutine(ActivateHolsterRig(weapon));
              
-            yield return StartCoroutine(ActivateWeaponRig(weapon)); 
-            
+            yield return StartCoroutine(ActivateWeaponRig(weapon));
+
+            if (ignoreActiveMuzzle)
+            {
+                weapon.Muzzle.Disable();
+                weapon.IsActive = false;
+              
+            }
+          
         }
 
 
@@ -236,8 +298,6 @@ namespace Core
        
             weapon.IsActive = true;
             weapon.Muzzle.Activate();
-        
-  
         }
          
 
