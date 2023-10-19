@@ -129,7 +129,12 @@ namespace Core
             if(isAct) 
             if(_weaponData.CurrentWeapon.Type == IWeaponType.Pistol)
             {
-                _rigController.SetTrigger(_weaponData.CurrentWeapon.Type.ToString() + "Shoot");
+                _rigController.Play(_weaponData.CurrentWeapon.Type.ToString() + "Recoil", 1);
+            }
+
+            if (_weaponData.CurrentWeapon.Type == IWeaponType.Auto)
+            {
+                _rigController.Play(_weaponData.CurrentWeapon.Type.ToString() + "Recoil", 1);
             }
         }
 
