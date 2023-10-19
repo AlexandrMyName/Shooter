@@ -3601,7 +3601,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ceb9cad426a05f941beea3523cb92786, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _weaponModelView: {fileID: 29967159419507104, guid: 596b301b9d50385468c9817534acca4a, type: 3}
 --- !u!54 &1600536450
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -7488,6 +7487,7 @@ MonoBehaviour:
     m_Bits: 772
   PrimaryIndex: 0
   SecondaryIndex: 1
+  _playerComponents: {fileID: 2355088348005856735}
 --- !u!114 &2355088347078151156
 MonoBehaviour:
   m_ObjectHideFlags: 0

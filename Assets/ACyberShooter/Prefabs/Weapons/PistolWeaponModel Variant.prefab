@@ -168,9 +168,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _weapon:
-    LeftHandTarget: {fileID: 260861039}
-    RightHandTarget: {fileID: 326567591}
-    _weaponClip: {fileID: 7400000, guid: c65b2a59ffc362a4f81cc33048bdf165, type: 2}
     WeaponObject: {fileID: 7136943787348559780}
     Type: 2
     RigDuration: 0.175
@@ -179,6 +176,9 @@ MonoBehaviour:
       _muzzleRoot: {fileID: 1150764043}
       _bulletConfig: {fileID: 11400000, guid: 4b216548fb955a043974cee74510d99a, type: 2}
     MuzzleFlash: []
+    RecoilConfig: {fileID: 11400000, guid: 467518e5152d7e347b1ef74cc03f61f1, type: 2}
+    RecoilReact:
+      value: {x: 0, y: 0, z: 0}
 --- !u!4 &7142026025956620652 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4706116324578008, guid: 054873fb4d8fb414f9c75a47ff19cfe1, type: 3}

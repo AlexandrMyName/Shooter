@@ -253,3 +253,6 @@ MonoBehaviour:
       _muzzleRoot: {fileID: 3140357189020129754}
       _bulletConfig: {fileID: 11400000, guid: 76ac0a6de08ef90439da77ee9c231729, type: 2}
     MuzzleFlash: []
+    RecoilConfig: {fileID: 11400000, guid: 9f518e1abf9dd5f4da32fd3752b633de, type: 2}
+    RecoilReact:
+      value: {x: 0, y: 0, z: 0}

@@ -2,6 +2,9 @@ using UnityEngine;
 using Abstracts;
 using System;
 using System.Collections.Generic;
+using UniRx;
+using Random = UnityEngine.Random;
+using Unity.Mathematics;
 
 
 namespace Core
@@ -32,7 +35,7 @@ namespace Core
             _crossHairParent = crossHairParent.transform;
             _componentsStorage.CrossHairTarget.gameObject.transform.parent = _crossHairParent;
             _crossHairParent.position += Vector3.up * camera_offset_UP;
-              
+             
         }
          
 

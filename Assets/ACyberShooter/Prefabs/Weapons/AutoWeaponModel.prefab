@@ -102,9 +102,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _weapon:
-    LeftHandTarget: {fileID: 7659534563624398993}
-    RightHandTarget: {fileID: 7659534563492490621}
-    _weaponClip: {fileID: 7400000, guid: 9014687002129dd4d9f30a7e27e0e688, type: 2}
     WeaponObject: {fileID: 16344661316192893}
     Type: 1
     RigDuration: 0.175
@@ -113,6 +110,9 @@ MonoBehaviour:
       _muzzleRoot: {fileID: 7659534563717920610}
       _bulletConfig: {fileID: 11400000, guid: cae246873b5165c4f8658f49b200c569, type: 2}
     MuzzleFlash: []
+    RecoilConfig: {fileID: 11400000, guid: 7223300c70a72594b954bbf4e13a5b18, type: 2}
+    RecoilReact:
+      value: {x: 0, y: 0, z: 0}
 --- !u!1 &16450506974917413
 GameObject:
   m_ObjectHideFlags: 0

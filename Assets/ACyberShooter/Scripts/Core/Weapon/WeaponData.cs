@@ -44,6 +44,8 @@ namespace Core
 
         public int PrimaryIndex = 0;
         public int SecondaryIndex = 1;
+
+        [Space,SerializeField] private ComponentsStorage _playerComponents;
          
         public Weapon CurrentWeapon { get; set; }
 
@@ -88,8 +90,8 @@ namespace Core
                 Weapons.Add(viewInstance.GetWeapon());
 
                 Weapon newWeapon = viewInstance.GetWeapon();
-
-                newWeapon.Muzzle.InitPool(_ignoreRaycastLayerMask, newWeapon.MuzzleFlash, _crossHairTransform, _hitEffect);
+                newWeapon.RecoilReact = _playerComponents.Recoil;
+                newWeapon.Muzzle.InitPool(_ignoreRaycastLayerMask, newWeapon.MuzzleFlash, _crossHairTransform, _hitEffect, newWeapon.RecoilConfig,_playerComponents);
                   
                 newWeapon.WeaponObject.SetActive(isActive);
                  

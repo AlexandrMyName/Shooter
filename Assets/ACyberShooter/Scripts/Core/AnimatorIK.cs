@@ -1,6 +1,9 @@
 using Abstracts;
+using Enums;
+using EventBus;
 using RootMotion.Dynamics;
 using ShootingSystem;
+using System;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
@@ -33,7 +36,7 @@ namespace Core
         public GameObject PuppetObject => _puppetObject;
         public PuppetMaster PuppetMaster => _puppetMaster;
 
-
+        
         public void Dispose()
         {
 
@@ -58,6 +61,7 @@ namespace Core
             //This script need large refactoring
             StartCoroutine(InitDefaultWeapon(_weaponData.Weapons[0],_weaponData.Weapons[1], _weaponData.Weapons[2]));
 
+            ShootingEvents.OnShoot += SetShootAnimation;
 
         }
 
@@ -98,17 +102,6 @@ namespace Core
             while (_rigController.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f);
 
             secondary.IsActive = false;
-
-
-            //SetRigWeaponState(rocketLauncher.Type, false);
-            //_rigController.SetBool(rocketLauncher.Type.ToString() + "Equip", false);
-            // rocketLauncher.WeaponObject.SetActive(true);
-            //do
-            //{
-            //    yield return null;
-            //}
-            //while (_rigController.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f);
-
             rocketLauncher.IsActive = false;
             _IsProccessRig = false;
 
@@ -122,14 +115,23 @@ namespace Core
             rocketLauncher.Muzzle.Disable();
  
         }
-
-
+         
         public void SetLayerWeight(int indexLayer, float weight) => _animator.SetLayerWeight(indexLayer, weight);
             
         public void SetTrigger(string keyID) => _animator.SetTrigger(keyID);
         public void SetFloat(string keyID, float value) => _animator.SetFloat(keyID, value);
         public void SetFloat(string keyID, float value, float delta) => _animator.SetFloat(keyID, value, 0, delta);
         public void SetBool(string keyID, bool value) => _animator.SetBool(keyID, value);
+
+
+        public void SetShootAnimation(bool isAct,ShootingType type,float value)
+        {
+            if(isAct) 
+            if(_weaponData.CurrentWeapon.Type == IWeaponType.Pistol)
+            {
+                _rigController.SetTrigger(_weaponData.CurrentWeapon.Type.ToString() + "Shoot");
+            }
+        }
 
 
         private void Update()
