@@ -136,6 +136,11 @@ namespace Core
             {
                 _rigController.Play(_weaponData.CurrentWeapon.Type.ToString() + "Recoil", 1);
             }
+
+            if (_weaponData.CurrentWeapon.Type == IWeaponType.Rocket)
+            {
+                _rigController.Play(_weaponData.CurrentWeapon.Type.ToString() + "Recoil", 1);
+            }
         }
 
 
