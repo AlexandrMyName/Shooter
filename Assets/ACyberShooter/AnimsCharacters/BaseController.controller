@@ -218,11 +218,23 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
+  - m_Name: EquipAutoWeapon
+    m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+  - m_Name: DisarmAutoWeapon
+    m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 1
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Movement
     m_StateMachine: {fileID: -3792007895116195786}
-    m_Mask: {fileID: 31900000, guid: dcab6fcad538e0341a2350079ce42886, type: 2}
+    m_Mask: {fileID: 0}
     m_Motions: []
     m_Behaviours: []
     m_BlendingMode: 0
@@ -265,15 +277,15 @@ BlendTree:
   m_Name: Blend Tree
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: -203655887218126122, guid: 7418f33b0af372a429cdeb21631ad77c, type: 3}
+    m_Motion: {fileID: -203655887218126122, guid: 79be99960be5b0c429e824fd05b4900c, type: 3}
     m_Threshold: 0
     m_Position: {x: 0, y: -1}
-    m_TimeScale: 1
+    m_TimeScale: 2
     m_CycleOffset: 0
     m_DirectBlendParameter: Horizontal
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: -203655887218126122, guid: 70f8f11ff4c607742a7080016f7930eb, type: 3}
+    m_Motion: {fileID: -203655887218126122, guid: d601c95545ac10640a58ae47446ea37b, type: 3}
     m_Threshold: 0.125
     m_Position: {x: 0, y: 1}
     m_TimeScale: 1
@@ -281,7 +293,7 @@ BlendTree:
     m_DirectBlendParameter: Horizontal
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: -203655887218126122, guid: 3590d94c5507512448c49bd375acbac7, type: 3}
+    m_Motion: {fileID: -203655887218126122, guid: c3ef029b3f774b8429f71d3a79893638, type: 3}
     m_Threshold: 0.25
     m_Position: {x: -1, y: 0}
     m_TimeScale: 1
@@ -289,7 +301,7 @@ BlendTree:
     m_DirectBlendParameter: Horizontal
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: -203655887218126122, guid: c841515b5de02544fa95fd86a79a3e77, type: 3}
+    m_Motion: {fileID: -203655887218126122, guid: 8961ea21e908d31469a843a7c4eef5fa, type: 3}
     m_Threshold: 0.375
     m_Position: {x: 1, y: 0}
     m_TimeScale: 1
@@ -297,7 +309,7 @@ BlendTree:
     m_DirectBlendParameter: Horizontal
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: -203655887218126122, guid: 40db805f1ecda424189f7239f4ec365f, type: 3}
+    m_Motion: {fileID: -203655887218126122, guid: 3cd7685d658976f42a08f9ab2ade537d, type: 3}
     m_Threshold: 0.5
     m_Position: {x: -1, y: 1}
     m_TimeScale: 1
@@ -305,7 +317,7 @@ BlendTree:
     m_DirectBlendParameter: Horizontal
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: -203655887218126122, guid: 7b06ca2495d14464ead90910fbfa6d99, type: 3}
+    m_Motion: {fileID: -203655887218126122, guid: 8278275d6785d62419430da3cf0da21e, type: 3}
     m_Threshold: 0.625
     m_Position: {x: 1, y: 1}
     m_TimeScale: 1
@@ -313,23 +325,23 @@ BlendTree:
     m_DirectBlendParameter: Horizontal
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: -203655887218126122, guid: d62b5a2fd25344e428feb441c71e0528, type: 3}
+    m_Motion: {fileID: -203655887218126122, guid: 250b970416df4ad469711b423f17e7a7, type: 3}
     m_Threshold: 0.75
     m_Position: {x: -1, y: -1}
-    m_TimeScale: 1
+    m_TimeScale: 2
     m_CycleOffset: 0
     m_DirectBlendParameter: Horizontal
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: -203655887218126122, guid: 2b1e7fe2e35b9634cbe0566a63b2c388, type: 3}
+    m_Motion: {fileID: -203655887218126122, guid: 1b8f17fc1910149478993f9ca73d5fa8, type: 3}
     m_Threshold: 0.875
     m_Position: {x: 1, y: -1}
-    m_TimeScale: 1
+    m_TimeScale: 2
     m_CycleOffset: 0
     m_DirectBlendParameter: Horizontal
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: -203655887218126122, guid: bf7f1ee4be8089648af229f3e887df99, type: 3}
+    m_Motion: {fileID: -203655887218126122, guid: c6fe0fba1821e0044879eecc03881e9e, type: 3}
     m_Threshold: 1
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1

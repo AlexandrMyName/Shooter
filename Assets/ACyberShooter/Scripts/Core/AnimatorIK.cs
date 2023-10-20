@@ -1,7 +1,13 @@
 using Abstracts;
+using Enums;
+using EventBus;
 using RootMotion.Dynamics;
+using ShootingSystem;
+using System;
+using System.Collections;
+using System.Linq;
 using UnityEngine;
-  
+using UnityEngine.Animations.Rigging;
 
 namespace Core
 {
@@ -13,41 +19,51 @@ namespace Core
         [Header("IK Animator"), Space(20)]
 
         [SerializeField] private Animator _animator;
-
+        [SerializeField] private Animator _rigController;
         [SerializeField] private IWeaponType _defaultWeapon;
-        [SerializeField] private Transform _lookAt;
-
-        private float _weight, _body, _head, _eyes, _clamp;
-
-        private Vector3 _lookAtIKpos;
-         
-         
+  
         [SerializeField] private WeaponData _weaponData;
 
-        [SerializeField,Range(0f,1f)] private float _aimingDuration;
+        [SerializeField, Space] private Rig _handsRig;
+        [SerializeField, Space] private Rig _aimRig;
+
+        [SerializeField,Range(0f,1f), Space] private float _aimingDuration;
         [SerializeField] private GameObject _puppetObject;
         [SerializeField] private PuppetMaster _puppetMaster;
 
-        private Weapon _currentWeapon;
 
+        private bool _IsProccessRig;
         public GameObject PuppetObject => _puppetObject;
         public PuppetMaster PuppetMaster => _puppetMaster;
 
-
-        public void Dispose()
-        => _weaponData.Weapons.ForEach(disposable => disposable.Muzzle.Dispose());
         
+        public void Dispose()
+        {
+
+            foreach(var weap in _weaponData.Weapons)
+            {
+                weap.Muzzle.Dispose();
+            }
+        }
+
 
         private void Awake()
         {
             
             _weaponData ??= GetComponent<WeaponData>();
             _animator ??= GetComponent<Animator>();
-            
-            InitDefaultWeapon(_defaultWeapon);
+             
             _weaponData.InitData();
+             
         }
+        private void Start()
+        {
+            //This script need large refactoring
+            StartCoroutine(InitDefaultWeapon(_weaponData.Weapons[0],_weaponData.Weapons[1], _weaponData.Weapons[2]));
 
+            ShootingEvents.OnShoot += SetShootAnimation;
+            ShootingEvents.OnReload += SetReloadAnimation;
+        }
 
         private void OnValidate()
         {
@@ -56,49 +72,119 @@ namespace Core
             _animator ??= GetComponent<Animator>();
         }
 
-
-        public void SetLayerWeight(int indexLayer, float weight) => _animator.SetLayerWeight(indexLayer, weight);
-           
-        
-        public void SetLookAtWeight(float weight, float body, float head, float eyes, float clamp)
+        private IEnumerator InitDefaultWeapon(Weapon primary, Weapon secondary, Weapon rocketLauncher)
         {
 
-            _weight = weight;
-            _body = body;
-            _head = head;
-            _eyes = eyes;
-            _clamp = clamp;
+            _IsProccessRig = true;
+            primary.WeaponObject.SetActive(false);
+            secondary.WeaponObject.SetActive(false);
+            rocketLauncher.WeaponObject.SetActive(false);
+
+            SetRigWeaponState(primary.Type, false);
+            _rigController.SetBool(primary.Type.ToString() + "Equip", false);
+            primary.WeaponObject.SetActive(true);
+
+            do
+            {
+                yield return null;
+            }
+            while (_rigController.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f);
+
+            primary.IsActive = false;
+
+            SetRigWeaponState(secondary.Type, false);
+            _rigController.SetBool(secondary.Type.ToString() + "Equip", false);
+            secondary.WeaponObject.SetActive(true);
+            do
+            {
+                yield return null;
+            }
+            while (_rigController.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f);
+
+            secondary.IsActive = false;
+            rocketLauncher.IsActive = false;
+            _IsProccessRig = false;
+
+            rocketLauncher.WeaponObject.SetActive(true);
+            yield return StartCoroutine(SwitchWeaponRig(rocketLauncher,true));
+            yield return StartCoroutine(SwitchWeaponRig(secondary, true));
+
+            
+            secondary.Muzzle.Disable();
+            primary.Muzzle.Disable();
+            rocketLauncher.Muzzle.Disable();
+ 
         }
-
-
-        public void SetLookAtPosition(Vector3 lookAt) => _lookAtIKpos = lookAt;
+         
+        public void SetLayerWeight(int indexLayer, float weight) => _animator.SetLayerWeight(indexLayer, weight);
+            
         public void SetTrigger(string keyID) => _animator.SetTrigger(keyID);
         public void SetFloat(string keyID, float value) => _animator.SetFloat(keyID, value);
         public void SetFloat(string keyID, float value, float delta) => _animator.SetFloat(keyID, value, 0, delta);
         public void SetBool(string keyID, bool value) => _animator.SetBool(keyID, value);
 
 
-        private void Update()
+        public void SetShootAnimation(bool isAct,ShootingType type,float value)
+        {
+
+            if(isAct)
+             _rigController.Play(_weaponData.CurrentWeapon.Type.ToString() + "Recoil", 1);
+        }
+
+
+        public void SetReloadAnimation()
         {
              
-            UpdateAimingIK();
+            if (_weaponData.CurrentWeapon.Type == IWeaponType.Auto)
+            {
+                _rigController.SetTrigger(_weaponData.CurrentWeapon.Type.ToString() + "Reload");
+            }
+
+            if (_weaponData.CurrentWeapon.Type == IWeaponType.Pistol)
+            {
+                _rigController.SetTrigger(_weaponData.CurrentWeapon.Type.ToString() + "Reload");
+            }
+
 
         }
 
-        private void UpdateAimingIK()
+
+        private void Update()
         {
              
-            
-            if (_currentWeapon.Muzzle.CurrentAmmoInMagazine == 0)
+             if(_weaponData.CurrentWeapon != null)
+                UpdateAimingIK();
+        }
+
+
+        private void SetRigWeaponState(IWeaponType weaponType, bool isEquiped)
+        {
+
+            if (_rigController != null) {
+
+                string equipmentState = isEquiped ? "Equip" : "Unequip"; 
+                _rigController.PlayInFixedTime(weaponType.ToString() + equipmentState, 0);
+
+            }
+        }
+
+
+        private void UpdateAimingIK()
+        {
+
+            SetActiveAimingIK(_weaponData.CurrentWeapon, true);
+            return;
+
+            if (_weaponData.CurrentWeapon.Muzzle.CurrentAmmoInMagazine == 0)
             {
-                SetActiveAimingIK(_currentWeapon, false); 
+                SetActiveAimingIK(_weaponData.CurrentWeapon, false); 
                 return;
             }
 
-            if (Input.GetMouseButtonDown(0) && _currentWeapon.Type == IWeaponType.Pistol)
+            if (Input.GetMouseButtonDown(0) && _weaponData.CurrentWeapon.Type == IWeaponType.Pistol)
             {
                 
-                SetActiveAimingIK(_currentWeapon, true);
+                SetActiveAimingIK(_weaponData.CurrentWeapon, true);
                
                 return;
             }
@@ -107,12 +193,12 @@ namespace Core
             if (Input.GetMouseButton(1) || Input.GetMouseButton(0))
             {
               
-                    SetActiveAimingIK(_currentWeapon, true);
+                    SetActiveAimingIK(_weaponData.CurrentWeapon, true);
                 
             }
             else
             {
-                SetActiveAimingIK(_currentWeapon, false);
+                SetActiveAimingIK(_weaponData.CurrentWeapon, false);
             }
 
           
@@ -121,29 +207,114 @@ namespace Core
        
         public void SetWeaponState(IWeaponType weaponType)
         {
-             
-            Weapon weapon = _weaponData.Weapons.Find(weapon => weapon.Type == weaponType);
 
-            if (weapon == null || weapon == _currentWeapon) return;
+             if(_IsProccessRig) return;
+            Weapon weapon = _weaponData.Weapons.Where(weapon => weapon.Type == weaponType).FirstOrDefault();
              
+            if (weapon == null) return;
+             
+            if (weapon.Type == _weaponData.CurrentWeapon.Type)
+            {
+                if (_weaponData.CurrentWeapon.IsActive) return;
+            }
+   
             DeactivateAllWeapons();
- 
-            ActivateMuzzle(weapon);
               
-            _currentWeapon = weapon;
+            StartCoroutine(SwitchWeaponRig(weapon));
+             
         }
          
+         
+        private IEnumerator ActivateWeaponRig(Weapon weapon)
+        {
+            
+            bool isAllready = weapon.Type == _weaponData.CurrentWeapon.Type;
+            
+            if (!isAllready)
+            {
+                SetRigWeaponState(weapon.Type,  !weapon.IsActive);
+                _rigController.SetBool(_weaponData.CurrentWeapon.Type.ToString() + "Equip",true);
+                
+                do
+                {
+                    yield return new WaitForSeconds(.1f);
+                    yield return new WaitForEndOfFrame();
+                }
+                while (_rigController.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f);
+                
+            }
+            else if(!_weaponData.CurrentWeapon.IsActive)
+            {
+                 
+                _rigController.SetBool(_weaponData.CurrentWeapon.Type.ToString() + "Equip", true);
 
-        private void InitDefaultWeapon(IWeaponType weaponType) => SetWeaponState(weaponType);
-        
+                yield return new WaitForSeconds(.1f);
+
+                do
+                {
+                    yield return new WaitForEndOfFrame();
+                }
+                while (_rigController.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f);
+
+                 
+                _weaponData.CurrentWeapon.IsActive = true;
+            }
+            
+            _weaponData.CurrentWeapon = weapon;
+             
+            ActivateMuzzle(weapon);
+            _IsProccessRig = false;
+            
+            yield break;
+        }
+
+
+        private IEnumerator ActivateHolsterRig(Weapon weapon)
+        {
+             
+            _IsProccessRig = true;
+            
+            if (_weaponData.CurrentWeapon.IsActive)
+            {
+               
+                _rigController.SetBool(_weaponData.CurrentWeapon.Type.ToString() + "Equip", false);
+           
+                yield return new WaitForSeconds(.1f); 
+
+                do
+                {
+                    yield return new WaitForEndOfFrame();
+                }
+                while (_rigController.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f);
+                 
+                _weaponData.CurrentWeapon.IsActive = false;
+            }
+           
+        }
+
+
+        private IEnumerator SwitchWeaponRig(Weapon weapon, bool ignoreActiveMuzzle = false)
+        {
+
+            yield return StartCoroutine(ActivateHolsterRig(weapon));
+             
+            yield return StartCoroutine(ActivateWeaponRig(weapon));
+
+            if (ignoreActiveMuzzle)
+            {
+                weapon.Muzzle.Disable();
+                weapon.IsActive = false;
+              
+            }
+          
+        }
+
 
         private void ActivateMuzzle(Weapon weapon)
         {
-
-            weapon.WeaponObject.SetActive(true);
+       
+            weapon.IsActive = true;
             weapon.Muzzle.Activate();
-            weapon.HandsRig.weight = 1f;
-  
         }
          
 
@@ -151,14 +322,14 @@ namespace Core
         {
             if (isActive)
             {
-                currentWeapon.NoAimingRig.weight -= Time.deltaTime / _currentWeapon.RigDuration;
-                currentWeapon.AimingRig.weight += Time.deltaTime / _currentWeapon.RigDuration;
+               // currentWeapon.NoAimingRig.weight -= Time.deltaTime / _currentWeapon.RigDuration;
+              //  currentWeapon.AimingRig.weight += Time.deltaTime / _currentWeapon.RigDuration;
 
             }
             else
             {
-                currentWeapon.NoAimingRig.weight += Time.deltaTime / _currentWeapon.RigDuration;
-                currentWeapon.AimingRig.weight -= Time.deltaTime / _currentWeapon.RigDuration;
+               // currentWeapon.NoAimingRig.weight += Time.deltaTime / _currentWeapon.RigDuration;
+               // currentWeapon.AimingRig.weight -= Time.deltaTime / _currentWeapon.RigDuration;
             }
             
         }
@@ -169,10 +340,7 @@ namespace Core
 
             foreach(var weapon in _weaponData.Weapons)
             {
-                weapon.AimingRig.weight = 0f;
-                weapon.NoAimingRig.weight = 0f;
-                weapon.HandsRig.weight = 0f;
-                weapon.WeaponObject.SetActive(false);
+ 
                 weapon.Muzzle.Disable();
             }
         }

@@ -3,7 +3,8 @@ using Abstracts;
 using EventBus;
 using System;
 using System.Collections.Generic;
-
+using UniRx;
+using Random = UnityEngine.Random;
 
 namespace Core
 {
@@ -22,6 +23,8 @@ namespace Core
         private Transform _cameraParent;
 
         List<IDisposable> _disposables = new();
+         
+        private float _recoil;
 
 
         protected override void Awake(IGameComponents components)
@@ -32,11 +35,19 @@ namespace Core
             var cameraParent = GameObject.Instantiate(new GameObject("CameraParent")/*, _components.BaseObject.transform*/);
             _cameraParent = cameraParent.transform;
             _components.MainCamera.transform.parent = _cameraParent;
-
+            
             _cameraParent.position += Vector3.up * camera_offset_UP;
              
             PlayerEvents.OnGamePaused += onPausedGame;
-            
+             
+            _componentsStorage.Recoil.Subscribe (value =>
+            {
+                 
+                if (value != Vector3.zero)
+                    _recoil = value.y;
+               
+                 
+            }).AddTo(_disposables);
         }
 
 
@@ -59,6 +70,29 @@ namespace Core
         protected override void Update()
         {
 
+                if(Input.GetMouseButtonUp(0))
+                {
+                    _recoil = 0;
+                }
+            if (_recoil > 0 )
+            {
+                var Max_y_recoil = Quaternion.Euler(Vector3.left * _recoil);
+
+                _components.MainCamera.transform.localRotation 
+                    = Quaternion.Slerp(_components.MainCamera.transform.localRotation, Max_y_recoil, Time.deltaTime * 1000);
+                _recoil -= Time.deltaTime;
+
+            }
+            else
+            {
+                _componentsStorage.Recoil.Value = Vector3.zero;
+                var ZeroAngle = Quaternion.Euler(0, 0, 0);
+                _recoil = 0f;
+                _components.MainCamera.transform.localRotation
+                    = Quaternion.Slerp(_components.MainCamera.transform.localRotation, ZeroAngle,  Time.deltaTime * 1000);
+
+            }
+         
             _inputMouseDirection.x = Input.GetAxis("Mouse X");
             _inputMouseDirection.y = Input.GetAxis("Mouse Y");
             _cameraParent.transform.position = _components.BaseObject.transform.position + Vector3.up * camera_offset_UP;
@@ -83,6 +117,7 @@ namespace Core
             else _components.MainCamera.transform.position =
                  _cameraParent
                      .TransformPoint(_componentsStorage.CameraConfig.CameraOffSet_Normal);
+             
 
 
             if (Vector3.Distance(
@@ -97,7 +132,7 @@ namespace Core
 
             rotation.x = Mathf.Clamp(rotation.x, _componentsStorage.CameraConfig.CameraClampMin, _componentsStorage.CameraConfig.CameraClampMax);
             rotation.z = 0;
-            
+             
 
             Quaternion newRot = Quaternion.Euler(rotation.x, rotation.y, rotation.z);
 

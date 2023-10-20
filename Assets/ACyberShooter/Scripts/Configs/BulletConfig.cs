@@ -18,11 +18,13 @@ namespace Configs
 
         [field: SerializeField] public float Damage { get; set; }
         [field:SerializeField] public TrailRenderer Traicer { get; set; }
-
+        [field: SerializeField] public GameObject VisualFab { get; set; }
+        [field: SerializeField] public ParticleSystem HitEffect { get; set; }
     }
 
     public enum BulletType : byte
     {
         Default = 0,
+        Rocket = 1,
     }
 }

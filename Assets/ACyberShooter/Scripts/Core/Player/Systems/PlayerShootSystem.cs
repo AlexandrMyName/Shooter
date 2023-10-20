@@ -37,12 +37,8 @@ namespace Core
         protected override void Update()
         {
 
-            if (Input.GetKeyDown(KeyCode.Alpha0))
-            {
-                _weaponType = IWeaponType.None;
-                SwitchWeapon(_weaponType);
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha1))
+             
+            if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 _weaponType = IWeaponType.Pistol;
                 SwitchWeapon(_weaponType);
@@ -50,6 +46,11 @@ namespace Core
             else if (Input.GetKeyDown(KeyCode.Alpha2))
             {
                 _weaponType = IWeaponType.Auto;
+                SwitchWeapon(_weaponType);
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                _weaponType = IWeaponType.Rocket;
                 SwitchWeapon(_weaponType);
             }
 

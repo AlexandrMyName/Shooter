@@ -25,7 +25,8 @@ namespace Core
         [SerializeField] private BulletConfig _bulletConfig;
         private RaycastWeapon _weaponRay;
 
-
+        private ComponentsStorage _baseComponents;
+        private WeaponRecoilConfig _recoilConfig;
         private bool _isTryShooting = false;
         private bool _canShoot = false;
         private bool _isReloading = false;
@@ -83,15 +84,17 @@ namespace Core
             LayerMask ignoreRaycastLayerMask,
             ParticleSystem[] muzzleFlash ,
             Transform crossHairTransform,
-            ParticleSystem hitEffect // this not correct (need create new config with array and material's type)
+            WeaponRecoilConfig recoilConfig,
+            ComponentsStorage baseComponents
             ){ ///INITIALIZER\\\
 
+            _baseComponents = baseComponents;
+            _recoilConfig = recoilConfig;
             _muzzleFlash = muzzleFlash;
             _weaponRay = new RaycastWeapon(
                 crossHairTransform,
                 _muzzleRoot,
-                ignoreRaycastLayerMask,
-                hitEffect);
+                ignoreRaycastLayerMask);
   
             _spreadingModifier = _weaponConfig.SpreadingDefaultModifier;
             _lastShootTime = Time.time;
@@ -243,21 +246,22 @@ namespace Core
         private void Shoot()
         {
 
-            foreach(var effect in _muzzleFlash)
+            _baseComponents.Recoil.Value += _recoilConfig.GetRecoil() + Vector3.up * Time.deltaTime;
+            foreach (var effect in _muzzleFlash)
             {
                 effect.Emit(1);
             }
             if (_bulletConfig == null)
                 throw new NullReferenceException("Bullet config is null => (Muzzle) on WeaponData");
-
+             
             _weaponRay.Fire(_bulletConfig);
-
+              
             if (_recoilModifierHorizontal >=
                 _weaponConfig.RecoilHorizontal && 
                 _recoilModifierVertical >= _weaponConfig.RecoilVertical) {
                 ChangeSpread(_weaponConfig.SpreadingModifierDelta);
             }
- 
+            
         }
  
          
