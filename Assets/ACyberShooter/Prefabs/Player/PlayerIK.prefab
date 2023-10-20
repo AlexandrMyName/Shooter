@@ -2467,7 +2467,6 @@ GameObject:
   - component: {fileID: 5126896882421597985}
   - component: {fileID: 5126896882421597991}
   - component: {fileID: 5126896882421597988}
-  - component: {fileID: 7460373117705998923}
   m_Layer: 8
   m_Name: IK
   m_TagString: Untagged
@@ -2602,7 +2601,6 @@ MonoBehaviour:
   _weaponsRoot: {fileID: 7460373116299065899}
   _leftHand_IK: {fileID: 5126896883234270639}
   _rightHand_IK: {fileID: 5126896882140267514}
-  _hitEffect: {fileID: 8204416545625370317, guid: 427846f9888c0d540be80c94e763006a, type: 3}
   _crossHairTransform: {fileID: 645692477009113426}
   _ignoreRaycastLayerMask:
     serializedVersion: 2
@@ -2629,42 +2627,6 @@ MonoBehaviour:
   tripodSize: 1
   boneColor: {r: 0, g: 0, b: 1, a: 0.5}
   m_Transforms: []
---- !u!114 &7460373117705998923
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5126896882421597981}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 726325959c0cb064597e2f1bd5eb6b21, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lengthFromHeelToToes: 0.1
-  maxRotationAngle: 45
-  ankleHeightOffset: 0
-  enableIKPositioning: 1
-  enableIKRotating: 1
-  globalWeight: 1
-  leftFootWeight: 1
-  rightFootWeight: 1
-  smoothTime: 0.075
-  raySphereRadius: 0.1
-  rayCastRange: 2
-  groundLayers:
-    serializedVersion: 2
-    m_Bits: 16448
-  ignoreTriggers: 1
-  leftFootRayStartHeight: 0.5
-  rightFootRayStartHeight: 0.5
-  enableFootLifting: 1
-  floorRange: 0
-  enableBodyPositioning: 0
-  crouchRange: 0.25
-  stretchRange: 0
-  giveWorldHeightOffset: 0
-  worldHeightOffset: 0
 --- !u!1 &5126896882426164665
 GameObject:
   m_ObjectHideFlags: 0
