@@ -36,14 +36,12 @@ namespace Core
         [Header("Information of hands IK (Animation Rigging - Targets)")]
         [SerializeField] private Transform _leftHand_IK;
         [SerializeField] private Transform _rightHand_IK;
-
-        [SerializeField] private ParticleSystem _hitEffect;// Not correct (look at Weapon class)
-
+  
         [SerializeField] private Transform _crossHairTransform;
         [SerializeField] private LayerMask _ignoreRaycastLayerMask;
 
-        public int PrimaryIndex = 0;
-        public int SecondaryIndex = 1;
+        [HideInInspector] public int PrimaryIndex = 0;
+        [HideInInspector] public int SecondaryIndex = 1;
 
         [Space,SerializeField] private ComponentsStorage _playerComponents;
          
@@ -91,7 +89,7 @@ namespace Core
 
                 Weapon newWeapon = viewInstance.GetWeapon();
                 newWeapon.RecoilReact = _playerComponents.Recoil;
-                newWeapon.Muzzle.InitPool(_ignoreRaycastLayerMask, newWeapon.MuzzleFlash, _crossHairTransform, _hitEffect, newWeapon.RecoilConfig,_playerComponents);
+                newWeapon.Muzzle.InitPool(_ignoreRaycastLayerMask, newWeapon.MuzzleFlash, _crossHairTransform, newWeapon.RecoilConfig,_playerComponents);
                   
                 newWeapon.WeaponObject.SetActive(isActive);
                  

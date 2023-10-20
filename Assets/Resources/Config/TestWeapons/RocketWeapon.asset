@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: RocketWeapon
   m_EditorClassIdentifier: 
   _shootingType: 1
-  _maxAmmo: 48
-  _maxAmmoInMagazine: 12
+  _maxAmmo: 5
+  _maxAmmoInMagazine: 1
   _maxAmmoInBurst: 0
   _shootDelay: 0.6
   _burstDelay: 0

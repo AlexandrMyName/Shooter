@@ -84,7 +84,6 @@ namespace Core
             LayerMask ignoreRaycastLayerMask,
             ParticleSystem[] muzzleFlash ,
             Transform crossHairTransform,
-            ParticleSystem hitEffect, // this not correct (need create new config with array and material's type)
             WeaponRecoilConfig recoilConfig,
             ComponentsStorage baseComponents
             ){ ///INITIALIZER\\\
@@ -95,8 +94,7 @@ namespace Core
             _weaponRay = new RaycastWeapon(
                 crossHairTransform,
                 _muzzleRoot,
-                ignoreRaycastLayerMask,
-                hitEffect);
+                ignoreRaycastLayerMask);
   
             _spreadingModifier = _weaponConfig.SpreadingDefaultModifier;
             _lastShootTime = Time.time;

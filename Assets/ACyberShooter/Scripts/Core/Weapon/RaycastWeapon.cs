@@ -27,21 +27,20 @@ namespace Core
 
         private Transform _rayDestination;
         private Transform _rayOrigin;
-        private ParticleSystem _hitEffect; // need create a bullet config  (tracer can be there)
-        
+        private Transform _visualInstance;
+
         Ray ray;
         RaycastHit hit;
         LayerMask _ignoreRaycastLayerMask;
-         
 
+        
         public RaycastWeapon(
             Transform rayDirection,
             Transform rayOrigin ,
-            LayerMask ignoreRaycastLayerMask,
-            ParticleSystem hitEffect
+            LayerMask ignoreRaycastLayerMask
             ){
 
-            _hitEffect = hitEffect;
+            
             _rayDestination = rayDirection;
             _rayOrigin = rayOrigin;
             _ignoreRaycastLayerMask = ignoreRaycastLayerMask;
@@ -49,7 +48,7 @@ namespace Core
 
 
         public void Fire(BulletConfig config)
-        => FireBullet(_hitEffect, config);
+        => FireBullet(config);
         
          
         public void UpdateBullets(float deltaTime)
@@ -87,6 +86,12 @@ namespace Core
 
                 bullet.tracer = GameObject.Instantiate(config.Traicer, initPosition, Quaternion.identity);
                 bullet.tracer.AddPosition(initPosition);
+
+                if(bullet.config.VisualFab != null)
+                {
+                    _visualInstance = GameObject.Instantiate(config.VisualFab, bullet.tracer.transform,false).transform;
+                  
+                }
             }
             return bullet;
         }
@@ -122,36 +127,63 @@ namespace Core
             if (Physics.Raycast(ray, out hit, distance ))
             {
                 //we can check material collider and sets hit effect from config (need create)
-                TryInstantiateHitEffect();
+                TryInstantiateHitEffect(bullet.config);
                 TryTakeDamage(hit, bullet.config);
                 TryInstantiateTracer(bullet);
 
                 bullet.time = bullet.config.MaxTime;
             }
             else if(bullet.tracer != null) bullet.tracer.transform.position = end;
+
+            if(_visualInstance != null)
+                _visualInstance.forward = direction;
         }
 
         private void TryTakeDamage(RaycastHit hit, BulletConfig config)
         {
 
-            if(hit.collider.TryGetComponent<EnemyBoneView>(out var enemyView))
+            if (config.Type == BulletType.Rocket)
             {
-                enemyView.EnemyView.TakeDamage(config.Damage);
+                var colliders = Physics.OverlapSphere(hit.point, 10f);
+
+                for (int i = 0; i < colliders.Length; i++)
+                {
+                    var collider = colliders[i];
+
+                    if (collider.TryGetComponent<EnemyBoneView>(out var enemyBoneView))
+                    {
+                        enemyBoneView.EnemyView.TakeDamage(config.Damage);
+
+                        var rb = collider.gameObject.GetComponent<Rigidbody>();
+
+                        if (rb != null)
+                        {
+                            rb.AddForce( (enemyBoneView.transform.position - hit.point) * 5f, ForceMode.VelocityChange);
+                        }
+
+                    }
+                }
             }
-
-
+            else
+            {
+                if (hit.collider.TryGetComponent<EnemyBoneView>(out var enemyView))
+                {
+                    enemyView.EnemyView.TakeDamage(config.Damage);
+                }
+            }
         }
 
 
-        private void TryInstantiateHitEffect()
+        private void TryInstantiateHitEffect(BulletConfig config)
         {
-            if (_hitEffect != null)
+
+            if (config.HitEffect != null)
             {
                 CheckHitLayers(out var canActiveHit);
 
                 if (canActiveHit)
                 {
-                    var effect = GameObject.Instantiate(_hitEffect);
+                    var effect = GameObject.Instantiate(config.HitEffect);
                     effect.transform.position = hit.point;
                     effect.transform.forward = hit.normal;
                     effect.Emit(1);
@@ -184,7 +216,7 @@ namespace Core
             }
         }
 
-        private void FireBullet(ParticleSystem hitEffect, BulletConfig config)
+        private void FireBullet(BulletConfig config)
         {
 
             Vector3 velocity = (_rayDestination.position - _rayOrigin.position).normalized * config.Speed;
