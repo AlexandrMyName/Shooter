@@ -140,7 +140,12 @@ namespace Core
                 _rigController.SetTrigger(_weaponData.CurrentWeapon.Type.ToString() + "Reload");
             }
 
-            
+            if (_weaponData.CurrentWeapon.Type == IWeaponType.Pistol)
+            {
+                _rigController.SetTrigger(_weaponData.CurrentWeapon.Type.ToString() + "Reload");
+            }
+
+
         }
 
 
