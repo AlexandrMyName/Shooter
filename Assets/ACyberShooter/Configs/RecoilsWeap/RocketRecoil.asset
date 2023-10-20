@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: RocketRecoil
   m_EditorClassIdentifier: 
   X_recoil: 0
-  Y_recoil: 0
+  Y_recoil: 1.17
   Z_recoil: 0
