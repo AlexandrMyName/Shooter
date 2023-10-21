@@ -9,11 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c73812731691ff245bc4bfbe981f7184, type: 3}
-  m_Name: PistolRecoil
+  m_Script: {fileID: 11500000, guid: b7f59e54f2bfd184b9dd451a678d089b, type: 3}
+  m_Name: NoiseSettings
   m_EditorClassIdentifier: 
-  X_recoil: 0
-  Y_recoil: 3.04
-  Z_recoil: 1.09
-  VerticalRecoilDuration: 0.06
-  <RecoilVelocity>k__BackingField: {x: 0, y: 0.05, z: -0.05}
+  PositionNoise: []
+  OrientationNoise: []

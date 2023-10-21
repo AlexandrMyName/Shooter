@@ -27,6 +27,6 @@ namespace Core
         public WeaponRecoilConfig RecoilConfig;
         public bool IsActive { get;set;}
 
-        [HideInInspector] public ReactiveProperty<Vector3> RecoilReact;
+        [HideInInspector] public ReactiveCommand<WeaponRecoilConfig> RecoilCommand;
     }
 }

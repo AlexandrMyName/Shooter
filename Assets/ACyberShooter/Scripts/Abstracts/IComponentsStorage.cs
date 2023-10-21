@@ -1,3 +1,4 @@
+using Cinemachine;
 using Configs;
 using Core;
 using UniRx;
@@ -10,17 +11,14 @@ namespace Abstracts
     {
 
         IAnimatorIK AnimatorIK { get; }
-        ReactiveProperty<Vector3> Recoil { get; set; }
+        ReactiveCommand<WeaponRecoilConfig> RecoilCommand { get; set; }
         WeaponData WeaponData { get; }
         CameraConfig CameraConfig { get; }
-        
         CrossHairTarget CrossHairTarget { get; set; }
-
         JumpConfig JumpConfig { get;}
-
         Transform GroundCheckerR { get; }
         Transform GroundCheckerL { get; }
-        
+        CinemachineFreeLook FreeLookCamera { get; set; }
         void InitComponents();
 
 
