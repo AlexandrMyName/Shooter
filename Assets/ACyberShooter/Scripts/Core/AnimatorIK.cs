@@ -12,7 +12,7 @@ using UnityEngine.Animations.Rigging;
 namespace Core
 {
      
-    [RequireComponent(typeof(Animator), typeof(WeaponData))]
+    [RequireComponent( typeof(WeaponData))]
     public class AnimatorIK : MonoBehaviour, IAnimatorIK
     {
 
@@ -152,7 +152,7 @@ namespace Core
         }
 
 
-        private void Update()
+        private void LateUpdate()
         {
              
              if(_weaponData.CurrentWeapon != null)

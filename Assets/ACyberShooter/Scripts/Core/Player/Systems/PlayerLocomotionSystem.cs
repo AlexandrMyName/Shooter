@@ -15,19 +15,15 @@ namespace Core
         IGameComponents _components;
         IAnimatorIK _animatorIK;
 
-        float _speedWalk = 12f;
-        float _speedRun = 22f;
+        float _speedWalk = 12/3f;
+        float _speedRun = 22f/3f;
+        float _turnMultiplier = 100f;
 
-        float _turnMultiplier = 1055f;
         Rigidbody _rb;
 
         Vector3 _direction = Vector3.zero;
         Vector3 _rotation = Vector3.zero;
-
-        [SerializeField] private TwoBoneIKConstraint _rithHand;
-        [SerializeField] private TwoBoneIKConstraint _leftHand;
-         
-        Quaternion _target_Rotation = Quaternion.identity;
+ 
         private bool _isFallen;
         private Vector3 _initialPosition;
          
@@ -35,10 +31,8 @@ namespace Core
         private void Move()
         {
              
-          //  _rb.MovePosition(_rb.position + _direction * _speedWalk * Time.fixedDeltaTime);
-          //
-           // if ((Mathf.Abs(_direction.x) > 0 || Mathf.Abs(_direction.z) > 0) || Input.GetMouseButton(1) || Input.GetMouseButton(0))
-            //    _rb.MoveRotation(_target_Rotation);
+          _rb.MovePosition(_rb.position + _direction);
+         
         }
 
 
@@ -63,9 +57,9 @@ namespace Core
             {
                 _direction.x = Input.GetAxis("Horizontal");
                 _direction.z = Input.GetAxis("Vertical");
-            
-                _animatorIK.SetFloat("Horizontal", _direction.x, 1/* / Time.deltaTime*/);
-                _animatorIK.SetFloat("Vertical", _direction.z, 1 /*/ Time.deltaTime*/);
+                _direction.y = 0;
+                _animatorIK.SetFloat("Horizontal", _direction.x, 1 / Time.deltaTime);
+                _animatorIK.SetFloat("Vertical", _direction.z, 1 / Time.deltaTime);
                 _animatorIK.SetBool("IsRun", Input.GetKey(KeyCode.LeftShift) ? true : false);
             }
             else
@@ -75,43 +69,38 @@ namespace Core
                 _animatorIK.SetFloat("Horizontal", _direction.x, 1 / Time.deltaTime);
                 _animatorIK.SetFloat("Vertical", _direction.z, 1 / Time.deltaTime);
             }
-
-            _direction = _rb.transform.TransformDirection(_direction.x, 0, _direction.z);
-            _rotation = Vector3.zero + _components.MainCamera.transform.TransformDirection(Vector3.forward);
-            _rotation.y = 0;
- 
-
-          
         }
 
 
         protected override void FixedUpdate()
         {
-             
-             CheckFallenState();
+
+            //if ((Mathf.Abs(_direction.x) > 0 || Mathf.Abs(_direction.z) > 0) || Input.GetMouseButton(1) || Input.GetMouseButton(0))
+             //Turn
+
+            Quaternion look = Quaternion.Euler(0, _components.MainCamera.transform.eulerAngles.y, 0);
+
+            float turn = _turnMultiplier * Time.deltaTime;
+
+            _components.BaseTransform.rotation
+              = Quaternion
+                  .Slerp(_components.BaseObject.transform.rotation, look, turn);
+
+            _direction = _components.BaseObject.transform.TransformDirection(_direction.x, 0, _direction.z);
+
+            CheckFallenState();
+
             float currentSpeed = 0f;
 
             if (Input.GetKey(KeyCode.LeftShift))
             {
-
                 if (Mathf.Abs(_direction.z) > 0 || Mathf.Abs(_direction.x) > 0)
                     currentSpeed = _speedRun;
-
             }
             else currentSpeed = _speedWalk;
 
-            _direction = _direction * currentSpeed * Time.fixedDeltaTime;
- 
-            Quaternion look = Quaternion.LookRotation(_rotation);
-
-
-
-            float turn = _turnMultiplier * Time.deltaTime;
-
-            _target_Rotation
-              = Quaternion
-                  .RotateTowards(_components.BaseObject.transform.rotation, look, turn);
-
+            _direction = (_direction * currentSpeed) * Time.fixedDeltaTime;
+           
             Move();
 
             if (_rb.gameObject.transform.position.y < -100f)
@@ -123,6 +112,7 @@ namespace Core
 
         private void TeleportToInitialPosition()
         {
+            Debug.LogWarning("Tp");
             _rb.gameObject.transform.position = _initialPosition;
             _animatorIK.PuppetObject.transform.position = _rb.gameObject.transform.position;
             _animatorIK.PuppetObject.transform.rotation = _rb.gameObject.transform.rotation;
@@ -134,6 +124,7 @@ namespace Core
         {
             if (_animatorIK.PuppetObject.transform.position != _rb.gameObject.transform.position && !_isFallen)
             {
+                Debug.LogWarning("Fall");
                 _isFallen = true;
                 Observable.Timer(TimeSpan.FromSeconds(2f)).Subscribe(_ =>
                 {
