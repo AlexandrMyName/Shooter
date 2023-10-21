@@ -100,7 +100,7 @@ namespace Core
         }
 
 
-        protected override void FixedUpdate()
+        protected override void LateUpdate()
         {
 
             RaycastHit hit;

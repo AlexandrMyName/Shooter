@@ -18,6 +18,8 @@ namespace Core
         public IAnimatorIK AnimatorIK {get; private set;}
         [field: SerializeField] public JumpConfig JumpConfig { get; private set; }
         [field: SerializeField] public Transform GroundChecker { get; private set; }
+        [field: SerializeField] public Transform GroundCheckerR { get; private set; }
+        [field: SerializeField] public Transform GroundCheckerL { get; private set; }
 
         public void InitComponents()
         {
@@ -29,5 +31,6 @@ namespace Core
 
         }
 
+        
     }
 }

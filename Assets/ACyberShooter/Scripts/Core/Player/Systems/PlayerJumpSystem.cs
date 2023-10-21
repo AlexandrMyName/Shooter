@@ -13,13 +13,19 @@ namespace Core
         private JumpConfig _jumpConfig;
 
         private Rigidbody _rigidbody;
+        private CapsuleCollider _collider;
+        
         private Animator _animator;
-        private Transform _groundTransform;
+        private Transform _groundTransformR;
+        private Transform _groundTransformL;
         private LayerMask _groundLayer;
         
         private float _jumpForce;
         private float _groundCastRadius;
         private float _maxCastDistance;
+
+        private float _defaultColliderHeight;
+        private float _jumpColliderHeight;
         
 
         private RaycastHit hitInfo;
@@ -39,9 +45,14 @@ namespace Core
         {
             _components = components;
             _rigidbody = components.BaseObject.GetComponent<Rigidbody>();
+            _collider = components.BaseObject.GetComponent<CapsuleCollider>();
+            _defaultColliderHeight = _collider.height;
+            _jumpColliderHeight = _collider.height / 3;
+            
             _animator = components.BaseObject.GetComponent<IPlayer>().ComponentsStorage.AnimatorIK.Animator;
             _jumpConfig = components.BaseObject.GetComponent<IPlayer>().ComponentsStorage.JumpConfig;
-            _groundTransform = components.BaseObject.GetComponent<IPlayer>().ComponentsStorage.GroundChecker;
+            _groundTransformR = components.BaseObject.GetComponent<IPlayer>().ComponentsStorage.GroundCheckerR;
+            _groundTransformL = components.BaseObject.GetComponent<IPlayer>().ComponentsStorage.GroundCheckerL;
             _groundLayer = _jumpConfig.GroundLayer;
             _jumpForce = _jumpConfig.JumpForce;
             _groundCastRadius = _jumpConfig.GroundCastRadius;
@@ -68,6 +79,11 @@ namespace Core
             
             if (!_isGrounded) {
                 _animator.SetFloat(_jumpAnimatorHash, _rigidbody.velocity.y);
+                _collider.height = _jumpColliderHeight;
+            }
+            else
+            {
+                _collider.height = _defaultColliderHeight;
             }
         }
 
@@ -75,14 +91,16 @@ namespace Core
         protected override void FixedUpdate()
         {
             // _isGrounded = Physics.SphereCast(_groundTransform.position, _groundCastRadius, Vector3.down, out RaycastHit hitInfo, _maxCastDistance, _groundLayer, QueryTriggerInteraction.Ignore);
-            _isGrounded = Physics.Raycast(_groundTransform.position, Vector3.down, _maxCastDistance, _groundLayer,
-                QueryTriggerInteraction.Ignore);
+            _isGrounded = Physics.Raycast(_groundTransformR.position, Vector3.down, _maxCastDistance, _groundLayer, QueryTriggerInteraction.Ignore) || 
+                          Physics.Raycast(_groundTransformL.position, Vector3.down, _maxCastDistance, _groundLayer, QueryTriggerInteraction.Ignore);
+            
             _animator.SetBool(_groundAnimatorHash, _isGrounded);
             
-            Debug.DrawRay(_groundTransform.position, Vector3.down * _maxCastDistance);
+            Debug.DrawRay(_groundTransformR.position, Vector3.down * _maxCastDistance);
+            Debug.DrawRay(_groundTransformL.position, Vector3.down * _maxCastDistance);
 
-            if (_isGrounded)
-                // Debug.Log("I'm GROUNDED");
+            // if (_isGrounded)
+            //     Debug.Log("I'm GROUNDED");
             
             if (_isJumpReady && _isGrounded)
             {
@@ -95,7 +113,7 @@ namespace Core
         protected override void OnDrawGizmos()
         {
             Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(_groundTransform.position + Vector3.down * _maxCastDistance, _groundCastRadius);
+            Gizmos.DrawWireSphere(_groundTransformR.position + Vector3.down * _maxCastDistance, _groundCastRadius);
 
             if (_isGrounded)
             {

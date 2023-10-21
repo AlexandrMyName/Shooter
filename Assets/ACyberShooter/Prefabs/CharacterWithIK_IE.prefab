@@ -23,13 +23,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1302085432}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -9.3132246e-10, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1552969855734936345}
-  m_RootOrder: 6
+  m_Father: {fileID: 1552969856142539722}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1362828655540115005
 GameObject:
@@ -1482,7 +1482,6 @@ Transform:
   - {fileID: 1552969857478850805}
   - {fileID: 1362828657135654161}
   - {fileID: 1302422358869342319}
-  - {fileID: 1302085433}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1502,7 +1501,9 @@ MonoBehaviour:
   <CrossHairTarget>k__BackingField: {fileID: 3829103689992805181}
   <CameraConfig>k__BackingField: {fileID: 11400000, guid: 0fda5edfb1b0cde43ab803c0040055be, type: 2}
   <JumpConfig>k__BackingField: {fileID: 11400000, guid: 1fc13243eefe0bf4ab58cf5a60e32da8, type: 2}
-  <GroundChecker>k__BackingField: {fileID: 1302085433}
+  <GroundCheckerR>k__BackingField: {fileID: 0}
+  <GroundCheckerL>k__BackingField: {fileID: 0}
+  <MainCollider>k__BackingField: {fileID: 0}
 --- !u!114 &1552969855734936344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1541,7 +1542,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 1552969855734936346}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.13
   m_Height: 1.8132915
   m_Direction: 1
@@ -2755,7 +2756,8 @@ Transform:
   m_LocalPosition: {x: -0.002245407, y: -0.008109555, z: -0.0110947285}
   m_LocalScale: {x: 0.9999999, y: 0.9999999, z: 0.9999999}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1302085433}
   m_Father: {fileID: 2160725822916134678}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

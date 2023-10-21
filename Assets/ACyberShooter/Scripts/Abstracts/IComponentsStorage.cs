@@ -18,8 +18,9 @@ namespace Abstracts
 
         JumpConfig JumpConfig { get;}
 
-        public Transform GroundChecker { get; }
-
+        Transform GroundCheckerR { get; }
+        Transform GroundCheckerL { get; }
+        
         void InitComponents();
 
 
