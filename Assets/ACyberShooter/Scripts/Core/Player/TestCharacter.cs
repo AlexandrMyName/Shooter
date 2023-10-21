@@ -26,7 +26,7 @@ namespace Core
 
                  new PlayerLocomotionSystem(),
                  new PlayerShootSystem(),
-                 new PlayerJumpSystem()
+                 new PlayerJumpSystem(),
                  new PlayerCinemachineSystem(),
              };
         }
