@@ -76,7 +76,8 @@ namespace Core
         {
             if (_recoilDuration > 0)
             {
-                _config.Y_Axis.Value -= (_verticalRecoil/ 10 * Time.deltaTime)/_recoilDuration;
+                float recoilModifier = Input.GetMouseButton(1) ?  0.3f : 0.7f;
+                _config.Y_Axis.Value -= (_verticalRecoil/ 10 * Time.deltaTime)/_recoilDuration * recoilModifier;
                 _recoilDuration -= Time.deltaTime;
             }
             else
