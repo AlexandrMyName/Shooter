@@ -88,7 +88,7 @@ namespace Core
                 Weapons.Add(viewInstance.GetWeapon());
 
                 Weapon newWeapon = viewInstance.GetWeapon();
-                newWeapon.RecoilReact = _playerComponents.Recoil;
+                newWeapon.RecoilCommand = _playerComponents.RecoilCommand;
                 newWeapon.Muzzle.InitPool(_ignoreRaycastLayerMask, newWeapon.MuzzleFlash, _crossHairTransform, newWeapon.RecoilConfig,_playerComponents);
                   
                 newWeapon.WeaponObject.SetActive(isActive);

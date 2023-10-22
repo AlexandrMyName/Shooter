@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using Abstracts;
+using Cinemachine;
+using UniRx.Triggers;
 using UnityEngine;
 
 
@@ -20,12 +22,12 @@ namespace Core
             ComponentsStorage.InitComponents();
 
              return new List<ISystem>()
-             { 
-                 new PlayerCameraSystem(),
-                 new PlayerCrossHairSystem(),
-                 new PlayerMovableSystem(),
+             {
+
+                 new PlayerLocomotionSystem(),
                  new PlayerShootSystem(),
-                 new PlayerJumpSystem()
+                 new PlayerJumpSystem(),
+                 new PlayerCinemachineSystem(),
              };
         }
     }

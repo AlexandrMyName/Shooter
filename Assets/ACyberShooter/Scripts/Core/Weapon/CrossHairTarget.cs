@@ -9,10 +9,13 @@ namespace Core
     public class CrossHairTarget : MonoBehaviour
     {
 
+        [SerializeField] private float _minDistance = 3f;
+        [SerializeField] private float _lerpMultiplier = 3f;
         private Camera _camera;
         Ray ray;
         RaycastHit hit;
 
+        Vector3 _targetPosition;
 
         private void Awake() => _camera = Camera.main;
          
@@ -26,8 +29,15 @@ namespace Core
             if(Physics.Raycast(ray, out hit))
             {
 
-                transform.position = hit.point;
+                _targetPosition =  hit.point;
             }
+            if (_targetPosition != null)
+            {
+                if(Vector3.Distance(_targetPosition,ray.origin ) > _minDistance)
+                     transform.position = Vector3.Lerp(transform.position, _targetPosition, Time.deltaTime * _lerpMultiplier);
+
+            }
+
         }
     }
 }

@@ -19,6 +19,7 @@ namespace Core
             public Vector3 initVelocity;
             public float time = 0.0f;
             public BulletConfig config;
+            public WeaponRecoilConfig recoilConfig;
             public TrailRenderer tracer; 
         }
 
@@ -47,8 +48,8 @@ namespace Core
         }
 
 
-        public void Fire(BulletConfig config)
-        => FireBullet(config);
+        public void Fire(BulletConfig config, WeaponRecoilConfig recoilConfig)
+        => FireBullet(config, recoilConfig);
         
          
         public void UpdateBullets(float deltaTime)
@@ -72,7 +73,9 @@ namespace Core
         private Bullet CreateBullet(
             Vector3 initPosition,
             Vector3 initVelocity,
-            BulletConfig config){
+            BulletConfig config,
+            WeaponRecoilConfig recoilConfig)
+        {
             ///[Mehod]\\\
             
             var bullet = new Bullet();
@@ -80,7 +83,8 @@ namespace Core
             bullet.initVelocity = initVelocity;
             bullet.time = 0.0f;
             bullet.config = config;
-
+            bullet.recoilConfig = recoilConfig;
+             
             if (bullet.config.Traicer != null)
             {
 
@@ -92,7 +96,10 @@ namespace Core
                     _visualInstance = GameObject.Instantiate(config.VisualFab, bullet.tracer.transform,false).transform;
                   
                 }
+                
             }
+
+            
             return bullet;
         }
 
@@ -128,7 +135,7 @@ namespace Core
             {
                 //we can check material collider and sets hit effect from config (need create)
                 TryInstantiateHitEffect(bullet.config);
-                TryTakeDamage(hit, bullet.config);
+                TryTakeDamage(hit, bullet);
                 TryInstantiateTracer(bullet);
 
                 bullet.time = bullet.config.MaxTime;
@@ -139,12 +146,20 @@ namespace Core
                 _visualInstance.forward = direction;
         }
 
-        private void TryTakeDamage(RaycastHit hit, BulletConfig config)
+        private void TryTakeDamage(RaycastHit hit, Bullet bullet)
         {
+
+            BulletConfig config = bullet.config;
 
             if (config.Type == BulletType.Rocket)
             {
                 var colliders = Physics.OverlapSphere(hit.point, 10f);
+
+                if (bullet.recoilConfig != null)
+                {
+                    bullet.recoilConfig.ImpulseSource.GenerateImpulse(Vector3.up
+                        * Random.Range(-1f, 1f) + Vector3.forward * Random.Range(-1f, 1f));
+                }
 
                 for (int i = 0; i < colliders.Length; i++)
                 {
@@ -163,6 +178,7 @@ namespace Core
 
                     }
                 }
+                
             }
             else
             {
@@ -216,11 +232,11 @@ namespace Core
             }
         }
 
-        private void FireBullet(BulletConfig config)
+        private void FireBullet(BulletConfig config,WeaponRecoilConfig recoilConfig)
         {
 
             Vector3 velocity = (_rayDestination.position - _rayOrigin.position).normalized * config.Speed;
-            var bullet = CreateBullet(_rayOrigin.position, velocity, config);
+            var bullet = CreateBullet(_rayOrigin.position, velocity, config, recoilConfig);
             _bullets.Add(bullet);
         }
     }

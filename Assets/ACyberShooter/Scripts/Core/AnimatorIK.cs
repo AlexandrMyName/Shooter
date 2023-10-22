@@ -12,7 +12,7 @@ using UnityEngine.Animations.Rigging;
 namespace Core
 {
      
-    [RequireComponent(typeof(Animator), typeof(WeaponData))]
+    [RequireComponent( typeof(WeaponData))]
     public class AnimatorIK : MonoBehaviour, IAnimatorIK
     {
 
@@ -152,7 +152,7 @@ namespace Core
         }
 
 
-        private void Update()
+        private void LateUpdate()
         {
              
              if(_weaponData.CurrentWeapon != null)
@@ -176,35 +176,8 @@ namespace Core
         {
 
             SetActiveAimingIK(_weaponData.CurrentWeapon, true);
-            return;
 
-            if (_weaponData.CurrentWeapon.Muzzle.CurrentAmmoInMagazine == 0)
-            {
-                SetActiveAimingIK(_weaponData.CurrentWeapon, false); 
-                return;
-            }
-
-            if (Input.GetMouseButtonDown(0) && _weaponData.CurrentWeapon.Type == IWeaponType.Pistol)
-            {
-                
-                SetActiveAimingIK(_weaponData.CurrentWeapon, true);
-               
-                return;
-            }
-
-
-            if (Input.GetMouseButton(1) || Input.GetMouseButton(0))
-            {
-              
-                    SetActiveAimingIK(_weaponData.CurrentWeapon, true);
-                
-            }
-            else
-            {
-                SetActiveAimingIK(_weaponData.CurrentWeapon, false);
-            }
-
-          
+           
         }
 
        
@@ -323,18 +296,9 @@ namespace Core
 
         public void SetActiveAimingIK(Weapon currentWeapon, bool isActive)
         {
-            if (isActive)
-            {
-               // currentWeapon.NoAimingRig.weight -= Time.deltaTime / _currentWeapon.RigDuration;
-              //  currentWeapon.AimingRig.weight += Time.deltaTime / _currentWeapon.RigDuration;
 
-            }
-            else
-            {
-               // currentWeapon.NoAimingRig.weight += Time.deltaTime / _currentWeapon.RigDuration;
-               // currentWeapon.AimingRig.weight -= Time.deltaTime / _currentWeapon.RigDuration;
-            }
-            
+            bool isAiming = Input.GetMouseButton(1) ? true : false;
+            _animator.SetBool("IsAiming", isAiming);
         }
 
          

@@ -23,10 +23,8 @@ namespace Core
         private Transform _cameraParent;
 
         List<IDisposable> _disposables = new();
+ 
          
-        private float _recoil;
-
-
         protected override void Awake(IGameComponents components)
         {
 
@@ -39,15 +37,7 @@ namespace Core
             _cameraParent.position += Vector3.up * camera_offset_UP;
              
             PlayerEvents.OnGamePaused += onPausedGame;
-             
-            _componentsStorage.Recoil.Subscribe (value =>
-            {
-                 
-                if (value != Vector3.zero)
-                    _recoil = value.y;
-               
-                 
-            }).AddTo(_disposables);
+              
         }
 
 
@@ -69,29 +59,7 @@ namespace Core
 
         protected override void Update()
         {
-
-                if(Input.GetMouseButtonUp(0))
-                {
-                    _recoil = 0;
-                }
-            if (_recoil > 0 )
-            {
-                var Max_y_recoil = Quaternion.Euler(Vector3.left * _recoil);
-
-                _components.MainCamera.transform.localRotation 
-                    = Quaternion.Slerp(_components.MainCamera.transform.localRotation, Max_y_recoil, Time.deltaTime * 1000);
-                _recoil -= Time.deltaTime;
-
-            }
-            else
-            {
-                _componentsStorage.Recoil.Value = Vector3.zero;
-                var ZeroAngle = Quaternion.Euler(0, 0, 0);
-                _recoil = 0f;
-                _components.MainCamera.transform.localRotation
-                    = Quaternion.Slerp(_components.MainCamera.transform.localRotation, ZeroAngle,  Time.deltaTime * 1000);
-
-            }
+             
          
             _inputMouseDirection.x = Input.GetAxis("Mouse X");
             _inputMouseDirection.y = Input.GetAxis("Mouse Y");

@@ -21,7 +21,7 @@ namespace Core
         [Header ("Muzzle behavior"),Space(10)]
         [SerializeField] private WeaponConfig _weaponConfig;
         [SerializeField] private Transform _muzzleRoot;
-
+ 
         [SerializeField] private BulletConfig _bulletConfig;
         private RaycastWeapon _weaponRay;
 
@@ -246,7 +246,7 @@ namespace Core
         private void Shoot()
         {
 
-            _baseComponents.Recoil.Value += _recoilConfig.GetRecoil() + Vector3.up * Time.deltaTime;
+            _baseComponents.RecoilCommand.Execute(_recoilConfig);
             foreach (var effect in _muzzleFlash)
             {
                 effect.Emit(1);
@@ -254,7 +254,7 @@ namespace Core
             if (_bulletConfig == null)
                 throw new NullReferenceException("Bullet config is null => (Muzzle) on WeaponData");
              
-            _weaponRay.Fire(_bulletConfig);
+            _weaponRay.Fire(_bulletConfig, _recoilConfig);
               
             if (_recoilModifierHorizontal >=
                 _weaponConfig.RecoilHorizontal && 

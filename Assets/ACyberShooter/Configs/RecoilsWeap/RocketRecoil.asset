@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: RocketRecoil
   m_EditorClassIdentifier: 
   X_recoil: 0
-  Y_recoil: 1.17
+  Y_recoil: 5.29
   Z_recoil: 0
+  VerticalRecoilDuration: 0.14
+  <RecoilVelocity>k__BackingField: {x: 0.2, y: 0.2, z: -1}

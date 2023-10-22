@@ -61,7 +61,7 @@ namespace Core
             Quaternion newRot = Quaternion.Euler(rotation.x, rotation.y, rotation.z);
              
                 _crossHairParent.rotation 
-                    = Quaternion.SlerpUnclamped(_crossHairParent.rotation, newRot,
+                    = Quaternion.Slerp(_crossHairParent.rotation, newRot,
                         Time.deltaTime * _componentsStorage.CameraConfig.CameraSpeedMultiplier);
                 
            

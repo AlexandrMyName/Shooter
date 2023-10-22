@@ -16,7 +16,7 @@ MonoBehaviour:
   _maxAmmo: 48
   _maxAmmoInMagazine: 12
   _maxAmmoInBurst: 0
-  _shootDelay: 0.6
+  _shootDelay: 0.2
   _burstDelay: 0
   _reloadDelay: 1
   _aimingSpeed: 0
