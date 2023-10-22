@@ -25,5 +25,5 @@ MonoBehaviour:
     m_Bits: 2147483647
   <CameraSpeedMultiplier>k__BackingField: 5
   <MinDistance>k__BackingField: 1
-  <CameraClampMin>k__BackingField: -33.5
-  <CameraClampMax>k__BackingField: 39.6
+  <CameraClampMin>k__BackingField: -85
+  <CameraClampMax>k__BackingField: 85

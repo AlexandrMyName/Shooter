@@ -527,17 +527,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e038bf700cfa444fb16c6ef963be9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &328303205 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9012088738882543401, guid: 0bdd29e949854e144b6d78cce0fc6caf, type: 3}
-  m_PrefabInstance: {fileID: 941820015}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98905ed91883c3d4f8fc09dffa3b68f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &328391410
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1823,6 +1812,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -7.9568106e-12
       objectReference: {fileID: 0}
+    - target: {fileID: 6839607190742567773, guid: 0bdd29e949854e144b6d78cce0fc6caf, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8824137576740106956, guid: 0bdd29e949854e144b6d78cce0fc6caf, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.5799999
@@ -2377,6 +2370,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6e038bf700cfa444fb16c6ef963be9f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1246611856 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2209494625454270469, guid: 0bdd29e949854e144b6d78cce0fc6caf, type: 3}
+  m_PrefabInstance: {fileID: 941820015}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98905ed91883c3d4f8fc09dffa3b68f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1254144678 stripped
@@ -3796,7 +3800,7 @@ PrefabInstance:
     - target: {fileID: 1439193087465057331, guid: e951877d0174fc147b0ca47332515070, type: 3}
       propertyPath: _playerView
       value: 
-      objectReference: {fileID: 328303205}
+      objectReference: {fileID: 1246611856}
     - target: {fileID: 1439193087465057331, guid: e951877d0174fc147b0ca47332515070, type: 3}
       propertyPath: _spawnConfig
       value: 
