@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using UniRx;
 using Cinemachine;
-
+using Configs;
 
 namespace Core
 {
@@ -15,7 +15,7 @@ namespace Core
 
         private IGameComponents _components;
         private IComponentsStorage _componentsStorage;
-        private CinemachineFreeLook _freeLookCamera;
+        private CinemachineCameraConfig _config;
 
         List<IDisposable> _disposables = new();
 
@@ -28,7 +28,7 @@ namespace Core
 
             _components = components;
             _componentsStorage = _components.BaseObject.GetComponent<IComponentsStorage>();
-            _freeLookCamera = _componentsStorage.FreeLookCamera;
+            _config = _componentsStorage.CinemachineCameraConfig;
             
             PlayerEvents.OnGamePaused += onPausedGame;
              
@@ -76,7 +76,7 @@ namespace Core
         {
             if (_recoilDuration > 0)
             {
-                _freeLookCamera.m_YAxis.Value -= (_verticalRecoil/ 1000 * Time.deltaTime)/_recoilDuration;
+                _config.Y_Axis.Value -= (_verticalRecoil/ 10 * Time.deltaTime)/_recoilDuration;
                 _recoilDuration -= Time.deltaTime;
             }
             else
@@ -86,7 +86,21 @@ namespace Core
 
         }
 
-         
+
+        protected override void FixedUpdate()
+        {
+
+            _componentsStorage.CinemachineCameraConfig.Y_Axis.Update(Time.fixedDeltaTime);
+            _componentsStorage.CinemachineCameraConfig.X_Axis.Update(Time.fixedDeltaTime);
+
+            _componentsStorage.CameraLookAt.transform.eulerAngles
+                = new Vector3(
+                    _componentsStorage.CinemachineCameraConfig.Y_Axis.Value,
+                     _componentsStorage.CinemachineCameraConfig.X_Axis.Value,
+                     0);
+        }
+
+
         public void Dispose()
         => PlayerEvents.OnGamePaused -= onPausedGame;
         

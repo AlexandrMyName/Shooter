@@ -16,7 +16,8 @@ namespace Core
         public ReactiveProperty<Vector3> Recoil { get; set; }
         [field: SerializeField] public CrossHairTarget CrossHairTarget { get; set; }
         [field: SerializeField] public CameraConfig CameraConfig { get; set; }
-        [field: SerializeField] public CinemachineFreeLook FreeLookCamera { get; set; }
+        [field: SerializeField] public CinemachineCameraConfig CinemachineCameraConfig { get; set; }
+        [field: SerializeField] public Transform CameraLookAt { get; set; }
         public IAnimatorIK AnimatorIK {get; private set;}
         [field: SerializeField] public JumpConfig JumpConfig { get; private set; }
         [field: SerializeField] public Transform GroundCheckerR { get; private set; }

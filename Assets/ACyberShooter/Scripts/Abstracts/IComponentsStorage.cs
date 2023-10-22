@@ -14,11 +14,12 @@ namespace Abstracts
         ReactiveCommand<WeaponRecoilConfig> RecoilCommand { get; set; }
         WeaponData WeaponData { get; }
         CameraConfig CameraConfig { get; }
+        Transform CameraLookAt { get; set; }
+        CinemachineCameraConfig CinemachineCameraConfig { get; set; }
         CrossHairTarget CrossHairTarget { get; set; }
         JumpConfig JumpConfig { get;}
         Transform GroundCheckerR { get; }
         Transform GroundCheckerL { get; }
-        CinemachineFreeLook FreeLookCamera { get; set; }
         void InitComponents();
 
 
