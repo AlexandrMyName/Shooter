@@ -1991,8 +1991,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerIK
       objectReference: {fileID: 0}
+    - target: {fileID: 5126896883398195466, guid: 890ef73ba2afb424ea6370a20bba7f46, type: 3}
+      propertyPath: <GroundCheckerL>k__BackingField
+      value: 
+      objectReference: {fileID: 1088709858}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 890ef73ba2afb424ea6370a20bba7f46, type: 3}
+--- !u!4 &1088709858 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1743015691430719231, guid: 890ef73ba2afb424ea6370a20bba7f46, type: 3}
+  m_PrefabInstance: {fileID: 1088709857}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1092249285 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3957563968654679928, guid: 92f3727370288f940877a556cfbfa761, type: 3}
