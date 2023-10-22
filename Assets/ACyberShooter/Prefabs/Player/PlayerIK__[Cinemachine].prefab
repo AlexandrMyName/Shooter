@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1983063622
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1983063623}
+  m_Layer: 8
+  m_Name: DefaultTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1983063623
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1983063622}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 100}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1859229142067135968}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1516629901373645102
 GameObject:
   m_ObjectHideFlags: 0
@@ -2268,7 +2299,6 @@ MonoBehaviour:
   <CinemachineCameraConfig>k__BackingField: {fileID: 11400000, guid: 447811a3da3f8694aad8af56a537c887, type: 2}
   <CameraLookAt>k__BackingField: {fileID: 6839607192227651619}
   <JumpConfig>k__BackingField: {fileID: 11400000, guid: 1fc13243eefe0bf4ab58cf5a60e32da8, type: 2}
-  <GroundChecker>k__BackingField: {fileID: 5967249723720817949}
   <GroundCheckerR>k__BackingField: {fileID: 5967249723720817949}
   <GroundCheckerL>k__BackingField: {fileID: 5967249723720817949}
 --- !u!114 &1859229141394869773
@@ -2299,7 +2329,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!136 &1859229141394869760
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2310,7 +2340,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.07
+  m_Radius: 0.25
   m_Height: 1.64
   m_Direction: 1
   m_Center: {x: 0, y: 0.85142994, z: 0}
@@ -3181,6 +3211,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6205642957046007386}
+  - {fileID: 1983063623}
   m_Father: {fileID: 6839607190742567773}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6933,8 +6964,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e51a306f3b086a34c976b30cb2aebc6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _minDistance: 0
-  _lerpMultiplier: 3
+  _rootTransform: {fileID: 1859229141394869772}
+  _defaultTarget: {fileID: 1983063623}
+  _maxTargetAngle: 30
 --- !u!1 &6275884278319899298
 GameObject:
   m_ObjectHideFlags: 0
