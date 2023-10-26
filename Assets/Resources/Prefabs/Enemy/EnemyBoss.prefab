@@ -734,7 +734,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 914305568676743986}
-  m_LocalRotation: {x: 0.10761322, y: -0.21844831, z: -0.43410334, w: 0.8673258}
+  m_LocalRotation: {x: 0.10761323, y: -0.21844831, z: -0.43410337, w: 0.8673258}
   m_LocalPosition: {x: -0.09051102, y: -0.0026820372, z: -0.04543991}
   m_LocalScale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
   m_ConstrainProportionsScale: 0
@@ -8524,6 +8524,7 @@ GameObject:
   m_Component:
   - component: {fileID: 914305569981895638}
   - component: {fileID: 705482499048038075}
+  - component: {fileID: 4477352475532168409}
   m_Layer: 11
   m_Name: EnemyBoss
   m_TagString: Untagged
@@ -8568,6 +8569,23 @@ MonoBehaviour:
   _navPuppet: {fileID: 914305569134279371}
   _goalObject: {fileID: 0}
   _puppetMaster: {fileID: 914305569904791619}
+--- !u!114 &4477352475532168409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 914305569981895637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cfc89b159ad44347be1ce1f7ec05085, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _navMeshAgent: {fileID: 914305569134279369}
+  _puppetMaster: {fileID: 914305569904791623}
+  _enemyPrefab: {fileID: 914305569981895637, guid: f4756bd0c94733f46b9926cc564f7423, type: 3}
+  _invincibility: 1
+  _count: 3
 --- !u!1 &914305569988577667
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0eeb6debb6eb48eab8ac4fde28c623da, type: 3}
   m_Name: TestBossConfig
   m_EditorClassIdentifier: 
-  _enemyHP: 30
+  _enemyHP: 1000
   _stunPossibility: 0
   _stunTime: 3
   _attackType: 1
@@ -21,4 +21,5 @@ MonoBehaviour:
   _enemyAttackDuration: 1
   _shootingProjectileSpeed: 2
   _attackDistance: 1.8
+  _meleeDistance: 0
   _shootingProjectile: {fileID: 8983598808202383336, guid: 0b70c437b81878342812ed0cdc931e28, type: 3}
