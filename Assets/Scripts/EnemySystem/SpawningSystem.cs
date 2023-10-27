@@ -152,8 +152,23 @@ namespace EnemySystem
             NavMeshHit navMeshHit;
             if (NavMesh.SamplePosition(spawnPosition, out navMeshHit, 3f, NavMesh.AllAreas))
             {
-                return navMeshHit.position;
+                Collider[] colliders = Physics.OverlapSphere(navMeshHit.position, 0.5f);
+                bool canSpawn = true;
+                foreach (Collider collider in colliders)
+                {
+                    if (collider.gameObject != _goalObjectPrefab && collider.gameObject != _spawnedObjectsRoot)
+                    {
+                        canSpawn = false;
+                        break;
+                    }
+                }
+
+                if (canSpawn)
+                {
+                    return navMeshHit.position;
+                }
             }
+
             return originalBossPosition;
         }
     }
