@@ -35,7 +35,7 @@ namespace Core
            // Recoil.SkipLatestValueOnSubscribe();
            
             AnimatorIK = _animatorIK;
-            Input = new Input.Input();
+            Input = NewInput.Instance;
         }
 
         

@@ -3,8 +3,6 @@ using Abstracts;
 using RootMotion.Dynamics;
 using UniRx;
 using UnityEngine;
-using UnityEngine.Animations.Rigging;
-using static UnityEngine.Input;
 
 
 namespace Core
@@ -27,20 +25,16 @@ namespace Core
  
         private bool _isFallen;
         private Vector3 _initialPosition;
+
+        private PlayerInput _input;
          
-
-        private void Move()
-        {
-             
-          _rb.MovePosition(_rb.position + _direction);
-         
-        }
-
-
+        
+        
         protected override void Awake(IGameComponents components)
         {
 
             _components = components;
+            _input = components.BaseObject.GetComponent<ComponentsStorage>().Input.PlayerInput;
             _rb = components.BaseObject.GetComponent<Rigidbody>();
             _rotation = Vector3.zero;
             _animatorIK = components.BaseObject.GetComponent<IPlayer>().ComponentsStorage.AnimatorIK;
@@ -56,12 +50,12 @@ namespace Core
             if (_animatorIK.PuppetObject.transform.localPosition.y == 0 ||
                 _animatorIK.PuppetMaster.state != PuppetMaster.State.Alive )
             {
-                _direction.x = GetAxis("Horizontal");
-                _direction.z = GetAxis("Vertical");
+                _direction.x = _input.Player.Move.ReadValue<Vector2>().x;
+                _direction.z = _input.Player.Move.ReadValue<Vector2>().y;
                 _direction.y = 0;
                 _animatorIK.SetFloat("Horizontal", _direction.x, 1 / Time.deltaTime);
                 _animatorIK.SetFloat("Vertical", _direction.z, 1 / Time.deltaTime);
-                _animatorIK.SetBool("IsRun", GetKey(KeyCode.LeftShift) ? true : false);
+                _animatorIK.SetBool("IsRun", _input.Player.Accelerate.IsPressed());
             }
             else
             {
@@ -93,7 +87,7 @@ namespace Core
 
             float currentSpeed = 0f;
 
-            if (GetKey(KeyCode.LeftShift))
+            if (_input.Player.Accelerate.IsPressed())
             {
                 if (Mathf.Abs(_direction.z) > 0 || Mathf.Abs(_direction.x) > 0)
                     currentSpeed = _speedRun;
@@ -108,6 +102,12 @@ namespace Core
             {
                 TeleportToInitialPosition();
             }
+        }
+        
+        
+        private void Move()
+        {
+            _rb.MovePosition(_rb.position + _direction);
         }
 
 

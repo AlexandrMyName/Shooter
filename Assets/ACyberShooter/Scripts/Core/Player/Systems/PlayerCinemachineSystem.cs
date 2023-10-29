@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using UniRx;
 using Cinemachine;
 using Configs;
-using static UnityEngine.Input;
 
 
 namespace Core
@@ -18,6 +17,7 @@ namespace Core
         private IGameComponents _components;
         private IComponentsStorage _componentsStorage;
         private CinemachineCameraConfig _config;
+        private PlayerInput _input;
 
         List<IDisposable> _disposables = new();
 
@@ -31,7 +31,8 @@ namespace Core
             _components = components;
             _componentsStorage = _components.BaseObject.GetComponent<IComponentsStorage>();
             _config = _componentsStorage.CinemachineCameraConfig;
-            
+            _input = _componentsStorage.Input.PlayerInput;
+
             PlayerEvents.OnGamePaused += onPausedGame;
              
             _componentsStorage.RecoilCommand.Subscribe (value =>
@@ -78,7 +79,7 @@ namespace Core
         {
             if (_recoilDuration > 0)
             {
-                float recoilModifier = GetMouseButton(1) ?  0.3f : 0.7f;
+                float recoilModifier = _input.Player.Aim.IsPressed() ?  0.3f : 0.7f;
                 _config.Y_Axis.Value -= (_verticalRecoil/ 10 * Time.deltaTime)/_recoilDuration * recoilModifier;
                 _recoilDuration -= Time.deltaTime;
             }

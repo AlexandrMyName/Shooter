@@ -94,6 +94,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "GodMode",
+                    "type": "Button",
+                    "id": "45d8da3f-b9d9-4cf2-aa71-38d34b98fe2e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -303,6 +312,45 @@
                     "processors": "",
                     "groups": "Mouse and Keyboard",
                     "action": "WeaponReload",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e028f92a-2e90-4c64-91a1-52ba34573d88",
+                    "path": "<Keyboard>/f1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "GodMode",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "System",
+            "id": "60d52f8d-307d-407e-bc42-c411e39ec6c3",
+            "actions": [
+                {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "f84a6f8c-90c4-4250-8452-ae2700fa2e32",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "764d49c2-d1c2-4bfb-a028-8759a071487d",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

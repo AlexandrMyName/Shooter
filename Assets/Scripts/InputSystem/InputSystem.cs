@@ -1,17 +1,32 @@
-﻿using Configs;
+﻿using Core;
 using EventBus;
 using UnityEditor;
 using UnityEngine;
 
+
 namespace InputSystem
 {
+    
     public class InputSystem : MonoBehaviour
     {
-        [SerializeField] private InputConfig _inputConfig;
+        
+        // [SerializeField] private InputConfig _inputConfig;
+        
         private bool isGodModeEnabled = false;
+
+        private PlayerInput _input;
+        
+        
+        
+        private void Start()
+        {
+            _input = NewInput.Instance.PlayerInput;
+        }
+
+
         private void Update()
         {
-            if (Input.GetKey(_inputConfig.ShootKeyCode))
+            if (_input.Player.Shoot.IsPressed())
             {
                 ShootingEvents.TryShoot(true);
             }
@@ -20,7 +35,7 @@ namespace InputSystem
                 ShootingEvents.TryShoot(false);
             }
 
-            if (Input.GetKey(_inputConfig.AimKeyCode))
+            if (_input.Player.Aim.IsPressed())
             {
                 ShootingEvents.Aim(true);
             }
@@ -29,21 +44,24 @@ namespace InputSystem
                 ShootingEvents.Aim(false);
             }
 
-            if (Input.GetKeyDown(_inputConfig.ReloadKeyCode))
+            if (_input.Player.WeaponReload.IsPressed())
             {
                 ShootingEvents.Reload();
             }
 
-            if (Input.GetKeyDown(_inputConfig.PauseKeyCode))
+            if (_input.System.Pause.IsPressed())
             {
                 ShowPauseMenu();
             }
-            if (Input.GetKeyDown(_inputConfig.GodModeKeyCode))
+            
+            if (_input.Player.GodMode.WasPressedThisFrame())
             {
                 isGodModeEnabled = !isGodModeEnabled;
                 PlayerEvents.GodMode(isGodModeEnabled);
             }
         }
+        
+        
         private void ShowPauseMenu()
         {
             PlayerEvents.PauseGame(true);
@@ -56,6 +74,7 @@ namespace InputSystem
             //Application.Quit();
 #endif 
         }
+
 
     }
 }

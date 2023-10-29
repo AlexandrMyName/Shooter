@@ -2,8 +2,6 @@ using Abstracts;
 using EventBus;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
-using static UnityEngine.Input;
 
 
 namespace Core

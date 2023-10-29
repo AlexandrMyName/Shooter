@@ -116,6 +116,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""GodMode"",
+                    ""type"": ""Button"",
+                    ""id"": ""45d8da3f-b9d9-4cf2-aa71-38d34b98fe2e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -327,6 +336,45 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""WeaponReload"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e028f92a-2e90-4c64-91a1-52ba34573d88"",
+                    ""path"": ""<Keyboard>/f1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GodMode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""System"",
+            ""id"": ""60d52f8d-307d-407e-bc42-c411e39ec6c3"",
+            ""actions"": [
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""f84a6f8c-90c4-4250-8452-ae2700fa2e32"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""764d49c2-d1c2-4bfb-a028-8759a071487d"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -373,6 +421,10 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Player_Weapon2 = m_Player.FindAction("Weapon2", throwIfNotFound: true);
         m_Player_Weapon3 = m_Player.FindAction("Weapon3", throwIfNotFound: true);
         m_Player_WeaponReload = m_Player.FindAction("WeaponReload", throwIfNotFound: true);
+        m_Player_GodMode = m_Player.FindAction("GodMode", throwIfNotFound: true);
+        // System
+        m_System = asset.FindActionMap("System", throwIfNotFound: true);
+        m_System_Pause = m_System.FindAction("Pause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -444,6 +496,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Weapon2;
     private readonly InputAction m_Player_Weapon3;
     private readonly InputAction m_Player_WeaponReload;
+    private readonly InputAction m_Player_GodMode;
     public struct PlayerActions
     {
         private @PlayerInput m_Wrapper;
@@ -458,6 +511,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @Weapon2 => m_Wrapper.m_Player_Weapon2;
         public InputAction @Weapon3 => m_Wrapper.m_Player_Weapon3;
         public InputAction @WeaponReload => m_Wrapper.m_Player_WeaponReload;
+        public InputAction @GodMode => m_Wrapper.m_Player_GodMode;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -497,6 +551,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @WeaponReload.started += instance.OnWeaponReload;
             @WeaponReload.performed += instance.OnWeaponReload;
             @WeaponReload.canceled += instance.OnWeaponReload;
+            @GodMode.started += instance.OnGodMode;
+            @GodMode.performed += instance.OnGodMode;
+            @GodMode.canceled += instance.OnGodMode;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -531,6 +588,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @WeaponReload.started -= instance.OnWeaponReload;
             @WeaponReload.performed -= instance.OnWeaponReload;
             @WeaponReload.canceled -= instance.OnWeaponReload;
+            @GodMode.started -= instance.OnGodMode;
+            @GodMode.performed -= instance.OnGodMode;
+            @GodMode.canceled -= instance.OnGodMode;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -548,6 +608,52 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         }
     }
     public PlayerActions @Player => new PlayerActions(this);
+
+    // System
+    private readonly InputActionMap m_System;
+    private List<ISystemActions> m_SystemActionsCallbackInterfaces = new List<ISystemActions>();
+    private readonly InputAction m_System_Pause;
+    public struct SystemActions
+    {
+        private @PlayerInput m_Wrapper;
+        public SystemActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Pause => m_Wrapper.m_System_Pause;
+        public InputActionMap Get() { return m_Wrapper.m_System; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(SystemActions set) { return set.Get(); }
+        public void AddCallbacks(ISystemActions instance)
+        {
+            if (instance == null || m_Wrapper.m_SystemActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_SystemActionsCallbackInterfaces.Add(instance);
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
+        }
+
+        private void UnregisterCallbacks(ISystemActions instance)
+        {
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
+        }
+
+        public void RemoveCallbacks(ISystemActions instance)
+        {
+            if (m_Wrapper.m_SystemActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(ISystemActions instance)
+        {
+            foreach (var item in m_Wrapper.m_SystemActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_SystemActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public SystemActions @System => new SystemActions(this);
     private int m_MouseandKeyboardSchemeIndex = -1;
     public InputControlScheme MouseandKeyboardScheme
     {
@@ -578,5 +684,10 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnWeapon2(InputAction.CallbackContext context);
         void OnWeapon3(InputAction.CallbackContext context);
         void OnWeaponReload(InputAction.CallbackContext context);
+        void OnGodMode(InputAction.CallbackContext context);
+    }
+    public interface ISystemActions
+    {
+        void OnPause(InputAction.CallbackContext context);
     }
 }

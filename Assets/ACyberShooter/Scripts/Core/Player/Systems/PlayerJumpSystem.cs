@@ -1,7 +1,6 @@
 ﻿using Abstracts;
 using Configs;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 
 namespace Core
