@@ -73,7 +73,13 @@ namespace Abstracts
         }
 
 
-       
+        private void OnDisable()
+        {
+            for (int i = 0; i < _systems.Count; i++)
+            {
+                _systems[i].BaseOnDisable();
+            }
+        }
         
         
     }

@@ -2,7 +2,6 @@ using Abstracts;
 using EventBus;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 
 namespace Core
@@ -15,6 +14,8 @@ namespace Core
 
         IGameComponents _components;
         IAnimatorIK _animatorIK;
+        private PlayerInput _input;
+        
         private List<IDisposable> _disposables = new();
 
         private IWeaponType _weaponType;
@@ -22,7 +23,8 @@ namespace Core
 
         protected override void Awake(IGameComponents components)
         {
-
+            _components = components;
+            _input = components.BaseObject.GetComponent<IComponentsStorage>().Input.PlayerInput;
             _animatorIK = components.BaseObject.GetComponent<IPlayer>().ComponentsStorage.AnimatorIK;
 
         }
@@ -36,32 +38,30 @@ namespace Core
 
         protected override void Update()
         {
-
-             
-            if (Input.GetKeyDown(KeyCode.Alpha1))
+            if (_input.Player.Weapon1.IsPressed())
             {
                 _weaponType = IWeaponType.Pistol;
                 SwitchWeapon(_weaponType);
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            else if (_input.Player.Weapon2.IsPressed())
             {
                 _weaponType = IWeaponType.Auto;
                 SwitchWeapon(_weaponType);
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha3))
+            else if (_input.Player.Weapon3.IsPressed())
             {
                 _weaponType = IWeaponType.Rocket;
                 SwitchWeapon(_weaponType);
             }
 
 
-            if (Input.GetMouseButton(0))
+            if (_input.Player.Shoot.IsPressed())
             {
-                if(Input.GetMouseButton(1))
+                if(_input.Player.Aim.IsPressed())
                     ShootingEvents.TryShoot(true);
             }
 
-            if (Input.GetKeyDown(KeyCode.R))
+            if (_input.Player.WeaponReload.IsPressed())
             {
                 ShootingEvents.Reload();
             }
