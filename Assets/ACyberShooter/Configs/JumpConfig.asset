@@ -18,4 +18,4 @@ MonoBehaviour:
     m_Bits: 81
   <JumpForce>k__BackingField: 50
   <GroundCastRadius>k__BackingField: 0.15
-  <MaxCastDistance>k__BackingField: 0.5
+  <MaxCastDistance>k__BackingField: 0.75
