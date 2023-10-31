@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using UniRx;
 using Random = UnityEngine.Random;
+using static UnityEngine.Input;
+
 
 namespace Core
 {
@@ -14,6 +16,7 @@ namespace Core
 
         private IGameComponents _components;
         private IComponentsStorage _componentsStorage;
+        private PlayerInput _input;
 
         private const float camera_offset_UP = 1.6f;//������ ������
         private Quaternion rotation;
@@ -30,6 +33,7 @@ namespace Core
 
             _components = components;
             _componentsStorage = _components.BaseObject.GetComponent<IComponentsStorage>();
+            _input = _componentsStorage.Input.PlayerInput;
             var cameraParent = GameObject.Instantiate(new GameObject("CameraParent")/*, _components.BaseObject.transform*/);
             _cameraParent = cameraParent.transform;
             _components.MainCamera.transform.parent = _cameraParent;
@@ -59,16 +63,13 @@ namespace Core
 
         protected override void Update()
         {
-             
-         
-            _inputMouseDirection.x = Input.GetAxis("Mouse X");
-            _inputMouseDirection.y = Input.GetAxis("Mouse Y");
+            _inputMouseDirection.x = GetAxis("Mouse X");
+            _inputMouseDirection.y = GetAxis("Mouse Y");
             _cameraParent.transform.position = _components.BaseObject.transform.position + Vector3.up * camera_offset_UP;
-            
         }
 
 
-        protected override void FixedUpdate()
+        protected override void LateUpdate()
         {
 
             RaycastHit hit;
@@ -105,11 +106,11 @@ namespace Core
             Quaternion newRot = Quaternion.Euler(rotation.x, rotation.y, rotation.z);
 
             _cameraParent.transform.rotation = newRot;
-          
         }
 
-        public void Dispose()
-        => PlayerEvents.OnGamePaused -= onPausedGame;
+        
+        public void Dispose() => PlayerEvents.OnGamePaused -= onPausedGame;
+        
         
     }
 }

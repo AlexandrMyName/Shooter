@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UniRx;
 using Random = UnityEngine.Random;
 using Unity.Mathematics;
+using static UnityEngine.Input;
 
 
 namespace Core
@@ -15,6 +16,7 @@ namespace Core
 
         private IGameComponents _components;
         private IComponentsStorage _componentsStorage;
+        private PlayerInput _input;
 
         private const float camera_offset_UP = 1.6f;//������ ������
         private Quaternion rotation;
@@ -31,21 +33,21 @@ namespace Core
 
             _components = components;
             _componentsStorage = _components.BaseObject.GetComponent<IComponentsStorage>();
+            _input = _componentsStorage.Input.PlayerInput;
             var crossHairParent = GameObject.Instantiate(new GameObject("CrossHairParent")/*, _components.BaseObject.transform*/);
             _crossHairParent = crossHairParent.transform;
             _componentsStorage.CrossHairTarget.gameObject.transform.parent = _crossHairParent;
             _crossHairParent.position += Vector3.up * camera_offset_UP;
              
         }
-         
-
+        
+        
         protected override void Update()
         {
 
-            _inputMouseDirection.x = Input.GetAxisRaw("Mouse X");
-            _inputMouseDirection.y = Input.GetAxisRaw("Mouse Y");
+            _inputMouseDirection.x = GetAxisRaw("Mouse X");
+            _inputMouseDirection.y = GetAxisRaw("Mouse Y");
             _crossHairParent.transform.position = _components.BaseObject.transform.position + Vector3.up * camera_offset_UP;
-            
         }
 
 
