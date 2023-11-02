@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PistolRecoil
   m_EditorClassIdentifier: 
   X_recoil: 0
-  Y_recoil: 3.04
+  Y_recoil: 0.54
   Z_recoil: 1.09
   VerticalRecoilDuration: 0.06
   <RecoilVelocity>k__BackingField: {x: 0, y: 0.05, z: -0.05}

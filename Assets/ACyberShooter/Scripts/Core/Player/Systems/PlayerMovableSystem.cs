@@ -18,13 +18,13 @@ namespace Core
         
         float _speedWalk = 12f;
         float _speedRun = 22f;
-
+        float _currentSpeed = 0f;
         float _turnMultiplier = 1055f;
         Rigidbody _rb;
 
         Vector3 _direction = Vector3.zero;
         Vector3 _rotation = Vector3.zero;
-
+        Vector3 _movement = Vector3.zero;
         [SerializeField] private TwoBoneIKConstraint _rithHand;
         [SerializeField] private TwoBoneIKConstraint _leftHand;
          
@@ -35,7 +35,15 @@ namespace Core
         private void Move()
         {
 
-            _rb.MovePosition(_rb.position + _direction * _speedWalk * Time.fixedDeltaTime);
+            _movement = _direction;
+
+            if(_movement.x >= Mathf.Abs(1) && _movement.z >= Mathf.Abs(1))
+            {
+                _movement.x /= 2;
+                _movement.z /= 2;
+            }
+
+            _rb.MovePosition(_rb.position + _movement * _currentSpeed *  Time.fixedDeltaTime);
 
             if ((Mathf.Abs(_direction.x) > 0 || Mathf.Abs(_direction.y) > 0) || _input.Player.Shoot.IsPressed() || _input.Player.Aim.IsPressed())
                 _rb.MoveRotation(_target_Rotation);
@@ -64,17 +72,17 @@ namespace Core
             {
                 _direction.x = _input.Player.Move.ReadValue<Vector2>().x;
                 _direction.z = _input.Player.Move.ReadValue<Vector2>().y;
-
-                _animatorIK.SetFloat("Horizontal", _direction.x, 1 / Time.deltaTime);
-                _animatorIK.SetFloat("Vertical", _direction.z, 1 / Time.deltaTime);
+                 
+                _animatorIK.SetFloat("Horizontal", _direction.x, Time.deltaTime);
+                _animatorIK.SetFloat("Vertical", _direction.z, Time.deltaTime);
                 _animatorIK.SetBool("IsRun", _input.Player.Accelerate.IsPressed() ? true : false);
             }
             else
             {
                 _direction.x = 0;
                 _direction.y = 0;
-                _animatorIK.SetFloat("Horizontal", _direction.x, 1 / Time.deltaTime);
-                _animatorIK.SetFloat("Vertical", _direction.z, 1 / Time.deltaTime);
+                _animatorIK.SetFloat("Horizontal", _direction.x, Time.deltaTime);
+                _animatorIK.SetFloat("Vertical", _direction.z, Time.deltaTime);
             }
         }
 
@@ -86,18 +94,17 @@ namespace Core
             _rotation = _components.MainCamera.transform.parent.transform.forward * 1f;
             _rotation.y = 0;
              CheckFallenState();
-            float currentSpeed = 0f;
-
+              
             if (_input.Player.Accelerate.IsPressed())
             {
 
                 if (Mathf.Abs(_direction.z) > 0 || Mathf.Abs(_direction.x) > 0)
-                    currentSpeed = _speedRun;
+                    _currentSpeed = _speedRun;
 
             }
-            else currentSpeed = _speedWalk;
+            else _currentSpeed = _speedWalk;
 
-            _direction = _direction * currentSpeed * Time.fixedDeltaTime;
+            _direction = _direction * Time.fixedDeltaTime;
  
             Quaternion look = Quaternion.LookRotation(_rotation);
 

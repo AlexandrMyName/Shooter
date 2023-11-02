@@ -104,7 +104,7 @@ namespace Core
         public void SetLayerWeight(int indexLayer, float weight) => _animator.SetLayerWeight(indexLayer, weight);
         public void SetTrigger(string keyID) => _animator.SetTrigger(keyID);
         public void SetFloat(string keyID, float value) => _animator.SetFloat(keyID, value);
-        public void SetFloat(string keyID, float value, float delta) => _animator.SetFloat(keyID, value, 0, delta);
+        public void SetFloat(string keyID, float value, float delta) => _animator.SetFloat(keyID, value, delta, delta);
         public void SetBool(string keyID, bool value) => _animator.SetBool(keyID, value);
 
 

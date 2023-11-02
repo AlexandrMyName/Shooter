@@ -1,13 +1,7 @@
 using Abstracts;
 using System.Collections.Generic;
 using System.Linq;
-
-#if UNITY_EDITOR
-using UnityEditor.Animations;
-#endif
-
 using UnityEngine;
-using UnityEngine.UIElements;
 using Views;
 
 
@@ -29,7 +23,7 @@ namespace Core
         [SerializeField] public Transform _rocketLauncherWeaponViewsFabRoot;
 
         [Space(20)]
-
+        [SerializeField] private IWeaponType _defaultWeapon = IWeaponType.Pistol;
         [SerializeField] private Transform _playerRoot;
         [SerializeField] private Transform _weaponsRoot;
 
@@ -49,23 +43,40 @@ namespace Core
         public void InitData()
         {
 
-            if(PrimaryAutoWeaponViewsFab != null)
-                AddWeapon(PrimaryAutoWeaponViewsFab, _primaryRoot);
-             
-            if (SecondaryPistolWeaponViewsFab != null)
-                AddWeapon(SecondaryPistolWeaponViewsFab, _secondaryRoot);
-                 
-            if(RocketLauncherWeaponViewsFab != null)
-                AddWeapon(RocketLauncherWeaponViewsFab, _rocketLauncherWeaponViewsFabRoot);
-  
+            AddWeapons();
 
             if (Weapons.Count > 0)
             {
-                
+
                 CurrentWeapon = Weapons.First();
                 CurrentWeapon.IsActive = false;
             }
 
+        }
+
+        private void AddWeapons()
+        {
+
+            Dictionary<WeaponModel_View, Transform> weaponsModelViews = new();
+
+            if (PrimaryAutoWeaponViewsFab != null) weaponsModelViews.Add(PrimaryAutoWeaponViewsFab, _primaryRoot);
+            if (SecondaryPistolWeaponViewsFab != null) weaponsModelViews.Add(SecondaryPistolWeaponViewsFab , _secondaryRoot);
+            if (RocketLauncherWeaponViewsFab != null) weaponsModelViews.Add(RocketLauncherWeaponViewsFab, _rocketLauncherWeaponViewsFabRoot);
+            
+            foreach(var weapon in weaponsModelViews)
+            {
+                if (weapon.Key.GetWeapon().Type == _defaultWeapon)
+                    AddWeapon(weapon.Key, weapon.Value);
+            }
+
+            if (PrimaryAutoWeaponViewsFab != null && PrimaryAutoWeaponViewsFab.GetWeapon().Type != _defaultWeapon)
+                AddWeapon(PrimaryAutoWeaponViewsFab, _primaryRoot);
+
+            if (SecondaryPistolWeaponViewsFab != null && SecondaryPistolWeaponViewsFab.GetWeapon().Type != _defaultWeapon)
+                AddWeapon(SecondaryPistolWeaponViewsFab, _secondaryRoot);
+
+            if (RocketLauncherWeaponViewsFab != null && RocketLauncherWeaponViewsFab.GetWeapon().Type != _defaultWeapon)
+                AddWeapon(RocketLauncherWeaponViewsFab, _rocketLauncherWeaponViewsFabRoot);
         }
 
 

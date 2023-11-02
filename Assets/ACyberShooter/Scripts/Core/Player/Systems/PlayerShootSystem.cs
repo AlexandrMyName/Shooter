@@ -53,18 +53,14 @@ namespace Core
                 _weaponType = IWeaponType.Rocket;
                 SwitchWeapon(_weaponType);
             }
-
-
+             
             if (_input.Player.Shoot.IsPressed())
             {
                 if(_input.Player.Aim.IsPressed())
                     ShootingEvents.TryShoot(true);
             }
 
-            if (_input.Player.WeaponReload.IsPressed())
-            {
-                ShootingEvents.Reload();
-            }
+          
         }
 
 

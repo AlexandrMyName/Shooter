@@ -26,6 +26,7 @@ namespace InputSystem
 
         private void Update()
         {
+
             if (_input.Player.Shoot.IsPressed())
             {
                 ShootingEvents.TryShoot(true);
@@ -44,10 +45,12 @@ namespace InputSystem
                 ShootingEvents.Aim(false);
             }
 
-            if (_input.Player.WeaponReload.IsPressed())
+            if (_input.Player.WeaponReload.WasPerformedThisFrame())
             {
+                Debug.Log("S");
                 ShootingEvents.Reload();
             }
+           
 
             if (_input.System.Pause.IsPressed())
             {
@@ -75,6 +78,9 @@ namespace InputSystem
 #endif 
         }
 
-
+        private void OnDestroy()
+        {
+            _input.Dispose();
+        }
     }
 }

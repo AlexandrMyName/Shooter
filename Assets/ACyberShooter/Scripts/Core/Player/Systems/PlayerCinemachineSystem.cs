@@ -77,15 +77,17 @@ namespace Core
 
         protected override void Update()
         {
+
             if (_recoilDuration > 0)
             {
                 float recoilModifier = _input.Player.Aim.IsPressed() ?  0.3f : 0.7f;
-                _config.Y_Axis.Value -= (_verticalRecoil/ 10 * Time.deltaTime)/_recoilDuration * recoilModifier;
-                _recoilDuration -= Time.deltaTime;
+                _config.Y_Axis.Value -= (_verticalRecoil/ 10 * Time.deltaTime) / _recoilDuration * recoilModifier;
+                //_recoilDuration -= Time.deltaTime;
             }
-            else
+
+            if (Input.GetMouseButtonUp(0))
             {
-                
+                _recoilDuration = 0;
             }
 
         }
