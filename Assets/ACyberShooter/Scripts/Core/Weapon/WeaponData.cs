@@ -33,9 +33,7 @@ namespace Core
         [SerializeField] private Transform _playerRoot;
         [SerializeField] private Transform _weaponsRoot;
 
-        [Header("Information of hands IK (Animation Rigging - Targets)")]
-        [SerializeField] private Transform _leftHand_IK;
-        [SerializeField] private Transform _rightHand_IK;
+  
   
         [SerializeField] private Transform _crossHairTransform;
         [SerializeField] private LayerMask _ignoreRaycastLayerMask;
