@@ -9,8 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
-using static UnityEngine.Input;
-
+using UnityEngine.InputSystem;
 
 namespace Core
 {
@@ -34,6 +33,8 @@ namespace Core
         [SerializeField] private GameObject _puppetObject;
         [SerializeField] private PuppetMaster _puppetMaster;
 
+        [Space(10), SerializeField] private ComponentsStorage _playerComponents;
+        private PlayerInput _input;
 
         private bool _IsProccessRig;
 
@@ -50,11 +51,10 @@ namespace Core
 
         private void Awake()
         {
+
             _weaponData ??= GetComponent<WeaponData>();
             _animator ??= GetComponent<Animator>();
-             
             _weaponData.InitData();
-             
         }
 
 
@@ -65,6 +65,8 @@ namespace Core
 
             ShootingEvents.OnShoot += SetShootAnimation;
             ShootingEvents.OnReload += SetReloadAnimation;
+            _input = _playerComponents.Input.PlayerInput;
+           
         }
 
 
@@ -260,7 +262,7 @@ namespace Core
         public void SetActiveAimingIK(Weapon currentWeapon, bool isActive)
         {
 
-            bool isAiming = GetMouseButton(1) ? true : false;
+            bool isAiming =  _input.Player.Aim.IsPressed() ? true : false;
             _animator.SetBool("IsAiming", isAiming);
         }
 

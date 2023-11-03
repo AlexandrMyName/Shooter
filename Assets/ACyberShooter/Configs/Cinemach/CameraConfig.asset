@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CameraConfig
   m_EditorClassIdentifier: 
   Y_Axis:
-    Value: -16.400019
+    Value: 26.7
     m_SpeedMode: 0
     m_MaxSpeed: 300
     m_AccelTime: 0.02
@@ -31,7 +31,7 @@ MonoBehaviour:
       m_LegacyHeadingDefinition: 0
       m_LegacyVelocityFilterStrength: 0
   X_Axis:
-    Value: -60.64372
+    Value: 1405.2373
     m_SpeedMode: 0
     m_MaxSpeed: 450
     m_AccelTime: 0.02
@@ -48,3 +48,6 @@ MonoBehaviour:
       m_RecenteringTime: 0
       m_LegacyHeadingDefinition: 0
       m_LegacyVelocityFilterStrength: 0
+  Sensetivity_Mouse: 40
+  Sensetivity_GamePad: 300
+  Y_AxisRange: {x: -27.5, y: 26.7}

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UniRx;
 using Cinemachine;
 using Configs;
-
+using UnityEngine.InputSystem;
 
 namespace Core
 {
@@ -85,7 +85,7 @@ namespace Core
                 //_recoilDuration -= Time.deltaTime;
             }
 
-            if (Input.GetMouseButtonUp(0))
+            if (!_input.Player.Shoot.IsPressed())
             {
                 _recoilDuration = 0;
             }
@@ -96,8 +96,25 @@ namespace Core
         protected override void FixedUpdate()
         {
 
-            _componentsStorage.CinemachineCameraConfig.Y_Axis.Update(Time.fixedDeltaTime);
-            _componentsStorage.CinemachineCameraConfig.X_Axis.Update(Time.fixedDeltaTime);
+            Vector3 delta = _input.Player.Mouse.ReadValue<Vector2>();
+            float x_axis 
+                = delta.y *
+                (Gamepad.all.Count > 0 
+                ? _componentsStorage.CinemachineCameraConfig.Sensetivity_GamePad 
+                : _componentsStorage.CinemachineCameraConfig.Sensetivity_Mouse) * Time.fixedDeltaTime;
+
+            float y_axis = delta.x * (Gamepad.all.Count > 0
+                ? _componentsStorage.CinemachineCameraConfig.Sensetivity_GamePad
+                : _componentsStorage.CinemachineCameraConfig.Sensetivity_Mouse) * Time.fixedDeltaTime;
+            
+            _componentsStorage.CinemachineCameraConfig.Y_Axis.Value -= x_axis;
+            _componentsStorage.CinemachineCameraConfig.X_Axis.Value += y_axis;
+            _componentsStorage.CinemachineCameraConfig.Y_Axis.Value
+                = Mathf.Clamp(
+                    _componentsStorage.CinemachineCameraConfig.Y_Axis.Value,
+                    _componentsStorage.CinemachineCameraConfig.Y_AxisRange.x,
+                    _componentsStorage.CinemachineCameraConfig.Y_AxisRange.y
+            );  
 
             _componentsStorage.CameraLookAt.transform.eulerAngles
                 = new Vector3(

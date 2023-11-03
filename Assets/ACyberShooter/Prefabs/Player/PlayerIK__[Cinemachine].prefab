@@ -3240,7 +3240,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 40
+  field of view: 52.72
   orthographic: 0
   orthographic size: 10
   m_Depth: 0
@@ -3934,6 +3934,7 @@ MonoBehaviour:
   _aimingDuration: 0.5
   _puppetObject: {fileID: 1859229142372380693}
   _puppetMaster: {fileID: 1516629901373645103}
+  _playerComponents: {fileID: 1859229141394869762}
 --- !u!114 &1859229142372380713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7393,6 +7394,7 @@ GameObject:
   - component: {fileID: 6839607190827885379}
   - component: {fileID: 6839607190827885376}
   - component: {fileID: 6839607190827885377}
+  - component: {fileID: 1348353691}
   m_Layer: 0
   m_Name: Virt_Cam
   m_TagString: Untagged
@@ -7437,7 +7439,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 6839607192227651619}
   m_Lens:
-    FieldOfView: 40
+    FieldOfView: 52.72
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
@@ -7477,6 +7479,22 @@ MonoBehaviour:
     m_FrequencyGain: 1
     m_Duration: 1
     m_NoiseOffsets: {x: 0, y: 0, z: 0}
+--- !u!114 &1348353691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6839607190827885378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb7194dc27b9df64c8beca7482ee8e0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerIndex: -1
+  AutoEnableInputs: 1
+  XYAxis: {fileID: 152281215497975299, guid: 73efea8ebf8e9274ca1d7d521a7850d4, type: 3}
+  ZAxis: {fileID: 0}
 --- !u!1 &6839607190940075895
 GameObject:
   m_ObjectHideFlags: 0
@@ -7538,7 +7556,7 @@ MonoBehaviour:
   ShoulderOffset: {x: 0.6, y: -0.22, z: -2.07}
   VerticalArmLength: 0.4
   CameraSide: 1
-  CameraDistance: -0.7
+  CameraDistance: 3
   CameraCollisionFilter:
     serializedVersion: 2
     m_Bits: 65
