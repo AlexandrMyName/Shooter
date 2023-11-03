@@ -18,6 +18,7 @@ namespace Abstracts
         CameraConfig CameraConfig { get; }
         Transform CameraLookAt { get; set; }
         CinemachineCameraConfig CinemachineCameraConfig { get; set; }
+        LocomotionConfig LocomotionConfig { get; set; }
         CrossHairTarget CrossHairTarget { get; set; }
         JumpConfig JumpConfig { get;}
         Transform GroundCheckerR { get; }

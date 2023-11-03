@@ -76,7 +76,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c86ba130e5a5458a98e3b482192a6dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  humanoidConfig: {fileID: 0}
+  humanoidConfig: {fileID: 11400000, guid: ec93c877e6f836940b0b05babb99d713, type: 2}
   targetRoot: {fileID: 1859229142372380714}
   state: 0
   stateSettings:
@@ -3935,6 +3935,7 @@ MonoBehaviour:
   _puppetObject: {fileID: 1859229142372380693}
   _puppetMaster: {fileID: 1516629901373645103}
   _playerComponents: {fileID: 1859229141394869762}
+  _rootRigidbody: {fileID: 1859229141394869763}
 --- !u!114 &1859229142372380713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4025,7 +4026,7 @@ MonoBehaviour:
   drawTripods: 0
   boneSize: 0.64
   tripodSize: 1
-  boneColor: {r: 0.735849, g: 0.58551043, b: 0.5720185, a: 0.31764707}
+  boneColor: {r: 0, g: 0.26083374, b: 1, a: 0.31764707}
   m_Transforms:
   - {fileID: 1859229141673470589}
   - {fileID: 1859229140714169359}

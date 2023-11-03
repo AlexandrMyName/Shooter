@@ -21,8 +21,10 @@ namespace Core
         [field: SerializeField] public Transform CameraLookAt { get; set; }
         public IAnimatorIK AnimatorIK {get; private set;}
         [field: SerializeField] public JumpConfig JumpConfig { get; private set; }
+        [field: SerializeField] public LocomotionConfig LocomotionConfig { get; set; }
         [field: SerializeField] public Transform GroundCheckerR { get; private set; }
         [field: SerializeField] public Transform GroundCheckerL { get; private set; }
+         
         public ReactiveCommand<WeaponRecoilConfig> RecoilCommand { get; set; }
 
         public IInput Input { get; private set; }

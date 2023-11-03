@@ -1,5 +1,6 @@
 using System;
 using Abstracts;
+using Configs;
 using RootMotion.Dynamics;
 using UniRx;
 using UnityEngine;
@@ -11,24 +12,22 @@ namespace Core
     public class PlayerLocomotionSystem : BaseSystem
     {
 
-        IGameComponents _components;
-        IAnimatorIK _animatorIK;
+        private IGameComponents _components;
+        private IAnimatorIK _animatorIK;
+         
+        private LocomotionConfig _locomotion;
 
-       
-        float _turnMultiplier = 3f;
+        private Rigidbody _rb;
 
-        Rigidbody _rb;
-
-        Vector3 _direction = Vector3.zero;
-        Vector3 _rotation = Vector3.zero;
+        private Vector3 _direction = Vector3.zero;
+        private Vector3 _rotation = Vector3.zero;
  
         private bool _isFallen;
         private Vector3 _initialPosition;
 
         private PlayerInput _input;
-         
-        
-        
+          
+
         protected override void Awake(IGameComponents components)
         {
 
@@ -40,16 +39,16 @@ namespace Core
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             _initialPosition = _rb.gameObject.transform.position;
+            _locomotion = components.BaseObject.GetComponent<ComponentsStorage>().LocomotionConfig;
         }
 
 
         protected override void Update()
         {
-            //Turn
-
+             
             Quaternion look = Quaternion.Euler(0, _components.MainCamera.transform.eulerAngles.y, 0);
 
-            float turn = _turnMultiplier * Time.deltaTime;
+            float turn = _locomotion.TurnMultiplier * Time.deltaTime;
 
             if ((Mathf.Abs(_direction.x) > 0 || Mathf.Abs(_direction.z) > 0) || Input.GetMouseButton(1) || Input.GetMouseButton(0))
             {
@@ -72,7 +71,6 @@ namespace Core
                         _animatorIK.SetBool(turnAnimationID, true);
                     }
                         
-                         
                 }
                 else
                 {
@@ -91,12 +89,12 @@ namespace Core
             if (_animatorIK.PuppetObject.transform.localPosition.y == 0 ||
                 _animatorIK.PuppetMaster.state != PuppetMaster.State.Alive )
             {
-                _direction.x = Mathf.Lerp(_direction.x,_input.Player.Move.ReadValue<Vector2>().x, Time.deltaTime * 100);
-                _direction.z =  Mathf.Lerp(_direction.z ,_input.Player.Move.ReadValue<Vector2>().y, Time.deltaTime * 100);
+                _direction.x =  _input.Player.Move.ReadValue<Vector2>().x;
+                _direction.z =  _input.Player.Move.ReadValue<Vector2>().y;
                 _direction.y = 0;
 
-                _animatorIK.SetFloat("Horizontal", _direction.x);
-                _animatorIK.SetFloat("Vertical", _direction.z);
+                _animatorIK.SetFloat("Horizontal", _direction.x, Time.deltaTime);
+                _animatorIK.SetFloat("Vertical", _direction.z, Time.deltaTime);
                 _animatorIK.SetBool("IsRun", _input.Player.Accelerate.IsPressed());
             }
             else
@@ -117,10 +115,9 @@ namespace Core
             _direction = _components.BaseObject.transform.TransformDirection(_direction.x, 0, _direction.z);
              
             CheckFallenState();
+             
+            if (_rb.gameObject.transform.position.y < -100f){
 
-            
-            if (_rb.gameObject.transform.position.y < -100f)
-            {
                 TeleportToInitialPosition();
             }
         }

@@ -34,6 +34,7 @@ namespace Core
         [SerializeField] private PuppetMaster _puppetMaster;
 
         [Space(10), SerializeField] private ComponentsStorage _playerComponents;
+        [SerializeField] private Rigidbody _rootRigidbody;
         private PlayerInput _input;
 
         private Vector3 _rootMotionDirection;
@@ -109,7 +110,7 @@ namespace Core
         public void SetLayerWeight(int indexLayer, float weight) => _animator.SetLayerWeight(indexLayer, weight);
         public void SetTrigger(string keyID) => _animator.SetTrigger(keyID);
         public void SetFloat(string keyID, float value) => _animator.SetFloat(keyID, value);
-        public void SetFloat(string keyID, float value, float delta) => _animator.SetFloat(keyID, value, delta, delta);
+        public void SetFloat(string keyID, float value, float delta) => _animator.SetFloat(keyID, value, 0.05f, delta);
         public void SetBool(string keyID, bool value) => _animator.SetBool(keyID, value);
 
 
@@ -153,24 +154,24 @@ namespace Core
                 UpdateAimingIK();
         }
 
-        [SerializeField] private Rigidbody rbMove;
+         
         private void OnAnimatorMove()
         {
 
             _animator.applyRootMotion = true;
-            var velocity = _animator.deltaPosition;
 
+            var velocity = _animator.deltaPosition;
             float currentSpeed = 0f;
+
             if (_input.Player.Accelerate.IsPressed())
             {
-                currentSpeed = 100f;
+                currentSpeed = _playerComponents.LocomotionConfig.RunSpeed;
             }
-            else currentSpeed = 50f;
+            else currentSpeed = _playerComponents.LocomotionConfig.WalkSpeed;
 
             Vector3 direction = velocity * currentSpeed * Time.deltaTime;
 
-            rbMove.MovePosition(rbMove.position + (velocity * currentSpeed) * Time.fixedDeltaTime);
-
+            _rootRigidbody.MovePosition(_rootRigidbody.position + (velocity * currentSpeed) * Time.fixedDeltaTime);
         }
 
 
