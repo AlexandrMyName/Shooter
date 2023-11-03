@@ -36,6 +36,9 @@ namespace Core
         [Space(10), SerializeField] private ComponentsStorage _playerComponents;
         private PlayerInput _input;
 
+        private Vector3 _rootMotionDirection;
+        private Quaternion _rootMotionRotation;
+
         private bool _IsProccessRig;
 
         public GameObject PuppetObject => _puppetObject;
@@ -110,6 +113,14 @@ namespace Core
         public void SetBool(string keyID, bool value) => _animator.SetBool(keyID, value);
 
 
+        public void SetRootMotion(Vector3 targetDirection, Quaternion targetRotation)
+        {
+
+            _rootMotionDirection = targetDirection;
+            _rootMotionRotation = targetRotation;
+        }
+
+
         public void SetShootAnimation(bool isAct,ShootingType type, float value)
         {
 
@@ -142,6 +153,26 @@ namespace Core
                 UpdateAimingIK();
         }
 
+        [SerializeField] private Rigidbody rbMove;
+        private void OnAnimatorMove()
+        {
+
+            _animator.applyRootMotion = true;
+            var velocity = _animator.deltaPosition;
+
+            float currentSpeed = 0f;
+            if (_input.Player.Accelerate.IsPressed())
+            {
+                currentSpeed = 100f;
+            }
+            else currentSpeed = 50f;
+
+            Vector3 direction = velocity * currentSpeed * Time.deltaTime;
+
+            rbMove.MovePosition(rbMove.position + (velocity * currentSpeed) * Time.fixedDeltaTime);
+
+        }
+
 
         private void SetRigWeaponState(IWeaponType weaponType, bool isEquiped, float fixedTime = 0)
         {
@@ -153,8 +184,8 @@ namespace Core
 
             }
         }
-
-
+         
+        
         private void UpdateAimingIK() => SetActiveAimingIK(_weaponData.CurrentWeapon, true);
         
        

@@ -14,8 +14,7 @@ namespace Core
         IGameComponents _components;
         IAnimatorIK _animatorIK;
 
-        float _speedWalk = 12/3f;
-        float _speedRun = 22f/3f;
+       
         float _turnMultiplier = 3f;
 
         Rigidbody _rb;
@@ -88,27 +87,27 @@ namespace Core
                 _animatorIK.SetBool("LeftTurn", false);
             }
 
+            
             if (_animatorIK.PuppetObject.transform.localPosition.y == 0 ||
                 _animatorIK.PuppetMaster.state != PuppetMaster.State.Alive )
             {
-                _direction.x = _input.Player.Move.ReadValue<Vector2>().x;
-                _direction.z = _input.Player.Move.ReadValue<Vector2>().y;
+                _direction.x = Mathf.Lerp(_direction.x,_input.Player.Move.ReadValue<Vector2>().x, Time.deltaTime * 100);
+                _direction.z =  Mathf.Lerp(_direction.z ,_input.Player.Move.ReadValue<Vector2>().y, Time.deltaTime * 100);
                 _direction.y = 0;
-                _animatorIK.SetFloat("Horizontal", _direction.x, 300 * Time.deltaTime);
-                _animatorIK.SetFloat("Vertical", _direction.z, 300 * Time.deltaTime);
+
+                _animatorIK.SetFloat("Horizontal", _direction.x);
+                _animatorIK.SetFloat("Vertical", _direction.z);
                 _animatorIK.SetBool("IsRun", _input.Player.Accelerate.IsPressed());
             }
             else
             {
                 _direction.x = 0;
                 _direction.y = 0;
+                
                 _animatorIK.SetFloat("Horizontal", _direction.x, 3 * Time.deltaTime);
                 _animatorIK.SetFloat("Vertical", _direction.z, 3 * Time.deltaTime);
             }
 
-
-            
-           
         }
 
 
@@ -116,38 +115,20 @@ namespace Core
         {
              
             _direction = _components.BaseObject.transform.TransformDirection(_direction.x, 0, _direction.z);
-
+             
             CheckFallenState();
 
-            float currentSpeed = 0f;
-
-            if (_input.Player.Accelerate.IsPressed())
-            {
-                if (Mathf.Abs(_direction.z) > 0 || Mathf.Abs(_direction.x) > 0)
-                    currentSpeed = _speedRun;
-            }
-            else currentSpeed = _speedWalk;
-
-            _direction = (_direction * currentSpeed) * Time.fixedDeltaTime;
-           
-            Move();
-
+            
             if (_rb.gameObject.transform.position.y < -100f)
             {
                 TeleportToInitialPosition();
             }
         }
-        
-        
-        private void Move()
-        {
-            _rb.MovePosition(_rb.position + _direction);
-        }
-
-
+         
+         
         private void TeleportToInitialPosition()
         {
-            Debug.LogWarning("Tp");
+            
             _rb.gameObject.transform.position = _initialPosition;
             _animatorIK.PuppetObject.transform.position = _rb.gameObject.transform.position;
             _animatorIK.PuppetObject.transform.rotation = _rb.gameObject.transform.rotation;
@@ -159,7 +140,7 @@ namespace Core
         {
             if (_animatorIK.PuppetObject.transform.position != _rb.gameObject.transform.position && !_isFallen)
             {
-                Debug.LogWarning("Fall");
+                
                 _isFallen = true;
                 Observable.Timer(TimeSpan.FromSeconds(2f)).Subscribe(_ =>
                 {

@@ -16,6 +16,7 @@ namespace Abstracts
 
         void SetBool(string keyID, bool value);
         void SetWeaponState(IWeaponType weaponType, bool useHolster = true);
+        void SetRootMotion(Vector3 targetDirection, Quaternion targetRotation);
         GameObject PuppetObject { get; }
         PuppetMaster PuppetMaster { get; }
 
