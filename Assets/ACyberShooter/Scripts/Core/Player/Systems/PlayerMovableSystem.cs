@@ -45,8 +45,8 @@ namespace Core
 
             _rb.MovePosition(_rb.position + _movement * _currentSpeed *  Time.fixedDeltaTime);
 
-            if ((Mathf.Abs(_direction.x) > 0 || Mathf.Abs(_direction.y) > 0) || _input.Player.Shoot.IsPressed() || _input.Player.Aim.IsPressed())
-                _rb.MoveRotation(_target_Rotation);
+           // if ((Mathf.Abs(_direction.x) > 0 || Mathf.Abs(_direction.y) > 0) || _input.Player.Shoot.IsPressed() || _input.Player.Aim.IsPressed())
+               // _rb.MoveRotation(_target_Rotation);
         }
 
 
@@ -84,6 +84,21 @@ namespace Core
                 _animatorIK.SetFloat("Horizontal", _direction.x, Time.deltaTime);
                 _animatorIK.SetFloat("Vertical", _direction.z, Time.deltaTime);
             }
+
+            _rotation = _components.MainCamera.transform.parent.transform.forward * 1f;
+            _rotation.y = 0;
+            Quaternion look = Quaternion.LookRotation(_rotation);
+
+            float turn = 3f * Time.deltaTime;
+
+            //_target_Rotation
+            //    = Quaternion
+            //        .RotateTowards(_components.BaseObject.transform.rotation, look, turn);
+
+            //if ((Mathf.Abs(_direction.x) > 0 || Mathf.Abs(_direction.y) > 0) || _input.Player.Shoot.IsPressed() || _input.Player.Aim.IsPressed())
+            //{
+            //    _rb.transform.rotation = Quaternion.Slerp(_rb.rotation,look, turn * Time.fixedDeltaTime);
+            //}
         }
 
 
@@ -91,8 +106,7 @@ namespace Core
         {
 
             _direction = _rb.transform.TransformDirection(_direction.x, 0, _direction.z);
-            _rotation = _components.MainCamera.transform.parent.transform.forward * 1f;
-            _rotation.y = 0;
+            
              CheckFallenState();
               
             if (_input.Player.Accelerate.IsPressed())
@@ -106,15 +120,10 @@ namespace Core
 
             _direction = _direction * Time.fixedDeltaTime;
  
-            Quaternion look = Quaternion.LookRotation(_rotation);
+         
 
-            float turn = _turnMultiplier * Time.fixedDeltaTime;
 
-            _target_Rotation 
-                = Quaternion
-                    .RotateTowards(_components.BaseObject.transform.rotation, look, turn);
-             
-            Move();
+                Move();
 
             if (_rb.gameObject.transform.position.y < -100f)
             {

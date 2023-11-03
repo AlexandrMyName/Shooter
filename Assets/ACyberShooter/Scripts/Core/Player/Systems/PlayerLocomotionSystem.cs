@@ -16,7 +16,7 @@ namespace Core
 
         float _speedWalk = 12/3f;
         float _speedRun = 22f/3f;
-        float _turnMultiplier = 100f;
+        float _turnMultiplier = 3f;
 
         Rigidbody _rb;
 
@@ -46,41 +46,75 @@ namespace Core
 
         protected override void Update()
         {
-            
+            //Turn
+
+            Quaternion look = Quaternion.Euler(0, _components.MainCamera.transform.eulerAngles.y, 0);
+
+            float turn = _turnMultiplier * Time.deltaTime;
+
+            if ((Mathf.Abs(_direction.x) > 0 || Mathf.Abs(_direction.z) > 0) || Input.GetMouseButton(1) || Input.GetMouseButton(0))
+            {
+                _components.BaseTransform.rotation = Quaternion.Slerp(_components.BaseObject.transform.rotation, look, turn);
+                
+                if (_direction.x == 0 && _direction.z == 0 && _components.BaseObject.transform.rotation.y != look.y)
+                {
+                    _animatorIK.Animator.SetLayerWeight(2, 1.0f);
+                  
+                    string turnAnimationID =  Quaternion.Angle(look , _components.BaseObject.transform.rotation) > 0 ? "RightTurn" : "LeftTurn";
+                    
+
+                    if(Mathf.Abs(Quaternion.Angle(look, _components.BaseObject.transform.rotation)) < 10)
+                    {
+                        _animatorIK.SetBool("RightTurn", false);
+                        _animatorIK.SetBool("LeftTurn", false);
+                    }
+                    else
+                    {
+                        _animatorIK.SetBool(turnAnimationID, true);
+                    }
+                        
+                         
+                }
+                else
+                {
+                    _animatorIK.SetBool("RightTurn", false);
+                    _animatorIK.SetBool("LeftTurn", false);
+                    _animatorIK.Animator.SetLayerWeight(2, 0.0f);
+                }
+            }
+            else
+            {
+                _animatorIK.SetBool("RightTurn", false);
+                _animatorIK.SetBool("LeftTurn", false);
+            }
+
             if (_animatorIK.PuppetObject.transform.localPosition.y == 0 ||
                 _animatorIK.PuppetMaster.state != PuppetMaster.State.Alive )
             {
                 _direction.x = _input.Player.Move.ReadValue<Vector2>().x;
                 _direction.z = _input.Player.Move.ReadValue<Vector2>().y;
                 _direction.y = 0;
-                _animatorIK.SetFloat("Horizontal", _direction.x, 1 / Time.deltaTime);
-                _animatorIK.SetFloat("Vertical", _direction.z, 1 / Time.deltaTime);
+                _animatorIK.SetFloat("Horizontal", _direction.x, 300 * Time.deltaTime);
+                _animatorIK.SetFloat("Vertical", _direction.z, 300 * Time.deltaTime);
                 _animatorIK.SetBool("IsRun", _input.Player.Accelerate.IsPressed());
             }
             else
             {
                 _direction.x = 0;
                 _direction.y = 0;
-                _animatorIK.SetFloat("Horizontal", _direction.x, 1 / Time.deltaTime);
-                _animatorIK.SetFloat("Vertical", _direction.z, 1 / Time.deltaTime);
+                _animatorIK.SetFloat("Horizontal", _direction.x, 3 * Time.deltaTime);
+                _animatorIK.SetFloat("Vertical", _direction.z, 3 * Time.deltaTime);
             }
+
+
+            
+           
         }
 
 
         protected override void FixedUpdate()
         {
-
-            //if ((Mathf.Abs(_direction.x) > 0 || Mathf.Abs(_direction.z) > 0) || Input.GetMouseButton(1) || Input.GetMouseButton(0))
-             //Turn
-
-            Quaternion look = Quaternion.Euler(0, _components.MainCamera.transform.eulerAngles.y, 0);
-
-            float turn = _turnMultiplier * Time.deltaTime;
-
-            _components.BaseTransform.rotation
-              = Quaternion
-                  .Slerp(_components.BaseObject.transform.rotation, look, turn);
-
+             
             _direction = _components.BaseObject.transform.TransformDirection(_direction.x, 0, _direction.z);
 
             CheckFallenState();

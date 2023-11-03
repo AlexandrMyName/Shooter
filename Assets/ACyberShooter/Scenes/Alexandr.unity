@@ -4447,13 +4447,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1859229141973146400, guid: 0bdd29e949854e144b6d78cce0fc6caf, type: 3}
-      propertyPath: m_Data.m_Offset.x
-      value: 1.98
-      objectReference: {fileID: 0}
-    - target: {fileID: 1859229141973146400, guid: 0bdd29e949854e144b6d78cce0fc6caf, type: 3}
-      propertyPath: m_Data.m_Offset.y
-      value: -4.97
+    - target: {fileID: 1859229142067135968, guid: 0bdd29e949854e144b6d78cce0fc6caf, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -5.0699997
       objectReference: {fileID: 0}
     - target: {fileID: 1859229142067135968, guid: 0bdd29e949854e144b6d78cce0fc6caf, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4470,22 +4466,6 @@ PrefabInstance:
     - target: {fileID: 1859229142067135968, guid: 0bdd29e949854e144b6d78cce0fc6caf, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1859229142372380719, guid: 0bdd29e949854e144b6d78cce0fc6caf, type: 3}
-      propertyPath: _defaultWeapon
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1859229142372380719, guid: 0bdd29e949854e144b6d78cce0fc6caf, type: 3}
-      propertyPath: _rocketLauncherWeaponViewsFabRoot
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1859229142372380719, guid: 0bdd29e949854e144b6d78cce0fc6caf, type: 3}
-      propertyPath: <RocketLauncherWeaponViewsFab>k__BackingField
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3224812458385202975, guid: 0bdd29e949854e144b6d78cce0fc6caf, type: 3}
-      propertyPath: m_Enabled
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6839607190742567772, guid: 0bdd29e949854e144b6d78cce0fc6caf, type: 3}
       propertyPath: m_Name
@@ -4534,6 +4514,14 @@ PrefabInstance:
     - target: {fileID: 6839607190742567773, guid: 0bdd29e949854e144b6d78cce0fc6caf, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6839607190827885379, guid: 0bdd29e949854e144b6d78cce0fc6caf, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -5.0699997
+      objectReference: {fileID: 0}
+    - target: {fileID: 6839607190940075898, guid: 0bdd29e949854e144b6d78cce0fc6caf, type: 3}
+      propertyPath: CameraDistance
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0bdd29e949854e144b6d78cce0fc6caf, type: 3}

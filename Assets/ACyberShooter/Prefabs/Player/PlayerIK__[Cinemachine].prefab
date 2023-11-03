@@ -1811,8 +1811,8 @@ MonoBehaviour:
         transform: {fileID: 0}
         weight: 0
     m_Offset: {x: 0, y: 0, z: 0}
-    m_MinLimit: -119
-    m_MaxLimit: 52
+    m_MinLimit: -26
+    m_MaxLimit: 23
     m_AimAxis: 4
     m_UpAxis: 2
     m_WorldUpType: 0
@@ -3070,9 +3070,9 @@ MonoBehaviour:
       m_Item7:
         transform: {fileID: 0}
         weight: 0
-    m_Offset: {x: 0, y: 0, z: 0}
-    m_MinLimit: -180
-    m_MaxLimit: 180
+    m_Offset: {x: 1.98, y: -9.53, z: 0}
+    m_MinLimit: -58
+    m_MaxLimit: 36
     m_AimAxis: 4
     m_UpAxis: 2
     m_WorldUpType: 0
@@ -3082,7 +3082,7 @@ MonoBehaviour:
     m_ConstrainedAxes:
       x: 1
       y: 1
-      z: 0
+      z: 1
 --- !u!1 &1859229141978977425
 GameObject:
   m_ObjectHideFlags: 0
@@ -3995,12 +3995,11 @@ MonoBehaviour:
   _primaryRoot: {fileID: 4135354845802332533}
   <SecondaryPistolWeaponViewsFab>k__BackingField: {fileID: 979979263, guid: c3d8cd64ac1829f4999d995d12c398d3, type: 3}
   _secondaryRoot: {fileID: 4135354844289892202}
-  <RocketLauncherWeaponViewsFab>k__BackingField: {fileID: 3140357190083811770, guid: 0b0dd33fb1c635b408e89a828621c2de, type: 3}
-  _rocketLauncherWeaponViewsFabRoot: {fileID: 4135354844312766880}
+  <RocketLauncherWeaponViewsFab>k__BackingField: {fileID: 0}
+  _rocketLauncherWeaponViewsFabRoot: {fileID: 0}
+  _defaultWeapon: 2
   _playerRoot: {fileID: 1859229141394869772}
   _weaponsRoot: {fileID: 4135354845580610851}
-  _leftHand_IK: {fileID: 1859229141561809575}
-  _rightHand_IK: {fileID: 1859229142653056242}
   _crossHairTransform: {fileID: 6205642957046007386}
   _ignoreRaycastLayerMask:
     serializedVersion: 2
@@ -7539,7 +7538,7 @@ MonoBehaviour:
   ShoulderOffset: {x: 0.6, y: -0.22, z: -2.07}
   VerticalArmLength: 0.4
   CameraSide: 1
-  CameraDistance: 3
+  CameraDistance: -0.7
   CameraCollisionFilter:
     serializedVersion: 2
     m_Bits: 65
