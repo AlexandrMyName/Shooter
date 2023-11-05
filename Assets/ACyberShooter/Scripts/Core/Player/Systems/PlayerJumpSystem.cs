@@ -32,6 +32,8 @@ namespace Core
         
 
         private RaycastHit hitInfo;
+
+        private Vector2 _movement;
         
 
         private bool _isJumpPressed;
@@ -74,6 +76,7 @@ namespace Core
         
         protected override void Update()
         {
+            _movement = _input.Player.Move.ReadValue<Vector2>();
             _isJumpPressed = _input.Player.Jump.IsPressed();
 
             if (_isJumpPressed && _isGrounded)
@@ -104,13 +107,23 @@ namespace Core
             Debug.DrawRay(_groundTransformR.position, Vector3.down * _maxCastDistance);
             Debug.DrawRay(_groundTransformL.position, Vector3.down * _maxCastDistance);
 
-            // if (_isGrounded)
-            //     Debug.Log("I'm GROUNDED");
+            // if (!_isGrounded)
+            // {
+            //     var customVelocity = new Vector3(_movement.x * _jumpForce, _rigidbody.velocity.y, _movement.y * _jumpForce);
+            //     _rigidbody.velocity = customVelocity;
+            // }
+            // else
+            // {
+            //     _rigidbody.velocity = Vector3.zero;
+            // }
 
             if (_isJumpReady && _isGrounded)
             {
                 _isJumpReady = false;
-                _rigidbody.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
+                var customVelocity = new Vector3(_movement.x, 1.0f, _movement.y);
+                var globalVector = _rigidbody.gameObject.transform.TransformVector(customVelocity);
+                var forceVector = new Vector3(globalVector.x * _jumpForce / 3, globalVector.y  * _jumpForce, globalVector.z  * _jumpForce / 3);
+                _rigidbody.AddForce(forceVector, ForceMode.Impulse);
             }
         }
         
