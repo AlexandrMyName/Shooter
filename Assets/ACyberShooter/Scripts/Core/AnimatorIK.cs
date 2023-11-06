@@ -47,15 +47,16 @@ namespace Core
         public PuppetMaster PuppetMaster => _puppetMaster;
         
         public Animator Animator => _animator;
-        
-
+         
         public void Dispose() => _weaponData.Weapons.ForEach(disposable => disposable.Muzzle.Dispose());
 
+        public bool IsLoseBalance { get; set; }
 
 
         private void Awake()
         {
 
+            IsLoseBalance = false;
             _weaponData ??= GetComponent<WeaponData>();
             _animator ??= GetComponent<Animator>();
             _weaponData.InitData();
@@ -147,11 +148,27 @@ namespace Core
         }
 
 
+        public void OnLooseBalance()
+        {
+            Debug.LogWarning("lose");
+            IsLoseBalance = true;
+        }
+
+        public void OnRegainBalance()
+        {
+            Debug.LogWarning("regain");
+            IsLoseBalance = false;
+        }
+
+
         private void LateUpdate()
         {
              
              if(_weaponData.CurrentWeapon != null)
                 UpdateAimingIK();
+
+
+             
         }
 
          

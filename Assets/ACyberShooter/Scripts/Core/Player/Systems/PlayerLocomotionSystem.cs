@@ -45,7 +45,9 @@ namespace Core
 
         protected override void Update()
         {
-             
+
+             if (_animatorIK.IsLoseBalance) return;
+
             Quaternion look = Quaternion.Euler(0, _components.MainCamera.transform.eulerAngles.y, 0);
 
             float turn = _locomotion.TurnMultiplier * Time.deltaTime;
@@ -84,11 +86,11 @@ namespace Core
                 _animatorIK.SetBool("RightTurn", false);
                 _animatorIK.SetBool("LeftTurn", false);
             }
+             
 
-            
-            if (_animatorIK.PuppetObject.transform.localPosition.y == 0 ||
-                _animatorIK.PuppetMaster.state != PuppetMaster.State.Alive )
-            {
+            //if (_animatorIK.PuppetObject.transform.localPosition.y == 0 ||
+            //    _animatorIK.PuppetMaster.state != PuppetMaster.State.Alive )
+            //{
                 _direction.x =  _input.Player.Move.ReadValue<Vector2>().x;
                 _direction.z =  _input.Player.Move.ReadValue<Vector2>().y;
                 _direction.y = 0;
@@ -96,22 +98,24 @@ namespace Core
                 _animatorIK.SetFloat("Horizontal", _direction.x, Time.deltaTime);
                 _animatorIK.SetFloat("Vertical", _direction.z, Time.deltaTime);
                 _animatorIK.SetBool("IsRun", _input.Player.Accelerate.IsPressed());
-            }
-            else
-            {
-                _direction.x = 0;
-                _direction.y = 0;
-                
-                _animatorIK.SetFloat("Horizontal", _direction.x, 3 * Time.deltaTime);
-                _animatorIK.SetFloat("Vertical", _direction.z, 3 * Time.deltaTime);
-            }
+            //}
+            //else
+            //{
+            //    _direction.x = 0;
+            //    _direction.y = 0;
 
+            //    _animatorIK.SetFloat("Horizontal", _direction.x, 3 * Time.deltaTime);
+            //    _animatorIK.SetFloat("Vertical", _direction.z, 3 * Time.deltaTime);
+            //}
+            
         }
 
 
         protected override void FixedUpdate()
         {
-             
+
+             if (_animatorIK.IsLoseBalance) return;
+
             _direction = _components.BaseObject.transform.TransformDirection(_direction.x, 0, _direction.z);
              
             CheckFallenState();
@@ -120,6 +124,8 @@ namespace Core
 
                 TeleportToInitialPosition();
             }
+
+            
         }
          
          

@@ -9,6 +9,7 @@ namespace Abstracts
     public interface IAnimatorIK : IDisposable
     {
 
+        bool IsLoseBalance { get; set; }
         void SetLayerWeight(int indexLayer, float weight);
        
         void SetFloat(string keyID, float value);
