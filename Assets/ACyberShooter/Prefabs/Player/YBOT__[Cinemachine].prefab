@@ -5514,7 +5514,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8515496579680818384}
-  m_LocalRotation: {x: 0.14724232, y: 0.64299446, z: -0.122373365, w: 0.7415542}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.6000004, y: 1.8610001, z: -5.0699997}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -6635,7 +6635,7 @@ MonoBehaviour:
   deactivated: 0
   stateName: Falling
   transitionDuration: 0.7
-  layer: 0
+  layer: 3
   fixedTime: 0
   raycastLayers:
     serializedVersion: 2
