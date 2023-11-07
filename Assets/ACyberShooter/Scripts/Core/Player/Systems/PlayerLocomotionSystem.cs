@@ -86,27 +86,15 @@ namespace Core
                 _animatorIK.SetBool("RightTurn", false);
                 _animatorIK.SetBool("LeftTurn", false);
             }
-             
+              
+            _direction.x =  _input.Player.Move.ReadValue<Vector2>().x;
+            _direction.z =  _input.Player.Move.ReadValue<Vector2>().y;
+            _direction.y = 0;
 
-            //if (_animatorIK.PuppetObject.transform.localPosition.y == 0 ||
-            //    _animatorIK.PuppetMaster.state != PuppetMaster.State.Alive )
-            //{
-                _direction.x =  _input.Player.Move.ReadValue<Vector2>().x;
-                _direction.z =  _input.Player.Move.ReadValue<Vector2>().y;
-                _direction.y = 0;
-
-                _animatorIK.SetFloat("Horizontal", _direction.x, Time.deltaTime);
-                _animatorIK.SetFloat("Vertical", _direction.z, Time.deltaTime);
-                _animatorIK.SetBool("IsRun", _input.Player.Accelerate.IsPressed());
-            //}
-            //else
-            //{
-            //    _direction.x = 0;
-            //    _direction.y = 0;
-
-            //    _animatorIK.SetFloat("Horizontal", _direction.x, 3 * Time.deltaTime);
-            //    _animatorIK.SetFloat("Vertical", _direction.z, 3 * Time.deltaTime);
-            //}
+            _animatorIK.SetFloat("Horizontal", _direction.x, Time.deltaTime);
+            _animatorIK.SetFloat("Vertical", _direction.z, Time.deltaTime);
+            _animatorIK.SetBool("IsRun", _input.Player.Accelerate.IsPressed());
+           
             
         }
 

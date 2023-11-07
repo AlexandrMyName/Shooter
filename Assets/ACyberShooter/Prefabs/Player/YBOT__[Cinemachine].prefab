@@ -4919,7 +4919,7 @@ MonoBehaviour:
       minPinWeight: 0
       disableColliders: 0
       regainPinSpeed: 1
-      collisionResistance: 1
+      collisionResistance: 55
       knockOutDistance: 0.6
       puppetMaterial: {fileID: 0}
       unpinnedMaterial: {fileID: 0}
@@ -4934,7 +4934,7 @@ MonoBehaviour:
       minPinWeight: 0
       disableColliders: 0
       regainPinSpeed: 1
-      collisionResistance: 1
+      collisionResistance: 55
       knockOutDistance: 100
       puppetMaterial: {fileID: 0}
       unpinnedMaterial: {fileID: 0}

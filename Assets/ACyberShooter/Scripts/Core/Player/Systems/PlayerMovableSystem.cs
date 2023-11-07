@@ -66,7 +66,9 @@ namespace Core
 
         protected override void Update()
         {
-            
+
+            if (_animatorIK.IsLoseBalance) return;
+
             if (_animatorIK.PuppetObject.transform.localPosition.y == 0 ||
                 _animatorIK.PuppetMaster.state != PuppetMaster.State.Alive )
             {
@@ -87,18 +89,7 @@ namespace Core
 
             _rotation = _components.MainCamera.transform.parent.transform.forward * 1f;
             _rotation.y = 0;
-            Quaternion look = Quaternion.LookRotation(_rotation);
-
-            float turn = 3f * Time.deltaTime;
-
-            //_target_Rotation
-            //    = Quaternion
-            //        .RotateTowards(_components.BaseObject.transform.rotation, look, turn);
-
-            //if ((Mathf.Abs(_direction.x) > 0 || Mathf.Abs(_direction.y) > 0) || _input.Player.Shoot.IsPressed() || _input.Player.Aim.IsPressed())
-            //{
-            //    _rb.transform.rotation = Quaternion.Slerp(_rb.rotation,look, turn * Time.fixedDeltaTime);
-            //}
+           
         }
 
 

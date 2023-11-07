@@ -38,6 +38,9 @@ namespace Core
 
         protected override void Update()
         {
+
+            if (_animatorIK.IsLoseBalance) return;
+
             if (_input.Player.Weapon1.IsPressed())
             {
                 _weaponType = IWeaponType.Pistol;
