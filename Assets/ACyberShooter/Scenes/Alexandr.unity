@@ -1690,47 +1690,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e038bf700cfa444fb16c6ef963be9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &684634668 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8515496579416875302, guid: 44f112c3781bae644b2a499ea89fd12b, type: 3}
-  m_PrefabInstance: {fileID: 3534053061072226529}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &684634679
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 684634668}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 726325959c0cb064597e2f1bd5eb6b21, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lengthFromHeelToToes: 0.07
-  maxRotationAngle: 60
-  ankleHeightOffset: 0.034
-  enableIKPositioning: 0
-  enableIKRotating: 0
-  globalWeight: 0
-  leftFootWeight: 1
-  rightFootWeight: 1
-  smoothTime: 0.075
-  raySphereRadius: 0.0515
-  rayCastRange: 2
-  groundLayers:
-    serializedVersion: 2
-    m_Bits: 16448
-  ignoreTriggers: 1
-  leftFootRayStartHeight: 0.277
-  rightFootRayStartHeight: 0.289
-  enableFootLifting: 1
-  floorRange: 0
-  enableBodyPositioning: 0
-  crouchRange: 0.25
-  stretchRange: 0
-  giveWorldHeightOffset: 0
-  worldHeightOffset: 0
 --- !u!1 &685611005
 GameObject:
   m_ObjectHideFlags: 0
@@ -4298,37 +4257,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: YBOT__[Cinemachine]
       objectReference: {fileID: 0}
-    - target: {fileID: 8515496579416875294, guid: 44f112c3781bae644b2a499ea89fd12b, type: 3}
-      propertyPath: m_Radius
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8515496579416875294, guid: 44f112c3781bae644b2a499ea89fd12b, type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 13400000, guid: 64d84d3edc2acd747bbb0413825fa2ef, type: 2}
-    - target: {fileID: 8515496579416875745, guid: 44f112c3781bae644b2a499ea89fd12b, type: 3}
-      propertyPath: m_Drag
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8515496579416875747, guid: 44f112c3781bae644b2a499ea89fd12b, type: 3}
-      propertyPath: <Foot_IK>k__BackingField
-      value: 
-      objectReference: {fileID: 684634679}
     - target: {fileID: 8515496579680818387, guid: 44f112c3781bae644b2a499ea89fd12b, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7415542
       objectReference: {fileID: 0}
     - target: {fileID: 8515496579680818387, guid: 44f112c3781bae644b2a499ea89fd12b, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0.14724232
       objectReference: {fileID: 0}
     - target: {fileID: 8515496579680818387, guid: 44f112c3781bae644b2a499ea89fd12b, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0.64299446
       objectReference: {fileID: 0}
     - target: {fileID: 8515496579680818387, guid: 44f112c3781bae644b2a499ea89fd12b, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: -0.122373365
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44f112c3781bae644b2a499ea89fd12b, type: 3}

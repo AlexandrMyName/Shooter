@@ -139,10 +139,10 @@ namespace Core
 
             bool isGrounded = Physics.CheckCapsule(_collider.bounds.center, bound, _groundCastRadius, _groundLayer);
 
-            if(!isGrounded)
-                isGrounded = Physics.SphereCast(_groundTransformR.position, _groundCastRadius, Vector3.down, out RaycastHit hitInfo, _maxCastDistance, _groundLayer, QueryTriggerInteraction.Ignore);
+            //if (!isGrounded)
+            //    isGrounded = Physics.SphereCast(_groundTransformR.position, _groundCastRadius, Vector3.down, out RaycastHit hitInfo, _maxCastDistance, _groundLayer, QueryTriggerInteraction.Ignore);
             if (!isGrounded)
-                isGrounded 
+                isGrounded
                     = Physics.Raycast(_groundTransformR.position, Vector3.down, _maxCastDistance, _groundLayer, QueryTriggerInteraction.Ignore) ||
                              Physics.Raycast(_groundTransformL.position, Vector3.down, _maxCastDistance, _groundLayer, QueryTriggerInteraction.Ignore);
             return isGrounded;

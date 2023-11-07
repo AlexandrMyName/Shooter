@@ -17,7 +17,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 32849
   <JumpForce>k__BackingField: 2
-  <GroundCastRadius>k__BackingField: 0.03
+  <GroundCastRadius>k__BackingField: 0.3
   <MaxCastDistance>k__BackingField: 0.75
   <MaxVelocity_UP>k__BackingField: 0.065
   <MaxVelocity_DOWN>k__BackingField: 0.174

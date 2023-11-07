@@ -4509,6 +4509,7 @@ GameObject:
   - component: {fileID: 8515496579416875744}
   - component: {fileID: 8515496579416875745}
   - component: {fileID: 8515496579416875294}
+  - component: {fileID: 684634679}
   m_Layer: 8
   m_Name: IK
   m_TagString: Untagged
@@ -4758,6 +4759,7 @@ MonoBehaviour:
   <LocomotionConfig>k__BackingField: {fileID: 11400000, guid: cd86a90adaedcdf408c2af0305073717, type: 2}
   <GroundCheckerR>k__BackingField: {fileID: 4408951512281631790}
   <GroundCheckerL>k__BackingField: {fileID: 5487843809658123710}
+  <Foot_IK>k__BackingField: {fileID: 684634679}
 --- !u!114 &8515496579416875744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4794,13 +4796,49 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8515496579416875302}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 64d84d3edc2acd747bbb0413825fa2ef, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.25
+  m_Radius: 0.1
   m_Height: 1.64
   m_Direction: 1
   m_Center: {x: 0, y: 0.85142994, z: 0}
+--- !u!114 &684634679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8515496579416875302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 726325959c0cb064597e2f1bd5eb6b21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lengthFromHeelToToes: 0.07
+  maxRotationAngle: 60
+  ankleHeightOffset: 0.034
+  enableIKPositioning: 0
+  enableIKRotating: 0
+  globalWeight: 0
+  leftFootWeight: 1
+  rightFootWeight: 1
+  smoothTime: 0.075
+  raySphereRadius: 0.0515
+  rayCastRange: 2
+  groundLayers:
+    serializedVersion: 2
+    m_Bits: 16448
+  ignoreTriggers: 1
+  leftFootRayStartHeight: 0.277
+  rightFootRayStartHeight: 0.289
+  enableFootLifting: 1
+  floorRange: 0
+  enableBodyPositioning: 0
+  crouchRange: 0.25
+  stretchRange: 0
+  giveWorldHeightOffset: 0
+  worldHeightOffset: 0
 --- !u!1 &8515496579427196240
 GameObject:
   m_ObjectHideFlags: 0
