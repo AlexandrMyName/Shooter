@@ -18,7 +18,7 @@ namespace Core
         private IComponentsStorage _componentsStorage;
         private CinemachineCameraConfig _config;
         private PlayerInput _input;
-
+        private IAnimatorIK _animatorIK;
         List<IDisposable> _disposables = new();
 
         private float _verticalRecoil;
@@ -30,6 +30,7 @@ namespace Core
 
             _components = components;
             _componentsStorage = _components.BaseObject.GetComponent<IComponentsStorage>();
+            _animatorIK = _components.BaseObject.GetComponent<IAnimatorIK>();
             _config = _componentsStorage.CinemachineCameraConfig;
             _input = _componentsStorage.Input.PlayerInput;
 
@@ -78,6 +79,8 @@ namespace Core
         protected override void Update()
         {
 
+            if (_animatorIK.IsLoseBalance) return;
+
             if (_recoilDuration > 0)
             {
                 float recoilModifier = _input.Player.Aim.IsPressed() ?  0.3f : 0.7f;
@@ -95,6 +98,8 @@ namespace Core
 
         protected override void FixedUpdate()
         {
+
+            if (_animatorIK.IsLoseBalance) return;
 
             Vector3 delta = _input.Player.Mouse.ReadValue<Vector2>();
             float x_axis 

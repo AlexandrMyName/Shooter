@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 29967159419507105}
   - component: {fileID: 29967159419507104}
   - component: {fileID: 104949979353378949}
+  - component: {fileID: 4238325808271308607}
   m_Layer: 8
   m_Name: AutoWeaponModel
   m_TagString: Untagged
@@ -166,6 +167,19 @@ MonoBehaviour:
     m_DissipationDistance: 100
     m_PropagationSpeed: 343
   m_DefaultVelocity: {x: 0, y: -1, z: 0}
+--- !u!65 &4238325808271308607
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 16344661316192893}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.11155872, y: 0.3790097, z: 0.74900985}
+  m_Center: {x: -0.002514705, y: 0.05116424, z: 0.031437576}
 --- !u!1 &16450506974917413
 GameObject:
   m_ObjectHideFlags: 0

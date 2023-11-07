@@ -150,14 +150,22 @@ namespace Core
 
         public void OnLooseBalance()
         {
-            Debug.LogWarning("lose");
+            
             IsLoseBalance = true;
+            _rigController.enabled = false;
+            _handsRig.weight = 0.0f;
+            _aimRig.weight = 0.0f;
+            _weaponData.Weapons.ForEach(weapon=>weapon.WeaponObject.SetActive(false));
         }
 
         public void OnRegainBalance()
         {
-            Debug.LogWarning("regain");
+            
             IsLoseBalance = false;
+            _rigController.enabled = true;
+            _handsRig.weight = 1.0f;
+            _aimRig.weight = 1.0f;
+            _weaponData.Weapons.ForEach(weapon => weapon.WeaponObject.SetActive(true));
         }
 
 

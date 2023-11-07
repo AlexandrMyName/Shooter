@@ -904,7 +904,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e51a306f3b086a34c976b30cb2aebc6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rootTransform: {fileID: 8515496580084653887}
+  _rootTransform: {fileID: 8515496579416875289}
   _defaultTarget: {fileID: 8061531328336213876}
   _maxTargetAngle: 30
 --- !u!1 &2524225559018617287
@@ -1157,7 +1157,7 @@ GameObject:
   - component: {fileID: 3534053060921422450}
   - component: {fileID: 8061531328908406696}
   m_Layer: 0
-  m_Name: Virt_Cam
+  m_Name: Main_Cam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4993,7 +4993,7 @@ MonoBehaviour:
   getUpDelay: 0
   blendToAnimationTime: 0.3
   maxGetUpVelocity: 0.4
-  minGetUpDuration: 0.4
+  minGetUpDuration: 1
   getUpCollisionResistanceMlp: 2
   getUpRegainPinSpeedMlp: 1
   getUpKnockOutDistanceMlp: 1
@@ -5004,7 +5004,7 @@ MonoBehaviour:
     switchToBehaviour: 
     animations:
     - animationState: GetUpProne
-      crossfadeTime: 0.2
+      crossfadeTime: 0.4
       layer: 3
       resetNormalizedTime: 1
     unityEvent:
@@ -5014,7 +5014,7 @@ MonoBehaviour:
     switchToBehaviour: 
     animations:
     - animationState: GetUpSupine
-      crossfadeTime: 0.2
+      crossfadeTime: 0.4
       layer: 3
       resetNormalizedTime: 1
     unityEvent:
@@ -5514,7 +5514,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8515496579680818384}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0.14724232, y: 0.64299446, z: -0.122373365, w: 0.7415542}
   m_LocalPosition: {x: 0.6000004, y: 1.8610001, z: -5.0699997}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -7977,8 +7977,8 @@ MonoBehaviour:
   pinPow: 4
   pinDistanceFalloff: 5
   angularPinning: 0
-  updateJointAnchors: 0
-  supportTranslationAnimation: 0
+  updateJointAnchors: 1
+  supportTranslationAnimation: 1
   angularLimits: 0
   internalCollisions: 0
   muscles:
