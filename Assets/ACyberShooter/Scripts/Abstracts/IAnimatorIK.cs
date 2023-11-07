@@ -10,6 +10,7 @@ namespace Abstracts
     {
 
         bool IsLoseBalance { get; set; }
+        bool IsJump { get; set; }
         float Y_Velocity { get;set; }
         void SetLayerWeight(int indexLayer, float weight);
        

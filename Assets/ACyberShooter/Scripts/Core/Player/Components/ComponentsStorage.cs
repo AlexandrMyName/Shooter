@@ -1,6 +1,7 @@
 using Abstracts;
 using Cinemachine;
 using Configs;
+using FischlWorks;
 using UniRx;
 using UnityEngine;
 
@@ -24,7 +25,8 @@ namespace Core
         [field: SerializeField] public LocomotionConfig LocomotionConfig { get; set; }
         [field: SerializeField] public Transform GroundCheckerR { get; private set; }
         [field: SerializeField] public Transform GroundCheckerL { get; private set; }
-         
+        [field: SerializeField] public csHomebrewIK Foot_IK { get;  set; }
+
         public ReactiveCommand<WeaponRecoilConfig> RecoilCommand { get; set; }
 
         public IInput Input { get; private set; }

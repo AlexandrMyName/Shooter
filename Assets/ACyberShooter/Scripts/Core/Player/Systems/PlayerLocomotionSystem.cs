@@ -13,6 +13,7 @@ namespace Core
     {
 
         private IGameComponents _components;
+        private IComponentsStorage _componentsStorage;
         private IAnimatorIK _animatorIK;
          
         private LocomotionConfig _locomotion;
@@ -32,21 +33,22 @@ namespace Core
         {
 
             _components = components;
-            _input = components.BaseObject.GetComponent<ComponentsStorage>().Input.PlayerInput;
+            _componentsStorage = components.BaseObject.GetComponent<IComponentsStorage>();
+            _input = _componentsStorage.Input.PlayerInput;
             _rb = components.BaseObject.GetComponent<Rigidbody>();
             _rotation = Vector3.zero;
-            _animatorIK = components.BaseObject.GetComponent<IPlayer>().ComponentsStorage.AnimatorIK;
+            _animatorIK = _componentsStorage.AnimatorIK;
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             _initialPosition = _rb.gameObject.transform.position;
-            _locomotion = components.BaseObject.GetComponent<ComponentsStorage>().LocomotionConfig;
+            _locomotion = _componentsStorage.LocomotionConfig;
         }
 
 
         protected override void Update()
         {
 
-             if (_animatorIK.IsLoseBalance) return;
+            if (_animatorIK.IsLoseBalance) return;
 
             Quaternion look = Quaternion.Euler(0, _components.MainCamera.transform.eulerAngles.y, 0);
 
@@ -95,7 +97,14 @@ namespace Core
             _animatorIK.SetFloat("Vertical", _direction.z, Time.deltaTime);
             _animatorIK.SetBool("IsRun", _input.Player.Accelerate.IsPressed());
            
-            
+            if(!_animatorIK.IsJump && _direction == Vector3.zero)
+            {
+                _componentsStorage.Foot_IK.enabled = true;
+            }
+            else
+            {
+                _componentsStorage.Foot_IK.enabled = false;
+            }
         }
 
 

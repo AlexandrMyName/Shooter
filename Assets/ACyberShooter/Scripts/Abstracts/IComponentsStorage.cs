@@ -1,6 +1,7 @@
 using Cinemachine;
 using Configs;
 using Core;
+using FischlWorks;
 using UniRx;
 using UnityEngine;
 
@@ -14,7 +15,7 @@ namespace Abstracts
         IAnimatorIK AnimatorIK { get; }
         ReactiveCommand<WeaponRecoilConfig> RecoilCommand { get; set; }
         WeaponData WeaponData { get; }
-
+        csHomebrewIK Foot_IK { get; set; }
         CameraConfig CameraConfig { get; }
         Transform CameraLookAt { get; set; }
         CinemachineCameraConfig CinemachineCameraConfig { get; set; }

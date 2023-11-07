@@ -11,6 +11,7 @@ namespace Core
     {
         
         private IGameComponents _components;
+        private IComponentsStorage _componentsStorage;  
         private IAnimatorIK _animatorIK;
         private JumpConfig _jumpConfig;
         private PlayerInput _input;
@@ -30,7 +31,7 @@ namespace Core
 
         private float _defaultColliderHeight;
         private float _jumpColliderHeight;
-
+        private float _colliderHeight;
         
 
         private RaycastHit hitInfo;
@@ -50,12 +51,14 @@ namespace Core
 
         protected override void Awake(IGameComponents components)
         {
+
             _components = components;
-            _input = _components.BaseObject.GetComponent<IComponentsStorage>().Input.PlayerInput;
+            _componentsStorage = _components.BaseObject.GetComponent<IComponentsStorage>();
+            _input = _componentsStorage.Input.PlayerInput;
             _rigidbody = components.BaseObject.GetComponent<Rigidbody>();
             _collider = components.BaseObject.GetComponent<CapsuleCollider>();
-           // _defaultColliderHeight = _collider.height;
-           // _jumpColliderHeight = _collider.height / 3;
+            _defaultColliderHeight = _collider.height;
+            _jumpColliderHeight = _collider.height / 2;
             
             _animatorIK = components.BaseObject.GetComponent<IPlayer>().ComponentsStorage.AnimatorIK;
             _jumpConfig = components.BaseObject.GetComponent<IPlayer>().ComponentsStorage.JumpConfig;
@@ -81,63 +84,50 @@ namespace Core
              
             _movement = _input.Player.Move.ReadValue<Vector2>();
             _isJumpPressed = _input.Player.Jump.IsPressed();
+             
+            if (_animatorIK.IsJump) {
 
-            if (_isJumpPressed/* && _isGrounded*/)
-            {
-                // Debug.Log($"JUMP [{_isJumpPressed}]");
-                _isJumpReady = true;
-            }
-            
-            if (!_isGrounded) {
-            //    _animator.SetFloat(_jumpAnimatorHash, _rigidbody.velocity.y);
-               // _collider.height = _jumpColliderHeight;
+                _colliderHeight = _jumpColliderHeight ;
             }
             else
             {
-               // _collider.height = _defaultColliderHeight;
+                _colliderHeight = _defaultColliderHeight;
             }
+
+            _collider.height = Mathf.Lerp(_collider.height, _colliderHeight, Time.deltaTime * 12f);
         }
 
 
         protected override void FixedUpdate()
         {
-            // _isGrounded = Physics.SphereCast(_groundTransform.position, _groundCastRadius, Vector3.down, out RaycastHit hitInfo, _maxCastDistance, _groundLayer, QueryTriggerInteraction.Ignore);
-            //_isGrounded = Physics.Raycast(_groundTransformR.position, Vector3.down, _maxCastDistance, _groundLayer, QueryTriggerInteraction.Ignore) || 
-            //              Physics.Raycast(_groundTransformL.position, Vector3.down, _maxCastDistance, _groundLayer, QueryTriggerInteraction.Ignore);
-
-            //_animator.SetBool(_groundAnimatorHash, _isGrounded);
-
-            //Debug.DrawRay(_groundTransformR.position, Vector3.down * _maxCastDistance);
-            //Debug.DrawRay(_groundTransformL.position, Vector3.down * _maxCastDistance);
-
-            // if (!_isGrounded)
-            // {
-            //     var customVelocity = new Vector3(_movement.x * _jumpForce, _rigidbody.velocity.y, _movement.y * _jumpForce);
-            //     _rigidbody.velocity = customVelocity;
-            // }
-            // else
-            // {
-            //     _rigidbody.velocity = Vector3.zero;
-            // }
-             
+               
             if (_isJumpPressed && IsGrounded())
             {
-
-                _animatorIK.Y_Velocity = 0.1f;
-                //_isJumpReady = false;
-                //var customVelocity = new Vector3(_rigidbody.velocity.x, 1.0f, _rigidbody.velocity.z);
-                //var globalVector = _rigidbody.gameObject.transform.TransformVector(customVelocity);
-                //var forceVector = new Vector3(globalVector.x * _jumpForce / 3, globalVector.y * _jumpForce, globalVector.z * _jumpForce / 3);
-                //_rigidbody.AddForce(forceVector, ForceMode.Impulse);
+                if (!_animatorIK.IsJump)
+                {
+                    _animatorIK.IsJump = true;
+                    _animatorIK.SetBool("IsJump", true);
+                    _animatorIK.Y_Velocity = _jumpConfig.MaxVelocity_UP; 
+                }
+                else
+                {
+                    _animatorIK.SetBool("IsJump", false);
+                    _animatorIK.IsJump = false;
+                }
+                
             }
             else if (!IsGrounded())
             {
-                //if(_animatorIK.Y_Velocity !=)
-                 _animatorIK.Y_Velocity -= 0.3f * Time.fixedDeltaTime;
+                
+                 _animatorIK.Y_Velocity -= _jumpConfig.MaxVelocity_DOWN * Time.fixedDeltaTime;
             }
             else
             {
-                _animatorIK.Y_Velocity = 0.0f;
+               
+                _animatorIK.SetBool("IsJump", false);
+                _animatorIK.Y_Velocity = _animatorIK.Animator.deltaPosition.y;
+                _animatorIK.IsJump = false;
+                 
             }
         }
         
@@ -148,22 +138,15 @@ namespace Core
             Vector3 bound = new Vector3(_collider.bounds.center.x, _collider.bounds.min.y, _collider.bounds.center.z);
 
             bool isGrounded = Physics.CheckCapsule(_collider.bounds.center, bound, _groundCastRadius, _groundLayer);
-           
+
+            if(!isGrounded)
+                isGrounded = Physics.SphereCast(_groundTransformR.position, _groundCastRadius, Vector3.down, out RaycastHit hitInfo, _maxCastDistance, _groundLayer, QueryTriggerInteraction.Ignore);
+            if (!isGrounded)
+                isGrounded 
+                    = Physics.Raycast(_groundTransformR.position, Vector3.down, _maxCastDistance, _groundLayer, QueryTriggerInteraction.Ignore) ||
+                             Physics.Raycast(_groundTransformL.position, Vector3.down, _maxCastDistance, _groundLayer, QueryTriggerInteraction.Ignore);
             return isGrounded;
         }
-        
-
-        //protected override void OnDrawGizmos()
-        //{
-        //    Gizmos.color = Color.green;
-        //    Gizmos.DrawWireSphere(_groundTransformR.position + Vector3.down * _maxCastDistance, _groundCastRadius);
-
-        //    if (_isGrounded)
-        //    {
-        //        Gizmos.color = Color.red;
-        //    }
-        //}
-        
-        
+         
     }
 }

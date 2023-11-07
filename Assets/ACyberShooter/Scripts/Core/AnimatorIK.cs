@@ -63,6 +63,8 @@ namespace Core
 
         public bool IsLoseBalance { get; set; }
 
+        public bool IsJump { get; set; }
+
 
         private void Awake()
         {
@@ -193,18 +195,15 @@ namespace Core
          
         private void OnAnimatorMove()
         {
-
-            //_animator.applyRootMotion = true;
-
+ 
             _rootMotionVelocity.x = _animator.deltaPosition.x;
             _rootMotionVelocity.z = _animator.deltaPosition.z;
             
             float currentSpeed = SetMovableSpeed();
 
             Vector3 direction = _rootMotionVelocity * currentSpeed * 1000f;
-
+             
             _rootRigidbody.velocity = direction * Time.fixedDeltaTime;
-            _rootRigidbody.ResetInertiaTensor();
         }
 
 

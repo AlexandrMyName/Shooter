@@ -67,7 +67,7 @@ namespace Core
         protected override void Update()
         {
 
-            if (_animatorIK.IsLoseBalance) return;
+            if (_animatorIK.IsLoseBalance || _animatorIK.IsJump) return;
 
             if (_animatorIK.PuppetObject.transform.localPosition.y == 0 ||
                 _animatorIK.PuppetMaster.state != PuppetMaster.State.Alive )
@@ -89,12 +89,15 @@ namespace Core
 
             _rotation = _components.MainCamera.transform.parent.transform.forward * 1f;
             _rotation.y = 0;
-           
+
+            
         }
 
 
         protected override void FixedUpdate()
         {
+
+            if (_animatorIK.IsLoseBalance || _animatorIK.IsJump) return;
 
             _direction = _rb.transform.TransformDirection(_direction.x, 0, _direction.z);
             

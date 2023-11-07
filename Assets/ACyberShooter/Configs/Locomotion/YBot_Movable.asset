@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2d3baef41e6cea49be0c54cc944328b, type: 3}
   m_Name: YBot_Movable
   m_EditorClassIdentifier: 
-  WalkSpeed: 11
-  RunSpeed: 13
+  WalkSpeed: 8
+  RunSpeed: 12
   TurnMultiplier: 3

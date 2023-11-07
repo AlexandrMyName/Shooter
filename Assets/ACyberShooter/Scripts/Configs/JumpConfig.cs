@@ -17,6 +17,8 @@ namespace Configs
         [field: SerializeField] public float GroundCastRadius { get; private set; } = 0.15f;
         [field: SerializeField] public float MaxCastDistance { get; private set; } = 0.25f;
 
-        
+        [field: SerializeField, Range(0,.5f)] public float MaxVelocity_UP { get; private set; } = 0.1f;
+
+        [field: SerializeField, Range(0, .5f)] public float MaxVelocity_DOWN { get; private set; } = 0.1f;
     }
 }
