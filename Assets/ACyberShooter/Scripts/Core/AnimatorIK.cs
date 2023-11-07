@@ -7,6 +7,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.InputSystem;
@@ -39,9 +40,19 @@ namespace Core
 
         private Vector3 _rootMotionDirection;
         private Quaternion _rootMotionRotation;
-
+        private Vector3 _rootMotionVelocity;
         private bool _IsProccessRig;
 
+
+        public float Y_Velocity {
+
+            get=> _rootMotionVelocity.y;
+             
+            set {
+                _rootMotionVelocity.y = value;
+            }
+        }
+         
         public GameObject PuppetObject => _puppetObject;
 
         public PuppetMaster PuppetMaster => _puppetMaster;
@@ -183,20 +194,30 @@ namespace Core
         private void OnAnimatorMove()
         {
 
-            _animator.applyRootMotion = true;
+            //_animator.applyRootMotion = true;
 
-            var velocity = _animator.deltaPosition;
-            float currentSpeed = 0f;
+            _rootMotionVelocity.x = _animator.deltaPosition.x;
+            _rootMotionVelocity.z = _animator.deltaPosition.z;
+            
+            float currentSpeed = SetMovableSpeed();
 
+            Vector3 direction = _rootMotionVelocity * currentSpeed * 1000f;
+
+            _rootRigidbody.velocity = direction * Time.fixedDeltaTime;
+            _rootRigidbody.ResetInertiaTensor();
+        }
+
+
+        private float SetMovableSpeed()
+        {
+
+            float currentSpeed;
             if (_input.Player.Accelerate.IsPressed())
             {
                 currentSpeed = _playerComponents.LocomotionConfig.RunSpeed;
             }
             else currentSpeed = _playerComponents.LocomotionConfig.WalkSpeed;
-
-            Vector3 direction = velocity * currentSpeed * Time.deltaTime;
-
-            _rootRigidbody.MovePosition(_rootRigidbody.position + (velocity * currentSpeed) * Time.fixedDeltaTime);
+            return currentSpeed;
         }
 
 

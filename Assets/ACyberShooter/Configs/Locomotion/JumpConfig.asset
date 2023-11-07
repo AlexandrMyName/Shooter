@@ -16,6 +16,6 @@ MonoBehaviour:
   <GroundLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 81
-  <JumpForce>k__BackingField: 50
+  <JumpForce>k__BackingField: 49.56
   <GroundCastRadius>k__BackingField: 0.15
   <MaxCastDistance>k__BackingField: 0.75
