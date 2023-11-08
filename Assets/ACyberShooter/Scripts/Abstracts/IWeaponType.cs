@@ -10,6 +10,7 @@ namespace Abstracts
         Auto = 1,
         Pistol = 2,
         Rocket = 3,
+        Sword = 4,
         // etc
     }
 }

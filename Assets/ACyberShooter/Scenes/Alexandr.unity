@@ -21702,19 +21702,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1633247562483009098, guid: e5c073630ba419740b34853dab1f9453, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7415542
       objectReference: {fileID: 0}
     - target: {fileID: 1633247562483009098, guid: e5c073630ba419740b34853dab1f9453, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0.14724232
       objectReference: {fileID: 0}
     - target: {fileID: 1633247562483009098, guid: e5c073630ba419740b34853dab1f9453, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0.64299446
       objectReference: {fileID: 0}
     - target: {fileID: 1633247562483009098, guid: e5c073630ba419740b34853dab1f9453, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: -0.122373365
       objectReference: {fileID: 0}
     - target: {fileID: 5876093107699632374, guid: e5c073630ba419740b34853dab1f9453, type: 3}
       propertyPath: m_Name

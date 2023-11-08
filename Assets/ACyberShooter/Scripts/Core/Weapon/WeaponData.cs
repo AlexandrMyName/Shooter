@@ -22,6 +22,9 @@ namespace Core
         [field: SerializeField, Space] public WeaponModel_View RocketLauncherWeaponViewsFab { get; set; }
         [SerializeField] public Transform _rocketLauncherWeaponViewsFabRoot;
 
+        [field: SerializeField, Space] public WeaponModel_View SwordWeaponViewsFab { get; set; }
+        [SerializeField] public Transform _swordWeaponViewsFabRoot;
+
         [field: SerializeField, Space] public WeaponModel_View NoneWeaponViewsFab { get; set; }
 
         [Space(20)]
@@ -80,7 +83,10 @@ namespace Core
             if (RocketLauncherWeaponViewsFab != null && RocketLauncherWeaponViewsFab.GetWeapon().Type != _defaultWeapon)
                 AddWeapon(RocketLauncherWeaponViewsFab, _rocketLauncherWeaponViewsFabRoot);
 
-            if(NoneWeaponViewsFab != null)
+            if (SwordWeaponViewsFab != null && SwordWeaponViewsFab.GetWeapon().Type != _defaultWeapon)
+                AddWeapon(SwordWeaponViewsFab, _swordWeaponViewsFabRoot);
+
+            if (NoneWeaponViewsFab != null)
             {
                 AddWeapon(NoneWeaponViewsFab, _primaryRoot);
             }

@@ -48,7 +48,7 @@ namespace Core
             }
             else if (_input.Player.Weapon2.IsPressed())
             {
-                _weaponType = IWeaponType.Auto;
+                _weaponType = IWeaponType.Sword;
                 SwitchWeapon(_weaponType);
             }
             else if (_input.Player.Weapon3.IsPressed())
@@ -56,7 +56,8 @@ namespace Core
                 _weaponType = IWeaponType.None;
                 SwitchWeapon(_weaponType);
             }
-             
+            
+
             if (_input.Player.Shoot.IsPressed())
             {
                 if(_input.Player.Aim.IsPressed())

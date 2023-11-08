@@ -182,6 +182,39 @@ namespace Core
         }
 
 
+        int _swordAnimCounter;
+        float _swordAnimRefresher;
+
+        private void Update()
+        {
+
+            _swordAnimRefresher += Time.deltaTime;
+            if (_swordAnimRefresher > 1.0f)
+            {
+                _swordAnimCounter = 0;
+                _swordAnimRefresher = 0.0f;
+            }
+            if (_weaponData.CurrentWeapon.Type == IWeaponType.Sword && _input.Player.Shoot.WasPerformedThisFrame())
+            {
+
+                string randomState = UnityEngine.Random.Range(0.0f, 1.0f) > .5f ? "1" : "2";
+
+                _swordAnimCounter++;
+                _swordAnimRefresher = 0.0f;
+
+                if (_swordAnimCounter == 1)
+                {
+                    randomState = "1";
+                }
+                else
+                {
+                    randomState = "2";
+                    _swordAnimCounter = 0;
+                }
+                _rigController.Play("SwordAttack_0" + randomState, 2, 1);
+            }
+        }
+
         private void LateUpdate()
         {
              
@@ -325,7 +358,7 @@ namespace Core
              
             yield return StartCoroutine(ActivateWeaponRig(weapon));
 
-            if (weapon.Type == IWeaponType.None) weapon.Muzzle.Disable();
+            if (weapon.Type == IWeaponType.None || weapon.Type == IWeaponType.Sword) weapon.Muzzle.Disable();
         }
 
 
