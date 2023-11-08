@@ -129,6 +129,7 @@ namespace Core
                 _animatorIK.IsJump = false;
                  
             }
+ 
         }
         
 
