@@ -53,7 +53,7 @@ namespace Core
             }
             else if (_input.Player.Weapon3.IsPressed())
             {
-                _weaponType = IWeaponType.Rocket;
+                _weaponType = IWeaponType.None;
                 SwitchWeapon(_weaponType);
             }
              

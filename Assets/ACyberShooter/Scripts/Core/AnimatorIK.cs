@@ -325,6 +325,7 @@ namespace Core
              
             yield return StartCoroutine(ActivateWeaponRig(weapon));
 
+            if (weapon.Type == IWeaponType.None) weapon.Muzzle.Disable();
         }
 
 

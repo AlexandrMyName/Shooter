@@ -81,7 +81,12 @@ namespace Core
         
         protected override void Update()
         {
-             
+            //test
+            if (Input.GetKeyDown(KeyCode.LeftControl))
+            {
+                _animatorIK.Animator.SetTrigger("Dash");
+                _rigidbody.AddForce(_rigidbody.transform.forward * 1112f, ForceMode.Acceleration);
+            }
             _movement = _input.Player.Move.ReadValue<Vector2>();
             _isJumpPressed = _input.Player.Jump.IsPressed();
              

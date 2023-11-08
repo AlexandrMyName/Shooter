@@ -54,8 +54,7 @@ namespace Core
 
             float turn = _locomotion.TurnMultiplier * Time.deltaTime;
 
-            if ((Mathf.Abs(_direction.x) > 0 || Mathf.Abs(_direction.z) > 0) || Input.GetMouseButton(1) || Input.GetMouseButton(0))
-            {
+            
                 _components.BaseTransform.rotation = Quaternion.Slerp(_components.BaseObject.transform.rotation, look, turn);
                 
                 if (_direction.x == 0 && _direction.z == 0 && _components.BaseObject.transform.rotation.y != look.y)
@@ -82,12 +81,8 @@ namespace Core
                     _animatorIK.SetBool("LeftTurn", false);
                     _animatorIK.Animator.SetLayerWeight(2, 0.0f);
                 }
-            }
-            else
-            {
-                _animatorIK.SetBool("RightTurn", false);
-                _animatorIK.SetBool("LeftTurn", false);
-            }
+            
+            
               
             _direction.x =  _input.Player.Move.ReadValue<Vector2>().x;
             _direction.z =  _input.Player.Move.ReadValue<Vector2>().y;
