@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &840558390438865595
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2532921395655854047, guid: d63b5c7d15f941040a71b546726cb386, type: 3}
+      propertyPath: _isFinal
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2532921395655854047, guid: d63b5c7d15f941040a71b546726cb386, type: 3}
+      propertyPath: _progressPointsValue
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6759916465532804122, guid: d63b5c7d15f941040a71b546726cb386, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6759916465532804122, guid: d63b5c7d15f941040a71b546726cb386, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6759916465532804122, guid: d63b5c7d15f941040a71b546726cb386, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6759916465532804122, guid: d63b5c7d15f941040a71b546726cb386, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6759916465532804122, guid: d63b5c7d15f941040a71b546726cb386, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6759916465532804122, guid: d63b5c7d15f941040a71b546726cb386, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6759916465532804122, guid: d63b5c7d15f941040a71b546726cb386, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6759916465532804122, guid: d63b5c7d15f941040a71b546726cb386, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6759916465532804122, guid: d63b5c7d15f941040a71b546726cb386, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6759916465532804122, guid: d63b5c7d15f941040a71b546726cb386, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6759916465532804122, guid: d63b5c7d15f941040a71b546726cb386, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9011748866482750252, guid: d63b5c7d15f941040a71b546726cb386, type: 3}
+      propertyPath: m_Name
+      value: FinalBossTile1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d63b5c7d15f941040a71b546726cb386, type: 3}

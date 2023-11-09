@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0eeb6debb6eb48eab8ac4fde28c623da, type: 3}
+  m_Name: TestMeleeEnemyConfig
+  m_EditorClassIdentifier: 
+  _enemyHP: 15
+  _stunPossibility: 0
+  _stunTime: 3
+  _attackType: 1
+  _enemyDamage: 5
+  _enemyAttackDelay: 1
+  _enemyAttackDuration: 1
+  _shootingProjectileSpeed: 2
+  _attackDistance: 2
+  _meleeDistance: 0
+  _shootingProjectile: {fileID: 8983598808202383336, guid: f76fc770b2f4a2e4eaa98feb275fa0a1, type: 3}

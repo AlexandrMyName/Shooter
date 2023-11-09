@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c68b40e2b71191c46b4b20cb243b2e09, type: 3}
+  m_Name: TestProjectileConfig
+  m_EditorClassIdentifier: 
+  _damage: 10
+  _maxLifetime: 1000
+  _damageRadius: 0.2
+  _projectileSpeed: 100
+  _isMadeImpact: 1
+  _isGrenade: 0
+  _impactParticleSystem: {fileID: 9064919875212695174, guid: a5e1e2c4d2cd81f4abed6272a2b8187a, type: 3}
+  <ProjectileType>k__BackingField: 0
+  <DamageType>k__BackingField: 0
+  <Force>k__BackingField: 0
+  <UpwardsModifier>k__BackingField: 0
