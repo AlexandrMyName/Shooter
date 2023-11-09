@@ -125,6 +125,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Transport"",
+                    ""type"": ""Button"",
+                    ""id"": ""fae03006-2bca-49cf-8dcc-ac354cc9f9f5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -501,6 +510,28 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""GodMode"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""085f66af-55ae-4eae-81be-4e09a61c0870"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mouse and Keyboard"",
+                    ""action"": ""Transport"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ef61f0ec-7341-43f6-bcf8-41c4f72f1a20"",
+                    ""path"": ""<DualShockGamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Transport"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -527,6 +558,45 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""SpaceShip"",
+            ""id"": ""d27f2e94-9a11-4384-ade7-5f9f56c5b001"",
+            ""actions"": [
+                {
+                    ""name"": ""Acceleration"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""68c7dccd-ae62-4a23-b754-f570052cc255"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""d1968455-e389-44c8-b680-11dd7a4fd07c"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Acceleration"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6c8d3b71-08e4-4ffa-973c-ceeaa0833037"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mouse and Keyboard"",
+                    ""action"": ""Acceleration"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -576,9 +646,13 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Player_Weapon3 = m_Player.FindAction("Weapon3", throwIfNotFound: true);
         m_Player_WeaponReload = m_Player.FindAction("WeaponReload", throwIfNotFound: true);
         m_Player_GodMode = m_Player.FindAction("GodMode", throwIfNotFound: true);
+        m_Player_Transport = m_Player.FindAction("Transport", throwIfNotFound: true);
         // System
         m_System = asset.FindActionMap("System", throwIfNotFound: true);
         m_System_Pause = m_System.FindAction("Pause", throwIfNotFound: true);
+        // SpaceShip
+        m_SpaceShip = asset.FindActionMap("SpaceShip", throwIfNotFound: true);
+        m_SpaceShip_Acceleration = m_SpaceShip.FindAction("Acceleration", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -651,6 +725,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Weapon3;
     private readonly InputAction m_Player_WeaponReload;
     private readonly InputAction m_Player_GodMode;
+    private readonly InputAction m_Player_Transport;
     public struct PlayerActions
     {
         private @PlayerInput m_Wrapper;
@@ -666,6 +741,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @Weapon3 => m_Wrapper.m_Player_Weapon3;
         public InputAction @WeaponReload => m_Wrapper.m_Player_WeaponReload;
         public InputAction @GodMode => m_Wrapper.m_Player_GodMode;
+        public InputAction @Transport => m_Wrapper.m_Player_Transport;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -708,6 +784,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @GodMode.started += instance.OnGodMode;
             @GodMode.performed += instance.OnGodMode;
             @GodMode.canceled += instance.OnGodMode;
+            @Transport.started += instance.OnTransport;
+            @Transport.performed += instance.OnTransport;
+            @Transport.canceled += instance.OnTransport;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -745,6 +824,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @GodMode.started -= instance.OnGodMode;
             @GodMode.performed -= instance.OnGodMode;
             @GodMode.canceled -= instance.OnGodMode;
+            @Transport.started -= instance.OnTransport;
+            @Transport.performed -= instance.OnTransport;
+            @Transport.canceled -= instance.OnTransport;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -808,6 +890,52 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         }
     }
     public SystemActions @System => new SystemActions(this);
+
+    // SpaceShip
+    private readonly InputActionMap m_SpaceShip;
+    private List<ISpaceShipActions> m_SpaceShipActionsCallbackInterfaces = new List<ISpaceShipActions>();
+    private readonly InputAction m_SpaceShip_Acceleration;
+    public struct SpaceShipActions
+    {
+        private @PlayerInput m_Wrapper;
+        public SpaceShipActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Acceleration => m_Wrapper.m_SpaceShip_Acceleration;
+        public InputActionMap Get() { return m_Wrapper.m_SpaceShip; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(SpaceShipActions set) { return set.Get(); }
+        public void AddCallbacks(ISpaceShipActions instance)
+        {
+            if (instance == null || m_Wrapper.m_SpaceShipActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_SpaceShipActionsCallbackInterfaces.Add(instance);
+            @Acceleration.started += instance.OnAcceleration;
+            @Acceleration.performed += instance.OnAcceleration;
+            @Acceleration.canceled += instance.OnAcceleration;
+        }
+
+        private void UnregisterCallbacks(ISpaceShipActions instance)
+        {
+            @Acceleration.started -= instance.OnAcceleration;
+            @Acceleration.performed -= instance.OnAcceleration;
+            @Acceleration.canceled -= instance.OnAcceleration;
+        }
+
+        public void RemoveCallbacks(ISpaceShipActions instance)
+        {
+            if (m_Wrapper.m_SpaceShipActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(ISpaceShipActions instance)
+        {
+            foreach (var item in m_Wrapper.m_SpaceShipActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_SpaceShipActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public SpaceShipActions @SpaceShip => new SpaceShipActions(this);
     private int m_MouseandKeyboardSchemeIndex = -1;
     public InputControlScheme MouseandKeyboardScheme
     {
@@ -839,9 +967,14 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnWeapon3(InputAction.CallbackContext context);
         void OnWeaponReload(InputAction.CallbackContext context);
         void OnGodMode(InputAction.CallbackContext context);
+        void OnTransport(InputAction.CallbackContext context);
     }
     public interface ISystemActions
     {
         void OnPause(InputAction.CallbackContext context);
+    }
+    public interface ISpaceShipActions
+    {
+        void OnAcceleration(InputAction.CallbackContext context);
     }
 }

@@ -978,7 +978,7 @@ MonoBehaviour:
   <SwordWeaponViewsFab>k__BackingField: {fileID: 1122932808, guid: 44fe596053873594d82de5c98bcc4120, type: 3}
   _swordWeaponViewsFabRoot: {fileID: 1766423203}
   <NoneWeaponViewsFab>k__BackingField: {fileID: 979979263, guid: 0dc3f0c2b78e2314a8796b5aaea29c79, type: 3}
-  _defaultWeapon: 2
+  _defaultWeapon: 0
   _playerRoot: {fileID: 1633247562884484518}
   _weaponsRoot: {fileID: 3892379320607313545}
   _crossHairTransform: {fileID: 6447437706397222384}
@@ -1705,7 +1705,7 @@ Transform:
   - {fileID: 6447437706397222384}
   - {fileID: 1109918559403173357}
   m_Father: {fileID: 5876093107699632375}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &1633247562483009100
 Camera:
@@ -2086,7 +2086,6 @@ Transform:
   - {fileID: 1234214431081707582}
   - {fileID: 1633247561740268416}
   - {fileID: 1283115411624422318}
-  - {fileID: 1239639876531783376}
   m_Father: {fileID: 5876093107699632375}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6513,6 +6512,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1633247562884484518}
+  - {fileID: 1239639876531783376}
   - {fileID: 1633247562483009098}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -7889,13 +7889,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8774412246987437428}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1633247562884484518}
-  m_RootOrder: 4
+  m_Father: {fileID: 5876093107699632375}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2569282510830181557
 MonoBehaviour:
