@@ -10,16 +10,18 @@ Material:
   m_Name: M_Soldier_C_Torso
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
   m_ValidKeywords:
+  - _ALPHATEST_ON
   - _EMISSION
+  - _ENVIRONMENTREFLECTIONS_OFF
   - _METALLICSPECGLOSSMAP
   - _NORMALMAP
   m_InvalidKeywords: []
   m_LightmapFlags: 2
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2450
   stringTagMap:
-    RenderType: Opaque
+    RenderType: TransparentCutout
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -110,13 +112,13 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AlphaClip: 0
+    - _AlphaClip: 1
     - _Blend: 0
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _Cull: 2
-    - _Cutoff: 0.5
+    - _Cutoff: 0.561
     - _DamageFX: 0
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
@@ -124,7 +126,7 @@ Material:
     - _DstBlend: 0
     - _EmissionFactor: 2
     - _EmissiveFactor: 1
-    - _EnvironmentReflections: 1
+    - _EnvironmentReflections: 0
     - _GlossMapScale: 0
     - _Glossiness: 0.9
     - _GlossyReflections: 0
@@ -136,7 +138,7 @@ Material:
     - _Parallax: 0.02
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _Smoothness: 1
+    - _Smoothness: 0.62
     - _SmoothnessTextureChannel: 0
     - _Specular: 1
     - _SpecularColorized: 0.826
@@ -149,8 +151,8 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0.0754717, g: 0.07290851, b: 0.07290851, a: 1}
-    - _Color: {r: 0.0754717, g: 0.07290851, b: 0.07290851, a: 1}
+    - _BaseColor: {r: 0.5660378, g: 0.4880741, b: 0.4880741, a: 1}
+    - _Color: {r: 0.5660378, g: 0.4880741, b: 0.4880741, a: 1}
     - _Color1: {r: 0.42409173, g: 0.57760227, b: 0.7794118, a: 1}
     - _Color2: {r: 0.33823532, g: 0.677188, b: 1, a: 1}
     - _DamageColor: {r: 1, g: 1, b: 1, a: 1}

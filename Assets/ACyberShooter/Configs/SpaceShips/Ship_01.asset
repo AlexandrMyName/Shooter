@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Ship_01
   m_EditorClassIdentifier: 
   thrustAmount: 90
-  thrustAmountSprint: 2
+  thrustAmountSprint: 44
   thrustInput: 0
   yawSpeed: 1111.21
   pitchSpeed: 1111
-  steeringInput: {x: -0.0000028360287, y: 0, z: -0.00000049787053}
+  steeringInput: {x: -0.000018951845, y: 0, z: -0.00003762951}
   leanAmount_X: 45
   leanAmount_Y: 45
   shootRate: 1

@@ -12,6 +12,13 @@ namespace Core
     public class TestCharacter : StateMachine, IPlayer
     {
 
+        [Header("SpaceShipSettings"),Space(20)]
+        [SerializeField,Tooltip("Can be null")] 
+        private bool _useSpaceShipOnly;
+        [SerializeField, Tooltip("Can be null")]
+        private Collider _defaultSpaceShipCollider;
+        [Space(20), SerializeField] private string _characterName;
+        
         public IComponentsStorage ComponentsStorage { get; private set; }
 
 
@@ -28,7 +35,7 @@ namespace Core
                  new PlayerLocomotionSystem(),
                  new PlayerShootSystem(),
                  new PlayerJumpSystem(),
-                 new SpaceShipControllSystem(),
+                 new SpaceShipControllSystem(_useSpaceShipOnly,_defaultSpaceShipCollider),
                  
              };
         }

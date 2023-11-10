@@ -25,10 +25,20 @@ namespace Core
         private Vector3 _rotation = Vector3.zero;
         private float _currentAcceleration;
         private bool _isLockControll = true;
+        private bool _isSpaceShipOnly;
+        private Collider _defaultSpaceShipCollider;
         private Vector3 _initialPosition;
         
         private PlayerInput _input;
           
+
+        public SpaceShipControllSystem(bool spaceShipOnly = false, Collider spaceShipCollider = null)
+        {
+
+            _isSpaceShipOnly = spaceShipOnly;
+            _defaultSpaceShipCollider = spaceShipCollider;
+        }
+
 
         protected override void Awake(IGameComponents components)
         {
@@ -39,63 +49,91 @@ namespace Core
            
             _rotation = Vector3.zero;
             _animatorIK = _componentsStorage.AnimatorIK;
+ 
+        }
 
-            components.BaseObject.GetComponent<Collider>().OnTriggerStayAsObservable().Subscribe(col =>
+
+        protected override void Start()
+        {
+
+            if (_defaultSpaceShipCollider == null && !_isSpaceShipOnly)
+            {
+                 
+                _components.BaseObject.GetComponent<Collider>()
+                    .OnTriggerStayAsObservable()
+                    .Subscribe(col =>
+                    {
+                        if (col.tag == "SpaceShip")
+                        {
+
+                            if (_input.Player.Transport.WasPressedThisFrame())
+                            {
+
+                                SwitchControll(col);
+                                InitSpaceDoors();
+                            }
+                        }
+                    });
+            }
+            else
+            {
+                SwitchControll(_defaultSpaceShipCollider);
+ 
+            }
+        }
+
+
+        private void SwitchControll(Collider col)
+        {
+
+            // _components.BaseObject.GetComponent<Rigidbody>().useGravity = false;
+            _ship = col.GetComponent<ISpaceShip>();
+            //  _components.BaseObject.transform.parent.transform.parent.transform.parent = _ship.GetTransform();
+            // _components.BaseObject.transform.position = _ship.GetTransform().position;
+            _ship.Camera.gameObject.SetActive(true);
+            _ship.Camera.enabled = true;
+            _ship.Rigidbody.transform.position += _ship.Rigidbody.transform.forward * 25f;
+
+            _ship.Rigidbody.isKinematic = false;
+            _isLockControll = false;
+            
+        }
+
+
+        private void InitSpaceDoors()
+        {
+
+            _ship.Rigidbody.GetComponent<Collider>().OnTriggerEnterAsObservable().Subscribe(shipCollider =>
             {
 
-                if (col.tag == "SpaceShip")
+                if (shipCollider.tag == "SpaceDoor")
                 {
-                    if (_input.Player.Transport.WasPressedThisFrame())
+                    if (_isLockControll) return;
+                    _isLockControll = true;
+                    // shipCollider.enabled = false;
+                    var points = shipCollider.GetComponent<SpaceShipPoints>();
+
+                    if (points == null) Debug.Log("Null collider");
+                    if (points.ShipIsOut)
                     {
-                        
-                       // _components.BaseObject.GetComponent<Rigidbody>().useGravity = false;
-                        _ship = col.GetComponent<ISpaceShip>();
-                      //  _components.BaseObject.transform.parent.transform.parent.transform.parent = _ship.GetTransform();
-                       // _components.BaseObject.transform.position = _ship.GetTransform().position;
-                        _ship.Camera.gameObject.SetActive(true);
-                        _ship.Camera.enabled = true;
-                        _ship.Rigidbody.transform.position += _ship.Rigidbody.transform.forward * 25f;
+                        _ship.Rigidbody.isKinematic = true;
+                        _ship.Rigidbody.transform.position = points._initialPosition;
+                        _ship.Rigidbody.transform.rotation = points._initialRotation;
+                        _ship.VisualModel.transform.localPosition = Vector3.zero;
+                        _ship.VisualModel.transform.localRotation = Quaternion.identity;
+                        _ship.Camera.enabled = false;
+                        _ship = null;
 
-                        _ship.Rigidbody.isKinematic = false;
-                        _isLockControll = false;
-
-
-                        _ship.Rigidbody.GetComponent<Collider>().OnTriggerEnterAsObservable().Subscribe(shipCollider =>
-                        {
-                            
-                            if (shipCollider.tag == "SpaceDoor")
-                            {
-                                if (_isLockControll) return;
-                                _isLockControll = true;
-                               // shipCollider.enabled = false;
-                                  var points = shipCollider.GetComponent<SpaceShipPoints>();
-                                  
-                                if (points == null) Debug.Log("Null collider");
-                                if (points.ShipIsOut)
-                                {
-                                    _ship.Rigidbody.isKinematic = true;
-                                    _ship.Rigidbody.transform.position = points._initialPosition;
-                                    _ship.Rigidbody.transform.rotation = points._initialRotation;
-                                    _ship.VisualModel.transform.localPosition = Vector3.zero;
-                                    _ship.VisualModel.transform.localRotation = Quaternion.identity;
-                                    _ship.Camera.enabled = false;
-                                    _ship = null;
-
-                                }
-                                  
-                            }
-                        });
                     }
-                }
 
-                   
+                }
             });
         }
 
 
         protected override void FixedUpdate()
         {
-           
+            
             if (_ship == null || _isLockControll) return;
             
             Vector3 delta = _input.Player.Mouse.ReadValue<Vector2>();

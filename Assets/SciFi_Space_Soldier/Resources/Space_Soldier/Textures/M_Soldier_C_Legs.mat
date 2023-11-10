@@ -10,15 +10,17 @@ Material:
   m_Name: M_Soldier_C_Legs
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
   m_ValidKeywords:
+  - _ALPHATEST_ON
   - _METALLICSPECGLOSSMAP
   - _NORMALMAP
+  - _RECEIVE_SHADOWS_OFF
   m_InvalidKeywords: []
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2450
   stringTagMap:
-    RenderType: Opaque
+    RenderType: TransparentCutout
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -109,7 +111,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AlphaClip: 0
+    - _AlphaClip: 1
     - _Blend: 0
     - _BumpScale: 1
     - _ClearCoatMask: 0
@@ -134,8 +136,8 @@ Material:
     - _Outline: 0
     - _Parallax: 0.02
     - _QueueOffset: 0
-    - _ReceiveShadows: 1
-    - _Smoothness: 0.913
+    - _ReceiveShadows: 0
+    - _Smoothness: 0.641
     - _SmoothnessTextureChannel: 0
     - _Specular: 1
     - _SpecularColorized: 0.826
@@ -148,8 +150,8 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0.0754717, g: 0.073620506, b: 0.073620506, a: 1}
-    - _Color: {r: 0.0754717, g: 0.073620506, b: 0.073620506, a: 1}
+    - _BaseColor: {r: 0.6226415, g: 0.58974725, b: 0.58974725, a: 1}
+    - _Color: {r: 0.6226415, g: 0.58974725, b: 0.58974725, a: 1}
     - _Color1: {r: 0.42409173, g: 0.57760227, b: 0.7794118, a: 1}
     - _Color2: {r: 0.33823532, g: 0.677188, b: 1, a: 1}
     - _DamageColor: {r: 1, g: 1, b: 1, a: 1}
