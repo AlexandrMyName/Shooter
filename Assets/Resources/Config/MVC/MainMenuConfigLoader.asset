@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a0fdb98c0654ca4aae6e779955d1ce3, type: 3}
+  m_Name: MainMenuConfigLoader
+  m_EditorClassIdentifier: 
+  _loadedScriptables:
+  - {fileID: 11400000, guid: a39fd06ccaf9635439d91e7fc6307ffd, type: 2}
+  - {fileID: 11400000, guid: 4987aa726fd17584a882fd93af9315f6, type: 2}
+  - {fileID: 11400000, guid: 04ef6379a81bce14282d6b5defcad386, type: 2}
+  _loadedPrefabs:
+  - {fileID: 5190767426435855394, guid: 3a96d87335ed43c4da096a3732ab4826, type: 3}
+  - {fileID: 5481181758977624947, guid: 8740b2824b15a4e41981212cea930484, type: 3}
+  - {fileID: 5141128152975278548, guid: 98958c14491549c40963cd412a52f7fa, type: 3}
+  - {fileID: 2833353114939473936, guid: 6aa1ddf56a577f9448c5f39dd86e2355, type: 3}

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6901e3bf4e6cd314db8f9b82e2ffe265, type: 3}
+  m_Name: Bullet_Rocket
+  m_EditorClassIdentifier: 
+  Description: Rocket weapon (default)
+  <Type>k__BackingField: 1
+  <Speed>k__BackingField: 40
+  <Drop>k__BackingField: 6
+  <MaxTime>k__BackingField: 10
+  <Damage>k__BackingField: 2000
+  <Traicer>k__BackingField: {fileID: 8089881354419632696, guid: 1fd02452374b3c1419bf95742ecd94c1, type: 3}
+  <VisualFab>k__BackingField: {fileID: 4796980742828868265, guid: 0fea7864657357c478e971f0f1993938, type: 3}
+  <HitEffect>k__BackingField: {fileID: 198146752706458318, guid: 4dd02b5f854b6c84990fbeb810abffe4, type: 3}

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 255189cfb657dee4bacf30b2aebd309d, type: 3}
+  m_Name: TestSpawnConfig
+  m_EditorClassIdentifier: 
+  _spawnPointsList:
+  - {x: 13.19, y: 0.77, z: -1.62}
+  - {x: 9.48, y: 0.77, z: 2.55}
+  - {x: 5.1106334, y: 0.77, z: -1.62}
+  _isInfiniteSpawning: 0
+  _totalSpawnCount: 10
+  _waveSpawnCount: 2
+  _waveCooldown: 6
+  _spawnCooldown: 2
