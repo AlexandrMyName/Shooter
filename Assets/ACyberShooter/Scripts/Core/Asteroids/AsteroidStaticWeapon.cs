@@ -33,7 +33,7 @@ public class AsteroidStaticWeapon : MonoBehaviour
                 
                transform.rotation);
 
-            float scaleRandom = UnityEngine.Random.Range(1, 50);
+            float scaleRandom = UnityEngine.Random.Range(1,10);
 
             
 

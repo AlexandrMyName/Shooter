@@ -1,7 +1,9 @@
 using UnityEngine;
 using Abstracts;
 using UnityEngine.InputSystem;
-
+using UniRx.Triggers;
+using UniRx;
+using Cinemachine;
 
 namespace Core
 {
@@ -10,15 +12,34 @@ namespace Core
     {
  
         private ISpaceShip _ship;
-
+        
 
         protected override void Awake(IGameComponents components)
         {
  
             _ship = components.BaseObject.GetComponent<SpaceShipComponent>();
+
+            var collider = _ship.Rigidbody.transform.GetComponent<Collider>();
+
+            collider.OnTriggerStayAsObservable().Subscribe(col =>
+            {
+                if(col.gameObject.tag == "ShakeCamera")
+                {
+
+                    _ship.CameraWithShake.gameObject.SetActive(true);
+                }
+            });//AddTo
+
+            collider.OnTriggerExitAsObservable().Subscribe(col =>
+            {
+                if (col.gameObject.tag == "ShakeCamera")
+                {
+
+                    _ship.CameraWithShake.gameObject.SetActive(false);
+                }
+            });//AddTo
         }
-
-
+ 
         protected override void FixedUpdate()
         {
 

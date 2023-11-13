@@ -11,6 +11,7 @@ namespace Abstracts
 
         Transform VisualModel { get; set; }
         CinemachineFreeLook Camera { get; set; }
+        CinemachineFreeLook CameraWithShake { get; set; }
         bool IsLockControll { get; set; }
         PlayerInput PlayerInput { get; set; }
         Rigidbody Rigidbody { get; set; }
