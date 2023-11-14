@@ -4,6 +4,8 @@ using UnityEngine;
 using Abstracts;
 using Cinemachine;
 using Configs;
+using UnityEngine.Rendering;
+using MVC.Core;
 
 namespace Core
 {
@@ -25,9 +27,19 @@ namespace Core
         public bool IsLockControll { get; set; }
         [field: SerializeField] public CinemachineCameraConfig CameraConfig { get; set; }
 
+        [field: SerializeField] public float Health { get; set; }
+
+        [field: SerializeField] public Volume DeathPostProccessVolume { get; set; }
+
+        [field:SerializeField] public float VisualDeathVolumeSpeed { get; set; }
+
+        [field: SerializeField] public GameMonoBeh GameUIBehavior { get; set; }
+
+        [field: SerializeField] public int CurrentSceneIndex { get; set; }
+
         public void GetParametrs()
         {
-            throw new System.NotImplementedException();
+            
         }
 
 

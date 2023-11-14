@@ -17,7 +17,8 @@ namespace Core
             return new List<ISystem>()
             {
                 new SpaceShipCameraSystem(),
-                new SpaceShipMovableSystem()
+                new SpaceShipMovableSystem(),
+                new SpaceShipHPSystem(),
             };
         }
     }

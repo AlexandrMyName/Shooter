@@ -63,4 +63,11 @@ public class AsteroidStaticWeapon : MonoBehaviour
         }).AddTo(_disposables);
     }
 
+
+
+    private void OnDestroy()
+    {
+        _disposables.ForEach(disposable => disposable.Dispose());
+        _disposables.Clear();
+    }
 }

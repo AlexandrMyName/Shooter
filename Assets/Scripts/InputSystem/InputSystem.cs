@@ -80,7 +80,7 @@ namespace InputSystem
 
         private void OnDestroy()
         {
-            _input.Dispose();
+          //  _input.Dispose();
         }
     }
 }

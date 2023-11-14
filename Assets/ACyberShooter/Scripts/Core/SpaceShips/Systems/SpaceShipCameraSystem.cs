@@ -51,7 +51,7 @@ namespace Core
                 (Gamepad.all.Count > 0
                 ?_ship.CameraConfig.Sensetivity_GamePad
                 : _ship.CameraConfig.Sensetivity_Mouse) * 0.002f * Time.fixedDeltaTime;
-            Debug.Log(Gamepad.all.Count > 0);
+            
             float y_axis = delta.x * (Gamepad.all.Count > 0
                 ? _ship.CameraConfig.Sensetivity_GamePad
                 : _ship.CameraConfig.Sensetivity_Mouse) * Time.fixedDeltaTime;

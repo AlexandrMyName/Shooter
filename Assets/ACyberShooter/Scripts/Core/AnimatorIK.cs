@@ -58,12 +58,20 @@ namespace Core
         public PuppetMaster PuppetMaster => _puppetMaster;
         
         public Animator Animator => _animator;
-         
-        public void Dispose() => _weaponData.Weapons.ForEach(disposable => disposable.Muzzle.Dispose());
 
+        
         public bool IsLoseBalance { get; set; }
 
         public bool IsJump { get; set; }
+
+
+        public void Dispose()
+        {
+
+            ShootingEvents.OnShoot -= SetShootAnimation;
+            ShootingEvents.OnReload -= SetReloadAnimation;
+            _weaponData.Weapons.ForEach(disposable => disposable.Muzzle.Dispose());
+        }
 
 
         private void Awake()
@@ -113,7 +121,16 @@ namespace Core
                 weapon.IsActive = false;
             }
 
-           
+            //if (_weaponData.CurrentWeapon.Type == IWeaponType.None)
+            //{
+            //    _weaponData.CurrentWeapon = weapons.Where(weap=>weap.Type == IWeaponType.None).FirstOrDefault();
+            //    _weaponData.CurrentWeapon.IsActive = false;
+            //    _weaponData.CurrentWeapon.Muzzle.Disable();
+            //    //SetWeaponState(_weaponData.CurrentWeapon.Type);
+            //    return;
+            //}
+
+            if (_weaponData.CurrentWeapon.Type == IWeaponType.None) return; 
             _weaponData.CurrentWeapon = weapons[0];
             _weaponData.CurrentWeapon.IsActive = true;
             _weaponData.CurrentWeapon.Muzzle.Activate();
@@ -321,8 +338,8 @@ namespace Core
             }
             
             _weaponData.CurrentWeapon = weapon;
-             
-            ActivateMuzzle(weapon);
+             //if(weapon.Type != IWeaponType.None)//?
+                ActivateMuzzle(weapon);
             _IsProccessRig = false;
             
             yield break;

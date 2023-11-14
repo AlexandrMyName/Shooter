@@ -60,6 +60,7 @@ public class TileView : MonoBehaviour
 
     public void Initialize()
     {
+        
         float halfFoundationScaleX = _foundationTransform.localScale.x / 2;
         float halfFoundationScaleY = _foundationTransform.localScale.z / 2;
         _cornerNW = new Vector2(-halfFoundationScaleX, halfFoundationScaleY);

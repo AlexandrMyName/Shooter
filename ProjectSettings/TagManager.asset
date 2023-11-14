@@ -9,6 +9,7 @@ TagManager:
   - SpaceDoor
   - Asteroid
   - ShakeCamera
+  - PlayerSpaceShip
   layers:
   - Default
   - TransparentFX
@@ -27,7 +28,7 @@ TagManager:
   - Stair
   - StairWalkable
   - PostProccess
-  - 
+  - NavMeshBot
   - 
   - 
   - 

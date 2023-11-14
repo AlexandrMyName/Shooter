@@ -98,7 +98,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &772958535
 Rigidbody:
@@ -129,6 +129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hitEffectFab: {fileID: 198009975391485926, guid: 587eaecaa621be74486f351c78b4f0a8, type: 3}
+  _hitAudioEffectFab: {fileID: 4196997545320414720, guid: eef8811c550913942bfea3965ea33b2c, type: 3}
 --- !u!1 &3829891658537043908
 GameObject:
   m_ObjectHideFlags: 0

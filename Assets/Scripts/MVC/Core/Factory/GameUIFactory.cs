@@ -5,15 +5,18 @@ using MVC.Core.Interface.Factory;
 using MVC.Core.Interface.Providers;
 using UnityEngine;
 
+
 namespace MVC.Core.Factory
 {
     public class GameUIFactory : BaseGameFactory
     {
-        private RectTransform _canvasTransform;
+        
+        public RectTransform CanvasTransform;
+
+
         public GameUIFactory(IControllers controllers, IDataProvider dataProvider, IViewProvider viewProvider,
             IDataFactory dataFactory) : base(controllers, dataProvider, viewProvider, dataFactory)
-        {
-        }
+        { }
         
         public void CreateCanvas()
         {
@@ -23,7 +26,7 @@ namespace MVC.Core.Factory
             canvasView.Canvas.worldCamera = Camera.main;
             canvasView.Canvas.planeDistance = 3.08f;
             _viewProvider.AddView(canvasView);
-            _canvasTransform = canvasView.RectTransform;
+            CanvasTransform = canvasView.RectTransform;
         }
 
         public void CreateGUIPanel()
@@ -31,7 +34,7 @@ namespace MVC.Core.Factory
             GameObject guiMain = 
                 GameObject.Instantiate(
                     ResourceLoadManager.GetPrefabComponentOrGameObject<GameObject>("GUI_Main"),
-                    _canvasTransform);
+                    CanvasTransform);
             GUIView guiView = guiMain.GetComponent<GUIView>();
             _viewProvider.AddView(guiView);
         }
@@ -41,7 +44,7 @@ namespace MVC.Core.Factory
             GameObject pauseMenuPanel = 
                 GameObject.Instantiate(
                     ResourceLoadManager.GetPrefabComponentOrGameObject<GameObject>("PauseMenu"),
-                    _canvasTransform);
+                    CanvasTransform);
             PauseView pauesView = pauseMenuPanel.GetComponent<PauseView>();
             _viewProvider.AddView(pauesView);
         }
@@ -51,7 +54,7 @@ namespace MVC.Core.Factory
             GameObject gameOverPanel = 
                 GameObject.Instantiate(
                     ResourceLoadManager.GetPrefabComponentOrGameObject<GameObject>("GameOverPanel"),
-                    _canvasTransform);
+                    CanvasTransform);
             GameOverView gameOverView = gameOverPanel.GetComponent<GameOverView>();
             _viewProvider.AddView(gameOverView);
         }
@@ -61,7 +64,7 @@ namespace MVC.Core.Factory
             GameObject winPanel = 
                 GameObject.Instantiate(
                     ResourceLoadManager.GetPrefabComponentOrGameObject<GameObject>("WinPanel"),
-                    _canvasTransform);
+                    CanvasTransform);
             WinScreenView winScreenView = winPanel.GetComponent<WinScreenView>();
             _viewProvider.AddView(winScreenView);
         }

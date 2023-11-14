@@ -25,6 +25,8 @@ public class GravitationObject : MonoBehaviour
     private void Update()
     {
 
+        if (_spaceShip.Component.Health <= 0) return;
+
         _attractionedObject.position = Vector3.Lerp(_attractionedObject.position, _centerGravityTransform.position,
             Time.deltaTime * _gravityForce * (Vector3.Distance(_attractionedObject.position,_centerGravityTransform.position)/1000));
         _attractionedObject.rotation

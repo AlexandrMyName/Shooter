@@ -78,7 +78,7 @@ namespace Core
            
             _ship.Camera.gameObject.SetActive(true);
             _ship.Camera.enabled = true;
-            _ship.Rigidbody.transform.position += _ship.Rigidbody.transform.forward * 25f;
+            _ship.Rigidbody.transform.position += _ship.Rigidbody.transform.forward * 65f;
 
             _ship.Rigidbody.isKinematic = false;
             _ship.IsLockControll = false;
