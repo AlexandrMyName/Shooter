@@ -115,6 +115,7 @@ namespace Core
             
             for (int i = weapons.Count - 1; i >= 0; i--)
             {
+                Debug.Log("INITIALIZE");
                 Weapon weapon = weapons[i];
                 
                 weapon.WeaponObject.SetActive(true);
