@@ -1,3 +1,5 @@
+using Configs;
+using Core;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -29,17 +31,92 @@ public class Bot_AnimatorIK : MonoBehaviour
     private int _currentIndexPoint = 0;
     private List<IDisposable> _disposables = new();
 
-     
+    private RaycastWeapon _raycastWeapon;
+    [SerializeField] private Transform _muzzle;
+    [SerializeField] private LayerMask _ignoreLayerMask;
+    [SerializeField] private Transform _rayCastWeaponTarget;
+    [SerializeField] private List<ParticleSystem> _muzzleFlash;
+    [SerializeField] private BulletConfig _bulletConfig;
+    [SerializeField] private WeaponRecoilConfig _weaponRecoilConfig;
+    [SerializeField] private float _timeShootInterval = 0.3f;
+
+    [SerializeField] private Collider _rootCollider;
+    [SerializeField] private Rigidbody _weaponRB;
+    [SerializeField] private float _health;
+
+
+    public float Health { get => _health;
+        set
+        {
+            _health = value;
+            if(_health <= 0.0f)
+            {
+                Death();
+            }
+        }
+    }
+
+   
     private void Awake()
     {
         _agent = GetComponent<NavMeshAgent>();
 
+        _rootCollider = GetComponent<Collider>();
+       
       
             if(_triggerExtention.Collider != null)
             {
                 _triggerExtention.InitObservable();
             }
+
+        ActivateWeapon();
+
+
+    }
+  
+
+    public void ActivateWeapon()
+    {
+
+        if (_muzzle != null)
+        {
+             
+            _raycastWeapon = new RaycastWeapon(_rayCastWeaponTarget, _muzzle.transform, _ignoreLayerMask);
+
+
+
+        }else return;
+
+        Observable.Timer(TimeSpan.FromSeconds(_timeShootInterval)).Repeat().Subscribe(_ =>
+        {
+            Shoot();
+        }).AddTo(_disposables);
+
+    }
+
+
+    private void Shoot()
+    {
+
+        if (_raycastWeapon == null) return;
+
+        foreach (var effect in _muzzleFlash)
+        {
+            effect.Emit(1);
+        }
         
+        _raycastWeapon.Fire(_bulletConfig, _weaponRecoilConfig);
+         
+    }
+
+
+    public void Death()
+    {
+
+        _rootCollider.isTrigger = true;
+        _weaponRB.isKinematic = false;
+        _animator.enabled = false;
+        _disposables.ForEach(disposable => disposable.Dispose());
     }
 
 
@@ -85,8 +162,17 @@ public class Bot_AnimatorIK : MonoBehaviour
 
     private void Update()
     {
+
+        if (_health <= 0) return;
         
-        if (_agent == null) return;
+        if (_raycastWeapon != null)
+        {
+            _raycastWeapon.UpdateBullets(Time.deltaTime);
+
+        }
+
+            if (_agent == null) return;
+        if (_agent.isActiveAndEnabled == false) return;
        // _agent.destination = _botPositionPoints[_currentIndexPoint].position;
         float distanceToPoint = _agent.remainingDistance;
         if (!_agent.hasPath) return;

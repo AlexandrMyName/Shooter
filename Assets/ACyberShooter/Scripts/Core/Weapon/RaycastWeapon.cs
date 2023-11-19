@@ -177,6 +177,13 @@ namespace Core
                         }
 
                     }
+
+                    //covariant
+                    if (collider.TryGetComponent<Bot_AnimatorIK>(out var botAnimatorIK))
+                    {
+                        botAnimatorIK.Health -= config.Damage;
+                         
+                    }
                 }
                 
             }
@@ -185,6 +192,11 @@ namespace Core
                 if (hit.collider.TryGetComponent<EnemyBoneView>(out var enemyView))
                 {
                     enemyView.EnemyView.TakeDamage(config.Damage);
+                }
+                if (hit.collider.TryGetComponent<Bot_AnimatorIK>(out var botAnimatorIK))
+                {
+                    botAnimatorIK.Health -= config.Damage;
+
                 }
             }
         }

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Description: Auto weapon (default)
   <Type>k__BackingField: 0
-  <Speed>k__BackingField: 1000
+  <Speed>k__BackingField: 88
   <Drop>k__BackingField: 0
   <MaxTime>k__BackingField: 3
   <Damage>k__BackingField: 35

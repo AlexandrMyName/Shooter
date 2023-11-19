@@ -94,13 +94,13 @@ Material:
     - _Glossiness: 0.492
     - _GlossyReflections: 1
     - _LightingEnabled: 1
-    - _Metallic: 0.297
+    - _Metallic: 0
     - _Mode: 3
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _Smoothness: 0.492
+    - _Smoothness: 1
     - _SmoothnessTextureChannel: 0
     - _SoftParticlesEnabled: 0
     - _SoftParticlesFarFadeDistance: 1
@@ -111,12 +111,12 @@ Material:
     - _UVSec: 0
     - _ZWrite: 0
     m_Colors:
-    - _BaseColor: {r: 0.86274505, g: 1, b: 0, a: 1}
+    - _BaseColor: {r: 0, g: 0.777812, b: 1, a: 1}
     - _BaseColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
     - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
-    - _Color: {r: 0.86274505, g: 1, b: 0, a: 1}
+    - _Color: {r: 0, g: 0.777812, b: 1, a: 1}
     - _ColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
-    - _EmissionColor: {r: 1, g: 0.87663865, b: 0.14528298, a: 1}
+    - _EmissionColor: {r: 0, g: 261.01962, b: 1024, a: 1}
     - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &1323466086615037798
