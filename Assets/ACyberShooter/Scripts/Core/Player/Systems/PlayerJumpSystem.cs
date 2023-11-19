@@ -67,7 +67,7 @@ namespace Core
 
             _groundLayer = _jumpConfig.GroundLayer;
             _jumpForce = _jumpConfig.JumpForce;
-            _groundCastRadius = _jumpConfig.GroundCastRadius;
+            
             _maxCastDistance = _jumpConfig.MaxCastDistance;
         }
 
@@ -105,34 +105,32 @@ namespace Core
 
         protected override void FixedUpdate()
         {
-               
+           
             if (_isJumpPressed && IsGrounded())
             {
                 if (!_animatorIK.IsJump)
                 {
                     _animatorIK.IsJump = true;
                     _animatorIK.SetBool("IsJump", true);
+                   
                     _animatorIK.Y_Velocity = _jumpConfig.MaxVelocity_UP; 
                 }
-                else
-                {
-                    _animatorIK.SetBool("IsJump", false);
-                    _animatorIK.IsJump = false;
-                }
+                
                 
             }
             else if (!IsGrounded())
             {
-                
-                 _animatorIK.Y_Velocity -= _jumpConfig.MaxVelocity_DOWN * Time.fixedDeltaTime;
-            }
-            else
-            {
                
+                 _animatorIK.Y_Velocity -= _jumpConfig.MaxVelocity_DOWN * Time.fixedDeltaTime;
+
+               
+            }
+            else if(IsGrounded())
+            {
+                if (_animatorIK.Y_Velocity < 0) _animatorIK.Y_Velocity = 0;
                 _animatorIK.SetBool("IsJump", false);
-                _animatorIK.Y_Velocity = _animatorIK.Animator.deltaPosition.y;
                 _animatorIK.IsJump = false;
-                 
+                
             }
  
         }
@@ -143,14 +141,13 @@ namespace Core
 
             Vector3 bound = new Vector3(_collider.bounds.center.x, _collider.bounds.min.y, _collider.bounds.center.z);
 
-            bool isGrounded = Physics.CheckCapsule(_collider.bounds.center, bound, _groundCastRadius, _groundLayer);
+            bool isGrounded = Physics.CheckCapsule(_collider.bounds.center, bound, _jumpConfig.GroundCastRadius, _groundLayer,QueryTriggerInteraction.Ignore);
 
+           
             //if (!isGrounded)
-            //    isGrounded = Physics.SphereCast(_groundTransformR.position, _groundCastRadius, Vector3.down, out RaycastHit hitInfo, _maxCastDistance, _groundLayer, QueryTriggerInteraction.Ignore);
-            if (!isGrounded)
-                isGrounded
-                    = Physics.Raycast(_groundTransformR.position, Vector3.down, _maxCastDistance, _groundLayer, QueryTriggerInteraction.Ignore) ||
-                             Physics.Raycast(_groundTransformL.position, Vector3.down, _maxCastDistance, _groundLayer, QueryTriggerInteraction.Ignore);
+            //    isGrounded
+            //        = Physics.Raycast(_groundTransformR.position, Vector3.down, _maxCastDistance, _groundLayer, QueryTriggerInteraction.Ignore) ||
+            //                 Physics.Raycast(_groundTransformL.position, Vector3.down, _maxCastDistance, _groundLayer, QueryTriggerInteraction.Ignore);
             return isGrounded;
         }
          

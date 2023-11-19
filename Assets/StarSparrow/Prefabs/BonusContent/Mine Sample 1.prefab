@@ -115,7 +115,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tagsForDamages:
   - PlayerSpaceShip
-  _takableDamage: 5000
+  _takableDamage: 1000
   _visualEffectFab: {fileID: 198009975391485926, guid: 587eaecaa621be74486f351c78b4f0a8, type: 3}
   _soundHitEffectFab: {fileID: 4196997545320414720, guid: eef8811c550913942bfea3965ea33b2c, type: 3}
 --- !u!1 &3262006661043795415

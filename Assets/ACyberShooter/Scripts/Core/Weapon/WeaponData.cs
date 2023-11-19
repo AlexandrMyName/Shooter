@@ -47,7 +47,7 @@ namespace Core
 
         public void InitData()
         {
-
+             
             AddWeapons();
 
             if (Weapons.Count > 0)

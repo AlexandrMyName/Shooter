@@ -1,5 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -16,34 +21,67 @@ public class Bot_AnimatorIK : MonoBehaviour
     public bool _isLoop = false;
     public bool CanPlay;
     private Animator _animator;
-
+    [SerializeField] private float _timer = 0.0f;
+    [SerializeField] private DoorSystem _doorSystem;
+    [SerializeField] private bool _openTheDoorAfterMovableState;
+    [SerializeField] private string _animationID_AfterMovableState;
+    [SerializeField, Space(20), Header("Triger Extention")] private BotAnimatorIK_ExtentionTrigger _triggerExtention;
     private int _currentIndexPoint = 0;
+    private List<IDisposable> _disposables = new();
 
-
+     
     private void Awake()
     {
         _agent = GetComponent<NavMeshAgent>();
+
+      
+            if(_triggerExtention.Collider != null)
+            {
+                _triggerExtention.InitObservable();
+            }
+        
     }
+
+
     private void Start()
     {
 
         _animator = GetComponent<Animator>();
-        _agent = GetComponent<NavMeshAgent>();
+
         if (CanPlay)
             _animator.SetBool(AnimationID, CanPlay);
-        
 
-        if(_agent == null) return;
-        if(_isWalk == true || _isRun == true)
-        { 
-            _agent.destination = _botPositionPoints[/*_currentIndexPoint*/ 0].position;
-            _animator.SetBool("Walk",_isWalk);
-          //  _animator.SetBool("Walk", _isWalk);
-          if(!_isWalk)
-            _animator.SetBool("Run", _isRun);
+        if (_triggerExtention.Collider == null)
+        {
+           
+            Observable.Timer(TimeSpan.FromSeconds(_timer)).Subscribe(_ =>
+            {
+                SetMovableState();
+
+            }).AddTo(_disposables);
+        }
+        else
+        {
+            _triggerExtention.OnCompleted += SetMovableState;
         }
     }
 
+
+    private void SetMovableState()
+    {
+
+        _agent = GetComponent<NavMeshAgent>();
+
+        if (_agent == null) return;
+        if (_isWalk == true || _isRun == true)
+        {
+            _agent.destination = _botPositionPoints[/*_currentIndexPoint*/ 0].position;
+            _animator.SetBool("Walk", _isWalk);
+            //  _animator.SetBool("Walk", _isWalk);
+            if (!_isWalk)
+                _animator.SetBool("Run", _isRun);
+        }
+    }
 
     private void Update()
     {
@@ -51,7 +89,7 @@ public class Bot_AnimatorIK : MonoBehaviour
         if (_agent == null) return;
        // _agent.destination = _botPositionPoints[_currentIndexPoint].position;
         float distanceToPoint = _agent.remainingDistance;
-        
+        if (!_agent.hasPath) return;
         if (!_isLoop)
         {
             
@@ -71,8 +109,90 @@ public class Bot_AnimatorIK : MonoBehaviour
                     _animator.SetBool("Run", false);
                     _agent.ResetPath();
                     transform.rotation = _botPositionPoints[_botPositionPoints.Count - 1].rotation;
+
+                     
+                    if(_animationID_AfterMovableState != string.Empty)
+                    {
+                        _agent.enabled = false;
+                        _animator.SetTrigger(_animationID_AfterMovableState);
+                    }
+                    if(_doorSystem != null)
+                    {
+                        if (_openTheDoorAfterMovableState)
+                        {
+                            _doorSystem.Open();
+                        }
+                        else
+                        {
+                            Debug.Log("Closed");
+                            _doorSystem.Close();
+                        }
+                    }
                 }
             }
         }
+    }
+
+    private void OnDestroy()
+    {
+
+        if(_triggerExtention != null)
+            _triggerExtention.OnCompleted -= SetMovableState;
+
+        _disposables.ForEach(disposable => disposable.Dispose());
+        _disposables.Clear();
+        _triggerExtention.Dispose();
+    }
+
+
+    [Serializable]
+    public class BotAnimatorIK_ExtentionTrigger : IDisposable
+    {
+
+        [field: SerializeField] public Collider Collider;
+
+        [field: SerializeField] public string TagID;
+
+        [field: SerializeField] public int IterationsCount;
+
+        private List<IDisposable> _disposables = new();
+
+        private int _currentIteractions;
+
+        public Action OnCompleted;
+
+
+        public void Dispose()
+        {
+
+            _disposables.ForEach(disposable => disposable.Dispose());
+            _disposables.Clear();
+        }
+
+
+        public void InitObservable()
+        {
+
+            _currentIteractions = IterationsCount;
+             Collider.OnTriggerEnterAsObservable().Subscribe(
+                collider =>
+                {
+                   
+                    if (collider.tag == TagID)
+                    {
+                         
+                        _currentIteractions--;
+                         
+                        if (_currentIteractions <= 0)
+                        {
+                            OnCompleted?.Invoke();
+
+                        }
+                    }
+                }).AddTo(_disposables);
+           
+
+        }
+          
     }
 }

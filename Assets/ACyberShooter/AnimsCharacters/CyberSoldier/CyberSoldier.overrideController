@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: CyberSoldier
+  m_Controller: {fileID: 9100000, guid: 66567fae93896794284b1c5bcc50dc99, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: -203655887218126122, guid: 79be99960be5b0c429e824fd05b4900c, type: 3}
+    m_OverrideClip: {fileID: -203655887218126122, guid: 488093330b41c564db9c98a93be51a03, type: 3}
+  - m_OriginalClip: {fileID: -203655887218126122, guid: ba330bf6c120ad94f969b5dfab8d061f, type: 3}
+    m_OverrideClip: {fileID: -203655887218126122, guid: e679e579b030bf043b03686be88b2132, type: 3}
+  - m_OriginalClip: {fileID: -203655887218126122, guid: af9fbc23bbf1ea04fa5a203982c1e282, type: 3}
+    m_OverrideClip: {fileID: -203655887218126122, guid: 8abdd17cc71b89e4786d70aa93898411, type: 3}
+  - m_OriginalClip: {fileID: -203655887218126122, guid: da09d3353903d7a4b93514a4056d4839, type: 3}
+    m_OverrideClip: {fileID: -203655887218126122, guid: 6dcc0de2607b5c545b790c5502ea70b6, type: 3}
+  - m_OriginalClip: {fileID: -203655887218126122, guid: 13cfe6724499d854486785d9aa3ac8ed, type: 3}
+    m_OverrideClip: {fileID: -203655887218126122, guid: 959fc4248974adc478a8820f03b3b8e4, type: 3}

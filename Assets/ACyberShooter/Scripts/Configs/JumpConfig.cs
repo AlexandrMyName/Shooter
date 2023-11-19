@@ -19,6 +19,6 @@ namespace Configs
 
         [field: SerializeField, Range(0,.5f)] public float MaxVelocity_UP { get; private set; } = 0.1f;
 
-        [field: SerializeField, Range(0, .5f)] public float MaxVelocity_DOWN { get; private set; } = 0.1f;
+        [field: SerializeField, Range(0, 15f)] public float MaxVelocity_DOWN { get; private set; } = 0.1f;
     }
 }

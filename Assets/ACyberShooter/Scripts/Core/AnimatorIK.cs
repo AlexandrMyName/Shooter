@@ -1,4 +1,5 @@
 using Abstracts;
+using Cinemachine;
 using Enums;
 using EventBus;
 using RootMotion.Dynamics;
@@ -18,6 +19,9 @@ namespace Core
     [RequireComponent( typeof(WeaponData))]
     public class AnimatorIK : MonoBehaviour, IAnimatorIK
     {
+
+        [Header("Camera Aiming")]
+        [SerializeField] private CinemachineVirtualCamera _aimingCamera;
 
         [Header("IK Animator"), Space(20)]
 
@@ -104,7 +108,7 @@ namespace Core
         }
 
 
-        private void InitDefaultWeapon(List<Weapon> weapons)
+        public void InitDefaultWeapon(List<Weapon> weapons)
         {
 
             _IsProccessRig = false;
@@ -120,16 +124,7 @@ namespace Core
                 weapon.Muzzle.Disable();
                 weapon.IsActive = false;
             }
-
-            //if (_weaponData.CurrentWeapon.Type == IWeaponType.None)
-            //{
-            //    _weaponData.CurrentWeapon = weapons.Where(weap=>weap.Type == IWeaponType.None).FirstOrDefault();
-            //    _weaponData.CurrentWeapon.IsActive = false;
-            //    _weaponData.CurrentWeapon.Muzzle.Disable();
-            //    //SetWeaponState(_weaponData.CurrentWeapon.Type);
-            //    return;
-            //}
-
+ 
             if (_weaponData.CurrentWeapon.Type == IWeaponType.None) return; 
             _weaponData.CurrentWeapon = weapons[0];
             _weaponData.CurrentWeapon.IsActive = true;
@@ -173,8 +168,6 @@ namespace Core
             {
                 _rigController.SetTrigger(_weaponData.CurrentWeapon.Type.ToString() + "Reload");
             }
-
-
         }
 
 
@@ -245,15 +238,16 @@ namespace Core
          
         private void OnAnimatorMove()
         {
- 
+             
             _rootMotionVelocity.x = _animator.deltaPosition.x;
             _rootMotionVelocity.z = _animator.deltaPosition.z;
-            
+             
             float currentSpeed = SetMovableSpeed();
 
             Vector3 direction = _rootMotionVelocity * currentSpeed * 1000f;
-             
+          
             _rootRigidbody.velocity = direction * Time.fixedDeltaTime;
+            
         }
 
 
@@ -338,7 +332,7 @@ namespace Core
             }
             
             _weaponData.CurrentWeapon = weapon;
-             //if(weapon.Type != IWeaponType.None)//?
+            
                 ActivateMuzzle(weapon);
             _IsProccessRig = false;
             
@@ -391,7 +385,16 @@ namespace Core
         {
 
             bool isAiming =  _input.Player.Aim.IsPressed() ? true : false;
-            _animator.SetBool("IsAiming", isAiming);
+
+            if (isAiming)
+            {
+                _aimingCamera.enabled = true;
+            }
+            else
+            {
+                _aimingCamera.enabled = false;
+            }
+           
         }
 
          
