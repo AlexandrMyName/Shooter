@@ -12,6 +12,8 @@ public class BossInterectiveSystem : MonoBehaviour
     [SerializeField] private Transform _aimTarget;
     [SerializeField] private float _timeShootInterval;
     [SerializeField] private BulletConfig _bulletConfig;
+    [SerializeField] private List<Bot_AnimatorIK> _botsNPC = new();
+    [SerializeField] private List<Rigidbody> _ragdolls = new();
 
     [SerializeField] private List<Transform> _targets = new();
     [SerializeField] private int _currentTargetIndex;
@@ -26,10 +28,20 @@ public class BossInterectiveSystem : MonoBehaviour
     private List<IDisposable> _disposables = new();
 
 
-    private void Start()
+    public void DisableAnimator()
     {
-        ActivateAiming();
+        GetComponent<Animator>().enabled = false;
+        _ragdolls.ForEach(ragdoll => { 
+            ragdoll.isKinematic = false;
+        });
+        _ragdolls.ForEach(ragdoll => {
+                ragdoll.isKinematic = true;
+            });
+            Dispose();
+        _botsNPC.ForEach(bot => { bot.Dispose(); });
+        
     }
+     
 
     public void ActivateAiming()
     {
@@ -45,12 +57,16 @@ public class BossInterectiveSystem : MonoBehaviour
         {
             _currentTargetIndex = (_currentTargetIndex + 1) % _targets.Count;
         }).AddTo(_disposables);
+
+        _botsNPC.ForEach(bot => bot.ActivateWeapon());
     }
+
 
     private void Update()
     {
 
-        _aimTarget.position = Vector3.Lerp(_aimTarget.position, _targets[_currentTargetIndex].position, Time.deltaTime * 2f);
+        if (_disposables.Count <= 0) return;
+        _aimTarget.position = Vector3.Lerp(_aimTarget.position, _targets[_currentTargetIndex].position, Time.deltaTime * 4f);
          
         _rayCastWeapon.UpdateBullets(Time.deltaTime);
     }
@@ -62,5 +78,11 @@ public class BossInterectiveSystem : MonoBehaviour
         _rayCastWeapon.Fire(_bulletConfig, _recoilConfig);
     }
 
+
+    public void Dispose()
+    {
+        _disposables.ForEach(disposable=>disposable.Dispose());
+        _disposables.Clear();
+    }
 
 }

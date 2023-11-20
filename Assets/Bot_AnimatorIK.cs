@@ -69,7 +69,7 @@ public class Bot_AnimatorIK : MonoBehaviour
                 _triggerExtention.InitObservable();
             }
 
-        ActivateWeapon();
+       // ActivateWeapon();
 
 
     }
@@ -110,13 +110,25 @@ public class Bot_AnimatorIK : MonoBehaviour
     }
 
 
+    public void Dispose()
+    {
+        _disposables.ForEach(disposable => disposable.Dispose());
+    }
+
+
     public void Death()
     {
 
-        _rootCollider.isTrigger = true;
+        Dispose();
+        _rootCollider.enabled = false;
+        var rootRB = _rootCollider.GetComponent<Rigidbody>();
+        if(rootRB != null)
+        {
+            rootRB.isKinematic = true;
+        }
         _weaponRB.isKinematic = false;
         _animator.enabled = false;
-        _disposables.ForEach(disposable => disposable.Dispose());
+        
     }
 
 
