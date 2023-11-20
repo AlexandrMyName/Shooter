@@ -1,5 +1,6 @@
 using Configs;
 using EnemySystem;
+using Extentions;
 using RootMotion;
 using System.Collections;
 using System.Collections.Generic;
@@ -29,7 +30,7 @@ namespace Core
         private Transform _rayDestination;
         private Transform _rayOrigin;
         private Transform _visualInstance;
-
+        private bool _isDestroyableGround;
         Ray ray;
         RaycastHit hit;
         LayerMask _ignoreRaycastLayerMask;
@@ -38,13 +39,15 @@ namespace Core
         public RaycastWeapon(
             Transform rayDirection,
             Transform rayOrigin ,
-            LayerMask ignoreRaycastLayerMask
+            LayerMask ignoreRaycastLayerMask,
+            bool isDestroyableGround = false
             ){
 
             
             _rayDestination = rayDirection;
             _rayOrigin = rayOrigin;
             _ignoreRaycastLayerMask = ignoreRaycastLayerMask;
+            _isDestroyableGround = isDestroyableGround;
         }
 
 
@@ -182,8 +185,11 @@ namespace Core
                     if (collider.TryGetComponent<Bot_AnimatorIK>(out var botAnimatorIK))
                     {
                         botAnimatorIK.Health -= config.Damage;
-                         
+
                     }
+                    
+
+                    
                 }
                 
             }
@@ -196,6 +202,20 @@ namespace Core
                 if (hit.collider.TryGetComponent<Bot_AnimatorIK>(out var botAnimatorIK))
                 {
                     botAnimatorIK.Health -= config.Damage;
+
+                }
+                if (hit.collider.TryGetComponent<BossInterectiveSystem>(out var boss))
+                {
+                    boss.Health -= config.Damage;
+
+                }
+                else if(_isDestroyableGround)
+                {
+                    if (hit.collider.gameObject.layer != 6) return;
+                    var rb = hit.collider.gameObject.GetOrAddComponent<Rigidbody>();
+                    rb.useGravity = false;
+                    rb.isKinematic = false;
+                    rb.AddForce(-hit.normal * 12f, ForceMode.Impulse);
 
                 }
             }

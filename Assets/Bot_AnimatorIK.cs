@@ -213,6 +213,9 @@ public class Bot_AnimatorIK : MonoBehaviour
                     {
                         _agent.enabled = false;
                         _animator.SetTrigger(_animationID_AfterMovableState);
+                        transform.position = _botPositionPoints[_botPositionPoints.Count - 1].position;
+                        transform.rotation = _botPositionPoints[_botPositionPoints.Count - 1].rotation;
+                         
                     }
                     if(_doorSystem != null)
                     {

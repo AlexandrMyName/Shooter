@@ -21,12 +21,32 @@ public class BossInterectiveSystem : MonoBehaviour
     [SerializeField] private LayerMask _ignoreLayerMask;
 
     [SerializeField] private Transform _muzzleTransform;
-
+    [SerializeField] private float _health = 1000f;
     private RaycastWeapon _rayCastWeapon;
     [SerializeField] private WeaponRecoilConfig _recoilConfig;
 
     private List<IDisposable> _disposables = new();
 
+
+    public float Health
+    {
+        get => _health;
+        set
+        {
+            _health = value;
+            if (_health <= 0.0f)
+            {
+                Death();
+            }
+        }
+    }
+
+    public void Death()
+    {
+
+        GetComponent<Animator>().SetTrigger("Death");
+
+    }
 
     public void DisableAnimator()
     {
@@ -46,7 +66,7 @@ public class BossInterectiveSystem : MonoBehaviour
     public void ActivateAiming()
     {
 
-        _rayCastWeapon = new RaycastWeapon(_aimTarget, _muzzleTransform, _ignoreLayerMask);
+        _rayCastWeapon = new RaycastWeapon(_aimTarget, _muzzleTransform, _ignoreLayerMask, true);
 
         Observable.Timer(TimeSpan.FromSeconds(_timeShootInterval)).Repeat().Subscribe(_ =>
         {
