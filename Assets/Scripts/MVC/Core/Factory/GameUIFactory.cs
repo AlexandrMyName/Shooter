@@ -24,7 +24,7 @@ namespace MVC.Core.Factory
                 GameObject.Instantiate(ResourceLoadManager.GetPrefabComponentOrGameObject<GameObject>("Canvas"));
             CanvasView canvasView = canvas.GetComponent<CanvasView>();
             canvasView.Canvas.worldCamera = Camera.main;
-            canvasView.Canvas.planeDistance = 3.08f;
+            canvasView.Canvas.planeDistance = 0.58f;
             _viewProvider.AddView(canvasView);
             CanvasTransform = canvasView.RectTransform;
         }

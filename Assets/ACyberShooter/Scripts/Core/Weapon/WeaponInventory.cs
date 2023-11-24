@@ -40,9 +40,15 @@ namespace Core
          
         public void GetHelmet()
         {
-
+            _animatorIK.ChangeHeadObject(_helmetObject);
             _headObject.SetActive(false);
-            _helmetObject.SetActive(true);
+
+            if(_animatorIK.FpsCamera == false)
+                _helmetObject.SetActive(true);
+            else
+            {
+                _helmetObject.SetActive(false);
+            }
         }
     }
 }

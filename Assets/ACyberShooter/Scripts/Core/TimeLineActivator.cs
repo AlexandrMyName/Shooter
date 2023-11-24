@@ -6,7 +6,7 @@ using UnityEngine.Playables;
 public class TimeLineActivator : MonoBehaviour
 {
 
-
+    public List<GameObject> _hidenObjects = new();
     public bool CanPlay = false;
 
     public PlayableDirector _director;
@@ -18,6 +18,7 @@ public class TimeLineActivator : MonoBehaviour
         {
             Play();
             CanPlay = false;
+            _hidenObjects.ForEach(h => h.SetActive(false));
         }
     }
 

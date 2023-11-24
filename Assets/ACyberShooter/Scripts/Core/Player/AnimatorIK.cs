@@ -3,15 +3,14 @@ using Cinemachine;
 using Enums;
 using EventBus;
 using RootMotion.Dynamics;
-using ShootingSystem;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
+using UniRx;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
-using UnityEngine.InputSystem;
+
 
 namespace Core
 {
@@ -20,8 +19,12 @@ namespace Core
     public class AnimatorIK : MonoBehaviour, IAnimatorIK
     {
 
-        [Header("Camera Aiming")]
-        [SerializeField] private CinemachineVirtualCamera _aimingCamera;
+        [Header("Camera TPS Aiming")]
+        [SerializeField] private CinemachineVirtualCamera _aimingCameraTPS;
+        [SerializeField] private CinemachineVirtualCamera _mainCameraTPS;
+        [Header("Camera FPS Aiming")]
+        [SerializeField] private CinemachineVirtualCamera _mainCameraFPS;
+        [SerializeField] private GameObject _defaultHeadObject;
 
         [Header("IK Animator"), Space(20)]
 
@@ -47,6 +50,10 @@ namespace Core
         private Vector3 _rootMotionVelocity;
         private bool _IsProccessRig;
 
+
+        private List<IDisposable> _disposables = new();
+
+        public bool FpsCamera = false;
 
         public float Y_Velocity {
 
@@ -75,6 +82,7 @@ namespace Core
             ShootingEvents.OnShoot -= SetShootAnimation;
             ShootingEvents.OnReload -= SetReloadAnimation;
             _weaponData.Weapons.ForEach(disposable => disposable.Muzzle.Dispose());
+            _disposables.ForEach(disp => disp.Dispose());
         }
 
 
@@ -229,7 +237,7 @@ namespace Core
         private void LateUpdate()
         {
              
-             if(_weaponData.CurrentWeapon != null)
+             
                 UpdateAimingIK();
 
 
@@ -381,21 +389,54 @@ namespace Core
             weapon.Muzzle.Activate();
         }
          
+        public void ChangeHeadObject(GameObject head)
+        => _defaultHeadObject = head;
+       
 
         public void SetActiveAimingIK(Weapon currentWeapon, bool isActive)
         {
 
-            bool isAiming =  _input.Player.Aim.IsPressed() ? true : false;
+            if (currentWeapon == null) return;
 
-            if (isAiming)
+            bool isAiming =  _input.Player.Aim.IsPressed() ? true : false;
+            if (Input.GetKeyDown(KeyCode.V))
             {
-                _aimingCamera.enabled = true;
+                FpsCamera = !FpsCamera;
+                _playerComponents.CinemachineCameraConfig.FPS_Camera = FpsCamera;
+
+                if (FpsCamera)
+                {
+                    _aimingCameraTPS.gameObject.SetActive(false);
+                    _mainCameraTPS.gameObject.SetActive(false);
+
+                    _mainCameraFPS.gameObject.SetActive(true);
+
+                    Observable.Timer(TimeSpan.FromSeconds(0.2f)).Subscribe(_ =>
+                    {
+                        _defaultHeadObject.SetActive(false);
+                    }).AddTo(_disposables);
+                }
+                else
+                {
+                    _mainCameraTPS.gameObject.SetActive(true);
+
+                    _mainCameraFPS.gameObject.SetActive(false);
+                     _defaultHeadObject.SetActive(true);
+                }
             }
-            else
+
+            if (!FpsCamera)
             {
-                _aimingCamera.enabled = false;
+                if (isAiming)
+                {
+                    _aimingCameraTPS.gameObject.SetActive(true);
+                }
+                else
+                {
+                    _aimingCameraTPS.gameObject.SetActive(false);
+                }
             }
-           
+            
         }
 
          

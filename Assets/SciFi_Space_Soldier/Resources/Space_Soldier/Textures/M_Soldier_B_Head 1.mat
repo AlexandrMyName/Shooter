@@ -162,12 +162,12 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0.41509432, g: 0.308753, b: 0.1973656, a: 1}
-    - _Color: {r: 0.41509432, g: 0.308753, b: 0.1973656, a: 1}
+    - _BaseColor: {r: 0.5566038, g: 0.485722, b: 0.4746885, a: 1}
+    - _Color: {r: 0.5566037, g: 0.485722, b: 0.47468847, a: 1}
     - _Color1: {r: 0.42409173, g: 0.57760227, b: 0.7794118, a: 1}
     - _Color2: {r: 0.33823532, g: 0.677188, b: 1, a: 1}
     - _DamageColor: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 1.6308752, b: 77.87429, a: 1}
     - _EmissiveColor: {r: 1, g: 1, b: 1, a: 1}
     - _MaskedColorA: {r: 0.18382353, g: 0.16084558, b: 0.16084558, a: 1}
     - _MaskedColorB: {r: 0.18366133, g: 0.36720464, b: 0.5808823, a: 1}

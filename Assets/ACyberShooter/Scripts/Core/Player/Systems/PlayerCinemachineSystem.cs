@@ -114,11 +114,13 @@ namespace Core
           
             _componentsStorage.CinemachineCameraConfig.Y_Axis.Value -= x_axis;
             _componentsStorage.CinemachineCameraConfig.X_Axis.Value += y_axis;
+
+            
             _componentsStorage.CinemachineCameraConfig.Y_Axis.Value
                 = Mathf.Clamp(
                     _componentsStorage.CinemachineCameraConfig.Y_Axis.Value,
-                    _componentsStorage.CinemachineCameraConfig.Y_AxisRange.x,
-                    _componentsStorage.CinemachineCameraConfig.Y_AxisRange.y
+                    _componentsStorage.CinemachineCameraConfig.GetAxisRange().x,
+                    _componentsStorage.CinemachineCameraConfig.GetAxisRange().y
             );  
 
             _componentsStorage.CameraLookAt.transform.eulerAngles

@@ -203,6 +203,18 @@ namespace Core
                 {
                     botAnimatorIK.Health -= config.Damage;
 
+                    if(botAnimatorIK.Health <= 0)
+                    {
+                        var rbs = hit.collider.gameObject.GetComponentsInChildren<Rigidbody>();
+ 
+                        foreach(var rb in rbs)
+                        {
+                           
+                            rb.AddForce(-hit.normal * 222f, ForceMode.Acceleration);
+                        }
+                    }
+                   
+
                 }
                 if (hit.collider.TryGetComponent<BossInterectiveSystem>(out var boss))
                 {

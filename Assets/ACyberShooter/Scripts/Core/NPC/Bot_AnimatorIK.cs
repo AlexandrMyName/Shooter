@@ -1,5 +1,6 @@
 using Configs;
 using Core;
+using SteamAudio;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -43,7 +44,7 @@ public class Bot_AnimatorIK : MonoBehaviour
     [SerializeField] private Collider _rootCollider;
     [SerializeField] private Rigidbody _weaponRB;
     [SerializeField] private float _health;
-
+  
 
     public float Health { get => _health;
         set
@@ -67,10 +68,16 @@ public class Bot_AnimatorIK : MonoBehaviour
             if(_triggerExtention.Collider != null)
             {
                 _triggerExtention.InitObservable();
-            }
+        }
 
-       // ActivateWeapon();
-
+        var rbs = transform.gameObject.GetComponentsInChildren<Rigidbody>();
+ 
+        foreach (var rb in rbs)
+        {
+            if (rb == _weaponRB) continue;
+            rb.useGravity = false;
+            rb.mass = 1111f;
+        }
 
     }
   

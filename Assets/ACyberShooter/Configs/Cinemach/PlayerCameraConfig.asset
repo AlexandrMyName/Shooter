@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PlayerCameraConfig
   m_EditorClassIdentifier: 
   Y_Axis:
-    Value: 25.020002
+    Value: 10.011917
     m_SpeedMode: 0
     m_MaxSpeed: 100
     m_AccelTime: 0.02
@@ -21,8 +21,8 @@ MonoBehaviour:
     m_InputAxisName: Mouse Y
     m_InputAxisValue: 0
     m_InvertInput: 1
-    m_MinValue: -45
-    m_MaxValue: 45
+    m_MinValue: 0
+    m_MaxValue: 0
     m_Wrap: 0
     m_Recentering:
       m_enabled: 0
@@ -31,7 +31,7 @@ MonoBehaviour:
       m_LegacyHeadingDefinition: 0
       m_LegacyVelocityFilterStrength: 0
   X_Axis:
-    Value: -1362.5441
+    Value: -942.54974
     m_SpeedMode: 0
     m_MaxSpeed: 450
     m_AccelTime: 0.02
@@ -50,4 +50,5 @@ MonoBehaviour:
       m_LegacyVelocityFilterStrength: 0
   Sensetivity_Mouse: 7
   Sensetivity_GamePad: 300
-  Y_AxisRange: {x: -27.5, y: 26.7}
+  Y_AxisRangeTPS: {x: -27.5, y: 26.7}
+  Y_AxisRangeFPS: {x: -46.9, y: 72.1}
