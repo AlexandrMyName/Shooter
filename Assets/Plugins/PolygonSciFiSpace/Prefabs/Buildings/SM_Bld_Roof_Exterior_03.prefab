@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 23785253011118324}
   - component: {fileID: 64315483879011212}
   - component: {fileID: -7697040293760927292}
+  - component: {fileID: 5482746171405875806}
+  - component: {fileID: -8373869198806032721}
   m_Layer: 0
   m_Name: SM_Bld_Roof_Exterior_03
   m_TagString: Untagged
@@ -111,3 +113,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 212779b0ebe3731438e186955d30df08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5482746171405875806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1773242191879062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e829c87dc2a2ed2419c5f67848317fe4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  material: {fileID: 11400000, guid: a086f686223eed942816c70be67841b0, type: 2}
+  exportAllChildren: 0
+  terrainSimplificationLevel: 0
+--- !u!114 &-8373869198806032721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1773242191879062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fb43d10a308b2f46ad4561774f97e52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  asset: {fileID: 11400000, guid: e0400ad427b69944ba54fa7bea3f14f6, type: 2}

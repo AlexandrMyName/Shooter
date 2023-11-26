@@ -26,13 +26,14 @@ namespace Core
         [SerializeField] private CinemachineVirtualCamera _mainCameraFPS;
         [SerializeField] private GameObject _defaultHeadObject;
 
+        [SerializeField,Space(10)] private StepSoundTracker StepsSoundTracker;
+
         [Header("IK Animator"), Space(20)]
 
         [SerializeField] private Animator _animator;
         [SerializeField] private Animator _rigController;
-        [SerializeField] private IWeaponType _defaultWeapon;
-  
-        [SerializeField] private WeaponData _weaponData;
+       
+        
 
         [SerializeField, Space] private Rig _handsRig;
         [SerializeField, Space] private Rig _aimRig;
@@ -41,10 +42,10 @@ namespace Core
         [SerializeField] private GameObject _puppetObject;
         [SerializeField] private PuppetMaster _puppetMaster;
 
-        [Space(10), SerializeField] private ComponentsStorage _playerComponents;
-        [SerializeField] private Rigidbody _rootRigidbody;
+        private IComponentsStorage _playerComponents;
+        private Rigidbody _rootRigidbody;
         private PlayerInput _input;
-
+        private WeaponData _weaponData;
         private Vector3 _rootMotionDirection;
         private Quaternion _rootMotionRotation;
         private Vector3 _rootMotionVelocity;
@@ -53,7 +54,7 @@ namespace Core
 
         private List<IDisposable> _disposables = new();
 
-        public bool FpsCamera = false;
+       [field:SerializeField] public bool FpsCamera { get; set; }
 
         public float Y_Velocity {
 
@@ -95,24 +96,27 @@ namespace Core
             _weaponData.InitData();
         }
 
-
-        private void Start()
-        {
-      
-            InitDefaultWeapon(_weaponData.Weapons);
-
-            ShootingEvents.OnShoot += SetShootAnimation;
-            ShootingEvents.OnReload += SetReloadAnimation;
-            _input = _playerComponents.Input.PlayerInput;
-           
-        }
-
-
+ 
         private void OnValidate()
         {
 
             _weaponData ??= GetComponent<WeaponData>();
             _animator ??= GetComponent<Animator>();
+        }
+         
+
+        public void InitComponent(IComponentsStorage componentStorage, WeaponData weaponData)
+        {
+
+            _rootRigidbody = GetComponent<Rigidbody>();
+            _playerComponents = componentStorage;
+            _weaponData = weaponData;
+            InitDefaultWeapon(_weaponData.Weapons);
+            UpdateAllCameras();
+            ShootingEvents.OnShoot += SetShootAnimation;
+            ShootingEvents.OnReload += SetReloadAnimation;
+            _input = _playerComponents.Input.PlayerInput;
+            
         }
 
 
@@ -133,12 +137,17 @@ namespace Core
                 weapon.Muzzle.Disable();
                 weapon.IsActive = false;
             }
- 
+            if(_weaponData.CurrentWeapon == null)
+            {
+                this.enabled = false;
+                return;
+            }
             if (_weaponData.CurrentWeapon.Type == IWeaponType.None) return; 
             _weaponData.CurrentWeapon = weapons[0];
             _weaponData.CurrentWeapon.IsActive = true;
             _weaponData.CurrentWeapon.Muzzle.Activate();
-            SetWeaponState(_weaponData.CurrentWeapon.Type);  
+            SetWeaponState(_weaponData.CurrentWeapon.Type);
+            
         }
          
 
@@ -256,7 +265,9 @@ namespace Core
             Vector3 direction = _rootMotionVelocity * currentSpeed * 1000f;
           
             _rootRigidbody.velocity = direction * Time.fixedDeltaTime;
-            
+             
+            if(!IsJump)
+                StepsSoundTracker.PlaySteps(_rootRigidbody.velocity);
         }
 
 
@@ -264,6 +275,7 @@ namespace Core
         {
 
             float currentSpeed;
+            if (_input == null) return 0.0f;
             if (_input.Player.Accelerate.IsPressed())
             {
                 currentSpeed = _playerComponents.LocomotionConfig.RunSpeed;
@@ -402,27 +414,8 @@ namespace Core
             if (Input.GetKeyDown(KeyCode.V))
             {
                 FpsCamera = !FpsCamera;
-                _playerComponents.CinemachineCameraConfig.FPS_Camera = FpsCamera;
-
-                if (FpsCamera)
-                {
-                    _aimingCameraTPS.gameObject.SetActive(false);
-                    _mainCameraTPS.gameObject.SetActive(false);
-
-                    _mainCameraFPS.gameObject.SetActive(true);
-
-                    Observable.Timer(TimeSpan.FromSeconds(0.2f)).Subscribe(_ =>
-                    {
-                        _defaultHeadObject.SetActive(false);
-                    }).AddTo(_disposables);
-                }
-                else
-                {
-                    _mainCameraTPS.gameObject.SetActive(true);
-
-                    _mainCameraFPS.gameObject.SetActive(false);
-                     _defaultHeadObject.SetActive(true);
-                }
+                 
+                UpdateAllCameras();
             }
 
             if (!FpsCamera)
@@ -439,7 +432,32 @@ namespace Core
             
         }
 
-         
+        private void UpdateAllCameras()
+        {
+
+            _playerComponents.CinemachineCameraConfig.FPS_Camera = FpsCamera;
+
+            if (FpsCamera)
+            {
+                _aimingCameraTPS.gameObject.SetActive(false);
+                _mainCameraTPS.gameObject.SetActive(false);
+
+                _mainCameraFPS.gameObject.SetActive(true);
+
+                Observable.Timer(TimeSpan.FromSeconds(0.2f)).Subscribe(_ =>
+                {
+                    _defaultHeadObject.SetActive(false);
+                }).AddTo(_disposables);
+            }
+            else
+            {
+                _mainCameraTPS.gameObject.SetActive(true);
+
+                _mainCameraFPS.gameObject.SetActive(false);
+                _defaultHeadObject.SetActive(true);
+            }
+        }
+
         private void DeactivateAllWeapons()
         {
 

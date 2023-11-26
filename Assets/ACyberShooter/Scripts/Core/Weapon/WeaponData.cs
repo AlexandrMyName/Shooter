@@ -1,14 +1,14 @@
 using Abstracts;
 using System.Collections.Generic;
 using System.Linq;
+using UniRx;
 using UnityEngine;
 using Views;
 
 
 namespace Core
 {
-
-    [RequireComponent(typeof(Animator))]
+ 
     public class WeaponData : MonoBehaviour
     {
 
@@ -29,20 +29,28 @@ namespace Core
 
         [Space(20)]
         [SerializeField] private IWeaponType _defaultWeapon = IWeaponType.Pistol;
-        [SerializeField] private Transform _playerRoot;
+        
         [SerializeField] private Transform _weaponsRoot;
 
   
   
-        [SerializeField] private Transform _crossHairTransform;
+        private Transform _crossHairTransform;
         [SerializeField] private LayerMask _ignoreRaycastLayerMask;
 
         [HideInInspector] public int PrimaryIndex = 0;
         [HideInInspector] public int SecondaryIndex = 1;
 
-        [Space,SerializeField] private ComponentsStorage _playerComponents;
+        private ReactiveCommand<WeaponRecoilConfig> _recoilCommand;
          
         public Weapon CurrentWeapon { get; set; }
+
+
+        public void InitComponent(ReactiveCommand<WeaponRecoilConfig> recoilCommand, Transform crossHairTransform)
+        {
+
+            _crossHairTransform = crossHairTransform;
+            _recoilCommand = recoilCommand;
+        }
 
 
         public void InitData()
@@ -110,8 +118,8 @@ namespace Core
                 Weapons.Add(viewInstance.GetWeapon());
 
                 Weapon newWeapon = viewInstance.GetWeapon();
-                newWeapon.RecoilCommand = _playerComponents.RecoilCommand;
-                newWeapon.Muzzle.InitPool(_ignoreRaycastLayerMask, newWeapon.MuzzleFlash, _crossHairTransform, newWeapon.RecoilConfig,_playerComponents);
+                newWeapon.RecoilCommand = _recoilCommand;
+                newWeapon.Muzzle.InitPool(_ignoreRaycastLayerMask, newWeapon.MuzzleFlash, _crossHairTransform, newWeapon.RecoilConfig,_recoilCommand);
                   
                 newWeapon.WeaponObject.SetActive(isActive);
                  

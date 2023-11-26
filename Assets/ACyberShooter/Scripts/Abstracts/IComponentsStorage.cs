@@ -15,6 +15,7 @@ namespace Abstracts
         IAnimatorIK AnimatorIK { get; }
         ReactiveCommand<WeaponRecoilConfig> RecoilCommand { get; set; }
         WeaponData WeaponData { get; }
+        WeaponInventory WeaponInventory { get; }
         csHomebrewIK Foot_IK { get; set; }
         CameraConfig CameraConfig { get; }
         Transform CameraLookAt { get; set; }
@@ -22,8 +23,6 @@ namespace Abstracts
         LocomotionConfig LocomotionConfig { get; set; }
         CrossHairTarget CrossHairTarget { get; set; }
         JumpConfig JumpConfig { get;}
-        Transform GroundCheckerR { get; }
-        Transform GroundCheckerL { get; }
         IInput Input { get; }
         void InitComponents();
 

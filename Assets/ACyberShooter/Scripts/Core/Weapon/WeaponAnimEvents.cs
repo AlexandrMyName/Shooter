@@ -8,9 +8,8 @@ public class WeaponAnimEvents : MonoBehaviour
 {
 
     [SerializeField] private WeaponData _weaponData;
-    private event Action _onWeaponAction;
-
-    [SerializeField] private Transform LeftHandPoint;
+   
+    [SerializeField] private Transform LeftHandPoint; 
     [SerializeField] private Transform RightHandPoint;
 
     private GameObject _magazineInstance;

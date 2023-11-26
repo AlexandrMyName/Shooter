@@ -1,3 +1,4 @@
+using Abstracts;
 using UnityEngine;
 using Views;
 
@@ -8,14 +9,22 @@ namespace Core
     public class WeaponInventory : MonoBehaviour
     {
 
-        [SerializeField] private WeaponData _weaponData;
+        private WeaponData _weaponData;
+        private IAnimatorIK _animatorIK;
 
         [SerializeField] private Transform _weaponRoot;
         [SerializeField] private WeaponModel_View _weaponModelView;
-        [SerializeField] private AnimatorIK _animatorIK;
-
+        [Space]
         [SerializeField] private GameObject _helmetObject;
         [SerializeField] private GameObject _headObject;
+
+
+        public void InitComponent(WeaponData weaponData, IAnimatorIK animatorIK)
+        {
+
+            _weaponData = weaponData;
+            _animatorIK = animatorIK;
+        }
 
 
         private void Update()

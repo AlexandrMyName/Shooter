@@ -25,7 +25,7 @@ namespace Core
         [SerializeField] private BulletConfig _bulletConfig;
         private RaycastWeapon _weaponRay;
 
-        private ComponentsStorage _baseComponents;
+        private ReactiveCommand<WeaponRecoilConfig> _recoilCommand;
         private WeaponRecoilConfig _recoilConfig;
         private bool _isTryShooting = false;
         private bool _canShoot = false;
@@ -85,10 +85,11 @@ namespace Core
             ParticleSystem[] muzzleFlash ,
             Transform crossHairTransform,
             WeaponRecoilConfig recoilConfig,
-            ComponentsStorage baseComponents
-            ){ ///INITIALIZER\\\
+            ReactiveCommand<WeaponRecoilConfig> recoilCommand
+            )
+        { ///INITIALIZER\\\
 
-            _baseComponents = baseComponents;
+            _recoilCommand = recoilCommand;
             _recoilConfig = recoilConfig;
             _muzzleFlash = muzzleFlash;
             _weaponRay = new RaycastWeapon(
@@ -246,7 +247,7 @@ namespace Core
         private void Shoot()
         {
 
-            _baseComponents.RecoilCommand.Execute(_recoilConfig);
+           _recoilCommand.Execute(_recoilConfig);
             foreach (var effect in _muzzleFlash)
             {
                 effect.Emit(1);

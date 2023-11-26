@@ -47,7 +47,7 @@ namespace InputSystem
 
             if (_input.Player.WeaponReload.WasPerformedThisFrame())
             {
-                Debug.Log("S");
+              
                 ShootingEvents.Reload();
             }
            

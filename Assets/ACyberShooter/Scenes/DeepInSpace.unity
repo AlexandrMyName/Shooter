@@ -30820,6 +30820,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 608079112}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &608294451 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3101015126762031340, guid: e5c073630ba419740b34853dab1f9453, type: 3}
+  m_PrefabInstance: {fileID: 763458193}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &610594707
 GameObject:
   m_ObjectHideFlags: 0
@@ -37834,6 +37839,30 @@ PrefabInstance:
       propertyPath: _defaultSpaceShipCollider
       value: 
       objectReference: {fileID: 1751430426096115140}
+    - target: {fileID: 1633247561740268417, guid: e5c073630ba419740b34853dab1f9453, type: 3}
+      propertyPath: _mainCameraFPS
+      value: 
+      objectReference: {fileID: 1009637521}
+    - target: {fileID: 1633247561740268417, guid: e5c073630ba419740b34853dab1f9453, type: 3}
+      propertyPath: _mainCameraTPS
+      value: 
+      objectReference: {fileID: 1009637521}
+    - target: {fileID: 1633247561740268417, guid: e5c073630ba419740b34853dab1f9453, type: 3}
+      propertyPath: _aimingCameraTPS
+      value: 
+      objectReference: {fileID: 1009637521}
+    - target: {fileID: 1633247561740268417, guid: e5c073630ba419740b34853dab1f9453, type: 3}
+      propertyPath: _defaultHeadObject
+      value: 
+      objectReference: {fileID: 608294451}
+    - target: {fileID: 1633247561740268421, guid: e5c073630ba419740b34853dab1f9453, type: 3}
+      propertyPath: _swordWeaponViewsFabRoot
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1633247561740268421, guid: e5c073630ba419740b34853dab1f9453, type: 3}
+      propertyPath: <SwordWeaponViewsFab>k__BackingField
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 1633247562483009098, guid: e5c073630ba419740b34853dab1f9453, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.1399994
@@ -37865,6 +37894,10 @@ PrefabInstance:
     - target: {fileID: 1633247562483009100, guid: e5c073630ba419740b34853dab1f9453, type: 3}
       propertyPath: field of view
       value: 52.72
+      objectReference: {fileID: 0}
+    - target: {fileID: 2295238757614185823, guid: e5c073630ba419740b34853dab1f9453, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5876093107699632374, guid: e5c073630ba419740b34853dab1f9453, type: 3}
       propertyPath: m_Name
@@ -45372,6 +45405,17 @@ Transform:
   m_Father: {fileID: 368624072}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -207.586}
+--- !u!114 &1009637521 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5876093107780788458, guid: e5c073630ba419740b34853dab1f9453, type: 3}
+  m_PrefabInstance: {fileID: 763458193}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1029723966
 GameObject:
   m_ObjectHideFlags: 0
@@ -85149,7 +85193,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 3
-  m_FollowOffset: {x: 0, y: 18.10006, z: -77.96999}
+  m_FollowOffset: {x: 0, y: 13.52276, z: -77.85191}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -85507,7 +85551,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 3
-  m_FollowOffset: {x: 0, y: 18.10006, z: -77.96999}
+  m_FollowOffset: {x: 0, y: 13.52276, z: -77.85191}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -85862,7 +85906,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 3
-  m_FollowOffset: {x: 0, y: 18.10006, z: -77.96999}
+  m_FollowOffset: {x: 0, y: 13.52276, z: -77.85191}
   m_XDamping: 1
   m_YDamping: 0
   m_ZDamping: 1

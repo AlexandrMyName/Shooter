@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _shootingType: 1
   _maxAmmo: 48
-  _maxAmmoInMagazine: 12
+  _maxAmmoInMagazine: 24
   _maxAmmoInBurst: 0
-  _shootDelay: 0.4
+  _shootDelay: 0.25
   _burstDelay: 0
   _reloadDelay: 1
   _aimingSpeed: 0

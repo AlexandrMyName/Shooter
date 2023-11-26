@@ -18,37 +18,17 @@ namespace Core
 
         private Rigidbody _rigidbody;
         private CapsuleCollider _collider;
-         
-        private Transform _groundTransformR;
-        private Transform _groundTransformL;
-        private Collider _rootCollider;
-
-        private LayerMask _groundLayer;
-        
-        private float _jumpForce;
-        private float _groundCastRadius;
-        private float _maxCastDistance;
-
+  
         private float _defaultColliderHeight;
         private float _jumpColliderHeight;
         private float _colliderHeight;
-        
-
-        private RaycastHit hitInfo;
-
+         
         private Vector2 _movement;
-        
+        private LayerMask _groundLayer;
 
         private bool _isJumpPressed;
-        private bool _isJumpReady;
-        private bool _isGrounded;
-
-        private int _groundAnimatorHash;
-        private int _jumpAnimatorHash;
-
-        private float _jumpLeg;
-
-
+      
+         
         protected override void Awake(IGameComponents components)
         {
 
@@ -62,23 +42,12 @@ namespace Core
             
             _animatorIK = components.BaseObject.GetComponent<IPlayer>().ComponentsStorage.AnimatorIK;
             _jumpConfig = components.BaseObject.GetComponent<IPlayer>().ComponentsStorage.JumpConfig;
-            _groundTransformR = components.BaseObject.GetComponent<IPlayer>().ComponentsStorage.GroundCheckerR;
-            _groundTransformL = components.BaseObject.GetComponent<IPlayer>().ComponentsStorage.GroundCheckerL;
 
             _groundLayer = _jumpConfig.GroundLayer;
-            _jumpForce = _jumpConfig.JumpForce;
-            
-            _maxCastDistance = _jumpConfig.MaxCastDistance;
+           
         }
 
-
-        protected override void Start()
-        {
-            _groundAnimatorHash = Animator.StringToHash("Grounded");
-            _jumpAnimatorHash = Animator.StringToHash("Jump");
-        }
-
-        
+ 
         protected override void Update()
         {
             //test
