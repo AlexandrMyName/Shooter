@@ -54,7 +54,10 @@ namespace Core
 
         private List<IDisposable> _disposables = new();
 
-       [field:SerializeField] public bool FpsCamera { get; set; }
+        
+        [field:SerializeField] public bool FpsCamera { get; set; }
+        public bool IsLocked { get; set; }
+
 
         public float Y_Velocity {
 
@@ -76,6 +79,22 @@ namespace Core
 
         public bool IsJump { get; set; }
 
+
+        public void Lock()
+        {
+
+            IsLocked = true;
+            _playerComponents.MeshRenderers.ForEach(render => render.enabled = false);
+        }
+
+
+        public void Unlock()
+        {
+
+            IsLocked = false;
+            _playerComponents.MeshRenderers.ForEach(render => render.enabled = true);
+            UpdateAllCameras();
+        }
 
         public void Dispose()
         {
@@ -245,8 +264,8 @@ namespace Core
 
         private void LateUpdate()
         {
-             
-             
+
+            if (IsLocked) return;
                 UpdateAimingIK();
 
 
@@ -256,7 +275,9 @@ namespace Core
          
         private void OnAnimatorMove()
         {
-             
+
+             if(IsLocked) return;
+
             _rootMotionVelocity.x = _animator.deltaPosition.x;
             _rootMotionVelocity.z = _animator.deltaPosition.z;
              

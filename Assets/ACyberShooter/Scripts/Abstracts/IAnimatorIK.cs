@@ -15,6 +15,7 @@ namespace Abstracts
         bool IsJump { get; set; }
         float Y_Velocity { get;set; }
         bool FpsCamera { get; set; }
+        bool IsLocked { get; set; }
         void InitComponent(IComponentsStorage componentStorage, WeaponData weaponData);
         void SetLayerWeight(int indexLayer, float weight);
        

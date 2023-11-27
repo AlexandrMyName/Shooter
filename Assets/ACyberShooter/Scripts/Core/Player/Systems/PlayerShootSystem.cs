@@ -39,7 +39,7 @@ namespace Core
         protected override void Update()
         {
 
-            if (_animatorIK.IsLoseBalance) return;
+            if (_animatorIK.IsLoseBalance || _animatorIK.IsLocked) return;
 
             if (_input.Player.Weapon1.IsPressed())
             {

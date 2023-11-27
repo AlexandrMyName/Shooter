@@ -30,7 +30,7 @@ TagManager:
   - StairWalkable
   - PostProccess
   - NavMeshBot
-  - 
+  - BehindObject
   - 
   - 
   - 

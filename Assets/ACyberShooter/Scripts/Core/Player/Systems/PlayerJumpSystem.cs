@@ -50,7 +50,9 @@ namespace Core
  
         protected override void Update()
         {
-            //test
+            
+            if(_animatorIK.IsLocked) return;
+
             if (Input.GetKeyDown(KeyCode.LeftControl))
             {
                 _animatorIK.Animator.SetTrigger("Dash");
@@ -74,7 +76,9 @@ namespace Core
 
         protected override void FixedUpdate()
         {
-           
+
+            if (_animatorIK.IsLocked) return;
+
             if (_isJumpPressed && IsGrounded())
             {
                 if (!_animatorIK.IsJump)

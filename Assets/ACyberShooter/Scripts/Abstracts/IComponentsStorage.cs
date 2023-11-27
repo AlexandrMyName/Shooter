@@ -2,6 +2,7 @@ using Cinemachine;
 using Configs;
 using Core;
 using FischlWorks;
+using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 
@@ -14,6 +15,7 @@ namespace Abstracts
 
         IAnimatorIK AnimatorIK { get; }
         ReactiveCommand<WeaponRecoilConfig> RecoilCommand { get; set; }
+        List<MeshRenderer> MeshRenderers { get; set; }
         WeaponData WeaponData { get; }
         WeaponInventory WeaponInventory { get; }
         csHomebrewIK Foot_IK { get; set; }

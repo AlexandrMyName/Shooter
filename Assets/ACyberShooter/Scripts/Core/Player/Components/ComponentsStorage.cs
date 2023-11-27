@@ -2,6 +2,7 @@ using Abstracts;
 using Cinemachine;
 using Configs;
 using FischlWorks;
+using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 
@@ -24,7 +25,7 @@ namespace Core
         [field: SerializeField] public JumpConfig JumpConfig { get; private set; }
         [field: SerializeField] public LocomotionConfig LocomotionConfig { get; set; }
         [field: SerializeField] public csHomebrewIK Foot_IK { get;  set; }
-
+        [field: SerializeField] public List<MeshRenderer> MeshRenderers { get; set; }
         public ReactiveCommand<WeaponRecoilConfig> RecoilCommand { get; set; }
 
         public IInput Input { get; private set; }
